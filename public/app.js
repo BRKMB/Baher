@@ -76,7 +76,10 @@ const I18N = {
     minutesShort: (m) => `~${m} min`,
     scoreLabel: "Score",
     scoreTooltip: "Score breakdown:",
-    critTooltip: "Click to cycle: yes → no → not sure",
+    critTooltip: "Click to choose: yes / not sure / no",
+    yesLabel: "Yes",
+    noLabel: "No",
+    unknownLabel: "Not sure",
     filterTooltip: "Show only places that definitely have this",
     commuteChip: (m) => `🚌 ~${m} min to work`,
     commuteUnknown: "🚌 Commute?",
@@ -169,7 +172,10 @@ const I18N = {
     minutesShort: (m) => `~${m} دقيقة`,
     scoreLabel: "السكور",
     scoreTooltip: "تفاصيل السكور:",
-    critTooltip: "دوس عشان تغيّر: أيوه ← لأ ← مش متأكد",
+    critTooltip: "دوس واختار: أيوه / مش متأكد / لأ",
+    yesLabel: "أيوه",
+    noLabel: "لأ",
+    unknownLabel: "مش متأكد",
     filterTooltip: "اعرض بس اللي فيها الحاجة دي أكيد",
     commuteChip: (m) => `🚌 ~${m} دقيقة للشغل`,
     commuteUnknown: "🚌 المسافة للشغل؟",
@@ -719,16 +725,44 @@ function renderCard(l, rank, score) {
   const critButtons = CRITERIA.map((c) => {
     const v = l.criteria[c.key] || "unknown";
     const stateIcon = v === "yes" ? "✓" : v === "no" ? "✗" : t("q");
-    return el(
+    const menu = el("div", { class: "crit-menu", hidden: "true" });
+    for (const option of [
+      { value: "yes", icon: "✓", label: t("yesLabel") },
+      { value: "unknown", icon: t("q"), label: t("unknownLabel") },
+      { value: "no", icon: "✗", label: t("noLabel") }
+    ]) {
+      menu.append(
+        el("button", {
+          class: `crit-option ${option.value}${v === option.value ? " selected" : ""}`,
+          type: "button",
+          text: option.icon,
+          title: option.label,
+          "aria-label": option.label,
+          onclick: async (e) => {
+            e.stopPropagation();
+            if (option.value === v) {
+              menu.hidden = true;
+              return;
+            }
+            l.criteria[c.key] = option.value;
+            render({ keepVisibleId: l.id });
+            await saveListing(l, { silent: true });
+          }
+        })
+      );
+    }
+    const button = el(
       "button",
       {
         class: `crit ${v}`,
+        type: "button",
         title: t("critTooltip"),
-        onclick: async () => {
-          const next = v === "yes" ? "no" : v === "no" ? "unknown" : "yes";
-          l.criteria[c.key] = next;
-          render({ keepVisibleId: l.id });
-          await saveListing(l, { silent: true });
+        onclick: (e) => {
+          e.stopPropagation();
+          document.querySelectorAll(".crit-menu:not([hidden])").forEach((openMenu) => {
+            if (openMenu !== menu) openMenu.hidden = true;
+          });
+          menu.hidden = !menu.hidden;
         }
       },
       [
@@ -736,6 +770,7 @@ function renderCard(l, rank, score) {
         el("span", { class: "crit-state", text: stateIcon })
       ]
     );
+    return el("div", { class: "crit-wrap" }, [button, menu]);
   });
 
   let notesTimer = null;
@@ -982,10 +1017,18 @@ $("#sort-select").addEventListener("change", (e) => {
 document.addEventListener("click", (e) => {
   const panel = $("#filters-panel");
   if (panel.open && !panel.contains(e.target)) panel.open = false;
+  document.querySelectorAll(".crit-menu:not([hidden])").forEach((menu) => {
+    if (!menu.parentElement.contains(e.target)) menu.hidden = true;
+  });
 });
 
 document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") $("#filters-panel").open = false;
+  if (e.key === "Escape") {
+    $("#filters-panel").open = false;
+    document.querySelectorAll(".crit-menu:not([hidden])").forEach((menu) => {
+      menu.hidden = true;
+    });
+  }
 });
 
 $("#reset-btn").addEventListener("click", async () => {
