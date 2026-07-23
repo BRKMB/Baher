@@ -39,6 +39,9 @@ const I18N = {
     sortScore: "🏆 Best first (score)",
     sortPrice: "💰 Cheapest first",
     sortCommute: "🚌 Closest to work first",
+    filtersLabel: "Filters",
+    filtersAll: "All",
+    filtersActive: (n) => `${n} active`,
     footerWork: "Work destination:",
     resetBtn: "Restore original data",
     editTitle: "Edit place",
@@ -55,6 +58,7 @@ const I18N = {
     fRent: "Rent (zł/month)",
     fBills: "Utilities & fees (zł/month)",
     fGarage: "Garage (zł/month, if any)",
+    fArea: "Place area (m²)",
     fDeposit: "Deposit (zł)",
     fCommute: "Commute to work (minutes)",
     fAvailable: "Available from",
@@ -128,6 +132,9 @@ const I18N = {
     sortScore: "🏆 الأحسن أولًا (السكور)",
     sortPrice: "💰 الأرخص أولًا",
     sortCommute: "🚌 الأقرب للشغل أولًا",
+    filtersLabel: "الفلاتر",
+    filtersAll: "الكل",
+    filtersActive: (n) => `${n} مفعّل`,
     footerWork: "وجهة الشغل:",
     resetBtn: "استرجاع البيانات الأصلية",
     editTitle: "تعديل المكان",
@@ -144,6 +151,7 @@ const I18N = {
     fRent: "الإيجار (زلوتي/شهر)",
     fBills: "المرافق والمصاريف (زلوتي/شهر)",
     fGarage: "الجراج (زلوتي/شهر لو فيه)",
+    fArea: "مساحة المكان (م²)",
     fDeposit: "الديبوزيت (زلوتي)",
     fCommute: "وقت المواصلات للشغل (دقايق)",
     fAvailable: "متاحة من",
@@ -511,6 +519,8 @@ function stat(label, value) {
 
 function renderFilterChips() {
   const wrap = $("#filter-chips");
+  $("#filters-count").textContent =
+    activeFilters.size === 0 ? t("filtersAll") : t("filtersActive", activeFilters.size);
   wrap.replaceChildren();
   for (const c of CRITERIA) {
     wrap.append(
@@ -679,6 +689,10 @@ function renderCard(l, rank, score) {
 
   const chips = [
     el("span", { class: "chip type-chip", text: `🏡 ${typeLabel(l.propertyType)}` }),
+    el("span", {
+      class: `chip area-chip${l.areaSqm == null ? " unknown-area" : ""}`,
+      text: `📐 ${l.areaSqm == null ? t("q") : fmt(l.areaSqm)} m²`
+    }),
     el("span", { class: "chip", text: `📍 ${l.district}` }),
     el("a", {
       class: "chip",
@@ -817,6 +831,7 @@ function openEdit(l) {
   f.rent.value = l?.rent ?? "";
   f.bills.value = l?.bills ?? "";
   f.garageCost.value = l?.garageCost ?? "";
+  f.areaSqm.value = l?.areaSqm ?? "";
   f.deposit.value = l?.deposit ?? "";
   f.commuteMin.value = l?.commuteMin ?? "";
   f.availableFrom.value = l ? loc(l.availableFrom) : "";
@@ -849,6 +864,7 @@ $("#import-btn").addEventListener("click", async () => {
     f.rent.value = draft.rent || "";
     f.bills.value = draft.bills ?? "";
     f.garageCost.value = draft.garageCost ?? "";
+    f.areaSqm.value = draft.areaSqm ?? "";
     f.deposit.value = draft.deposit ?? "";
     f.commuteMin.value = draft.commuteMin ?? "";
     f.availableFrom.value = loc(draft.availableFrom);
@@ -883,6 +899,7 @@ editForm.addEventListener("submit", async (e) => {
     rent: Number(f.rent.value),
     bills: num(f.bills),
     garageCost: num(f.garageCost),
+    areaSqm: num(f.areaSqm),
     deposit: num(f.deposit),
     commuteMin: num(f.commuteMin),
     availableFrom: setLoc(existing?.availableFrom, f.availableFrom.value.trim()),
@@ -959,6 +976,15 @@ $("#logout-btn").addEventListener("click", async () => {
 $("#sort-select").addEventListener("change", (e) => {
   sortBy = e.target.value;
   render();
+});
+
+document.addEventListener("click", (e) => {
+  const panel = $("#filters-panel");
+  if (panel.open && !panel.contains(e.target)) panel.open = false;
+});
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") $("#filters-panel").open = false;
 });
 
 $("#reset-btn").addEventListener("click", async () => {

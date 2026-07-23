@@ -32,6 +32,10 @@ export class ListingsStore extends DurableObject<Env> {
           next.garageCost = seed.garageCost;
           changed = true;
         }
+        if (next.areaSqm === undefined) {
+          next.areaSqm = seed.areaSqm;
+          changed = true;
+        }
         const criteria = { ...next.criteria };
         for (const [key, seedValue] of Object.entries(seed.criteria)) {
           if ((criteria[key] ?? "unknown") === "unknown" && seedValue !== "unknown") {
@@ -309,8 +313,9 @@ function analyzeDescription(text: string, opts: { isBusiness?: boolean; rooms?: 
     criteria.modern = "yes";
   }
   if (/(przestronn|du[żz]y pok[óo]j|bardzo du[żz]y)/.test(t)) criteria.spacious = "yes";
-  const areaMatch = t.match(/(?:pok[óo]j.{0,40})?(\d{1,2})\s*m(?:2|²|\b)/);
-  if (areaMatch) criteria.spacious = Number(areaMatch[1]) >= 14 ? "yes" : "no";
+  const areaMatch = t.match(/(?:pok[óo]j.{0,40})?(\d{1,3}(?:[.,]\d+)?)\s*m(?:2|²|\b)/);
+  const areaSqm = areaMatch ? Number(areaMatch[1].replace(",", ".")) : null;
+  if (areaSqm != null) criteria.spacious = areaSqm >= 14 ? "yes" : "no";
 
   // عدد الأوض في الشقة
   let rooms = opts.rooms ?? null;
@@ -375,7 +380,7 @@ function analyzeDescription(text: string, opts: { isBusiness?: boolean; rooms?: 
   const depositMatch = t.match(/kaucj\w*\s*(?:zwrotn\w*)?\s*(?:w wysoko[śs]ci)?\s*:?\s*(\d{3,5})/);
   if (depositMatch) deposit = Number(depositMatch[1]);
 
-  return { criteria, bills, deposit, availableFrom };
+  return { criteria, bills, deposit, availableFrom, areaSqm };
 }
 
 function draftFromParts(parts: {
@@ -389,6 +394,7 @@ function draftFromParts(parts: {
   contactName: string;
   isBusiness?: boolean;
   rooms?: number | null;
+  areaSqm?: number | null;
   bills?: number | null;
   deposit?: number | null;
 }): Partial<Listing> {
@@ -418,6 +424,7 @@ function draftFromParts(parts: {
     rent: parts.rent ?? 0,
     bills: parts.bills ?? analyzed.bills,
     garageCost: null,
+    areaSqm: parts.areaSqm ?? analyzed.areaSqm,
     deposit: parts.deposit ?? analyzed.deposit,
     commuteMin: null,
     availableFrom: analyzed.availableFrom,
@@ -477,6 +484,7 @@ function parseOtodom(html: string, url: string): Partial<Listing> | null {
     const billsRaw = charVal("rent");
     const depositRaw = charVal("deposit");
     const roomsRaw = charVal("rooms_num");
+    const areaRaw = charVal("m") || charVal("area");
     const photos: string[] = (ad.images || [])
       .map((i: { large?: string; medium?: string }) => i.large || i.medium)
       .filter(Boolean);
@@ -496,6 +504,7 @@ function parseOtodom(html: string, url: string): Partial<Listing> | null {
       address: address || "Warszawa",
       contactName: ad.owner?.name ? `${ad.owner.name} — Otodom` : "Otodom",
       rooms: roomsRaw ? Number(roomsRaw) : null,
+      areaSqm: areaRaw ? Number(String(areaRaw).replace(",", ".").replace(/[^\d.]/g, "")) : null,
       bills: billsRaw ? Number(String(billsRaw).replace(/[^\d]/g, "")) : null,
       deposit: depositRaw ? Number(String(depositRaw).replace(/[^\d]/g, "")) : null
     });
@@ -519,6 +528,7 @@ function parseOtodomMarkdown(markdown: string, url: string): Partial<Listing> | 
     content.match(/\+\s*Czynsz\s+(\d[\d\s]*)\s*z[łl]/i) ||
     content.match(/Dodatkowy koszt:\s*\n?\s*(\d[\d\s]*)\s*z[łl]/i);
   const depositMatch = content.match(/Kaucja:\s*\n?\s*(\d[\d\s]*)\s*z[łl]/i);
+  const areaMatch = content.match(/Powierzchnia:\s*\n?\s*(\d+(?:[.,]\d+)?)\s*m²/i);
   const availableMatch = content.match(/Dost[ęe]pne od:\s*\n?\s*([^\n]+)/i);
   const privateOffer = /Typ og[łl]oszeniodawcy:\s*\n?\s*prywatny/i.test(content);
 
@@ -552,7 +562,8 @@ function parseOtodomMarkdown(markdown: string, url: string): Partial<Listing> | 
     contactName: "Otodom",
     isBusiness: privateOffer ? false : undefined,
     bills: billsMatch ? Number(billsMatch[1].replace(/\s/g, "")) : null,
-    deposit: depositMatch ? Number(depositMatch[1].replace(/\s/g, "")) : null
+    deposit: depositMatch ? Number(depositMatch[1].replace(/\s/g, "")) : null,
+    areaSqm: areaMatch ? Number(areaMatch[1].replace(",", ".")) : null
   });
   if (availableMatch && !/brak informacji/i.test(availableMatch[1])) {
     draft.availableFrom = availableMatch[1].trim();

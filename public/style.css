@@ -278,6 +278,58 @@ input, select, textarea { font-family: inherit; }
 
 .filter-chips { display: flex; gap: 8px; flex-wrap: wrap; }
 
+.filters-panel {
+  position: relative;
+  z-index: 35;
+}
+
+.filters-panel summary {
+  list-style: none;
+  min-width: 190px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 9px 13px;
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  background: var(--card);
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  user-select: none;
+}
+.filters-panel summary::-webkit-details-marker { display: none; }
+.filters-panel[open] summary { border-color: var(--accent); }
+
+#filters-count {
+  margin-inline-start: auto;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.filters-chevron {
+  color: var(--muted);
+  font-size: 18px;
+  transition: transform 0.18s;
+}
+.filters-panel[open] .filters-chevron { transform: rotate(180deg); }
+
+.filters-panel .filter-chips {
+  position: absolute;
+  top: calc(100% + 8px);
+  inset-inline-start: 0;
+  width: min(720px, calc(100vw - 32px));
+  padding: 14px;
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  background: var(--bg2);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(14px);
+}
+
 .chip-filter {
   border-radius: 999px;
   padding: 7px 13px;
@@ -505,6 +557,12 @@ a.chip:hover { color: var(--text); border-color: var(--accent); }
   border-color: var(--total-border);
   background: var(--total-bg);
 }
+.chip.area-chip {
+  color: var(--accent2);
+  border-color: var(--total-border);
+  background: var(--total-bg);
+}
+.chip.area-chip.unknown-area { color: var(--amber); border-style: dashed; }
 
 /* دايرة السكور */
 .score-wrap {

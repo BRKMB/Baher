@@ -16,6 +16,8 @@ export interface Listing {
   bills: number | null;
   /** الجراج بالشهر لو فيه — null لو مفيش أو مش معروف */
   garageCost: number | null;
+  /** مساحة الوحدة/الأوضة بالمتر المربع — null لو مش معروفة */
+  areaSqm: number | null;
   /** الديبوزيت — null لو مش معروف */
   deposit: number | null;
   /** تقدير وقت المواصلات للشغل بالدقايق (Lionbridge, Łopuszańska 95) */
@@ -44,6 +46,7 @@ export const SEED_LISTINGS: Listing[] = [
     rent: 1600,
     bills: 450,
     garageCost: null,
+    areaSqm: 9,
     deposit: 2000,
     commuteMin: 25,
     availableFrom: { ar: "متاحة دلوقتي", en: "Available now" },
@@ -88,6 +91,7 @@ export const SEED_LISTINGS: Listing[] = [
     rent: 1800,
     bills: 350,
     garageCost: null,
+    areaSqm: null,
     deposit: 2150,
     commuteMin: 35,
     availableFrom: "01/08/2026",
@@ -133,6 +137,7 @@ export const SEED_LISTINGS: Listing[] = [
     rent: 1790,
     bills: 300,
     garageCost: null,
+    areaSqm: 17,
     deposit: 2090,
     commuteMin: 50,
     availableFrom: "01/08/2026",
@@ -175,6 +180,7 @@ export const SEED_LISTINGS: Listing[] = [
     rent: 1600,
     bills: 400,
     garageCost: null,
+    areaSqm: 18,
     deposit: 2000,
     commuteMin: 50,
     availableFrom: "15/09/2026 ⚠️",
@@ -218,6 +224,7 @@ export const SEED_LISTINGS: Listing[] = [
     rent: 1250,
     bills: 300,
     garageCost: null,
+    areaSqm: null,
     deposit: 1500,
     commuteMin: 50,
     availableFrom: { ar: "متاحة دلوقتي", en: "Available now" },
@@ -262,6 +269,7 @@ export const SEED_LISTINGS: Listing[] = [
     rent: 1750,
     bills: 75,
     garageCost: null,
+    areaSqm: null,
     deposit: null,
     commuteMin: 50,
     availableFrom: "02/08/2026",
@@ -303,6 +311,7 @@ export const SEED_LISTINGS: Listing[] = [
     rent: 1590,
     bills: 300,
     garageCost: null,
+    areaSqm: 10,
     deposit: 1890,
     commuteMin: 55,
     availableFrom: "01/08/2026",
@@ -345,6 +354,7 @@ export const SEED_LISTINGS: Listing[] = [
     rent: 1400,
     bills: null,
     garageCost: null,
+    areaSqm: null,
     deposit: null,
     commuteMin: 45,
     availableFrom: { ar: "متاحة دلوقتي", en: "Available now" },
@@ -389,6 +399,7 @@ export const SEED_LISTINGS: Listing[] = [
     rent: 1900,
     bills: 300,
     garageCost: null,
+    areaSqm: 15,
     deposit: 1900,
     commuteMin: 25,
     availableFrom: "01/08/2026",
