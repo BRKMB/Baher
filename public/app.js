@@ -85,6 +85,13 @@ const I18N = {
     q: "?",
     notesPlaceholder: "Notes… (saved automatically)",
     notesSaved: "✓ Notes saved",
+    fPhotos: "Photo links (one per line)",
+    zoomTip: "Click to zoom",
+    importBtn: "⚡ Auto-fill",
+    importHint: "Paste an OLX or Otodom link and everything gets fetched automatically",
+    importing: "⏳ Fetching the listing…",
+    importOk: "✓ Fetched! Review the marks and fill in the gaps",
+    importFail: "⚠️ Couldn't fetch this link — fill it in manually",
     openAd: "Open listing ↗",
     routeBtn: "🗺️ Route to work",
     editBtn: "✏️ Edit",
@@ -162,6 +169,13 @@ const I18N = {
     q: "؟",
     notesPlaceholder: "ملاحظات… (بتتحفظ لوحدها)",
     notesSaved: "✓ الملاحظات اتحفظت",
+    fPhotos: "لينكات الصور (لينك في كل سطر)",
+    zoomTip: "دوس عشان تقرّب",
+    importBtn: "⚡ املا تلقائي",
+    importHint: "حط لينك OLX أو Otodom وكل حاجة هتتجاب لوحدها",
+    importing: "⏳ بجيب الإعلان…",
+    importOk: "✓ اتجاب! راجع العلامات وكمّل الناقص",
+    importFail: "⚠️ معرفتش أجيب اللينك دا — كمّله يدوي",
     openAd: "افتح الإعلان ↗",
     routeBtn: "🗺️ الطريق للشغل",
     editBtn: "✏️ تعديل",
@@ -185,7 +199,7 @@ const I18N = {
 /* ===== الحالة ===== */
 
 let lang = localStorage.getItem("rooms_lang") || "en";
-let theme = localStorage.getItem("rooms_theme") || "dark";
+let theme = localStorage.getItem("rooms_theme") || "light";
 let listings = [];
 let sortBy = "score";
 const activeFilters = new Set();
@@ -394,7 +408,8 @@ function render() {
   // FLIP: نسجّل أماكن الكروت قبل إعادة الترتيب عشان الأنيميشن
   const oldPositions = new Map();
   for (const card of cardsEl.children) {
-    oldPositions.set(card.dataset.id, card.getBoundingClientRect().top);
+    const r = card.getBoundingClientRect();
+    oldPositions.set(card.dataset.id, { top: r.top, left: r.left });
   }
 
   cardsEl.replaceChildren();
@@ -418,12 +433,14 @@ function render() {
 
   // FLIP: نحرّك الكروت من مكانها القديم للجديد
   for (const card of cardsEl.children) {
-    const oldTop = oldPositions.get(card.dataset.id);
-    if (oldTop === undefined) continue;
-    const delta = oldTop - card.getBoundingClientRect().top;
-    if (Math.abs(delta) < 2) continue;
+    const old = oldPositions.get(card.dataset.id);
+    if (!old) continue;
+    const r = card.getBoundingClientRect();
+    const dy = old.top - r.top;
+    const dx = old.left - r.left;
+    if (Math.abs(dy) < 2 && Math.abs(dx) < 2) continue;
     card.animate(
-      [{ transform: `translateY(${delta}px)` }, { transform: "translateY(0)" }],
+      [{ transform: `translate(${dx}px, ${dy}px)` }, { transform: "translate(0, 0)" }],
       { duration: 450, easing: "cubic-bezier(0.22, 1, 0.36, 1)" }
     );
   }
@@ -477,6 +494,97 @@ function mapsUrl(l) {
     `&origin=${encodeURIComponent(l.address || l.district || "Warszawa")}` +
     `&destination=${encodeURIComponent(WORK_DEST)}&travelmode=transit`
   );
+}
+
+/* ===== معرض الصور واللايت بوكس ===== */
+
+function renderGallery(l) {
+  const photos = l.photos || [];
+  if (photos.length === 0) return null;
+  let idx = 0;
+
+  const img = el("img", {
+    class: "gal-img",
+    src: photos[0],
+    alt: "",
+    loading: "lazy",
+    title: t("zoomTip"),
+    onclick: () => openLightbox(photos, idx)
+  });
+  const counter = el("span", { class: "gal-count", text: `1 / ${photos.length}` });
+
+  const show = (i) => {
+    idx = (i + photos.length) % photos.length;
+    img.src = photos[idx];
+    counter.textContent = `${idx + 1} / ${photos.length}`;
+  };
+
+  const nav = (delta) => (e) => {
+    e.stopPropagation();
+    show(idx + delta);
+  };
+
+  return el("div", { class: "gallery" }, [
+    img,
+    photos.length > 1 ? el("button", { class: "gal-btn gal-prev", text: "‹", onclick: nav(-1) }) : null,
+    photos.length > 1 ? el("button", { class: "gal-btn gal-next", text: "›", onclick: nav(1) }) : null,
+    counter
+  ]);
+}
+
+let lightbox = null;
+function openLightbox(photos, startIdx) {
+  let idx = startIdx;
+  closeLightbox();
+
+  const img = el("img", {
+    class: "lb-img",
+    src: photos[idx],
+    alt: "",
+    title: t("zoomTip"),
+    onclick: (e) => {
+      e.stopPropagation();
+      img.classList.toggle("zoomed");
+    }
+  });
+  const counter = el("span", { class: "lb-count", text: `${idx + 1} / ${photos.length}` });
+
+  const show = (i) => {
+    idx = (i + photos.length) % photos.length;
+    img.classList.remove("zoomed");
+    img.src = photos[idx];
+    counter.textContent = `${idx + 1} / ${photos.length}`;
+  };
+
+  const onKey = (e) => {
+    if (e.key === "Escape") closeLightbox();
+    else if (e.key === "ArrowLeft") show(idx - 1);
+    else if (e.key === "ArrowRight") show(idx + 1);
+  };
+
+  lightbox = el("div", { class: "lightbox", onclick: () => closeLightbox() }, [
+    img,
+    photos.length > 1
+      ? el("button", { class: "lb-btn lb-prev", text: "‹", onclick: (e) => { e.stopPropagation(); show(idx - 1); } })
+      : null,
+    photos.length > 1
+      ? el("button", { class: "lb-btn lb-next", text: "›", onclick: (e) => { e.stopPropagation(); show(idx + 1); } })
+      : null,
+    el("button", { class: "lb-close", text: "✕", onclick: () => closeLightbox() }),
+    counter
+  ]);
+  lightbox._onKey = onKey;
+  document.addEventListener("keydown", onKey);
+  document.body.append(lightbox);
+  document.body.style.overflow = "hidden";
+}
+
+function closeLightbox() {
+  if (!lightbox) return;
+  document.removeEventListener("keydown", lightbox._onKey);
+  lightbox.remove();
+  lightbox = null;
+  document.body.style.overflow = "";
 }
 
 function priceBox(label, value, extraClass = "") {
@@ -579,6 +687,7 @@ function renderCard(l, rank, score) {
   notesArea.value = loc(l.notes);
 
   return el("div", { class: `card${isSortedByScore && rank === 1 ? " rank-1" : ""}`, "data-id": l.id }, [
+    renderGallery(l),
     el("div", { class: "card-head" }, [
       el("div", {
         class: `rank-badge${medal ? " medal" : ""}`,
@@ -639,6 +748,8 @@ async function saveListing(l, { silent = false } = {}) {
 
 function openEdit(l) {
   editingId = l ? l.id : null;
+  editForm._importedCriteria = null;
+  editForm._importedNotes = null;
   $("#edit-title").textContent = l ? t("editTitle") : t("addTitle");
   const f = editForm.elements;
   f.title.value = l ? loc(l.title) : "";
@@ -652,8 +763,50 @@ function openEdit(l) {
   f.commuteMin.value = l?.commuteMin ?? "";
   f.availableFrom.value = l ? loc(l.availableFrom) : "";
   f.contact.value = l ? loc(l.contact) : "";
+  f.photos.value = (l?.photos || []).join("\n");
   dialog.showModal();
 }
+
+$("#import-btn").addEventListener("click", async () => {
+  const f = editForm.elements;
+  const url = f.url.value.trim();
+  if (!url) {
+    f.url.focus();
+    return;
+  }
+
+  const btn = $("#import-btn");
+  btn.disabled = true;
+  btn.textContent = t("importing");
+  try {
+    const draft = await api("/api/import", {
+      method: "POST",
+      body: JSON.stringify({ url })
+    });
+
+    f.title.value = loc(draft.title);
+    f.district.value = draft.district || "";
+    f.address.value = draft.address || "";
+    f.rent.value = draft.rent || "";
+    f.bills.value = draft.bills ?? "";
+    f.garageCost.value = draft.garageCost ?? "";
+    f.deposit.value = draft.deposit ?? "";
+    f.commuteMin.value = draft.commuteMin ?? "";
+    f.availableFrom.value = loc(draft.availableFrom);
+    f.contact.value = loc(draft.contact);
+    f.photos.value = (draft.photos || []).join("\n");
+
+    // نخزّن الاستنتاجات لحد ما المستخدم يدوس حفظ
+    editForm._importedCriteria = draft.criteria;
+    editForm._importedNotes = draft.notes;
+    toast(t("importOk"));
+  } catch {
+    toast(t("importFail"));
+  } finally {
+    btn.disabled = false;
+    btn.textContent = t("importBtn");
+  }
+});
 
 editForm.addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -674,8 +827,12 @@ editForm.addEventListener("submit", async (e) => {
     commuteMin: num(f.commuteMin),
     availableFrom: setLoc(existing?.availableFrom, f.availableFrom.value.trim()),
     contact: setLoc(existing?.contact, f.contact.value.trim()),
-    notes: existing?.notes || "",
-    criteria: existing?.criteria || Object.fromEntries(CRITERIA.map((c) => [c.key, "unknown"])),
+    photos: f.photos.value.split("\n").map((s) => s.trim()).filter((s) => s.startsWith("http")),
+    notes: existing?.notes || editForm._importedNotes || "",
+    criteria:
+      existing?.criteria ||
+      editForm._importedCriteria ||
+      Object.fromEntries(CRITERIA.map((c) => [c.key, "unknown"])),
     createdAt: existing?.createdAt || Date.now()
   };
 
@@ -688,6 +845,8 @@ editForm.addEventListener("submit", async (e) => {
     listings = await api("/api/listings", { method: "POST", body: JSON.stringify(listing) });
   }
   dialog.close();
+  editForm._importedCriteria = null;
+  editForm._importedNotes = null;
   render();
   toast(editingId ? t("edited") : t("added"));
 });

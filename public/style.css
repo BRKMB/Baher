@@ -27,26 +27,26 @@
 
 /* ===== لايت مود ===== */
 :root[data-theme="light"] {
-  --bg: #eef2fb;
-  --bg2: #ffffff;
-  --card: rgba(255, 255, 255, 0.82);
-  --card-border: rgba(22, 32, 60, 0.12);
-  --text: #16203c;
-  --muted: #5a6685;
-  --accent: #4f6ef7;
-  --accent2: #0891b2;
-  --green: #059669;
-  --red: #dc2626;
-  --amber: #b45309;
-  --gold: #b8860b;
-  --shadow: 0 10px 30px rgba(30, 41, 80, 0.10);
-  --input-bg: rgba(22, 32, 60, 0.05);
-  --ring-hole: #ffffff;
-  --toast-bg: #ffffff;
-  --crit-yes-text: #065f46;
-  --crit-no-text: #991b1b;
-  --total-bg: rgba(8, 145, 178, 0.08);
-  --total-border: rgba(8, 145, 178, 0.35);
+  --bg: #f4f0e8;
+  --bg2: #fbf8f2;
+  --card: rgba(251, 248, 242, 0.94);
+  --card-border: rgba(58, 55, 48, 0.13);
+  --text: #272b29;
+  --muted: #6f746f;
+  --accent: #4e6b5b;
+  --accent2: #668779;
+  --green: #2f7d5c;
+  --red: #b6534f;
+  --amber: #a26f2e;
+  --gold: #9b742c;
+  --shadow: 0 9px 28px rgba(58, 48, 34, 0.08);
+  --input-bg: rgba(58, 55, 48, 0.045);
+  --ring-hole: #fbf8f2;
+  --toast-bg: #fbf8f2;
+  --crit-yes-text: #245f48;
+  --crit-no-text: #8f403d;
+  --total-bg: rgba(78, 107, 91, 0.09);
+  --total-border: rgba(78, 107, 91, 0.30);
   --btn-primary-text: #ffffff;
   color-scheme: light;
 }
@@ -80,9 +80,9 @@ body::before {
 
 :root[data-theme="light"] body::before {
   background:
-    radial-gradient(1100px 500px at 85% -10%, rgba(79, 110, 247, 0.12), transparent 60%),
-    radial-gradient(900px 500px at 0% 110%, rgba(8, 145, 178, 0.09), transparent 60%),
-    linear-gradient(180deg, #f4f7fd 0%, #e7edf9 100%);
+    radial-gradient(900px 460px at 85% -10%, rgba(112, 139, 122, 0.10), transparent 62%),
+    radial-gradient(760px 420px at 0% 110%, rgba(178, 151, 104, 0.08), transparent 62%),
+    linear-gradient(180deg, #f7f3eb 0%, #eee8dc 100%);
 }
 
 /* ===== زرارين التبديل العائمين ===== */
@@ -295,18 +295,156 @@ input, select, textarea { font-family: inherit; }
   color: var(--text);
 }
 
-/* ===== الكروت ===== */
-.cards { display: flex; flex-direction: column; gap: 18px; }
+/* ===== الكروت: عمودين على الشاشات الواسعة ===== */
+.cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+  align-items: start;
+}
+
+@media (min-width: 900px) {
+  .cards { grid-template-columns: 1fr 1fr; }
+}
 
 .card {
   position: relative;
   background: var(--card);
   border: 1px solid var(--card-border);
   border-radius: var(--radius);
-  padding: 20px 22px;
+  padding: 18px 18px;
   backdrop-filter: blur(10px);
   box-shadow: var(--shadow);
   transition: border-color 0.2s;
+}
+
+/* ===== معرض الصور جوا الكارت ===== */
+.gallery {
+  position: relative;
+  margin: -18px -18px 14px;
+  border-radius: var(--radius) var(--radius) 0 0;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.gal-img {
+  display: block;
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+  cursor: zoom-in;
+}
+
+.gal-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(10, 14, 30, 0.55);
+  color: #fff;
+  font-size: 24px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+  transition: background 0.15s, transform 0.15s;
+}
+.gal-btn:hover { background: rgba(10, 14, 30, 0.8); transform: translateY(-50%) scale(1.08); }
+.gal-prev { left: 10px; }
+.gal-next { right: 10px; }
+
+.gal-count {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background: rgba(10, 14, 30, 0.6);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 3px 10px;
+  backdrop-filter: blur(4px);
+}
+
+/* ===== اللايت بوكس (تكبير الصور) ===== */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(4, 6, 16, 0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: lb-in 0.18s;
+}
+@keyframes lb-in { from { opacity: 0; } to { opacity: 1; } }
+
+.lb-img {
+  max-width: 94vw;
+  max-height: 92vh;
+  border-radius: 10px;
+  cursor: zoom-in;
+  transition: transform 0.25s;
+  box-shadow: 0 20px 80px rgba(0, 0, 0, 0.6);
+}
+.lb-img.zoomed {
+  transform: scale(1.8);
+  cursor: zoom-out;
+}
+
+.lb-btn {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  font-size: 32px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(6px);
+  transition: background 0.15s;
+}
+.lb-btn:hover { background: rgba(255, 255, 255, 0.25); }
+.lb-prev { left: 18px; }
+.lb-next { right: 18px; }
+
+.lb-close {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  font-size: 19px;
+  backdrop-filter: blur(6px);
+}
+.lb-close:hover { background: rgba(255, 255, 255, 0.25); }
+
+.lb-count {
+  position: fixed;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fff;
+  background: rgba(255, 255, 255, 0.12);
+  font-size: 14px;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 5px 16px;
+  backdrop-filter: blur(6px);
 }
 .card:hover { border-color: rgba(255, 255, 255, 0.18); }
 
@@ -340,7 +478,7 @@ input, select, textarea { font-family: inherit; }
 
 .card-title {
   margin: 0;
-  font-size: 19px;
+  font-size: 17.5px;
   font-weight: 800;
   line-height: 1.4;
 }
@@ -392,7 +530,7 @@ a.chip:hover { color: var(--text); border-color: var(--accent); }
 /* خانات السعر: إيجار / مرافق / جراج / إجمالي / ديبوزيت */
 .price-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(108px, 1fr));
   gap: 8px;
   margin: 14px 0 2px;
 }
@@ -427,7 +565,7 @@ a.chip:hover { color: var(--text); border-color: var(--accent); }
 /* شبكة المعايير */
 .criteria-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(158px, 1fr));
   gap: 8px;
   margin-top: 12px;
 }
@@ -544,7 +682,8 @@ dialog::backdrop { background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px); }
 }
 .form-grid .span2 { grid-column: span 2; }
 
-.form-grid input {
+.form-grid input,
+.form-grid textarea {
   padding: 10px 12px;
   border-radius: 10px;
   border: 1px solid var(--card-border);
@@ -552,8 +691,18 @@ dialog::backdrop { background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px); }
   color: var(--text);
   font-size: 14px;
   outline: none;
+  resize: vertical;
 }
-.form-grid input:focus { border-color: var(--accent); }
+.form-grid input:focus,
+.form-grid textarea:focus { border-color: var(--accent); }
+
+.url-row {
+  display: flex;
+  gap: 8px;
+}
+.url-row input { flex: 1; min-width: 0; }
+.url-row .btn { flex-shrink: 0; }
+.hint { color: var(--muted); font-weight: 500; line-height: 1.35; }
 
 .dialog-actions {
   display: flex;

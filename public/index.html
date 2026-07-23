@@ -84,8 +84,12 @@
         <label><span data-i18n="fAddress">Address</span>
           <input name="address" placeholder="ul. ..., Warszawa" />
         </label>
-        <label class="span2"><span data-i18n="fUrl">Listing link (OLX)</span>
-          <input name="url" type="url" required placeholder="https://www.olx.pl/..." />
+        <label class="span2"><span data-i18n="fUrl">Listing link (OLX / Otodom)</span>
+          <div class="url-row">
+            <input name="url" type="url" required placeholder="https://www.olx.pl/..." />
+            <button type="button" id="import-btn" class="btn btn-primary" data-i18n="importBtn">⚡ Auto-fill</button>
+          </div>
+          <small class="hint" data-i18n="importHint">Paste an OLX or Otodom link and everything gets fetched automatically</small>
         </label>
         <label><span data-i18n="fRent">Rent (zł/month)</span>
           <input name="rent" type="number" min="0" required />
@@ -107,6 +111,9 @@
         </label>
         <label class="span2"><span data-i18n="fContact">Contact</span>
           <input name="contact" data-i18n-ph="phContact" />
+        </label>
+        <label class="span2"><span data-i18n="fPhotos">Photo links (one per line)</span>
+          <textarea name="photos" rows="3" placeholder="https://..."></textarea>
         </label>
       </div>
       <div class="dialog-actions">
