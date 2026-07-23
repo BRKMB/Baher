@@ -622,7 +622,10 @@ a.chip:hover { color: var(--text); border-color: var(--accent); }
 .notes-wrap textarea {
   width: 100%;
   min-height: 56px;
-  resize: vertical;
+  height: auto;
+  resize: none;
+  overflow: hidden;
+  field-sizing: content;
   background: var(--input-bg);
   border: 1px solid var(--card-border);
   border-radius: 12px;

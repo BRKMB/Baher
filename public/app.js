@@ -701,9 +701,14 @@ function renderCard(l, rank, score) {
   });
 
   let notesTimer = null;
+  const autoGrow = (textarea) => {
+    textarea.style.height = "auto";
+    textarea.style.height = `${textarea.scrollHeight}px`;
+  };
   const notesArea = el("textarea", {
     placeholder: t("notesPlaceholder"),
     oninput: (e) => {
+      autoGrow(e.target);
       l.notes = setLoc(l.notes, e.target.value);
       clearTimeout(notesTimer);
       notesTimer = setTimeout(async () => {
@@ -713,6 +718,7 @@ function renderCard(l, rank, score) {
     }
   });
   notesArea.value = loc(l.notes);
+  requestAnimationFrame(() => autoGrow(notesArea));
 
   return el("div", { class: `card${isSortedByScore && rank === 1 ? " rank-1" : ""}`, "data-id": l.id }, [
     renderGallery(l),
