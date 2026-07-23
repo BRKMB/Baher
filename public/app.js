@@ -417,10 +417,17 @@ function passesFilters(l) {
   return true;
 }
 
-function render() {
+function render({ keepVisibleId = null } = {}) {
   const scores = computeScores(listings);
   renderStats(scores);
   renderFilterChips();
+
+  // لما المستخدم يغيّر علامة، نفتكر مكان الكارت على الشاشة قبل الترتيب.
+  // بعد الترتيب بنعوّض فرق المكان بالـscroll عشان يفضل قدام عينه.
+  const anchorCard = keepVisibleId
+    ? [...cardsEl.children].find((card) => card.dataset.id === keepVisibleId)
+    : null;
+  const anchorTop = anchorCard?.getBoundingClientRect().top ?? null;
 
   // FLIP: نسجّل أماكن الكروت قبل إعادة الترتيب عشان الأنيميشن
   const oldPositions = new Map();
@@ -448,7 +455,23 @@ function render() {
     );
   }
 
+  if (keepVisibleId && anchorTop != null) {
+    const movedCard = [...cardsEl.children].find((card) => card.dataset.id === keepVisibleId);
+    if (movedCard) {
+      const distance = movedCard.getBoundingClientRect().top - anchorTop;
+      window.scrollBy(0, distance);
+      movedCard.animate(
+        [
+          { boxShadow: "0 0 0 3px var(--accent)" },
+          { boxShadow: "var(--shadow)" }
+        ],
+        { duration: 650, easing: "ease-out" }
+      );
+    }
+  }
+
   // FLIP: نحرّك الكروت من مكانها القديم للجديد
+  if (keepVisibleId) return;
   for (const card of cardsEl.children) {
     const old = oldPositions.get(card.dataset.id);
     if (!old) continue;
@@ -689,8 +712,8 @@ function renderCard(l, rank, score) {
         onclick: async () => {
           const next = v === "yes" ? "no" : v === "no" ? "unknown" : "yes";
           l.criteria[c.key] = next;
-          render();
-          await saveListing(l);
+          render({ keepVisibleId: l.id });
+          await saveListing(l, { silent: true });
         }
       },
       [
@@ -703,7 +726,7 @@ function renderCard(l, rank, score) {
   let notesTimer = null;
   const autoGrow = (textarea) => {
     textarea.style.height = "auto";
-    textarea.style.height = `${textarea.scrollHeight}px`;
+    textarea.style.height = `${textarea.scrollHeight + 2}px`;
   };
   const notesArea = el("textarea", {
     placeholder: t("notesPlaceholder"),
