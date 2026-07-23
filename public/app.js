@@ -528,7 +528,8 @@ function renderFilterChips() {
         class: `chip-filter${activeFilters.has(c.key) ? " on" : ""}`,
         text: `${c.icon} ${c[lang]}`,
         title: t("filterTooltip"),
-        onclick: () => {
+        onclick: (e) => {
+          e.stopPropagation();
           if (activeFilters.has(c.key)) activeFilters.delete(c.key);
           else activeFilters.add(c.key);
           render();
