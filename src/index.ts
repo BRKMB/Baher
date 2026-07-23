@@ -85,13 +85,20 @@ function store(env: Env): DurableObjectStub<ListingsStore> {
   return env.STORE.get(env.STORE.idFromName("main"));
 }
 
+function isLocalizedText(v: unknown): boolean {
+  if (typeof v === "string") return true;
+  if (typeof v !== "object" || v === null) return false;
+  const t = v as Record<string, unknown>;
+  return typeof t.ar === "string" || typeof t.en === "string";
+}
+
 function isValidListing(body: unknown): body is Listing {
   if (typeof body !== "object" || body === null) return false;
   const l = body as Record<string, unknown>;
   return (
     typeof l.id === "string" &&
     l.id.length > 0 &&
-    typeof l.title === "string" &&
+    isLocalizedText(l.title) &&
     typeof l.url === "string" &&
     typeof l.rent === "number" &&
     typeof l.criteria === "object" &&

@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="noindex, nofollow" />
-  <title>أوضتي في وارسو 🏠</title>
+  <title>My Warsaw Room Hunt 🏠</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏠</text></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -13,16 +13,22 @@
 </head>
 <body>
 
+  <!-- زرارين التبديل — ظاهرين دايمًا -->
+  <div id="float-toggles">
+    <button id="theme-toggle" class="float-btn" type="button">☀️</button>
+    <button id="lang-toggle" class="float-btn" type="button">ع</button>
+  </div>
+
   <!-- شاشة القفل -->
   <div id="lock-screen">
     <form id="lock-form" class="lock-card">
       <div class="lock-emoji">🔐</div>
-      <h1>أوضتي في وارسو</h1>
-      <p>الموقع دا خاص — اكتب الباسورد عشان تدخل</p>
+      <h1 data-i18n="appTitle">My Warsaw Room Hunt</h1>
+      <p data-i18n="lockSubtitle">This site is private — enter the password to get in</p>
       <input id="lock-input" type="password" inputmode="numeric" autocomplete="current-password"
              placeholder="• • •" autofocus />
-      <button type="submit">ادخل 🚪</button>
-      <div id="lock-error" hidden>الباسورد غلط، جرّب تاني 🙈</div>
+      <button type="submit" data-i18n="lockButton">Enter 🚪</button>
+      <div id="lock-error" data-i18n="lockError" hidden>Wrong password, try again 🙈</div>
     </form>
   </div>
 
@@ -32,13 +38,13 @@
       <div class="brand">
         <span class="brand-emoji">🏠</span>
         <div>
-          <h1>أوضتي في وارسو</h1>
-          <p>مقارنة ذكية للأوض — مترتبة تلقائيًا من الأحسن للأوحش</p>
+          <h1 data-i18n="appTitle">My Warsaw Room Hunt</h1>
+          <p data-i18n="tagline">Smart room comparison — auto-ranked from best to worst</p>
         </div>
       </div>
       <div class="topbar-actions">
-        <button id="add-btn" class="btn btn-primary">＋ ضيف أوضة</button>
-        <button id="logout-btn" class="btn btn-ghost" title="خروج">خروج ↩</button>
+        <button id="add-btn" class="btn btn-primary" data-i18n="addBtn">＋ Add room</button>
+        <button id="logout-btn" class="btn btn-ghost" data-i18n="logout">Log out ↩</button>
       </div>
     </header>
 
@@ -46,11 +52,11 @@
 
     <section class="toolbar">
       <div class="sort-wrap">
-        <label for="sort-select">الترتيب:</label>
+        <label for="sort-select" data-i18n="sortLabel">Sort:</label>
         <select id="sort-select">
-          <option value="score">🏆 الأحسن أولًا (السكور)</option>
-          <option value="price">💰 الأرخص أولًا</option>
-          <option value="commute">🚌 الأقرب للشغل أولًا</option>
+          <option value="score" data-i18n="sortScore">🏆 Best first (score)</option>
+          <option value="price" data-i18n="sortPrice">💰 Cheapest first</option>
+          <option value="commute" data-i18n="sortCommute">🚌 Closest to work first</option>
         </select>
       </div>
       <div id="filter-chips" class="filter-chips"></div>
@@ -59,50 +65,53 @@
     <main id="cards" class="cards"></main>
 
     <footer class="footer">
-      <span>وجهة الشغل: <strong>Lionbridge Poland — Łopuszańska 95, Warszawa</strong></span>
-      <button id="reset-btn" class="btn btn-ghost btn-danger-text">استرجاع البيانات الأصلية</button>
+      <span><span data-i18n="footerWork">Work destination:</span> <strong>Lionbridge Poland — Łopuszańska 95, Warszawa</strong></span>
+      <button id="reset-btn" class="btn btn-ghost btn-danger-text" data-i18n="resetBtn">Restore original data</button>
     </footer>
   </div>
 
   <!-- نافذة التعديل / الإضافة -->
   <dialog id="edit-dialog">
     <form id="edit-form" method="dialog">
-      <h2 id="edit-title">تعديل الأوضة</h2>
+      <h2 id="edit-title">Edit room</h2>
       <div class="form-grid">
-        <label class="span2">الاسم / الوصف
+        <label class="span2"><span data-i18n="fTitle">Name / description</span>
           <input name="title" required />
         </label>
-        <label>الحي
+        <label><span data-i18n="fDistrict">District</span>
           <input name="district" placeholder="Ochota" />
         </label>
-        <label>العنوان
+        <label><span data-i18n="fAddress">Address</span>
           <input name="address" placeholder="ul. ..., Warszawa" />
         </label>
-        <label class="span2">لينك الإعلان (OLX)
+        <label class="span2"><span data-i18n="fUrl">Listing link (OLX)</span>
           <input name="url" type="url" required placeholder="https://www.olx.pl/..." />
         </label>
-        <label>الإيجار (زلوتي/شهر)
+        <label><span data-i18n="fRent">Rent (zł/month)</span>
           <input name="rent" type="number" min="0" required />
         </label>
-        <label>المصاريف (زلوتي/شهر)
-          <input name="bills" type="number" min="0" placeholder="مش معروفة" />
+        <label><span data-i18n="fBills">Utilities &amp; fees (zł/month)</span>
+          <input name="bills" type="number" min="0" data-i18n-ph="phUnknown" />
         </label>
-        <label>الديبوزيت (زلوتي)
-          <input name="deposit" type="number" min="0" placeholder="مش معروف" />
+        <label><span data-i18n="fGarage">Garage (zł/month, if any)</span>
+          <input name="garageCost" type="number" min="0" data-i18n-ph="phNone" />
         </label>
-        <label>وقت المواصلات للشغل (دقايق)
-          <input name="commuteMin" type="number" min="0" placeholder="تقدير" />
+        <label><span data-i18n="fDeposit">Deposit (zł)</span>
+          <input name="deposit" type="number" min="0" data-i18n-ph="phUnknown" />
         </label>
-        <label>متاحة من
+        <label><span data-i18n="fCommute">Commute to work (minutes)</span>
+          <input name="commuteMin" type="number" min="0" data-i18n-ph="phEstimate" />
+        </label>
+        <label><span data-i18n="fAvailable">Available from</span>
           <input name="availableFrom" placeholder="01/08/2026" />
         </label>
-        <label>التواصل
-          <input name="contact" placeholder="الاسم — تليفون / OLX" />
+        <label class="span2"><span data-i18n="fContact">Contact</span>
+          <input name="contact" data-i18n-ph="phContact" />
         </label>
       </div>
       <div class="dialog-actions">
-        <button type="button" id="edit-cancel" class="btn btn-ghost">إلغاء</button>
-        <button type="submit" class="btn btn-primary">حفظ ✓</button>
+        <button type="button" id="edit-cancel" class="btn btn-ghost" data-i18n="cancel">Cancel</button>
+        <button type="submit" class="btn btn-primary" data-i18n="save">Save ✓</button>
       </div>
     </form>
   </dialog>
