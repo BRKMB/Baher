@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>أوضتي في وارسو 🏠</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏠</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+
+  <!-- شاشة القفل -->
+  <div id="lock-screen">
+    <form id="lock-form" class="lock-card">
+      <div class="lock-emoji">🔐</div>
+      <h1>أوضتي في وارسو</h1>
+      <p>الموقع دا خاص — اكتب الباسورد عشان تدخل</p>
+      <input id="lock-input" type="password" inputmode="numeric" autocomplete="current-password"
+             placeholder="• • •" autofocus />
+      <button type="submit">ادخل 🚪</button>
+      <div id="lock-error" hidden>الباسورد غلط، جرّب تاني 🙈</div>
+    </form>
+  </div>
+
+  <!-- التطبيق -->
+  <div id="app" hidden>
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-emoji">🏠</span>
+        <div>
+          <h1>أوضتي في وارسو</h1>
+          <p>مقارنة ذكية للأوض — مترتبة تلقائيًا من الأحسن للأوحش</p>
+        </div>
+      </div>
+      <div class="topbar-actions">
+        <button id="add-btn" class="btn btn-primary">＋ ضيف أوضة</button>
+        <button id="logout-btn" class="btn btn-ghost" title="خروج">خروج ↩</button>
+      </div>
+    </header>
+
+    <section id="stats" class="stats"></section>
+
+    <section class="toolbar">
+      <div class="sort-wrap">
+        <label for="sort-select">الترتيب:</label>
+        <select id="sort-select">
+          <option value="score">🏆 الأحسن أولًا (السكور)</option>
+          <option value="price">💰 الأرخص أولًا</option>
+          <option value="commute">🚌 الأقرب للشغل أولًا</option>
+        </select>
+      </div>
+      <div id="filter-chips" class="filter-chips"></div>
+    </section>
+
+    <main id="cards" class="cards"></main>
+
+    <footer class="footer">
+      <span>وجهة الشغل: <strong>Lionbridge Poland — Łopuszańska 95, Warszawa</strong></span>
+      <button id="reset-btn" class="btn btn-ghost btn-danger-text">استرجاع البيانات الأصلية</button>
+    </footer>
+  </div>
+
+  <!-- نافذة التعديل / الإضافة -->
+  <dialog id="edit-dialog">
+    <form id="edit-form" method="dialog">
+      <h2 id="edit-title">تعديل الأوضة</h2>
+      <div class="form-grid">
+        <label class="span2">الاسم / الوصف
+          <input name="title" required />
+        </label>
+        <label>الحي
+          <input name="district" placeholder="Ochota" />
+        </label>
+        <label>العنوان
+          <input name="address" placeholder="ul. ..., Warszawa" />
+        </label>
+        <label class="span2">لينك الإعلان (OLX)
+          <input name="url" type="url" required placeholder="https://www.olx.pl/..." />
+        </label>
+        <label>الإيجار (زلوتي/شهر)
+          <input name="rent" type="number" min="0" required />
+        </label>
+        <label>المصاريف (زلوتي/شهر)
+          <input name="bills" type="number" min="0" placeholder="مش معروفة" />
+        </label>
+        <label>الديبوزيت (زلوتي)
+          <input name="deposit" type="number" min="0" placeholder="مش معروف" />
+        </label>
+        <label>وقت المواصلات للشغل (دقايق)
+          <input name="commuteMin" type="number" min="0" placeholder="تقدير" />
+        </label>
+        <label>متاحة من
+          <input name="availableFrom" placeholder="01/08/2026" />
+        </label>
+        <label>التواصل
+          <input name="contact" placeholder="الاسم — تليفون / OLX" />
+        </label>
+      </div>
+      <div class="dialog-actions">
+        <button type="button" id="edit-cancel" class="btn btn-ghost">إلغاء</button>
+        <button type="submit" class="btn btn-primary">حفظ ✓</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="toast" hidden></div>
+
+  <script src="/app.js"></script>
+</body>
+</html>
