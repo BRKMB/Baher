@@ -1,0 +1,30 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "o",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-07-01",
+  "compatibility_flags": ["nodejs_compat"],
+
+  // كل الريكوستات بتعدي على الـ Worker الأول عشان بوابة الباسورد
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "run_worker_first": true
+  },
+
+  // الباسورد بتاع الموقع (تقدر تغيّره هنا أو تعمله override بسيكرت بنفس الاسم)
+  "vars": {
+    "SITE_PASSWORD": "777"
+  },
+
+  // تخزين البيانات — Durable Object مش محتاج أي provisioning يدوي
+  "durable_objects": {
+    "bindings": [{ "name": "STORE", "class_name": "ListingsStore" }]
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["ListingsStore"] }],
+
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1
+  }
+}

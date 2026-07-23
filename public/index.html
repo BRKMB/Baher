@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Warsaw Home Hunt 🏠</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏠</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/style.css?v=11" />
+</head>
+<body>
+
+  <!-- زرارين التبديل — ظاهرين دايمًا -->
+  <div id="float-toggles">
+    <button id="theme-toggle" class="float-btn" type="button">☀️</button>
+    <button id="lang-toggle" class="float-btn" type="button">ع</button>
+  </div>
+
+  <!-- شاشة القفل -->
+  <div id="lock-screen">
+    <form id="lock-form" class="lock-card">
+      <div class="lock-emoji">🔐</div>
+      <h1 data-i18n="appTitle">Warsaw Home Hunt</h1>
+      <p data-i18n="lockSubtitle">This site is private — enter the password to get in</p>
+      <input id="lock-input" type="password" inputmode="numeric" autocomplete="current-password"
+             placeholder="• • •" autofocus />
+      <button type="submit" data-i18n="lockButton">Enter 🚪</button>
+      <div id="lock-error" data-i18n="lockError" hidden>Wrong password, try again 🙈</div>
+    </form>
+  </div>
+
+  <!-- التطبيق -->
+  <div id="app" hidden>
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-emoji">🏠</span>
+        <div>
+          <h1 data-i18n="appTitle">Warsaw Home Hunt</h1>
+          <p data-i18n="tagline">Smart housing comparison — auto-ranked from best to worst</p>
+        </div>
+      </div>
+      <div class="topbar-actions">
+        <button id="add-btn" class="btn btn-primary btn-add-smart" data-i18n="addBtn">✦ Smart Add</button>
+        <button id="logout-btn" class="btn btn-ghost" data-i18n="logout">Log out ↩</button>
+      </div>
+    </header>
+
+    <section id="stats" class="stats"></section>
+
+    <section class="toolbar">
+      <div class="sort-wrap">
+        <label for="sort-select" data-i18n="sortLabel">Sort:</label>
+        <select id="sort-select">
+          <option value="score" data-i18n="sortScore">🏆 Best first (score)</option>
+          <option value="price" data-i18n="sortPrice">💰 Cheapest first</option>
+          <option value="commute" data-i18n="sortCommute">🚌 Closest to work first</option>
+        </select>
+      </div>
+      <details id="filters-panel" class="filters-panel">
+        <summary>
+          <span>⚙️ <span data-i18n="filtersLabel">Filters</span></span>
+          <span id="filters-count">All</span>
+          <span class="filters-chevron">⌄</span>
+        </summary>
+        <div id="filter-chips" class="filter-chips"></div>
+      </details>
+    </section>
+
+    <main id="cards" class="cards"></main>
+
+    <footer class="footer">
+      <span><span data-i18n="footerWork">Work destination:</span> <strong>Lionbridge Poland — Łopuszańska 95, Warszawa</strong></span>
+      <button id="reset-btn" class="btn btn-ghost btn-danger-text" data-i18n="resetBtn">Restore original data</button>
+    </footer>
+  </div>
+
+  <!-- نافذة التعديل / الإضافة -->
+  <dialog id="edit-dialog">
+    <form id="edit-form" method="dialog">
+      <h2 id="edit-title">Edit place</h2>
+      <section class="import-hero">
+        <div class="import-heading">
+          <span class="import-spark">✦</span>
+          <div>
+            <strong data-i18n="smartImportTitle">Smart Auto-fill</strong>
+            <small data-i18n="importHint">Paste an OLX or Otodom link and everything gets fetched automatically</small>
+          </div>
+        </div>
+        <div class="url-row">
+          <input name="url" type="url" required data-i18n-ph="phListingUrl"
+                 placeholder="Paste OLX or Otodom link…" />
+          <button type="button" id="import-btn" class="btn btn-primary" data-i18n="importBtn">✦ Auto-fill</button>
+        </div>
+      </section>
+      <div class="form-grid">
+        <label><span data-i18n="fType">Place type</span>
+          <select name="propertyType">
+            <option value="room" data-i18n="typeRoom">Room</option>
+            <option value="studio" data-i18n="typeStudio">Studio</option>
+            <option value="flat" data-i18n="typeFlat">Flat</option>
+            <option value="other" data-i18n="typeOther">Other</option>
+          </select>
+        </label>
+        <div class="form-spacer"></div>
+        <label class="span2"><span data-i18n="fTitle">Name / description</span>
+          <input name="title" required />
+        </label>
+        <label><span data-i18n="fDistrict">District</span>
+          <input name="district" placeholder="Ochota" />
+        </label>
+        <label><span data-i18n="fAddress">Address</span>
+          <input name="address" placeholder="ul. ..., Warszawa" />
+        </label>
+        <label><span data-i18n="fRent">Rent (zł/month)</span>
+          <input name="rent" type="number" min="0" required />
+        </label>
+        <label><span data-i18n="fBills">Utilities &amp; fees (zł/month)</span>
+          <input name="bills" type="number" min="0" data-i18n-ph="phUnknown" />
+        </label>
+        <label><span data-i18n="fGarage">Garage (zł/month, if any)</span>
+          <input name="garageCost" type="number" min="0" data-i18n-ph="phNone" />
+        </label>
+        <label><span data-i18n="fArea">Place area (m²)</span>
+          <input name="areaSqm" type="number" min="0" step="0.1" data-i18n-ph="phUnknown" />
+        </label>
+        <label><span data-i18n="fDeposit">Deposit (zł)</span>
+          <input name="deposit" type="number" min="0" data-i18n-ph="phUnknown" />
+        </label>
+        <label><span data-i18n="fCommute">Commute to work (minutes)</span>
+          <input name="commuteMin" type="number" min="0" data-i18n-ph="phEstimate" />
+        </label>
+        <label><span data-i18n="fAvailable">Available from</span>
+          <input name="availableFrom" placeholder="01/08/2026" />
+        </label>
+        <label class="span2"><span data-i18n="fContact">Contact</span>
+          <input name="contact" data-i18n-ph="phContact" />
+        </label>
+        <label class="span2"><span data-i18n="fPhotos">Photo links (one per line)</span>
+          <textarea name="photos" rows="3" placeholder="https://..."></textarea>
+        </label>
+      </div>
+      <div class="dialog-actions">
+        <button type="button" id="edit-cancel" class="btn btn-ghost" data-i18n="cancel">Cancel</button>
+        <button type="submit" class="btn btn-primary" data-i18n="save">Save ✓</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="toast" hidden></div>
+
+  <script src="/app.js?v=11"></script>
+</body>
+</html>
