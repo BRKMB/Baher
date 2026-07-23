@@ -209,7 +209,14 @@ const I18N = {
 /* ===== الحالة ===== */
 
 let lang = localStorage.getItem("rooms_lang") || "en";
-let theme = localStorage.getItem("rooms_theme") || "light";
+let theme = localStorage.getItem("rooms_theme") || "dark";
+// مرة واحدة بس: ننقل أي متصفح فتح نسخة اللايت الافتراضية القديمة للدارك.
+// بعد كدا اختيار المستخدم نفسه هو اللي بيتحفظ ويتحترم.
+if (!localStorage.getItem("rooms_theme_default_dark_v2")) {
+  theme = "dark";
+  localStorage.setItem("rooms_theme", "dark");
+  localStorage.setItem("rooms_theme_default_dark_v2", "1");
+}
 let listings = [];
 let sortBy = "score";
 const activeFilters = new Set();
