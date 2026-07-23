@@ -304,6 +304,7 @@ function fmt(n) {
 
 async function api(path, options = {}) {
   const res = await fetch(path, {
+    credentials: "same-origin",
     headers: { "Content-Type": "application/json" },
     ...options
   });
@@ -987,13 +988,22 @@ async function showApp() {
   render();
 }
 
+/** لوحة عربية/فارسية بتبعت ٧٧٧ بدل 777 */
+function normalizePassword(password) {
+  return password
+    .trim()
+    .replace(/[٠-٩]/g, (d) => String(d.charCodeAt(0) - 0x0660))
+    .replace(/[۰-۹]/g, (d) => String(d.charCodeAt(0) - 0x06f0));
+}
+
 $("#lock-form").addEventListener("submit", async (e) => {
   e.preventDefault();
   const input = $("#lock-input");
   const res = await fetch("/api/login", {
     method: "POST",
+    credentials: "same-origin",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ password: input.value })
+    body: JSON.stringify({ password: normalizePassword(input.value) })
   });
   if (res.ok) {
     $("#lock-error").hidden = true;

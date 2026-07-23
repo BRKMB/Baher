@@ -93,6 +93,14 @@ function timingSafeEqual(a: string, b: string): boolean {
   return crypto.subtle.timingSafeEqual(ab, bb);
 }
 
+/** يوحّد الأرقام العربية/الفارسية للمقارنة (٧٧٧ → 777) */
+function normalizePassword(password: string): string {
+  return password
+    .trim()
+    .replace(/[٠-٩]/g, (d) => String(d.charCodeAt(0) - 0x0660))
+    .replace(/[۰-۹]/g, (d) => String(d.charCodeAt(0) - 0x06f0));
+}
+
 function getCookie(request: Request, name: string): string | null {
   const header = request.headers.get("Cookie");
   if (!header) return null;
@@ -176,8 +184,9 @@ export default {
 async function handleApi(request: Request, env: Env, pathname: string): Promise<Response> {
   if (pathname === "/api/login" && request.method === "POST") {
     const body = (await request.json().catch(() => null)) as { password?: string } | null;
-    const given = body?.password ?? "";
-    if (!timingSafeEqual(given, env.SITE_PASSWORD)) {
+    const given = normalizePassword(body?.password ?? "");
+    const expected = normalizePassword(env.SITE_PASSWORD);
+    if (!timingSafeEqual(given, expected)) {
       return json({ error: "wrong_password" }, { status: 401 });
     }
     const token = await sessionTokenFor(env.SITE_PASSWORD);
