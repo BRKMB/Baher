@@ -188,7 +188,7 @@ input, select, textarea { font-family: inherit; }
 
 /* ===== الهيدر ===== */
 #app {
-  max-width: 1080px;
+  max-width: 1240px;
   margin: 0 auto;
   padding: 24px 16px 60px;
 }
@@ -303,7 +303,7 @@ input, select, textarea { font-family: inherit; }
   align-items: start;
 }
 
-@media (min-width: 900px) {
+@media (min-width: 720px) {
   .cards { grid-template-columns: 1fr 1fr; }
 }
 
@@ -500,6 +500,11 @@ input, select, textarea { font-family: inherit; }
 }
 a.chip:hover { color: var(--text); border-color: var(--accent); }
 .chip.warn { color: var(--amber); border-color: rgba(251, 191, 36, 0.35); }
+.chip.type-chip {
+  color: var(--accent2);
+  border-color: var(--total-border);
+  background: var(--total-bg);
+}
 
 /* دايرة السكور */
 .score-wrap {
@@ -683,6 +688,7 @@ dialog::backdrop { background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px); }
 .form-grid .span2 { grid-column: span 2; }
 
 .form-grid input,
+.form-grid select,
 .form-grid textarea {
   padding: 10px 12px;
   border-radius: 10px;
@@ -694,6 +700,7 @@ dialog::backdrop { background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px); }
   resize: vertical;
 }
 .form-grid input:focus,
+.form-grid select:focus,
 .form-grid textarea:focus { border-color: var(--accent); }
 
 .url-row {
@@ -739,4 +746,5 @@ dialog::backdrop { background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px); }
   .score-wrap { order: -1; margin-inline-start: auto; }
   .form-grid { grid-template-columns: 1fr; }
   .form-grid .span2 { grid-column: span 1; }
+  .form-spacer { display: none; }
 }

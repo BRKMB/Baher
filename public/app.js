@@ -8,7 +8,7 @@ const WORK_DEST = "Lionbridge Poland, Łopuszańska 95, 02-457 Warszawa";
 const CRITERIA = [
   { key: "oven", icon: "🍞", weight: 2, ar: "فرن", en: "Oven" },
   { key: "bed", icon: "🛏️", weight: 3, ar: "سرير مريح بمرتبة كويسة", en: "Comfy bed, good mattress" },
-  { key: "spacious", icon: "📐", weight: 2, ar: "أوضة واسعة", en: "Spacious room" },
+  { key: "spacious", icon: "📐", weight: 2, ar: "مساحة واسعة", en: "Spacious place" },
   { key: "garage", icon: "🚗", weight: 1, ar: "جراج / ركنة مجانية", en: "Free garage / parking" },
   { key: "max3", icon: "👥", weight: 2, ar: "٣ أوض أو أقل في الشقة", en: "≤ 3 rooms in the flat" },
   { key: "desk", icon: "🖥️", weight: 3, ar: "مكتب كبير للشاشات", en: "Big desk for monitors" },
@@ -27,13 +27,13 @@ const BILLS_FALLBACK = 300; // لو المرافق مش معروفة بنفتر�
 
 const I18N = {
   en: {
-    docTitle: "My Warsaw Room Hunt 🏠",
-    appTitle: "My Warsaw Room Hunt",
-    tagline: "Smart room comparison — auto-ranked from best to worst",
+    docTitle: "My Warsaw Home Hunt 🏠",
+    appTitle: "My Warsaw Home Hunt",
+    tagline: "Smart housing comparison — auto-ranked from best to worst",
     lockSubtitle: "This site is private — enter the password to get in",
     lockButton: "Enter 🚪",
     lockError: "Wrong password, try again 🙈",
-    addBtn: "＋ Add room",
+    addBtn: "＋ Add place",
     logout: "Log out ↩",
     sortLabel: "Sort:",
     sortScore: "🏆 Best first (score)",
@@ -41,8 +41,13 @@ const I18N = {
     sortCommute: "🚌 Closest to work first",
     footerWork: "Work destination:",
     resetBtn: "Restore original data",
-    editTitle: "Edit room",
-    addTitle: "Add a new room",
+    editTitle: "Edit place",
+    addTitle: "Add a new place",
+    fType: "Place type",
+    typeRoom: "Room",
+    typeStudio: "Studio",
+    typeFlat: "Flat",
+    typeOther: "Other",
     fTitle: "Name / description",
     fDistrict: "District",
     fAddress: "Address",
@@ -60,7 +65,7 @@ const I18N = {
     phContact: "Name — phone / OLX",
     cancel: "Cancel",
     save: "Save ✓",
-    statCount: "🏠 Rooms",
+    statCount: "🏠 Places",
     statCheapest: "💰 Cheapest total",
     statClosest: "🚌 Closest to work",
     statBest: "🏆 Top score",
@@ -68,7 +73,7 @@ const I18N = {
     scoreLabel: "Score",
     scoreTooltip: "Score breakdown:",
     critTooltip: "Click to cycle: yes → no → not sure",
-    filterTooltip: "Show only rooms that definitely have this",
+    filterTooltip: "Show only places that definitely have this",
     commuteChip: (m) => `🚌 ~${m} min to work`,
     commuteUnknown: "🚌 Commute?",
     mapsTitle: "Open the route on Google Maps",
@@ -103,7 +108,7 @@ const I18N = {
     confirmReset: "This will restore the original data and erase all your edits. Sure?",
     resetDone: "↩ Original data restored",
     apiError: "⚠️ Something went wrong, try again",
-    noMatch: "No room matches these filters — remove one or two",
+    noMatch: "No place matches these filters — remove one or two",
     scorePrice: "💰 Price",
     scoreCommute: "🚌 Near work",
     themeTip: "Switch to light mode",
@@ -111,13 +116,13 @@ const I18N = {
     langTip: "التبديل للعربي"
   },
   ar: {
-    docTitle: "أوضتي في وارسو 🏠",
-    appTitle: "أوضتي في وارسو",
-    tagline: "مقارنة ذكية للأوض — مترتبة تلقائيًا من الأحسن للأوحش",
+    docTitle: "سكني في وارسو 🏠",
+    appTitle: "سكني في وارسو",
+    tagline: "مقارنة ذكية للسكن — مترتبة تلقائيًا من الأحسن للأوحش",
     lockSubtitle: "الموقع دا خاص — اكتب الباسورد عشان تدخل",
     lockButton: "ادخل 🚪",
     lockError: "الباسورد غلط، جرّب تاني 🙈",
-    addBtn: "＋ ضيف أوضة",
+    addBtn: "＋ ضيف مكان",
     logout: "خروج ↩",
     sortLabel: "الترتيب:",
     sortScore: "🏆 الأحسن أولًا (السكور)",
@@ -125,8 +130,13 @@ const I18N = {
     sortCommute: "🚌 الأقرب للشغل أولًا",
     footerWork: "وجهة الشغل:",
     resetBtn: "استرجاع البيانات الأصلية",
-    editTitle: "تعديل الأوضة",
-    addTitle: "ضيف أوضة جديدة",
+    editTitle: "تعديل المكان",
+    addTitle: "ضيف مكان جديد",
+    fType: "نوع السكن",
+    typeRoom: "أوضة",
+    typeStudio: "ستوديو",
+    typeFlat: "شقة",
+    typeOther: "نوع تاني",
     fTitle: "الاسم / الوصف",
     fDistrict: "الحي",
     fAddress: "العنوان",
@@ -144,7 +154,7 @@ const I18N = {
     phContact: "الاسم — تليفون / OLX",
     cancel: "إلغاء",
     save: "حفظ ✓",
-    statCount: "🏠 عدد الأوض",
+    statCount: "🏠 عدد الأماكن",
     statCheapest: "💰 أرخص إجمالي",
     statClosest: "🚌 أقرب للشغل",
     statBest: "🏆 الأعلى سكور",
@@ -187,7 +197,7 @@ const I18N = {
     confirmReset: "دا هيرجّع البيانات الأصلية ويمسح أي تعديلات عملتها. متأكد؟",
     resetDone: "↩ رجعنا للبيانات الأصلية",
     apiError: "⚠️ حصلت مشكلة، جرّب تاني",
-    noMatch: "مفيش أوضة مطابقة للفلاتر دي — شيل فلتر أو اتنين",
+    noMatch: "مفيش مكان مطابق للفلاتر دي — شيل فلتر أو اتنين",
     scorePrice: "💰 السعر",
     scoreCommute: "🚌 قرب الشغل",
     themeTip: "بدّل للايت مود",
@@ -496,6 +506,16 @@ function mapsUrl(l) {
   );
 }
 
+function typeLabel(type) {
+  const key = {
+    room: "typeRoom",
+    studio: "typeStudio",
+    flat: "typeFlat",
+    other: "typeOther"
+  }[type || "room"] || "typeOther";
+  return t(key);
+}
+
 /* ===== معرض الصور واللايت بوكس ===== */
 
 function renderGallery(l) {
@@ -628,6 +648,7 @@ function renderCard(l, rank, score) {
   });
 
   const chips = [
+    el("span", { class: "chip type-chip", text: `🏡 ${typeLabel(l.propertyType)}` }),
     el("span", { class: "chip", text: `📍 ${l.district}` }),
     el("a", {
       class: "chip",
@@ -752,6 +773,7 @@ function openEdit(l) {
   editForm._importedNotes = null;
   $("#edit-title").textContent = l ? t("editTitle") : t("addTitle");
   const f = editForm.elements;
+  f.propertyType.value = l?.propertyType || "room";
   f.title.value = l ? loc(l.title) : "";
   f.district.value = l?.district || "";
   f.address.value = l?.address || "";
@@ -784,6 +806,7 @@ $("#import-btn").addEventListener("click", async () => {
       body: JSON.stringify({ url })
     });
 
+    f.propertyType.value = draft.propertyType || "other";
     f.title.value = loc(draft.title);
     f.district.value = draft.district || "";
     f.address.value = draft.address || "";
@@ -816,6 +839,7 @@ editForm.addEventListener("submit", async (e) => {
   const existing = editingId ? listings.find((x) => x.id === editingId) : null;
   const listing = {
     id: editingId || `room-${Date.now()}`,
+    propertyType: f.propertyType.value,
     title: setLoc(existing?.title, f.title.value.trim()),
     district: f.district.value.trim(),
     address: f.address.value.trim(),

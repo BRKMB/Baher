@@ -20,6 +20,10 @@ export class ListingsStore extends DurableObject<Env> {
         const seed = seedById.get(listing.id);
         if (!seed) return listing;
         const next = { ...listing };
+        if (!next.propertyType) {
+          next.propertyType = seed.propertyType ?? "room";
+          changed = true;
+        }
         if (!Array.isArray(next.photos) || next.photos.length === 0) {
           next.photos = seed.photos;
           changed = true;
@@ -392,8 +396,21 @@ function draftFromParts(parts: {
     isBusiness: parts.isBusiness,
     rooms: parts.rooms ?? null
   });
+  const typeText = `${parts.title} ${parts.description}`.toLowerCase();
+  const propertyType: NonNullable<Listing["propertyType"]> =
+    /kawalerk|studio/.test(typeText)
+      ? "studio"
+      : /mieszkanie|apartament/.test(typeText) && !/pok[óo]j/.test(parts.title.toLowerCase())
+        ? "flat"
+        : /pok[óo]j/.test(typeText)
+          ? "room"
+          : "other";
+  if (propertyType === "studio") {
+    analyzed.criteria.max3 = "yes";
+  }
   return {
     id: `room-${Date.now()}`,
+    propertyType,
     title: parts.title,
     district: parts.district,
     address: parts.address,

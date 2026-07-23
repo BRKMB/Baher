@@ -5,6 +5,7 @@ export type LocalizedText = string | { ar: string; en: string };
 
 export interface Listing {
   id: string;
+  propertyType?: "room" | "studio" | "flat" | "other";
   title: LocalizedText;
   district: string;
   address: string;
