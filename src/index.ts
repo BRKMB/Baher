@@ -305,6 +305,7 @@ function analyzeDescription(text: string, opts: { isBusiness?: boolean; rooms?: 
   const t = text.toLowerCase();
   const criteria: Record<string, CriterionValue> = {
     oven: "unknown",
+    dishwasher: "unknown",
     bed: "unknown",
     spacious: "unknown",
     garage: "unknown",
@@ -317,6 +318,7 @@ function analyzeDescription(text: string, opts: { isBusiness?: boolean; rooms?: 
   };
 
   if (/piekarnik/.test(t)) criteria.oven = "yes";
+  if (/zmywark|dishwasher/.test(t)) criteria.dishwasher = "yes";
   if (/winda|wind[ąa]/.test(t)) criteria.elevator = "yes";
   if (/(gara[żz]|parking|miejsce postojowe)/.test(t)) {
     criteria.garage = /(bezp[łl]atn|darmow|w cenie|gratis)/.test(t) ? "yes" : "unknown";
