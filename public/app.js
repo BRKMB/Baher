@@ -27,13 +27,13 @@ const BILLS_FALLBACK = 300; // لو المرافق مش معروفة بنفتر�
 
 const I18N = {
   en: {
-    docTitle: "My Warsaw Home Hunt 🏠",
-    appTitle: "My Warsaw Home Hunt",
+    docTitle: "Warsaw Home Hunt 🏠",
+    appTitle: "Warsaw Home Hunt",
     tagline: "Smart housing comparison — auto-ranked from best to worst",
     lockSubtitle: "This site is private — enter the password to get in",
     lockButton: "Enter 🚪",
     lockError: "Wrong password, try again 🙈",
-    addBtn: "＋ Add place",
+    addBtn: "✦ Smart Add",
     logout: "Log out ↩",
     sortLabel: "Sort:",
     sortScore: "🏆 Best first (score)",
@@ -99,7 +99,9 @@ const I18N = {
     notesSaved: "✓ Notes saved",
     fPhotos: "Photo links (one per line)",
     zoomTip: "Click to zoom",
-    importBtn: "⚡ Auto-fill",
+    smartImportTitle: "Smart Auto-fill",
+    phListingUrl: "Paste OLX or Otodom link…",
+    importBtn: "✦ Auto-fill",
     importHint: "Paste an OLX or Otodom link and everything gets fetched automatically",
     importing: "⏳ Fetching the listing…",
     importOk: "✓ Fetched! Review the marks and fill in the gaps",
@@ -129,7 +131,7 @@ const I18N = {
     lockSubtitle: "الموقع دا خاص — اكتب الباسورد عشان تدخل",
     lockButton: "ادخل 🚪",
     lockError: "الباسورد غلط، جرّب تاني 🙈",
-    addBtn: "＋ ضيف مكان",
+    addBtn: "✦ إضافة ذكية",
     logout: "خروج ↩",
     sortLabel: "الترتيب:",
     sortScore: "🏆 الأحسن أولًا (السكور)",
@@ -195,7 +197,9 @@ const I18N = {
     notesSaved: "✓ الملاحظات اتحفظت",
     fPhotos: "لينكات الصور (لينك في كل سطر)",
     zoomTip: "دوس عشان تقرّب",
-    importBtn: "⚡ املا تلقائي",
+    smartImportTitle: "إضافة ذكية تلقائية",
+    phListingUrl: "حط لينك OLX أو Otodom…",
+    importBtn: "✦ املا تلقائي",
     importHint: "حط لينك OLX أو Otodom وكل حاجة هتتجاب لوحدها",
     importing: "⏳ بجيب الإعلان…",
     importOk: "✓ اتجاب! راجع العلامات وكمّل الناقص",
@@ -1005,8 +1009,7 @@ $("#lock-form").addEventListener("submit", async (e) => {
 });
 
 $("#logout-btn").addEventListener("click", async () => {
-  await fetch("/api/logout", { method: "POST" });
-  location.reload();
+  window.location.assign("/logout");
 });
 
 $("#sort-select").addEventListener("change", (e) => {

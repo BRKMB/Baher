@@ -4,12 +4,12 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="noindex, nofollow" />
-  <title>My Warsaw Home Hunt 🏠</title>
+  <title>Warsaw Home Hunt 🏠</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏠</text></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/style.css?v=10" />
+  <link rel="stylesheet" href="/style.css?v=11" />
 </head>
 <body>
 
@@ -23,7 +23,7 @@
   <div id="lock-screen">
     <form id="lock-form" class="lock-card">
       <div class="lock-emoji">🔐</div>
-      <h1 data-i18n="appTitle">My Warsaw Home Hunt</h1>
+      <h1 data-i18n="appTitle">Warsaw Home Hunt</h1>
       <p data-i18n="lockSubtitle">This site is private — enter the password to get in</p>
       <input id="lock-input" type="password" inputmode="numeric" autocomplete="current-password"
              placeholder="• • •" autofocus />
@@ -38,12 +38,12 @@
       <div class="brand">
         <span class="brand-emoji">🏠</span>
         <div>
-          <h1 data-i18n="appTitle">My Warsaw Home Hunt</h1>
+          <h1 data-i18n="appTitle">Warsaw Home Hunt</h1>
           <p data-i18n="tagline">Smart housing comparison — auto-ranked from best to worst</p>
         </div>
       </div>
       <div class="topbar-actions">
-        <button id="add-btn" class="btn btn-primary" data-i18n="addBtn">＋ Add place</button>
+        <button id="add-btn" class="btn btn-primary btn-add-smart" data-i18n="addBtn">✦ Smart Add</button>
         <button id="logout-btn" class="btn btn-ghost" data-i18n="logout">Log out ↩</button>
       </div>
     </header>
@@ -81,6 +81,20 @@
   <dialog id="edit-dialog">
     <form id="edit-form" method="dialog">
       <h2 id="edit-title">Edit place</h2>
+      <section class="import-hero">
+        <div class="import-heading">
+          <span class="import-spark">✦</span>
+          <div>
+            <strong data-i18n="smartImportTitle">Smart Auto-fill</strong>
+            <small data-i18n="importHint">Paste an OLX or Otodom link and everything gets fetched automatically</small>
+          </div>
+        </div>
+        <div class="url-row">
+          <input name="url" type="url" required data-i18n-ph="phListingUrl"
+                 placeholder="Paste OLX or Otodom link…" />
+          <button type="button" id="import-btn" class="btn btn-primary" data-i18n="importBtn">✦ Auto-fill</button>
+        </div>
+      </section>
       <div class="form-grid">
         <label><span data-i18n="fType">Place type</span>
           <select name="propertyType">
@@ -99,13 +113,6 @@
         </label>
         <label><span data-i18n="fAddress">Address</span>
           <input name="address" placeholder="ul. ..., Warszawa" />
-        </label>
-        <label class="span2"><span data-i18n="fUrl">Listing link (OLX / Otodom)</span>
-          <div class="url-row">
-            <input name="url" type="url" required placeholder="https://www.olx.pl/..." />
-            <button type="button" id="import-btn" class="btn btn-primary" data-i18n="importBtn">⚡ Auto-fill</button>
-          </div>
-          <small class="hint" data-i18n="importHint">Paste an OLX or Otodom link and everything gets fetched automatically</small>
         </label>
         <label><span data-i18n="fRent">Rent (zł/month)</span>
           <input name="rent" type="number" min="0" required />
@@ -144,6 +151,6 @@
 
   <div id="toast" hidden></div>
 
-  <script src="/app.js?v=10"></script>
+  <script src="/app.js?v=11"></script>
 </body>
 </html>

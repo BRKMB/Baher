@@ -155,6 +155,15 @@ export default {
       if (pathname.startsWith("/api/")) {
         return await handleApi(request, env, pathname);
       }
+      if (pathname === "/logout") {
+        return new Response(null, {
+          status: 303,
+          headers: {
+            Location: "/",
+            "Set-Cookie": `${COOKIE_NAME}=; Path=/; Max-Age=0; Expires=Thu, 01 Jan 1970 00:00:00 GMT; HttpOnly; Secure; SameSite=Lax`
+          }
+        });
+      }
       // الصفحة نفسها شيل فاضي — كل البيانات وراء الباسورد في الـ API
       return await env.ASSETS.fetch(request);
     } catch (err) {

@@ -234,6 +234,18 @@ input, select, textarea { font-family: inherit; }
   background: linear-gradient(90deg, var(--accent2), var(--accent));
 }
 
+.btn-add-smart {
+  padding: 13px 22px;
+  min-height: 48px;
+  font-size: 16px;
+  font-weight: 900;
+  letter-spacing: 0.1px;
+  box-shadow: 0 8px 24px rgba(34, 211, 238, 0.16);
+}
+:root[data-theme="light"] .btn-add-smart {
+  box-shadow: 0 8px 22px rgba(88, 101, 216, 0.18);
+}
+
 .btn-ghost { background: transparent; }
 .btn-danger-text { color: var(--red); border-color: rgba(248, 113, 113, 0.25); }
 
@@ -772,6 +784,42 @@ dialog::backdrop { background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px); }
 
 #edit-form h2 { margin: 0 0 18px; font-size: 20px; font-weight: 900; }
 
+.import-hero {
+  margin-bottom: 18px;
+  padding: 14px;
+  border: 1px solid var(--total-border);
+  border-radius: 16px;
+  background:
+    linear-gradient(135deg, var(--total-bg), transparent 70%),
+    var(--input-bg);
+}
+
+.import-heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 11px;
+}
+.import-heading > div {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.import-heading strong { font-size: 15px; color: var(--text); }
+.import-heading small { font-size: 12px; color: var(--muted); }
+.import-spark {
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 11px;
+  color: var(--accent2);
+  background: var(--card);
+  border: 1px solid var(--total-border);
+  font-size: 19px;
+}
+
 .form-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -810,6 +858,16 @@ dialog::backdrop { background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px); }
 }
 .url-row input { flex: 1; min-width: 0; }
 .url-row .btn { flex-shrink: 0; }
+.import-hero input {
+  padding: 12px 13px;
+  border-radius: 11px;
+  border: 1px solid var(--card-border);
+  background: var(--bg2);
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+}
+.import-hero input:focus { border-color: var(--accent); }
 .hint { color: var(--muted); font-weight: 500; line-height: 1.35; }
 
 .dialog-actions {
@@ -848,4 +906,6 @@ dialog::backdrop { background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px); }
   .form-grid { grid-template-columns: 1fr; }
   .form-grid .span2 { grid-column: span 1; }
   .form-spacer { display: none; }
+  .import-hero .url-row { flex-direction: column; }
+  .import-hero .url-row .btn { width: 100%; }
 }
