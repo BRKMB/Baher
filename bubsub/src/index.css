@@ -1,0 +1,100 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+
+  --color-ink-50: #f7f7f8;
+  --color-ink-100: #eeeef0;
+  --color-ink-200: #dcdde1;
+  --color-ink-300: #c2c4ca;
+  --color-ink-400: #9b9ea8;
+  --color-ink-500: #71747f;
+  --color-ink-600: #545762;
+  --color-ink-700: #3d404a;
+  --color-ink-800: #24262e;
+  --color-ink-850: #191b21;
+  --color-ink-900: #121419;
+  --color-ink-950: #0c0e12;
+
+  --color-mint-50: #ecfdf5;
+  --color-mint-100: #d1fae5;
+  --color-mint-200: #a7f3d0;
+  --color-mint-300: #6ee7b7;
+  --color-mint-400: #34d399;
+  --color-mint-500: #10b981;
+  --color-mint-600: #059669;
+  --color-mint-700: #047857;
+
+  --radius-2xl: 1.25rem;
+  --radius-3xl: 1.75rem;
+
+  --shadow-card: 0 1px 2px rgb(16 24 40 / 0.04), 0 4px 16px -4px rgb(16 24 40 / 0.06);
+  --shadow-card-dark: 0 1px 2px rgb(0 0 0 / 0.4), 0 8px 24px -8px rgb(0 0 0 / 0.5);
+  --shadow-float: 0 8px 32px -8px rgb(16 24 40 / 0.16);
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  background: #e8e9ec;
+  overscroll-behavior: none;
+}
+
+.dark body {
+  background: #050608;
+}
+
+/* Hide scrollbars inside the phone screen but keep scrolling */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Smooth page enter animation */
+@keyframes page-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.page-in {
+  animation: page-in 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes sheet-in {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.sheet-in {
+  animation: sheet-in 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.fade-in {
+  animation: fade-in 0.2s ease-out;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 0.5;
+}
+.dark input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  opacity: 0.5;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-mint-500);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
