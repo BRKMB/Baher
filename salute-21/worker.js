@@ -9,6 +9,13 @@
 const SITE = 'https://salute21.com'
 const CAPACITY = 28
 const MAX_PARTY = 12
+const IG_CACHE_KEY = 'instagram:feed:v1'
+/** Refresh Instagram feed at most once per hour (cron + lazy refresh) */
+const IG_CACHE_TTL_MS = 60 * 60 * 1000
+/** Fetch enough posts, then trim to a multiple of 3 for a tidy grid */
+const IG_FETCH_LIMIT = 24
+const IG_GRID_MAX = 12
+const IG_GRAPH = 'https://graph.facebook.com/v21.0'
 
 /** Path → SEO (kept in Worker so bots get correct tags without waiting for JS) */
 const SEO_BY_PATH = {
@@ -235,12 +242,204 @@ function isAdmin(request, env) {
   return Boolean(provided) && provided === adminKey(env)
 }
 
+function trimToGrid(items, max = IG_GRID_MAX) {
+  const capped = items.slice(0, max)
+  const count = Math.floor(capped.length / 3) * 3
+  return capped.slice(0, count)
+}
+
+function normalizeIgMedia(raw) {
+  const product = String(raw.media_product_type || '').toUpperCase()
+  const mediaType = String(raw.media_type || '').toUpperCase()
+  const isReel = product === 'REELS' || (mediaType === 'VIDEO' && product === 'REELS')
+  const isVideo = mediaType === 'VIDEO' || isReel
+  const isCarousel = mediaType === 'CAROUSEL_ALBUM'
+
+  let imageUrl = raw.thumbnail_url || raw.media_url || ''
+  let videoUrl = isVideo ? raw.media_url || '' : ''
+
+  if (isCarousel && Array.isArray(raw.children?.data) && raw.children.data.length) {
+    const first = raw.children.data[0]
+    const childType = String(first.media_type || '').toUpperCase()
+    if (childType === 'VIDEO') {
+      imageUrl = first.thumbnail_url || first.media_url || imageUrl
+      videoUrl = first.media_url || videoUrl
+    } else {
+      imageUrl = first.media_url || imageUrl
+    }
+  }
+
+  if (!imageUrl) return null
+
+  return {
+    id: String(raw.id),
+    type: isReel ? 'REEL' : isCarousel ? 'CAROUSEL' : isVideo ? 'VIDEO' : 'IMAGE',
+    imageUrl,
+    videoUrl: videoUrl || undefined,
+    permalink: raw.permalink || 'https://www.instagram.com/salute__21/',
+    caption: String(raw.caption || '').slice(0, 280),
+    timestamp: raw.timestamp || null,
+  }
+}
+
+async function readIgCache(env) {
+  try {
+    const raw = await env.BOOKINGS.get(IG_CACHE_KEY)
+    if (!raw) return null
+    const parsed = JSON.parse(raw)
+    if (!parsed || !Array.isArray(parsed.items)) return null
+    return parsed
+  } catch {
+    return null
+  }
+}
+
+async function writeIgCache(env, payload) {
+  await env.BOOKINGS.put(IG_CACHE_KEY, JSON.stringify(payload))
+}
+
+function igConfigured(env) {
+  return Boolean(env.INSTAGRAM_ACCESS_TOKEN && env.INSTAGRAM_USER_ID)
+}
+
+async function fetchInstagramFromGraph(env) {
+  const token = env.INSTAGRAM_ACCESS_TOKEN
+  const userId = env.INSTAGRAM_USER_ID
+  if (!token || !userId) {
+    return { ok: false, reason: 'missing_credentials', items: [] }
+  }
+
+  const fields = [
+    'id',
+    'caption',
+    'media_type',
+    'media_product_type',
+    'media_url',
+    'thumbnail_url',
+    'permalink',
+    'timestamp',
+    'children{media_type,media_url,thumbnail_url}',
+  ].join(',')
+
+  const endpoint =
+    `${IG_GRAPH}/${encodeURIComponent(userId)}/media` +
+    `?fields=${encodeURIComponent(fields)}` +
+    `&limit=${IG_FETCH_LIMIT}` +
+    `&access_token=${encodeURIComponent(token)}`
+
+  const res = await fetch(endpoint, {
+    headers: { accept: 'application/json' },
+  })
+  const data = await res.json().catch(() => ({}))
+  if (!res.ok) {
+    return {
+      ok: false,
+      reason: 'graph_error',
+      error: data?.error?.message || `HTTP ${res.status}`,
+      items: [],
+    }
+  }
+
+  const items = (Array.isArray(data.data) ? data.data : [])
+    .map(normalizeIgMedia)
+    .filter(Boolean)
+
+  return { ok: true, items: trimToGrid(items, IG_GRID_MAX) }
+}
+
+async function refreshInstagramCache(env, { force = false } = {}) {
+  const cached = await readIgCache(env)
+  const age = cached?.fetchedAt ? Date.now() - Number(cached.fetchedAt) : Infinity
+  if (!force && cached?.items?.length && age < IG_CACHE_TTL_MS) {
+    return { ...cached, fresh: false, source: 'cache' }
+  }
+
+  if (!igConfigured(env)) {
+    return {
+      ok: false,
+      configured: false,
+      reason: 'missing_credentials',
+      items: cached?.items || [],
+      fetchedAt: cached?.fetchedAt || null,
+      fresh: false,
+      source: 'unconfigured',
+    }
+  }
+
+  const result = await fetchInstagramFromGraph(env)
+  if (!result.ok) {
+    // Keep last good cache if Graph fails
+    if (cached?.items?.length) {
+      return {
+        ...cached,
+        ok: true,
+        configured: true,
+        fresh: false,
+        source: 'cache_stale',
+        lastError: result.error || result.reason,
+      }
+    }
+    return {
+      ok: false,
+      configured: true,
+      reason: result.reason,
+      error: result.error,
+      items: [],
+      fetchedAt: null,
+      fresh: false,
+      source: 'error',
+    }
+  }
+
+  const payload = {
+    ok: true,
+    configured: true,
+    items: result.items,
+    fetchedAt: Date.now(),
+    count: result.items.length,
+  }
+  await writeIgCache(env, payload)
+  return { ...payload, fresh: true, source: 'graph' }
+}
+
 async function handleApi(request, env) {
   const url = new URL(request.url)
   const path = url.pathname
 
   if (path === '/api/health') {
-    return json({ ok: true, service: 'salute-21-booking', idFormat: 'S21-DLDLDL-MMYY' })
+    return json({
+      ok: true,
+      service: 'salute-21-booking',
+      idFormat: 'S21-DLDLDL-MMYY',
+      instagramConfigured: igConfigured(env),
+    })
+  }
+
+  if (path === '/api/instagram' && request.method === 'GET') {
+    const force = url.searchParams.get('refresh') === '1' && isAdmin(request, env)
+    const feed = await refreshInstagramCache(env, { force })
+    return json(
+      {
+        ok: Boolean(feed.ok ?? feed.items?.length),
+        configured: Boolean(feed.configured ?? igConfigured(env)),
+        source: feed.source || 'unknown',
+        fetchedAt: feed.fetchedAt || null,
+        count: Array.isArray(feed.items) ? feed.items.length : 0,
+        items: feed.items || [],
+        handle: '@salute__21',
+        profileUrl: 'https://www.instagram.com/salute__21/',
+        grid: 3,
+        error: feed.error || undefined,
+        reason: feed.reason || undefined,
+      },
+      feed.items?.length || feed.configured === false ? 200 : 502,
+    )
+  }
+
+  if (path === '/api/instagram/refresh' && request.method === 'POST') {
+    if (!isAdmin(request, env)) return json({ error: 'Unauthorized' }, 401)
+    const feed = await refreshInstagramCache(env, { force: true })
+    return json(feed)
   }
 
   if (path === '/api/bookings' && request.method === 'GET') {
@@ -415,6 +614,11 @@ Host: salute21.com
 `
 
 export default {
+  /** Hourly cron — refresh Instagram gallery cache */
+  async scheduled(_event, env, ctx) {
+    ctx.waitUntil(refreshInstagramCache(env, { force: true }))
+  },
+
   async fetch(request, env) {
     const url = new URL(request.url)
 

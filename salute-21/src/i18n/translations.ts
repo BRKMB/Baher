@@ -44,6 +44,7 @@ export const translations = {
     galleryEyebrow: 'Gallery',
     galleryTitle: 'Taste, light, table',
     galleryText: 'Moments from the kitchen — and the Egyptian glow of our restaurant in Wola.',
+    galleryTextLive: 'Live from @salute__21 — posts and Reels, refreshed every hour.',
     testimonialsEyebrow: 'Guest book',
     testimonialsTitle: 'Words from the table',
     testimonialsIntro:
@@ -235,6 +236,7 @@ export const translations = {
     galleryEyebrow: 'Galeria',
     galleryTitle: 'Smak, światło, stół',
     galleryText: 'Chwile z kuchni — i egipskie światło naszej restauracji na Woli.',
+    galleryTextLive: 'Na żywo z @salute__21 — posty i Rolki, odświeżane co godzinę.',
     testimonialsEyebrow: 'Księga gości',
     testimonialsTitle: 'Słowa od stołu',
     testimonialsIntro:
