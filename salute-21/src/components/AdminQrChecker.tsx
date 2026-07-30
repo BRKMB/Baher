@@ -22,6 +22,21 @@ function extractBookingId(raw: string) {
   return text.toUpperCase()
 }
 
+/** Editable tail after fixed `S21-` → `XXXXXX-XXXX` (auto dash + uppercase). */
+function formatReferenceTail(raw: string) {
+  const chars = String(raw || '')
+    .toUpperCase()
+    .replace(/[^A-Z0-9]/g, '')
+    .slice(0, 10)
+  if (chars.length <= 6) return chars
+  return `${chars.slice(0, 6)}-${chars.slice(6)}`
+}
+
+function fullReferenceFromTail(tail: string) {
+  const formatted = formatReferenceTail(tail)
+  return formatted ? `S21-${formatted}` : 'S21-'
+}
+
 function formatDate(value: string) {
   try {
     return new Date(`${value}T12:00:00`).toLocaleDateString('en-GB', {
@@ -166,19 +181,30 @@ export function AdminQrChecker() {
             className="mt-5"
             onSubmit={(e) => {
               e.preventDefault()
-              void lookup(manual)
+              void lookup(fullReferenceFromTail(manual))
             }}
           >
             <label className="grid gap-2 text-sm">
               <span className="text-[11px] font-semibold tracking-[0.18em] text-muted uppercase">
                 Or enter reference
               </span>
-              <input
-                value={manual}
-                onChange={(e) => setManual(e.target.value)}
-                className="field-input"
-                placeholder="S21-••••••-••••"
-              />
+              <div className="admin-ref-input">
+                <span className="admin-ref-input__prefix" aria-hidden>
+                  S21-
+                </span>
+                <input
+                  value={manual}
+                  onChange={(e) => setManual(formatReferenceTail(e.target.value))}
+                  className="admin-ref-input__field"
+                  placeholder="XXXXXX-XXXX"
+                  inputMode="text"
+                  autoCapitalize="characters"
+                  autoCorrect="off"
+                  spellCheck={false}
+                  maxLength={11}
+                  aria-label="Booking reference after S21-"
+                />
+              </div>
             </label>
             <button type="submit" className="admin-btn admin-btn--ghost mt-3">
               Check reference

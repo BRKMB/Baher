@@ -1427,4 +1427,53 @@
     letter-spacing: 0.04em;
     color: var(--color-amber-deep);
   }
+
+  .admin-ref-input {
+    display: flex;
+    align-items: baseline;
+    gap: 0;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-line) 85%, transparent);
+    background: transparent;
+    transition:
+      border-color 0.25s ease,
+      background 0.25s ease;
+  }
+
+  .admin-ref-input:focus-within {
+    border-bottom-color: var(--color-amber);
+    background: color-mix(in srgb, var(--color-champagne) 55%, transparent);
+  }
+
+  .admin-ref-input__prefix {
+    flex-shrink: 0;
+    padding: 0.85rem 0 0.85rem 0.15rem;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: var(--color-ink);
+    user-select: none;
+  }
+
+  .admin-ref-input__field {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    background: transparent;
+    padding: 0.85rem 0.15rem 0.85rem 0;
+    outline: none;
+    font: inherit;
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-ink);
+  }
+
+  .admin-ref-input__field::placeholder {
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    color: color-mix(in srgb, var(--color-muted) 55%, transparent);
+    text-transform: none;
+  }
 }
