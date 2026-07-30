@@ -615,77 +615,44 @@
     z-index: 0;
     pointer-events: none;
     overflow: hidden;
-    color: var(--color-gold);
     font-family: var(--font-egypt);
+    mask-image: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.95) 0%,
+      rgba(0, 0, 0, 0.75) 55%,
+      rgba(0, 0, 0, 0.35) 78%,
+      transparent 100%
+    );
   }
 
-  .boarding-pass__glyph {
+  .boarding-pass__egypt-wall {
     position: absolute;
-    line-height: 1;
-    color: color-mix(in srgb, var(--color-gold) 78%, white);
-    opacity: 0.13;
-    user-select: none;
-  }
-
-  .boarding-pass__glyph.is-ankh {
-    top: 14%;
-    right: 7%;
-    font-size: 4.4rem;
-    opacity: 0.14;
-    transform: rotate(4deg);
-  }
-
-  .boarding-pass__glyph.is-eye {
-    top: 7%;
-    left: 6%;
-    font-size: 3.4rem;
-    opacity: 0.12;
-    transform: rotate(-5deg);
-  }
-
-  .boarding-pass__glyph.is-scarab {
-    top: 48%;
-    right: 8%;
-    font-size: 3.2rem;
-    opacity: 0.11;
-    transform: rotate(-8deg);
-  }
-
-  .boarding-pass__glyph.is-ra {
-    top: 52%;
-    left: 8%;
-    font-size: 3rem;
-    opacity: 0.11;
-  }
-
-  .boarding-pass__glyph.is-djed {
-    top: 30%;
-    left: 46%;
-    font-size: 3.6rem;
-    opacity: 0.08;
-    transform: translateX(-50%) rotate(2deg);
-  }
-
-  .boarding-pass__glyph.is-uraeus {
-    top: 34%;
-    right: 28%;
-    font-size: 2.4rem;
-    opacity: 0.1;
-    transform: rotate(12deg);
-  }
-
-  .boarding-pass__egypt-row {
-    position: absolute;
-    left: 50%;
-    top: 61%;
+    inset: -8% -6%;
     margin: 0;
-    transform: translateX(-50%);
-    font-family: var(--font-egypt);
-    font-size: 0.95rem;
-    letter-spacing: 0.35em;
-    color: color-mix(in srgb, var(--color-gold) 75%, white);
-    opacity: 0.2;
+    color: color-mix(in srgb, var(--color-gold) 70%, #c4a574);
+    font-size: 0.72rem;
+    line-height: 1.55;
+    letter-spacing: 0.22em;
     white-space: nowrap;
+    user-select: none;
+    text-shadow:
+      0 1px 0 rgba(12, 11, 10, 0.45),
+      0 -0.5px 0 rgba(244, 238, 227, 0.08);
+  }
+
+  .boarding-pass__egypt-wall p {
+    margin: 0;
+  }
+
+  .boarding-pass__egypt-wall--a {
+    opacity: 0.15;
+    transform: rotate(-1.2deg);
+  }
+
+  .boarding-pass__egypt-wall--b {
+    opacity: 0.08;
+    transform: rotate(1.4deg) translate(0.35rem, 0.55rem);
+    filter: blur(0.15px);
   }
 
   .boarding-pass__top {
