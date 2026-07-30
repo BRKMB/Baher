@@ -414,23 +414,22 @@ export function ReservePage() {
                     autoComplete="email"
                   />
                 </label>
-                <div className="grid gap-3 text-sm sm:col-span-2">
+                <label className="grid gap-2 text-sm sm:col-span-2">
                   <span className="text-[11px] font-semibold tracking-[0.18em] text-muted uppercase">
                     {t('reserveOccasion')}
                   </span>
-                  <div className="flex flex-wrap gap-2">
+                  <select
+                    value={occasion}
+                    onChange={(e) => setOccasion(e.target.value)}
+                    className="field-input field-select"
+                  >
                     {OCCASIONS.map((item) => (
-                      <button
-                        key={item.value || 'none'}
-                        type="button"
-                        onClick={() => setOccasion(item.value)}
-                        className={`occasion-chip ${occasion === item.value ? 'is-selected' : ''}`}
-                      >
+                      <option key={item.value || 'none'} value={item.value}>
                         {t(item.labelKey)}
-                      </button>
+                      </option>
                     ))}
-                  </div>
-                </div>
+                  </select>
+                </label>
                 <label className="grid gap-2 text-sm sm:col-span-2">
                   <span className="text-[11px] font-semibold tracking-[0.18em] text-muted uppercase">
                     {t('reserveNotes')}
