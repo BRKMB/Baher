@@ -590,6 +590,16 @@
     height: 4.5rem !important;
   }
 
+  .pass-barcode__fallback {
+    margin: 0.35rem 0 0;
+    text-align: center;
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--color-ink);
+  }
+
   .boarding-pass__perforation {
     position: relative;
     height: 1.4rem;
