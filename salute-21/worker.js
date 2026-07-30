@@ -131,7 +131,7 @@ async function handleApi(request, env) {
   const path = url.pathname
 
   if (path === '/api/health') {
-    return json({ ok: true, service: 'salute-21-booking' })
+    return json({ ok: true, service: 'salute-21-booking', idFormat: 'S21-DLDLDL-MMYY' })
   }
 
   if (path === '/api/bookings' && request.method === 'GET') {
