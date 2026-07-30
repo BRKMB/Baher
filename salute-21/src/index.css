@@ -616,23 +616,56 @@
     pointer-events: none;
     overflow: hidden;
     font-family: var(--font-egypt);
-    mask-image: linear-gradient(
-      180deg,
-      rgba(0, 0, 0, 0.95) 0%,
-      rgba(0, 0, 0, 0.75) 55%,
-      rgba(0, 0, 0, 0.35) 78%,
-      transparent 100%
-    );
+    /* Keep the left/logo clear; concentrate the carved wall on the right */
+    mask-image:
+      linear-gradient(
+        90deg,
+        transparent 0%,
+        transparent 42%,
+        rgba(0, 0, 0, 0.35) 58%,
+        rgba(0, 0, 0, 0.9) 78%,
+        black 100%
+      ),
+      linear-gradient(
+        180deg,
+        black 0%,
+        black 58%,
+        rgba(0, 0, 0, 0.45) 72%,
+        transparent 88%
+      );
+    mask-composite: intersect;
+    -webkit-mask-image:
+      linear-gradient(
+        90deg,
+        transparent 0%,
+        transparent 42%,
+        rgba(0, 0, 0, 0.35) 58%,
+        rgba(0, 0, 0, 0.9) 78%,
+        black 100%
+      ),
+      linear-gradient(
+        180deg,
+        black 0%,
+        black 58%,
+        rgba(0, 0, 0, 0.45) 72%,
+        transparent 88%
+      );
+    -webkit-mask-composite: source-in;
   }
 
   .boarding-pass__egypt-wall {
     position: absolute;
-    inset: -8% -6%;
+    top: -8%;
+    right: -4%;
+    bottom: -8%;
+    left: auto;
+    width: 62%;
     margin: 0;
     color: color-mix(in srgb, var(--color-gold) 70%, #c4a574);
     font-size: 0.72rem;
     line-height: 1.55;
     letter-spacing: 0.22em;
+    text-align: right;
     white-space: nowrap;
     user-select: none;
     text-shadow:
@@ -645,13 +678,13 @@
   }
 
   .boarding-pass__egypt-wall--a {
-    opacity: 0.15;
-    transform: rotate(-1.2deg);
+    opacity: 0.18;
+    transform: rotate(1.1deg);
   }
 
   .boarding-pass__egypt-wall--b {
-    opacity: 0.08;
-    transform: rotate(1.4deg) translate(0.35rem, 0.55rem);
+    opacity: 0.1;
+    transform: rotate(-1.2deg) translate(-0.25rem, 0.45rem);
     filter: blur(0.15px);
   }
 
