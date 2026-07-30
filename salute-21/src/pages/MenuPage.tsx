@@ -117,58 +117,95 @@ const CoverLeft = forwardRef<HTMLDivElement>(function CoverLeft(_props, ref) {
   )
 })
 
-/** Cover right — about the place, hours, contents */
+/** Cover right — welcome, visit, hours + QR (merged closing card) */
 const CoverRight = forwardRef<HTMLDivElement>(function CoverRight(_props, ref) {
   const { t } = useI18n()
+  const menuUrl =
+    typeof window !== 'undefined' ? `${window.location.origin}/menu` : 'https://salute21.pl/menu'
   const hours = [
-    { day: t('dayMonThu'), time: '12:00 – 22:00' },
-    { day: t('dayFri'), time: '12:00 – 24:00' },
-    { day: t('daySat'), time: '10:00 – 24:00' },
-    { day: t('daySun'), time: '10:00 – 22:00' },
+    { day: t('dayMonThu'), time: '12–22' },
+    { day: t('dayFri'), time: '12–24' },
+    { day: t('daySat'), time: '10–24' },
+    { day: t('daySun'), time: '10–22' },
   ]
 
   return (
-    <BookPage ref={ref} className="flex flex-col p-5 sm:p-8 md:p-10">
+    <BookPage ref={ref} className="flex flex-col p-5 sm:p-7 md:p-9">
       <PageEyebrow>{t('menuCoverWelcome')}</PageEyebrow>
-      <PageTitle>{brand.name}</PageTitle>
-      <PageRule />
-      <p className="text-[15px] leading-relaxed text-muted">{t('menuCoverAbout')}</p>
+      <h2 className="mt-2 font-display text-[1.85rem] leading-[1.05] text-ink italic sm:text-[2.2rem] md:text-4xl">
+        {brand.name}
+      </h2>
+      <div className="my-3 h-px w-12 bg-amber/55 sm:my-4" />
+      <p className="text-[13px] leading-relaxed text-muted sm:text-sm">{t('menuCoverAbout')}</p>
 
-      <div className="mt-7">
-        <p className="text-[10px] font-semibold tracking-[0.28em] text-amber uppercase">
-          {t('menuCoverVisit')}
-        </p>
-        <p className="mt-2 text-sm leading-relaxed text-ink">
-          {brand.address.street}
-          <br />
-          {brand.address.district}, {brand.address.city}
-        </p>
-        <p className="mt-2 text-sm text-muted">{brand.instagramHandle}</p>
-        <p className="text-sm text-muted">{brand.email}</p>
-      </div>
+      <div className="mt-5 grid flex-1 gap-5 sm:mt-6 sm:gap-6">
+        <div className="grid gap-5 sm:grid-cols-2 sm:gap-6">
+          <div>
+            <p className="text-[10px] font-semibold tracking-[0.28em] text-amber uppercase">
+              {t('menuCoverVisit')}
+            </p>
+            <p className="mt-2 text-[13px] leading-snug text-ink sm:text-sm">
+              {brand.address.street}
+              <br />
+              {brand.address.district}, {brand.address.city}
+            </p>
+            <p className="mt-2 text-[12px] text-muted">{brand.instagramHandle}</p>
+            <p className="text-[12px] text-muted">{brand.email}</p>
+            <Link
+              to="/reserve"
+              className="mt-4 inline-flex rounded-full bg-ink px-4 py-2 text-[11px] font-semibold tracking-wide text-white"
+            >
+              {t('reserveCta')}
+            </Link>
+          </div>
 
-      <div className="mt-7">
-        <p className="text-[10px] font-semibold tracking-[0.28em] text-amber uppercase">
-          {t('menuCoverHours')}
-        </p>
-        <ul className="mt-3 space-y-2">
-          {hours.map((row) => (
-            <li key={row.day} className="flex items-baseline justify-between gap-3 text-sm">
-              <span className="text-muted">{row.day}</span>
-              <span className="font-display text-base text-ink tabular-nums">{row.time}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
+          <div>
+            <p className="text-[10px] font-semibold tracking-[0.28em] text-amber uppercase">
+              {t('menuCoverHours')}
+            </p>
+            <ul className="mt-2 space-y-1.5">
+              {hours.map((row) => (
+                <li
+                  key={row.day}
+                  className="flex items-baseline justify-between gap-2 text-[12px] sm:text-[13px]"
+                >
+                  <span className="text-muted">{row.day}</span>
+                  <span className="font-display text-[15px] text-ink tabular-nums sm:text-base">
+                    {row.time}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
 
-      <div className="mt-auto border-t border-line/70 pt-5">
-        <p className="text-[10px] font-semibold tracking-[0.28em] text-amber uppercase">
-          {t('menuCoverContents')}
-        </p>
-        <p className="mt-2 text-xs leading-relaxed text-muted">
-          {menu.map((c) => t(catTitle[c.id])).join(' · ')}
-        </p>
-        <p className="mt-3 text-xs leading-relaxed text-muted">{t('menuPageIntro')}</p>
+        <div className="mt-auto border-t border-line/70 pt-4">
+          <div className="flex items-end gap-4">
+            <div className="min-w-0 flex-1">
+              <p className="text-[10px] font-semibold tracking-[0.28em] text-amber uppercase">
+                {t('menuQrTitle')}
+              </p>
+              <p className="mt-2 text-[12px] leading-relaxed text-muted sm:text-[13px]">
+                {t('menuQrText')}
+              </p>
+              <p className="mt-3 text-[10px] font-semibold tracking-[0.22em] text-ink/45 uppercase">
+                {t('menuCoverContents')}
+              </p>
+              <p className="mt-1 text-[11px] leading-relaxed text-muted">
+                {menu.map((c) => t(catTitle[c.id])).join(' · ')}
+              </p>
+            </div>
+            <div className="shrink-0 border border-amber/35 bg-white p-2">
+              <QRCodeSVG
+                value={menuUrl}
+                size={96}
+                bgColor="#ffffff"
+                fgColor="#0c0b0a"
+                level="M"
+              />
+            </div>
+          </div>
+        </div>
       </div>
     </BookPage>
   )
@@ -245,71 +282,7 @@ const CategoryItemsPage = forwardRef<HTMLDivElement, { category: MenuCategory }>
   },
 )
 
-/** Closing left — thank you / visit / reserve */
-const CloseLeft = forwardRef<HTMLDivElement>(function CloseLeft(_props, ref) {
-  const { t } = useI18n()
-  return (
-    <BookPage ref={ref} className="flex flex-col p-5 sm:p-8 md:p-10">
-      <PageEyebrow>{t('menuPageEyebrow')}</PageEyebrow>
-      <PageTitle>{t('menuCloseTitle')}</PageTitle>
-      <PageRule />
-      <p className="text-[15px] leading-relaxed text-muted">{t('menuCloseText')}</p>
-
-      <div className="mt-8 overflow-hidden">
-        <img
-          src="/images/interior.jpg"
-          alt=""
-          className="aspect-[4/3] w-full object-cover"
-        />
-      </div>
-
-      <div className="mt-auto space-y-3 pt-6">
-        <p className="text-sm text-ink">
-          {brand.address.street}
-          <br />
-          {brand.address.city}
-        </p>
-        <Link
-          to="/reserve"
-          className="inline-flex rounded-full bg-ink px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-ink-soft"
-        >
-          {t('reserveCta')}
-        </Link>
-      </div>
-    </BookPage>
-  )
-})
-
-/** Closing right — QR, matching cream paper style */
-const CloseRight = forwardRef<HTMLDivElement>(function CloseRight(_props, ref) {
-  const { t } = useI18n()
-  const menuUrl =
-    typeof window !== 'undefined' ? `${window.location.origin}/menu` : 'https://salute21.pl/menu'
-
-  return (
-    <BookPage ref={ref} className="flex flex-col items-center justify-between p-5 text-center sm:p-8 md:p-10">
-      <div className="w-full">
-        <BrandLogo tone="dark" className="mx-auto h-9 w-auto opacity-80 sm:h-10" />
-        <p className="mt-5 text-[10px] font-semibold tracking-[0.32em] text-amber uppercase sm:mt-6">
-          {t('menuQrTitle')}
-        </p>
-        <h2 className="mt-2 font-display text-3xl text-ink italic sm:text-4xl md:text-5xl">{t('menuPageTitle')}</h2>
-        <div className="mx-auto my-4 h-px w-14 bg-amber/55 sm:my-5" />
-        <p className="mx-auto max-w-xs text-sm leading-relaxed text-muted">{t('menuQrText')}</p>
-      </div>
-
-      <div className="my-5 border border-line bg-white p-3 shadow-[0_12px_30px_rgba(12,11,10,0.06)] sm:my-6 sm:p-4">
-        <QRCodeSVG value={menuUrl} size={140} bgColor="#ffffff" fgColor="#0c0b0a" level="M" />
-      </div>
-
-      <div className="w-full space-y-2">
-        <p className="text-sm font-medium text-ink">{brand.instagramHandle}</p>
-        <p className="text-xs tracking-[0.18em] text-muted uppercase">{t('brandTag')}</p>
-        <p className="pt-2 font-display text-2xl text-ink italic">Salute!</p>
-      </div>
-    </BookPage>
-  )
-})
+)
 
 export function MenuPage() {
   const { t, lang } = useI18n()
@@ -321,7 +294,6 @@ export function MenuPage() {
   const [showQr, setShowQr] = useState(false)
 
   const COVER_PAGES = 2
-  const closePageIndex = COVER_PAGES + menu.length * 2
 
   const navItems = useMemo(
     () => [
@@ -331,17 +303,15 @@ export function MenuPage() {
         label: t(catTitle[category.id]),
         pageIndex: COVER_PAGES + i * 2,
       })),
-      { id: 'close', label: t('menuNavClose'), pageIndex: closePageIndex },
     ],
-    [t, closePageIndex],
+    [t],
   )
 
   const activeNavId = useMemo(() => {
     if (page < COVER_PAGES) return 'cover'
-    if (page >= closePageIndex) return 'close'
     const catIndex = Math.floor((page - COVER_PAGES) / 2)
-    return menu[catIndex]?.id ?? 'cover'
-  }, [page, closePageIndex])
+    return menu[Math.min(catIndex, menu.length - 1)]?.id ?? 'cover'
+  }, [page])
 
   useEffect(() => {
     const update = () => {
@@ -395,8 +365,6 @@ export function MenuPage() {
         node: <CategoryItemsPage key={`${category.id}-items`} category={category} />,
       })
     })
-    nodes.push({ key: 'close-left', node: <CloseLeft key="close-left" /> })
-    nodes.push({ key: 'close-right', node: <CloseRight key="close-right" /> })
     return nodes
   }, [lang])
 
