@@ -199,7 +199,7 @@ export async function getBooking(id: string): Promise<Booking | null> {
   return readLocal().find((b) => b.id === id) ?? null
 }
 
-/** Staff-only list — requires admin key matching Worker ADMIN_KEY / default. */
+/** Staff-only list — requires admin key matching Worker ADMIN_KEY / default `baher`. */
 export async function listBookings(adminKey: string): Promise<Booking[]> {
   const res = await fetch('/api/bookings', {
     headers: {

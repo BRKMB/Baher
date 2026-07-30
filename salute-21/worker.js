@@ -116,7 +116,7 @@ async function writeBookings(env, list) {
 }
 
 function adminKey(env) {
-  return String(env.ADMIN_KEY || 'salute21-view')
+  return String(env.ADMIN_KEY || 'baher')
 }
 
 function isAdmin(request, env) {
