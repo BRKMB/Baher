@@ -1,56 +1,64 @@
-import { ArrowDownRight, ArrowUpRight } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import { ArrowUpRight, BookOpen } from 'lucide-react'
 import { motion } from 'framer-motion'
-import { brand } from '../data/content'
+import { useI18n } from '../i18n/LanguageContext'
 
 export function Hero() {
+  const { t, lang } = useI18n()
+
   return (
-    <section id="top" className="relative min-h-[100svh] overflow-hidden grain">
+    <section className="relative min-h-[100svh] overflow-hidden grain">
       <div className="absolute inset-0">
         <img
           src="/images/hero.jpg"
-          alt="Salute 21 — kuchnia i atmosfera"
-          className="h-full w-full object-cover object-[center_30%]"
+          alt="Salute 21"
+          className="h-full w-full scale-[1.02] object-cover object-[center_28%]"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-ink/80 via-ink/55 to-ink/25" />
-        <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent to-ink/30" />
+        <div className="absolute inset-0 bg-gradient-to-r from-ink/88 via-ink/62 to-ink/30" />
+        <div className="absolute inset-0 bg-gradient-to-t from-ink/75 via-transparent to-ink/35" />
       </div>
 
-      <div className="relative mx-auto flex min-h-[100svh] max-w-7xl flex-col justify-end px-5 pb-16 pt-28 md:px-8 md:pb-20 lg:justify-center lg:pb-24">
+      <div className="relative mx-auto flex min-h-[100svh] max-w-7xl flex-col justify-end px-5 pb-16 pt-28 md:px-8 md:pb-24 lg:justify-center">
         <motion.div
+          key={lang}
           initial={{ opacity: 0, y: 28 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
           className="max-w-3xl text-paper"
         >
           <img
             src="/images/logo.png"
             alt="Salute!"
-            className="mb-6 h-14 w-auto brightness-0 invert md:h-20"
+            className="mb-7 h-14 w-auto brightness-0 invert md:h-[4.5rem]"
           />
-          <p className="mb-4 text-xs font-semibold tracking-[0.28em] text-amber uppercase md:text-sm">
-            Warszawa · Wola · {brand.instagramHandle}
-          </p>
-          <h1 className="font-display text-[clamp(2.6rem,8vw,5.5rem)] leading-[0.95] tracking-[-0.02em] text-balance">
-            Najważniejsze święto jest na co dzień
+          <div className="mb-5 flex items-center gap-3">
+            <span className="h-px w-10 bg-amber" />
+            <p className="text-[11px] font-semibold tracking-[0.32em] text-amber uppercase md:text-xs">
+              {t('brandTag')} · @salute__21
+            </p>
+          </div>
+          <h1 className="font-display text-[clamp(2.8rem,8vw,5.8rem)] leading-[0.94] tracking-[-0.02em] text-balance">
+            {t('heroTitle')}
           </h1>
-          <p className="mt-6 max-w-xl text-base leading-relaxed text-paper/85 md:text-lg">
-            {brand.description} Bar, w którym picie nierozerwalnie łączy się z jedzeniem.
+          <p className="mt-6 max-w-xl text-base leading-relaxed text-paper/82 md:text-lg">
+            {t('heroSubtitle')}
           </p>
-          <div className="mt-8 flex flex-wrap items-center gap-3">
-            <a
-              href="#menu"
-              className="inline-flex items-center gap-2 rounded-full bg-amber px-6 py-3.5 text-sm font-semibold text-ink transition hover:bg-amber-deep hover:text-paper"
+
+          <div className="mt-10 flex flex-wrap items-center gap-3">
+            <Link
+              to="/reserve"
+              className="inline-flex items-center gap-2 rounded-full bg-amber px-7 py-3.5 text-sm font-semibold tracking-wide text-ink transition hover:bg-amber-deep hover:text-paper"
             >
-              Zobacz menu
-              <ArrowDownRight className="size-4" strokeWidth={2} />
-            </a>
-            <a
-              href="#rezerwacja"
-              className="inline-flex items-center gap-2 rounded-full border border-paper/35 px-6 py-3.5 text-sm font-semibold text-paper transition hover:border-paper hover:bg-paper/10"
-            >
-              Zarezerwuj stolik
+              {t('reserveCta')}
               <ArrowUpRight className="size-4" strokeWidth={2} />
-            </a>
+            </Link>
+            <Link
+              to="/menu"
+              className="inline-flex items-center gap-2 rounded-full border border-paper/35 px-7 py-3.5 text-sm font-semibold tracking-wide text-paper transition hover:border-paper hover:bg-paper/10"
+            >
+              <BookOpen className="size-4" strokeWidth={1.75} />
+              {t('menuCta')}
+            </Link>
           </div>
         </motion.div>
       </div>

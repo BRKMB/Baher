@@ -1,39 +1,27 @@
-# Salute 21 — Bar & Restauracja
+# Salute 21 — Bar & Restaurant
 
-Profesjonalna strona internetowa restauracji **Salute 21** w Warszawie, inspirowana brandingiem i treściami z [Instagram @salute__21](https://www.instagram.com/salute__21/).
+Professional restaurant website for **Salute 21** in Warsaw, inspired by [@salute__21](https://www.instagram.com/salute__21/).
 
-## Stack
+## Features
 
-- Vite + React + TypeScript
-- Tailwind CSS v4
-- Framer Motion
-- Lucide React (ikony, bez emoji)
+- English by default + clear EN / PL language toggle
+- Separate pages: Landing `/`, Menu `/menu`, Reserve `/reserve`
+- Real booking API with availability checks, confirmation reference, and calendar (.ics)
+- Menu QR code (downloadable)
+- Luxury Mediterranean visual identity
 
-## Uruchomienie
+## Run
 
 ```bash
 npm install
+npm run build
+npm start
+```
+
+Dev (frontend only; booking falls back to local storage if API is offline):
+
+```bash
 npm run dev
 ```
 
-Build produkcyjny:
-
-```bash
-npm run build
-npm run preview
-```
-
-## Sekcje
-
-- Hero z pełnoekranowym zdjęciem i logo
-- O nas / filozofia baru
-- Spuntini · Bar · Śniadania
-- Interaktywne menu (kategorie)
-- Galeria zdjęć
-- Formularz rezerwacji
-- Kontakt, godziny, mapa
-
-## Dane kontaktowe
-
-- Adres: ul. Marcina Kasprzaka 24A, 01-211 Warszawa
-- Instagram: [@salute__21](https://www.instagram.com/salute__21/)
+Site + booking API: http://localhost:4173

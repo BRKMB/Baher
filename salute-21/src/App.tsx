@@ -1,27 +1,22 @@
-import { About } from './components/About'
-import { Contact } from './components/Contact'
-import { Footer } from './components/Footer'
-import { Gallery } from './components/Gallery'
-import { Header } from './components/Header'
-import { Hero } from './components/Hero'
-import { Highlights } from './components/Highlights'
-import { MenuSection } from './components/MenuSection'
-import { Reservation } from './components/Reservation'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import { LanguageProvider } from './i18n/LanguageContext'
+import { HomePage } from './pages/HomePage'
+import { MenuPage } from './pages/MenuPage'
+import { ReservePage } from './pages/ReservePage'
+import { BookingSuccessPage } from './pages/BookingSuccessPage'
 
 export default function App() {
   return (
-    <div className="min-h-screen">
-      <Header />
-      <main>
-        <Hero />
-        <About />
-        <Highlights />
-        <MenuSection />
-        <Gallery />
-        <Reservation />
-        <Contact />
-      </main>
-      <Footer />
-    </div>
+    <LanguageProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/menu" element={<MenuPage />} />
+          <Route path="/reserve" element={<ReservePage />} />
+          <Route path="/reserve/success/:id" element={<BookingSuccessPage />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </BrowserRouter>
+    </LanguageProvider>
   )
 }

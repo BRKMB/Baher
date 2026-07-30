@@ -1,21 +1,24 @@
 import { motion } from 'framer-motion'
 import { brand, gallery } from '../data/content'
+import { useI18n } from '../i18n/LanguageContext'
 import { InstagramIcon } from './icons'
 
 export function Gallery() {
+  const { t } = useI18n()
+
   return (
     <section id="galeria" className="bg-ink px-5 py-20 text-paper md:px-8 md:py-28">
       <div className="mx-auto max-w-7xl">
         <div className="mb-10 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
           <div>
-            <p className="mb-3 text-xs font-semibold tracking-[0.24em] text-amber uppercase">
-              Galeria
+            <p className="mb-3 text-[11px] font-semibold tracking-[0.28em] text-amber uppercase">
+              {t('galleryEyebrow')}
             </p>
             <h2 className="font-display text-4xl tracking-[-0.02em] md:text-5xl">
-              Smak, światło, stół
+              {t('galleryTitle')}
             </h2>
             <p className="mt-4 max-w-xl text-sm leading-relaxed text-paper/70 md:text-base">
-              Zdjęcia z kuchni i baru — te same klimaty, które znajdziesz na naszym Instagramie.
+              {t('galleryText')}
             </p>
           </div>
           <a
