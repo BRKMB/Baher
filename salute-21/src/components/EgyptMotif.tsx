@@ -1,4 +1,4 @@
-/** Subtle Egyptian-inspired divider — abstract glyphs, not literal hieroglyph copy. */
+/** Subtle Egyptian divider — genuine hieroglyphs (ankh · scarab · Ra). */
 export function EgyptMotif({ className = '' }: { className?: string }) {
   return (
     <div className={`egypt-motif ${className}`.trim()} aria-hidden>
