@@ -8,13 +8,15 @@ import {
   Lock,
   Mail,
   Phone,
+  QrCode,
   RefreshCw,
   Search,
   Users,
 } from 'lucide-react'
 import { Header } from '../components/Header'
 import { Footer } from '../components/Footer'
-import { listBookings, type Booking } from '../lib/booking'
+import { AdminQrChecker } from '../components/AdminQrChecker'
+import { formatGuestName, listBookings, type Booking } from '../lib/booking'
 
 const KEY_STORAGE = 'salute21-admin-key'
 
@@ -47,6 +49,7 @@ export function AdminBookingsPage() {
   const [error, setError] = useState('')
   const [query, setQuery] = useState('')
   const [tab, setTab] = useState<'upcoming' | 'past' | 'all'>('upcoming')
+  const [view, setView] = useState<'bookings' | 'checker'>('bookings')
 
   const load = async (adminKey: string) => {
     if (!adminKey.trim()) return
@@ -139,7 +142,28 @@ export function AdminBookingsPage() {
               </p>
             </div>
             {key ? (
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center gap-2">
+                <div className="admin-view-switch" role="tablist" aria-label="Admin views">
+                  <button
+                    type="button"
+                    role="tab"
+                    aria-selected={view === 'bookings'}
+                    className={`admin-view-switch__btn ${view === 'bookings' ? 'is-active' : ''}`}
+                    onClick={() => setView('bookings')}
+                  >
+                    Bookings
+                  </button>
+                  <button
+                    type="button"
+                    role="tab"
+                    aria-selected={view === 'checker'}
+                    className={`admin-view-switch__btn ${view === 'checker' ? 'is-active' : ''}`}
+                    onClick={() => setView('checker')}
+                  >
+                    <QrCode className="size-3.5" />
+                    QR Code Checker
+                  </button>
+                </div>
                 <button
                   type="button"
                   onClick={() => void load(key)}
@@ -183,6 +207,10 @@ export function AdminBookingsPage() {
             </form>
           ) : (
             <div className="mt-10 space-y-8">
+              {view === 'checker' ? (
+                <AdminQrChecker />
+              ) : (
+                <>
               <div className="admin-stats">
                 <Stat label="Total" value={bookings.length} />
                 <Stat label="Upcoming" value={upcoming.length} accent />
@@ -249,6 +277,8 @@ export function AdminBookingsPage() {
                   </ul>
                 </div>
               )}
+                </>
+              )}
             </div>
           )}
         </div>
@@ -304,7 +334,7 @@ function BookingRow({
       </div>
 
       <div className="admin-row__guest">
-        <p className="admin-row__name">{b.name}</p>
+        <p className="admin-row__name">{formatGuestName(b)}</p>
         {(b.occasion || b.notes) && (
           <p className="admin-row__note">{[b.occasion, b.notes].filter(Boolean).join(' — ')}</p>
         )}

@@ -29,6 +29,7 @@ export function ReservePage() {
   const navigate = useNavigate()
   const formRef = useRef<HTMLElement>(null)
   const [name, setName] = useState('')
+  const [title, setTitle] = useState<'mr' | 'ms' | 'mrs'>('mr')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
   const [date, setDate] = useState(minBookableDate())
@@ -78,6 +79,7 @@ export function ReservePage() {
     setSubmitting(true)
     try {
       const booking = await createBooking({
+        title,
         name,
         email,
         phone,
@@ -338,7 +340,22 @@ export function ReservePage() {
                 <span className="font-script text-2xl text-amber/80">03</span>
               </div>
               <div className="grid gap-6 sm:grid-cols-2">
-                <label className="grid gap-2 text-sm sm:col-span-2">
+                <label className="grid gap-2 text-sm">
+                  <span className="text-[11px] font-semibold tracking-[0.18em] text-muted uppercase">
+                    {t('reserveTitle')}
+                  </span>
+                  <select
+                    required
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value as 'mr' | 'ms' | 'mrs')}
+                    className="field-input field-select"
+                  >
+                    <option value="mr">{t('titleMr')}</option>
+                    <option value="ms">{t('titleMs')}</option>
+                    <option value="mrs">{t('titleMrs')}</option>
+                  </select>
+                </label>
+                <label className="grid gap-2 text-sm">
                   <span className="text-[11px] font-semibold tracking-[0.18em] text-muted uppercase">
                     {t('reserveName')}
                   </span>

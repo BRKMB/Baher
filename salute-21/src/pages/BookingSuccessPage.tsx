@@ -9,8 +9,9 @@ import { BrandLogo } from '../components/BrandLogo'
 import { PassBarcode } from '../components/PassBarcode'
 import { EgyptMotif } from '../components/EgyptMotif'
 import { PassEgyptBackdrop } from '../components/PassEgyptBackdrop'
+import { QRCodeSVG } from 'qrcode.react'
 import { brand } from '../data/content'
-import { downloadIcs, getBooking, type Booking } from '../lib/booking'
+import { downloadIcs, formatGuestName, getBooking, type Booking } from '../lib/booking'
 import { useI18n } from '../i18n/LanguageContext'
 
 export function BookingSuccessPage() {
@@ -139,7 +140,9 @@ export function BookingSuccessPage() {
               <div className="mt-7 grid grid-cols-2 gap-x-4 gap-y-5">
                 <div className="col-span-2">
                   <p className="boarding-pass__label">{t('reserveName')}</p>
-                  <p className="boarding-pass__value">{booking?.name || '—'}</p>
+                  <p className="boarding-pass__value">
+                    {booking ? formatGuestName(booking, lang) : '—'}
+                  </p>
                 </div>
                 <div>
                   <p className="boarding-pass__label">{t('reserveDate')}</p>
@@ -168,7 +171,21 @@ export function BookingSuccessPage() {
             </div>
 
             <div className="boarding-pass__stub">
-              {refId ? <PassBarcode value={refId} /> : null}
+              {refId ? (
+                <div className="boarding-pass__codes">
+                  <div className="boarding-pass__qr">
+                    <QRCodeSVG
+                      value={refId}
+                      size={112}
+                      level="M"
+                      bgColor="#f7f1e6"
+                      fgColor="#0c0b0a"
+                      marginSize={1}
+                    />
+                  </div>
+                  <PassBarcode value={refId} />
+                </div>
+              ) : null}
               <p className="boarding-pass__ref-label mt-4 text-[10px] font-semibold tracking-[0.24em] uppercase">
                 {t('reserveRef')}
               </p>

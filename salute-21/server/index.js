@@ -114,8 +114,10 @@ app.post('/api/bookings', (req, res) => {
   const occasion = String(body.occasion || '').trim()
   const notes = String(body.notes || '').trim()
   const lang = body.lang === 'pl' ? 'pl' : 'en'
+  const titleRaw = String(body.title || '').trim().toLowerCase()
+  const title = titleRaw === 'mr' || titleRaw === 'ms' || titleRaw === 'mrs' ? titleRaw : ''
 
-  if (!name || !email || !phone || !date || !time || !guests) {
+  if (!name || !email || !phone || !date || !time || !guests || !title) {
     return res.status(400).json({ error: 'Missing required fields' })
   }
   if (guests < 1 || guests > MAX_PARTY) {
@@ -145,6 +147,7 @@ app.post('/api/bookings', (req, res) => {
       date,
       list.map((b) => b.id),
     ),
+    title,
     name,
     email,
     phone,

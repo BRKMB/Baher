@@ -189,8 +189,10 @@ async function handleApi(request, env) {
     const occasion = String(body.occasion || '').trim()
     const notes = String(body.notes || '').trim()
     const lang = body.lang === 'pl' ? 'pl' : 'en'
+    const titleRaw = String(body.title || '').trim().toLowerCase()
+    const title = titleRaw === 'mr' || titleRaw === 'ms' || titleRaw === 'mrs' ? titleRaw : ''
 
-    if (!name || !email || !phone || !date || !time || !guests) {
+    if (!name || !email || !phone || !date || !time || !guests || !title) {
       return json({ error: 'Missing required fields' }, 400)
     }
     if (guests < 1 || guests > MAX_PARTY) {
@@ -224,6 +226,7 @@ async function handleApi(request, env) {
         date,
         list.map((b) => b.id),
       ),
+      title,
       name,
       email,
       phone,

@@ -1,6 +1,9 @@
 import { BOOKING_CAPACITY, MAX_PARTY_SIZE } from '../data/content'
 
+export type GuestTitle = 'mr' | 'ms' | 'mrs'
+
 export type BookingInput = {
+  title: GuestTitle
   name: string
   email: string
   phone: string
@@ -12,10 +15,22 @@ export type BookingInput = {
   lang: 'en' | 'pl'
 }
 
-export type Booking = BookingInput & {
+export type Booking = Omit<BookingInput, 'title'> & {
+  title?: GuestTitle
   id: string
   createdAt: string
   status: 'confirmed'
+}
+
+export function formatGuestName(booking: Pick<Booking, 'name'> & { title?: string }, lang: 'en' | 'pl' = 'en') {
+  const name = String(booking.name || '').trim()
+  const title = String(booking.title || '').toLowerCase()
+  const labels =
+    lang === 'pl'
+      ? { mr: 'Pan', ms: 'Pani', mrs: 'Pani' }
+      : { mr: 'Mr', ms: 'Ms', mrs: 'Mrs' }
+  const prefix = title === 'mr' || title === 'ms' || title === 'mrs' ? labels[title] : ''
+  return prefix ? `${prefix} ${name}` : name
 }
 
 /** Opening slots by weekday (0=Sun … 6=Sat) — Europe/Warsaw restaurant hours */
@@ -152,6 +167,9 @@ export async function getAvailability(date: string, time?: string) {
 export async function createBooking(input: BookingInput): Promise<Booking> {
   if (!input.name.trim() || !input.email.trim() || !input.phone.trim()) {
     throw new Error('Missing required fields')
+  }
+  if (!['mr', 'ms', 'mrs'].includes(input.title)) {
+    throw new Error('Missing title')
   }
   if (input.guests < 1 || input.guests > MAX_PARTY_SIZE) {
     throw new Error('Invalid party size')
