@@ -1,0 +1,73 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #111111;
+  --color-ink-soft: #2a2a2a;
+  --color-paper: #eceae6;
+  --color-paper-deep: #e2dfd8;
+  --color-amber: #d4922a;
+  --color-amber-deep: #b87820;
+  --color-muted: #6b6560;
+  --color-line: #d0cbc2;
+  --color-olive: #3f4f3a;
+  --font-display: "Fraunces", Georgia, serif;
+  --font-body: "Manrope", system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: var(--font-body);
+    color: var(--color-ink);
+    background:
+      radial-gradient(ellipse 80% 50% at 10% -10%, rgba(212, 146, 42, 0.08), transparent 55%),
+      radial-gradient(ellipse 60% 40% at 100% 0%, rgba(63, 79, 58, 0.07), transparent 50%),
+      linear-gradient(180deg, #f3f1ec 0%, var(--color-paper) 40%, #e8e5df 100%);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: color-mix(in srgb, var(--color-amber) 35%, white);
+    color: var(--color-ink);
+  }
+
+  img {
+    max-width: 100%;
+    display: block;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: var(--font-display);
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .grain {
+    position: relative;
+  }
+
+  .grain::after {
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    mix-blend-mode: multiply;
+  }
+}
