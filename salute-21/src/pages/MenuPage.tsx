@@ -41,6 +41,8 @@ type FlipApi = {
   pageFlip: () => {
     flipNext: () => void
     flipPrev: () => void
+    flip: (page: number) => void
+    turnToPage: (page: number) => void
     getCurrentPageIndex: () => number
     getPageCount: () => number
   }
@@ -312,25 +314,47 @@ const CloseRight = forwardRef<HTMLDivElement>(function CloseRight(_props, ref) {
 export function MenuPage() {
   const { t, lang } = useI18n()
   const bookRef = useRef<FlipApi | null>(null)
+  const navRef = useRef<HTMLDivElement | null>(null)
   const [page, setPage] = useState(0)
   const [pageCount, setPageCount] = useState(0)
   const [dims, setDims] = useState({ w: 340, h: 500, mobile: true })
   const [showQr, setShowQr] = useState(false)
 
+  const COVER_PAGES = 2
+  const closePageIndex = COVER_PAGES + menu.length * 2
+
+  const navItems = useMemo(
+    () => [
+      { id: 'cover', label: t('menuNavCover'), pageIndex: 0 },
+      ...menu.map((category, i) => ({
+        id: category.id,
+        label: t(catTitle[category.id]),
+        pageIndex: COVER_PAGES + i * 2,
+      })),
+      { id: 'close', label: t('menuNavClose'), pageIndex: closePageIndex },
+    ],
+    [t, closePageIndex],
+  )
+
+  const activeNavId = useMemo(() => {
+    if (page < COVER_PAGES) return 'cover'
+    if (page >= closePageIndex) return 'close'
+    const catIndex = Math.floor((page - COVER_PAGES) / 2)
+    return menu[catIndex]?.id ?? 'cover'
+  }, [page, closePageIndex])
+
   useEffect(() => {
     const update = () => {
       const vw = window.innerWidth
       const vh = window.innerHeight
-      const chrome = vw < 768 ? 118 : 96
-      const availableH = Math.max(420, vh - chrome)
+      const chrome = vw < 768 ? 168 : 140
+      const availableH = Math.max(400, vh - chrome)
 
       if (vw < 768) {
-        // Single-page portrait: nearly full phone width
         const pageW = Math.min(Math.floor(vw - 20), 440)
         const pageH = Math.min(availableH, Math.round(pageW * 1.48))
         setDims({ w: pageW, h: pageH, mobile: true })
       } else {
-        // Two-page spread on tablet/desktop
         const maxSpreadW = Math.min(vw - 80, 1180)
         const pageW = Math.floor(maxSpreadW / 2)
         const pageH = Math.min(availableH, Math.round(pageW * 1.42))
@@ -343,6 +367,12 @@ export function MenuPage() {
     return () => window.removeEventListener('resize', update)
   }, [])
 
+  useEffect(() => {
+    const root = navRef.current
+    if (!root) return
+    const active = root.querySelector<HTMLElement>('[data-active="true"]')
+    active?.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' })
+  }, [activeNavId])
 
   const pageNodes = useMemo(() => {
     const nodes: Array<{ key: string; node: ReactNode }> = [
@@ -372,6 +402,17 @@ export function MenuPage() {
 
   const flipNext = () => bookRef.current?.pageFlip()?.flipNext()
   const flipPrev = () => bookRef.current?.pageFlip()?.flipPrev()
+
+  const jumpTo = (pageIndex: number) => {
+    const api = bookRef.current?.pageFlip()
+    if (!api) return
+    try {
+      api.flip(pageIndex)
+    } catch {
+      api.turnToPage(pageIndex)
+    }
+    setPage(pageIndex)
+  }
 
   const totalPages = Math.max(pageCount || pageNodes.length, 1)
   const pageLabel = dims.mobile
@@ -431,6 +472,35 @@ export function MenuPage() {
           </Link>
         </div>
       </header>
+
+      <nav
+        aria-label={t('menuQuickNav')}
+        className="relative z-20 shrink-0 border-y border-white/10 bg-black/25"
+      >
+        <div
+          ref={navRef}
+          className="flex gap-2 overflow-x-auto px-3 py-2.5 scrollbar-none sm:justify-center sm:px-4 md:gap-2.5 md:py-3"
+        >
+          {navItems.map((item) => {
+            const active = item.id === activeNavId
+            return (
+              <button
+                key={item.id}
+                type="button"
+                data-active={active ? 'true' : 'false'}
+                onClick={() => jumpTo(item.pageIndex)}
+                className={`shrink-0 border px-3 py-1.5 text-[11px] font-semibold tracking-[0.14em] uppercase transition md:px-3.5 md:py-2 ${
+                  active
+                    ? 'border-gold bg-gold/15 text-gold'
+                    : 'border-white/15 bg-white/5 text-white/70 hover:border-white/35 hover:text-white'
+                }`}
+              >
+                {item.label}
+              </button>
+            )
+          })}
+        </div>
+      </nav>
 
       <div className="relative z-10 flex min-h-0 flex-1 items-center justify-center px-1 sm:px-2 md:px-4">
         <button

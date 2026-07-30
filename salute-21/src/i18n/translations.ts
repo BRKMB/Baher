@@ -87,6 +87,9 @@ export const translations = {
     menuBookTitle: 'Open the menu',
     menuBookHint: 'Turn the pages — as if the menu were in your hands.',
     menuBookSpread: 'Turn the page',
+    menuQuickNav: 'Jump to',
+    menuNavCover: 'Cover',
+    menuNavClose: 'Closing',
     menuCoverWelcome: 'Welcome',
     menuCoverAbout:
       'A neighbourhood bar where plates and glasses share the same table. Southern warmth, seasonal cooking, and evenings that stretch.',
@@ -238,6 +241,9 @@ export const translations = {
     menuBookTitle: 'Otwórz menu',
     menuBookHint: 'Przewracaj strony — jakbyś trzymał kartę w dłoniach.',
     menuBookSpread: 'Przewróć stronę',
+    menuQuickNav: 'Przejdź do',
+    menuNavCover: 'Okładka',
+    menuNavClose: 'Zakończenie',
     menuCoverWelcome: 'Witamy',
     menuCoverAbout:
       'Sąsiedzki bar, w którym talerze i kieliszki dzielą jeden stół. Południowe ciepło, sezonowa kuchnia i wieczory bez pośpiechu.',

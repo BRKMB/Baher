@@ -151,6 +151,15 @@
     padding-bottom: max(0.65rem, env(safe-area-inset-bottom));
   }
 
+  .scrollbar-none {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+
   .field-input {
     width: 100%;
     border-radius: 0.9rem;
