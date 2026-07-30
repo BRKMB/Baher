@@ -83,8 +83,8 @@ export function MenuPage() {
                       onClick={() => setActive(cat.id)}
                       className={`shrink-0 rounded-full px-4 py-2.5 text-sm font-semibold transition ${
                         isActive
-                          ? 'bg-ink text-paper'
-                          : 'border border-line bg-paper/60 text-ink/70 hover:border-ink/40 hover:text-ink'
+                          ? 'bg-ink text-white'
+                          : 'border border-line bg-white text-ink/80 hover:border-ink/40 hover:text-ink'
                       }`}
                     >
                       {t(catTitle[cat.id])}
@@ -164,7 +164,7 @@ export function MenuPage() {
                 <button
                   type="button"
                   onClick={downloadQr}
-                  className="inline-flex items-center justify-center gap-2 rounded-full bg-ink px-4 py-3 text-sm font-semibold text-paper transition hover:bg-ink-soft"
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-ink px-4 py-3 text-sm font-semibold text-white transition hover:bg-ink-soft"
                 >
                   <Download className="size-4" />
                   {t('menuQrDownload')}

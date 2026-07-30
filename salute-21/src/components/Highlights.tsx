@@ -50,9 +50,9 @@ export function Highlights() {
                 className="aspect-[4/5] w-full object-cover transition duration-700 group-hover:scale-[1.04]"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-ink/88 via-ink/25 to-transparent" />
-              <div className="absolute inset-x-0 bottom-0 p-6 text-paper">
-                <h3 className="font-display text-3xl">{t(copy[item.key].title)}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-paper/80">
+              <div className="absolute inset-x-0 bottom-0 p-6 text-white">
+                <h3 className="font-display text-3xl text-white">{t(copy[item.key].title)}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-white/85">
                   {t(copy[item.key].text)}
                 </p>
               </div>

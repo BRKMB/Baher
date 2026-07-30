@@ -7,17 +7,17 @@ export function Gallery() {
   const { t } = useI18n()
 
   return (
-    <section id="galeria" className="bg-ink px-5 py-20 text-paper md:px-8 md:py-28">
+    <section id="galeria" className="bg-ink px-5 py-20 text-white md:px-8 md:py-28">
       <div className="mx-auto max-w-7xl">
         <div className="mb-10 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
           <div>
-            <p className="mb-3 text-[11px] font-semibold tracking-[0.28em] text-amber uppercase">
+            <p className="mb-3 text-[11px] font-semibold tracking-[0.28em] text-gold uppercase">
               {t('galleryEyebrow')}
             </p>
-            <h2 className="font-display text-4xl tracking-[-0.02em] md:text-5xl">
+            <h2 className="font-display text-4xl tracking-[-0.02em] text-white md:text-5xl">
               {t('galleryTitle')}
             </h2>
-            <p className="mt-4 max-w-xl text-sm leading-relaxed text-paper/70 md:text-base">
+            <p className="mt-4 max-w-xl text-sm leading-relaxed text-white/75 md:text-base">
               {t('galleryText')}
             </p>
           </div>
@@ -25,7 +25,7 @@ export function Gallery() {
             href={brand.instagram}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-2 rounded-full border border-paper/25 px-5 py-3 text-sm font-semibold transition hover:border-amber hover:text-amber"
+            className="inline-flex items-center gap-2 rounded-full border border-white/35 px-5 py-3 text-sm font-semibold text-white transition hover:border-gold hover:text-gold"
           >
             <InstagramIcon className="size-4" />
             {brand.instagramHandle}

@@ -29,7 +29,7 @@ export function BookingSuccessPage() {
           animate={{ opacity: 1, y: 0 }}
           className="mx-auto max-w-2xl rounded-[1.6rem] border border-line bg-champagne/90 p-8 text-center shadow-[0_24px_60px_rgba(12,11,10,0.07)] md:p-12"
         >
-          <span className="mx-auto inline-flex size-14 items-center justify-center rounded-full bg-olive text-paper">
+          <span className="mx-auto inline-flex size-14 items-center justify-center rounded-full bg-olive text-white">
             <Check className="size-6" />
           </span>
           <p className="mt-6 text-[11px] font-semibold tracking-[0.28em] text-amber uppercase">
@@ -70,7 +70,7 @@ export function BookingSuccessPage() {
               <button
                 type="button"
                 onClick={() => downloadIcs(booking)}
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-ink px-5 py-3 text-sm font-semibold text-paper transition hover:bg-ink-soft"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-ink px-5 py-3 text-sm font-semibold text-white transition hover:bg-ink-soft"
               >
                 <CalendarPlus className="size-4" />
                 {t('reserveAddCalendar')}

@@ -44,6 +44,28 @@ export const translations = {
     galleryEyebrow: 'Gallery',
     galleryTitle: 'Taste, light, table',
     galleryText: 'Moments from the kitchen and bar — the same mood you find on our Instagram.',
+    testimonialsEyebrow: 'Guest voices',
+    testimonialsTitle: 'What our guests say',
+    testimonialsIntro:
+      'Quiet evenings, shared plates, and glasses raised — words from the people who make Salute 21 feel like home.',
+    testi1Quote:
+      'An evening of quiet elegance. The spuntini arrived like a conversation — unhurried, precise, and unforgettable.',
+    testi1Role: 'Warsaw · designer',
+    testi2Quote:
+      'The wine list and the atmosphere felt curated with real taste. We booked again before leaving the table.',
+    testi2Role: 'Regular guest',
+    testi3Quote:
+      'Beautiful service, beautiful plates. Salute 21 has that rare balance of warmth and polish.',
+    testi3Role: 'Food writer',
+    testi4Quote:
+      'A bar that understands food. The cocktails are refined, the kitchen is confident — this is where I take clients.',
+    testi4Role: 'Entrepreneur',
+    testi5Quote:
+      'From the first Negroni to the last dessert, everything felt intentional. A true neighbourhood gem in Wola.',
+    testi5Role: 'Architect',
+    testi6Quote:
+      'We celebrated here and it felt intimate without trying too hard. Outstanding hospitality and flavour.',
+    testi6Role: 'Frequent host',
     contactEyebrow: 'Contact',
     contactTitle: 'Visit us',
     contactText:
@@ -161,6 +183,28 @@ export const translations = {
     galleryEyebrow: 'Galeria',
     galleryTitle: 'Smak, światło, stół',
     galleryText: 'Zdjęcia z kuchni i baru — te same klimaty, które znajdziesz na naszym Instagramie.',
+    testimonialsEyebrow: 'Głosy gości',
+    testimonialsTitle: 'Co mówią nasi Goście',
+    testimonialsIntro:
+      'Spokojne wieczory, wspólne talerze i wzniesione kieliszki — słowa osób, dzięki którym Salute 21 staje się drugim domem.',
+    testi1Quote:
+      'Wieczór pełen cichej elegancji. Spuntini pojawiły się jak rozmowa — bez pośpiechu, precyzyjnie i niezapomniale.',
+    testi1Role: 'Warszawa · projektantka',
+    testi2Quote:
+      'Karta win i atmosfera były dobrane z prawdziwym smakiem. Zarezerwowaliśmy kolejny stolik, zanim wyszliśmy.',
+    testi2Role: 'Stała Gość',
+    testi3Quote:
+      'Piękna obsługa, piękne talerze. Salute 21 ma rzadką równowagę ciepła i dopracowania.',
+    testi3Role: 'Dziennikarka kulinarna',
+    testi4Quote:
+      'Bar, który rozumie jedzenie. Koktajle są wyrafinowane, kuchnia pewna siebie — tu zapraszam klientów.',
+    testi4Role: 'Przedsiębiorca',
+    testi5Quote:
+      'Od pierwszego Negroni do ostatniego deseru wszystko było przemyślane. Perełka na Woli.',
+    testi5Role: 'Architekt',
+    testi6Quote:
+      'Świętowaliśmy tu i było kameralnie, bez udawania. Wyjątkowa gościnność i smak.',
+    testi6Role: 'Częsty gospodarz',
     contactEyebrow: 'Kontakt',
     contactTitle: 'Odwiedź nas',
     contactText:

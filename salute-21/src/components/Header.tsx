@@ -3,6 +3,7 @@ import { Menu, UtensilsCrossed, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { brand } from '../data/content'
 import { useI18n } from '../i18n/LanguageContext'
+import { BrandLogo } from './BrandLogo'
 import { InstagramIcon } from './icons'
 
 export function Header({ variant = 'landing' }: { variant?: 'landing' | 'page' }) {
@@ -44,22 +45,16 @@ export function Header({ variant = 'landing' }: { variant?: 'landing' | 'page' }
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
         solid
-          ? 'bg-champagne/92 shadow-[0_1px_0_var(--color-line)] backdrop-blur-md'
-          : 'bg-transparent'
+          ? 'bg-champagne/95 shadow-[0_1px_0_var(--color-line)] backdrop-blur-md'
+          : 'bg-gradient-to-b from-ink/55 via-ink/20 to-transparent'
       }`}
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-4 md:px-8">
         <Link to="/" className="group flex items-center gap-3" aria-label="Salute 21">
-          <img
-            src="/images/logo.png"
-            alt="Salute!"
-            className={`h-10 w-auto transition duration-500 md:h-12 ${
-              solid ? '' : 'brightness-0 invert'
-            }`}
-          />
+          <BrandLogo tone={solid ? 'dark' : 'light'} className="h-10 w-auto md:h-12" />
           <span
             className={`hidden font-display text-sm tracking-[0.22em] uppercase sm:inline ${
-              solid ? 'text-ink/60' : 'text-paper/70'
+              solid ? 'text-ink' : 'text-white'
             }`}
           >
             21
@@ -72,8 +67,8 @@ export function Header({ variant = 'landing' }: { variant?: 'landing' | 'page' }
               <a
                 key={link.to}
                 href={link.to}
-                className={`text-[13px] font-medium tracking-[0.08em] uppercase transition ${
-                  solid ? 'text-ink/70 hover:text-ink' : 'text-paper/75 hover:text-paper'
+                className={`text-[13px] font-semibold tracking-[0.08em] uppercase transition ${
+                  solid ? 'text-ink/85 hover:text-ink' : 'text-white/90 hover:text-white'
                 }`}
               >
                 {link.label}
@@ -83,14 +78,14 @@ export function Header({ variant = 'landing' }: { variant?: 'landing' | 'page' }
                 key={link.to}
                 to={link.to}
                 className={({ isActive }) =>
-                  `text-[13px] font-medium tracking-[0.08em] uppercase transition ${
+                  `text-[13px] font-semibold tracking-[0.08em] uppercase transition ${
                     solid
                       ? isActive
                         ? 'text-ink'
-                        : 'text-ink/70 hover:text-ink'
+                        : 'text-ink/85 hover:text-ink'
                       : isActive
-                        ? 'text-paper'
-                        : 'text-paper/75 hover:text-paper'
+                        ? 'text-white'
+                        : 'text-white/90 hover:text-white'
                   }`
                 }
               >
@@ -103,7 +98,9 @@ export function Header({ variant = 'landing' }: { variant?: 'landing' | 'page' }
         <div className="flex items-center gap-2 md:gap-3">
           <div
             className={`inline-flex items-center rounded-full p-1 text-xs font-bold tracking-wider ${
-              solid ? 'border border-line bg-paper/80' : 'border border-paper/25 bg-ink/30'
+              solid
+                ? 'border border-ink/15 bg-white text-ink shadow-sm'
+                : 'border border-white/35 bg-ink/55 text-white'
             }`}
             role="group"
             aria-label={t('langLabel')}
@@ -113,10 +110,10 @@ export function Header({ variant = 'landing' }: { variant?: 'landing' | 'page' }
               onClick={() => setLang('en')}
               className={`rounded-full px-3 py-1.5 transition ${
                 lang === 'en'
-                  ? 'bg-amber text-ink'
+                  ? 'bg-ink text-white'
                   : solid
-                    ? 'text-ink/55 hover:text-ink'
-                    : 'text-paper/70 hover:text-paper'
+                    ? 'text-ink/70 hover:text-ink'
+                    : 'text-white/80 hover:text-white'
               }`}
             >
               EN
@@ -126,10 +123,10 @@ export function Header({ variant = 'landing' }: { variant?: 'landing' | 'page' }
               onClick={() => setLang('pl')}
               className={`rounded-full px-3 py-1.5 transition ${
                 lang === 'pl'
-                  ? 'bg-amber text-ink'
+                  ? 'bg-ink text-white'
                   : solid
-                    ? 'text-ink/55 hover:text-ink'
-                    : 'text-paper/70 hover:text-paper'
+                    ? 'text-ink/70 hover:text-ink'
+                    : 'text-white/80 hover:text-white'
               }`}
             >
               PL
@@ -142,8 +139,8 @@ export function Header({ variant = 'landing' }: { variant?: 'landing' | 'page' }
             rel="noreferrer"
             className={`hidden size-10 items-center justify-center rounded-full border transition sm:inline-flex ${
               solid
-                ? 'border-line text-ink/70 hover:border-ink hover:text-ink'
-                : 'border-paper/25 text-paper/80 hover:border-paper hover:text-paper'
+                ? 'border-ink/20 bg-white text-ink hover:border-ink'
+                : 'border-white/40 bg-ink/40 text-white hover:border-white'
             }`}
             aria-label="Instagram"
           >
@@ -154,8 +151,8 @@ export function Header({ variant = 'landing' }: { variant?: 'landing' | 'page' }
             to="/reserve"
             className={`hidden items-center gap-2 rounded-full px-4 py-2.5 text-sm font-semibold transition md:inline-flex ${
               solid
-                ? 'bg-ink text-paper hover:bg-ink-soft'
-                : 'bg-amber text-ink hover:bg-amber-deep hover:text-paper'
+                ? 'bg-ink text-white hover:bg-ink-soft'
+                : 'bg-white text-ink hover:bg-champagne'
             }`}
           >
             <UtensilsCrossed className="size-4" strokeWidth={1.75} />
@@ -165,7 +162,9 @@ export function Header({ variant = 'landing' }: { variant?: 'landing' | 'page' }
           <button
             type="button"
             className={`inline-flex size-10 items-center justify-center rounded-full border lg:hidden ${
-              solid ? 'border-line text-ink' : 'border-paper/30 text-paper'
+              solid
+                ? 'border-ink/20 bg-white text-ink'
+                : 'border-white/40 bg-ink/40 text-white'
             }`}
             aria-label={open ? 'Close' : 'Menu'}
             onClick={() => setOpen((v) => !v)}

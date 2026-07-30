@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { ArrowUpRight, BookOpen } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { useI18n } from '../i18n/LanguageContext'
+import { BrandLogo } from './BrandLogo'
 
 export function Hero() {
   const { t, lang } = useI18n()
@@ -14,8 +15,8 @@ export function Hero() {
           alt="Salute 21"
           className="h-full w-full scale-[1.02] object-cover object-[center_28%]"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-ink/88 via-ink/62 to-ink/30" />
-        <div className="absolute inset-0 bg-gradient-to-t from-ink/75 via-transparent to-ink/35" />
+        <div className="absolute inset-0 bg-gradient-to-r from-ink/90 via-ink/70 to-ink/45" />
+        <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/25 to-ink/50" />
       </div>
 
       <div className="relative mx-auto flex min-h-[100svh] max-w-7xl flex-col justify-end px-5 pb-16 pt-28 md:px-8 md:pb-24 lg:justify-center">
@@ -24,37 +25,33 @@ export function Hero() {
           initial={{ opacity: 0, y: 28 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
-          className="max-w-3xl text-paper"
+          className="max-w-3xl text-white"
         >
-          <img
-            src="/images/logo.png"
-            alt="Salute!"
-            className="mb-7 h-14 w-auto brightness-0 invert md:h-[4.5rem]"
-          />
+          <BrandLogo tone="light" className="mb-7 h-14 w-auto drop-shadow-md md:h-[4.5rem]" />
           <div className="mb-5 flex items-center gap-3">
-            <span className="h-px w-10 bg-amber" />
-            <p className="text-[11px] font-semibold tracking-[0.32em] text-amber uppercase md:text-xs">
+            <span className="h-px w-10 bg-gold" />
+            <p className="text-[11px] font-semibold tracking-[0.32em] text-gold uppercase md:text-xs">
               {t('brandTag')} · @salute__21
             </p>
           </div>
-          <h1 className="font-display text-[clamp(2.8rem,8vw,5.8rem)] leading-[0.94] tracking-[-0.02em] text-balance">
+          <h1 className="font-display text-[clamp(2.8rem,8vw,5.8rem)] leading-[0.94] tracking-[-0.02em] text-balance text-white">
             {t('heroTitle')}
           </h1>
-          <p className="mt-6 max-w-xl text-base leading-relaxed text-paper/82 md:text-lg">
+          <p className="mt-6 max-w-xl text-base leading-relaxed text-white/90 md:text-lg">
             {t('heroSubtitle')}
           </p>
 
           <div className="mt-10 flex flex-wrap items-center gap-3">
             <Link
               to="/reserve"
-              className="inline-flex items-center gap-2 rounded-full bg-amber px-7 py-3.5 text-sm font-semibold tracking-wide text-ink transition hover:bg-amber-deep hover:text-paper"
+              className="inline-flex items-center gap-2 rounded-full bg-white px-7 py-3.5 text-sm font-semibold tracking-wide text-ink transition hover:bg-champagne"
             >
               {t('reserveCta')}
               <ArrowUpRight className="size-4" strokeWidth={2} />
             </Link>
             <Link
               to="/menu"
-              className="inline-flex items-center gap-2 rounded-full border border-paper/35 px-7 py-3.5 text-sm font-semibold tracking-wide text-paper transition hover:border-paper hover:bg-paper/10"
+              className="inline-flex items-center gap-2 rounded-full border border-white/55 bg-ink/35 px-7 py-3.5 text-sm font-semibold tracking-wide text-white transition hover:border-white hover:bg-white/15"
             >
               <BookOpen className="size-4" strokeWidth={1.75} />
               {t('menuCta')}

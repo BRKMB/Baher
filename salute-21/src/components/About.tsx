@@ -49,9 +49,9 @@ export function About() {
               className="aspect-[4/5] w-full object-cover md:aspect-[5/6]"
             />
           </div>
-          <div className="absolute -bottom-5 -left-3 max-w-[250px] rounded-2xl bg-ink px-5 py-4 text-paper shadow-xl md:-left-6">
-            <p className="font-display text-2xl leading-none">Salute!</p>
-            <p className="mt-2 text-sm text-paper/75">{t('aboutCard')}</p>
+          <div className="absolute -bottom-5 -left-3 max-w-[250px] rounded-2xl bg-ink px-5 py-4 text-white shadow-xl md:-left-6">
+            <p className="font-display text-2xl leading-none text-white">Salute!</p>
+            <p className="mt-2 text-sm text-white/80">{t('aboutCard')}</p>
           </div>
         </motion.div>
       </div>
@@ -68,7 +68,7 @@ export function About() {
               transition={{ duration: 0.55, delay: index * 0.08 }}
               className="border-t border-line pt-6"
             >
-              <Icon className="mb-4 size-5 text-amber" strokeWidth={1.75} />
+              <Icon className="mb-4 size-5 text-amber-deep" strokeWidth={1.75} />
               <h3 className="font-display text-2xl text-ink">{t(item.title)}</h3>
               <p className="mt-3 text-sm leading-relaxed text-muted md:text-base">{t(item.text)}</p>
             </motion.article>
