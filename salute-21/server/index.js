@@ -43,9 +43,9 @@ function createId(dateStr) {
   let code = ''
   const bytes =
     typeof crypto !== 'undefined' && crypto.getRandomValues
-      ? crypto.getRandomValues(new Uint8Array(5))
+      ? crypto.getRandomValues(new Uint8Array(6))
       : null
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < 6; i++) {
     const n = bytes ? bytes[i] : Math.floor(Math.random() * alphabet.length)
     code += alphabet[n % alphabet.length]
   }

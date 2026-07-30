@@ -2,11 +2,11 @@ import { useEffect, useRef, useState } from 'react'
 import { Link, useLocation, useParams } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { toPng } from 'html-to-image'
-import { QRCodeSVG } from 'qrcode.react'
 import { CalendarPlus, Download, BookOpen } from 'lucide-react'
 import { Header } from '../components/Header'
 import { Footer } from '../components/Footer'
 import { BrandLogo } from '../components/BrandLogo'
+import { PassBarcode } from '../components/PassBarcode'
 import { brand } from '../data/content'
 import { downloadIcs, getBooking, type Booking } from '../lib/booking'
 import { useI18n } from '../i18n/LanguageContext'
@@ -41,10 +41,6 @@ export function BookingSuccessPage() {
   }
 
   const refId = booking?.id || id
-  const qrValue =
-    typeof window !== 'undefined'
-      ? `${window.location.origin}/reserve/success/${encodeURIComponent(refId)}`
-      : `https://salute21.brkmb.workers.dev/reserve/success/${encodeURIComponent(refId)}`
 
   const saveTicketImage = async () => {
     if (!ticketRef.current || !refId) return
@@ -143,13 +139,13 @@ export function BookingSuccessPage() {
                 </div>
                 <div>
                   <p className="boarding-pass__label">{t('reserveDate')}</p>
-                  <p className="boarding-pass__value">
+                  <p className="boarding-pass__value boarding-pass__value--meta">
                     {booking ? formatDate(booking.date) : '—'}
                   </p>
                 </div>
                 <div>
                   <p className="boarding-pass__label">{t('reserveTime')}</p>
-                  <p className="boarding-pass__value tabular-nums">
+                  <p className="boarding-pass__value boarding-pass__value--meta tabular-nums">
                     {booking ? booking.time : '—'}
                   </p>
                 </div>
@@ -168,21 +164,12 @@ export function BookingSuccessPage() {
             </div>
 
             <div className="boarding-pass__stub">
-              <div className="mx-auto w-fit rounded-xl bg-white p-3 shadow-[0_1px_0_rgba(12,11,10,0.04)]">
-                <QRCodeSVG
-                  value={qrValue}
-                  size={168}
-                  level="M"
-                  bgColor="#ffffff"
-                  fgColor="#0c0b0a"
-                  includeMargin={false}
-                />
-              </div>
+              {refId ? <PassBarcode value={refId} /> : null}
               <p className="mt-4 text-[10px] font-semibold tracking-[0.24em] text-amber uppercase">
                 {t('reserveRef')}
               </p>
               <p className="boarding-pass__ref">{refId}</p>
-              <p className="mx-auto mt-3 max-w-[16rem] text-center text-xs leading-relaxed text-muted">
+              <p className="mx-auto mt-3 max-w-[18rem] text-center text-xs leading-relaxed text-muted">
                 {t('reserveScanHint')}
               </p>
             </div>

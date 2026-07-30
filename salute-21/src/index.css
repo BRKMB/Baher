@@ -557,7 +557,27 @@
     font-weight: 600;
     font-variant-numeric: tabular-nums lining-nums;
     color: var(--color-ink);
-    line-height: 1.25;
+    line-height: 1.35;
+    min-height: 1.45em;
+  }
+
+  .boarding-pass__value--meta {
+    font-size: 1rem;
+    letter-spacing: 0.01em;
+  }
+
+  .pass-barcode {
+    width: 100%;
+    overflow: hidden;
+    padding: 0.85rem 0.35rem;
+    background: #fff;
+    border: 1px solid color-mix(in srgb, var(--color-line) 55%, transparent);
+  }
+
+  .pass-barcode svg {
+    display: block;
+    width: 100% !important;
+    height: 4.5rem !important;
   }
 
   .boarding-pass__perforation {
