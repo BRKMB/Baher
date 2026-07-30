@@ -32,7 +32,9 @@ export type MenuCategoryId =
   | 'pizza'
   | 'sides'
   | 'turkish'
-  | 'coffee'
+  | 'hot_coffee'
+  | 'cold_coffee'
+  | 'tea'
   | 'cold_drinks'
 
 export type MenuCategory = {
@@ -208,90 +210,93 @@ export const menu: MenuCategory[] = [
     ],
   },
   {
-    id: 'coffee',
-    image: '/images/menu-coffee.jpg',
+    id: 'hot_coffee',
+    image: '/images/menu-hot-coffee.jpg',
     note: {
       en: 'Milk alternative + 2 zł',
       pl: 'Alternatywa mleka + 2 zł',
     },
     items: [
       {
-        group: { en: 'Hot coffee', pl: 'Kawa gorąca' },
         name: { en: 'Espresso', pl: 'Espresso' },
         desc: { en: 'Single shot', pl: 'Pojedyncze' },
         price: 10,
       },
       {
-        group: { en: 'Hot coffee', pl: 'Kawa gorąca' },
         name: { en: 'Doppio', pl: 'Doppio' },
         desc: { en: 'Double espresso', pl: 'Podwójne espresso' },
         price: 12,
       },
       {
-        group: { en: 'Hot coffee', pl: 'Kawa gorąca' },
         name: { en: 'Americano', pl: 'Americano' },
         desc: { en: 'Espresso with hot water', pl: 'Espresso z gorącą wodą' },
         price: 13,
       },
       {
-        group: { en: 'Hot coffee', pl: 'Kawa gorąca' },
         name: { en: 'Cappuccino', pl: 'Cappuccino' },
         desc: { en: 'Espresso, steamed milk, foam', pl: 'Espresso, spienione mleko' },
         price: 15,
       },
       {
-        group: { en: 'Hot coffee', pl: 'Kawa gorąca' },
         name: { en: 'Latte', pl: 'Latte' },
         desc: { en: 'Espresso with silky milk', pl: 'Espresso z aksamitnym mlekiem' },
         price: 16,
       },
       {
-        group: { en: 'Hot coffee', pl: 'Kawa gorąca' },
         name: { en: 'Flat White', pl: 'Flat White' },
         desc: { en: 'Double espresso, microfoam', pl: 'Podwójne espresso, mikrofoam' },
         price: 16,
       },
+    ],
+  },
+  {
+    id: 'cold_coffee',
+    image: '/images/menu-cold-coffee.jpg',
+    note: {
+      en: 'Milk alternative + 2 zł',
+      pl: 'Alternatywa mleka + 2 zł',
+    },
+    items: [
       {
-        group: { en: 'Cold coffee', pl: 'Kawa mrożona' },
         name: { en: 'Ice Americano', pl: 'Ice Americano' },
         desc: { en: 'Espresso over ice', pl: 'Espresso na lodzie' },
         price: 14,
       },
       {
-        group: { en: 'Cold coffee', pl: 'Kawa mrożona' },
         name: { en: 'Ice Latte', pl: 'Ice Latte' },
         desc: { en: 'Espresso, cold milk, ice', pl: 'Espresso, zimne mleko, lód' },
         price: 17,
       },
       {
-        group: { en: 'Cold coffee', pl: 'Kawa mrożona' },
         name: { en: 'Ice Cappuccino', pl: 'Ice Cappuccino' },
         desc: { en: 'Iced cappuccino style', pl: 'Mrożone cappuccino' },
         price: 17,
       },
+    ],
+  },
+  {
+    id: 'tea',
+    image: '/images/menu-tea.jpg',
+    items: [
       {
-        group: { en: 'Tea / infusions', pl: 'Herbata / napary' },
         name: { en: 'Black Tea', pl: 'Herbata czarna' },
         desc: { en: 'Classic black tea', pl: 'Klasyczna herbata czarna' },
         price: 12,
         tags: ['v'],
       },
       {
-        group: { en: 'Tea / infusions', pl: 'Herbata / napary' },
         name: { en: 'Green Tea', pl: 'Herbata zielona' },
         desc: { en: 'Light green tea', pl: 'Delikatna herbata zielona' },
         price: 12,
         tags: ['v'],
       },
       {
-        group: { en: 'Tea / infusions', pl: 'Herbata / napary' },
         name: { en: 'Fresh Mint', pl: 'Świeża mięta' },
         desc: { en: 'Fresh mint infusion', pl: 'Napar ze świeżej mięty' },
         price: 14,
         tags: ['v'],
       },
       {
-        group: { en: 'Tea / infusions', pl: 'Herbata / napary' },
         name: { en: 'Fruit Infusion', pl: 'Napar owocowy' },
         desc: { en: 'Seasonal fruit blend', pl: 'Sezonowa mieszanka owocowa' },
         price: 14,
@@ -379,6 +384,6 @@ export const gallery = [
 
 export const highlights = [
   { key: 'spuntini' as const, image: '/images/menu-burgers.jpg' },
-  { key: 'bar' as const, image: '/images/menu-coffee.jpg' },
+  { key: 'bar' as const, image: '/images/menu-hot-coffee.jpg' },
   { key: 'breakfast' as const, image: '/images/highlight-brunch.jpg' },
 ]

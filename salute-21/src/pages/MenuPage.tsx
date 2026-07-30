@@ -22,7 +22,9 @@ const catTitle: Record<MenuCategory['id'], TranslationKey> = {
   pizza: 'cat_pizza',
   sides: 'cat_sides',
   turkish: 'cat_turkish',
-  coffee: 'cat_coffee',
+  hot_coffee: 'cat_hot_coffee',
+  cold_coffee: 'cat_cold_coffee',
+  tea: 'cat_tea',
   cold_drinks: 'cat_cold_drinks',
 }
 
@@ -31,7 +33,9 @@ const catSub: Record<MenuCategory['id'], TranslationKey> = {
   pizza: 'cat_pizza_sub',
   sides: 'cat_sides_sub',
   turkish: 'cat_turkish_sub',
-  coffee: 'cat_coffee_sub',
+  hot_coffee: 'cat_hot_coffee_sub',
+  cold_coffee: 'cat_cold_coffee_sub',
+  tea: 'cat_tea_sub',
   cold_drinks: 'cat_cold_drinks_sub',
 }
 
@@ -40,43 +44,9 @@ type ItemPageSlice = {
   showNote: boolean
 }
 
-/** Split long drink lists so each flip page stays inside the book frame. */
+/** Keep each category on one items page when possible (titles stay unique). */
 function itemSlicesFor(category: MenuCategory): ItemPageSlice[] {
-  const items = category.items
-  const hasGroups = items.some((item) => item.group)
-  if (!hasGroups || items.length <= 6) {
-    return [{ items, showNote: Boolean(category.note) }]
-  }
-
-  const groups: MenuItem[][] = []
-  let current = ''
-  let bucket: MenuItem[] = []
-  for (const item of items) {
-    const key = item.group?.en || ''
-    if (key !== current && bucket.length) {
-      groups.push(bucket)
-      bucket = []
-    }
-    current = key
-    bucket.push(item)
-  }
-  if (bucket.length) groups.push(bucket)
-
-  // Merge trailing groups that still fit on one page
-  const merged: MenuItem[][] = []
-  for (const group of groups) {
-    const prev = merged[merged.length - 1]
-    if (prev && prev.length + group.length <= 6) {
-      merged[merged.length - 1] = [...prev, ...group]
-    } else {
-      merged.push(group)
-    }
-  }
-
-  return merged.map((slice, i) => ({
-    items: slice,
-    showNote: i === 0 && Boolean(category.note),
-  }))
+  return [{ items: category.items, showNote: Boolean(category.note) }]
 }
 
 type FlipApi = {
