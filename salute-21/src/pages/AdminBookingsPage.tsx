@@ -9,7 +9,7 @@ import {
   Lock,
   Mail,
   Phone,
-  QrCode,
+  ScanBarcode,
   RefreshCw,
   Search,
   Users,
@@ -137,12 +137,12 @@ export function AdminBookingsPage() {
                 Staff console
               </p>
               <h1 className="mt-2 font-display text-4xl text-ink italic md:text-5xl">
-                {view === 'checker' ? 'QR Checker' : 'Bookings'}
+                {view === 'checker' ? 'Barcode Checker' : 'Bookings'}
               </h1>
               <div className="luxury-rule my-4 max-w-xs" />
               <p className="max-w-lg text-sm text-muted">
                 {view === 'checker'
-                  ? 'Scan a guest pass to confirm the reservation at the door.'
+                  ? 'Scan the wide barcode on a guest pass to confirm the reservation at the door.'
                   : 'Reservations from the live booking system — search, review, and prepare the floor.'}
               </p>
             </div>
@@ -161,12 +161,12 @@ export function AdminBookingsPage() {
                 <button
                   type="button"
                   className={`admin-iconbtn ${view === 'checker' ? 'is-active' : ''}`}
-                  aria-label="QR Code Checker"
-                  title="QR Code Checker"
+                  aria-label="Barcode Checker"
+                  title="Barcode Checker"
                   aria-pressed={view === 'checker'}
                   onClick={() => setView('checker')}
                 >
-                  <QrCode className="admin-iconbtn__icon" strokeWidth={1.6} />
+                  <ScanBarcode className="admin-iconbtn__icon" strokeWidth={1.6} />
                 </button>
                 <span className="admin-iconbar__divider" aria-hidden />
                 <button

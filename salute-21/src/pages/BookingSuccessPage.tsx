@@ -9,7 +9,6 @@ import { BrandLogo } from '../components/BrandLogo'
 import { PassBarcode } from '../components/PassBarcode'
 import { EgyptMotif } from '../components/EgyptMotif'
 import { PassEgyptBackdrop } from '../components/PassEgyptBackdrop'
-import { QRCodeSVG } from 'qrcode.react'
 import { brand } from '../data/content'
 import { downloadIcs, formatGuestName, getBooking, type Booking } from '../lib/booking'
 import { useI18n } from '../i18n/LanguageContext'
@@ -171,22 +170,7 @@ export function BookingSuccessPage() {
             </div>
 
             <div className="boarding-pass__stub">
-              {refId ? (
-                <div className="boarding-pass__codes">
-                  <div className="boarding-pass__qr" data-qr-format="QR_CODE" data-qr-value={refId}>
-                    <QRCodeSVG
-                      value={refId}
-                      size={168}
-                      level="H"
-                      bgColor="#f7f1e6"
-                      fgColor="#0c0b0a"
-                      marginSize={2}
-                      title={`Booking QR ${refId}`}
-                    />
-                  </div>
-                  <PassBarcode value={refId} />
-                </div>
-              ) : null}
+              {refId ? <PassBarcode value={refId} /> : null}
               <p className="boarding-pass__ref-label mt-4 text-[10px] font-semibold tracking-[0.24em] uppercase">
                 {t('reserveRef')}
               </p>

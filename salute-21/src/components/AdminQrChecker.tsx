@@ -53,6 +53,13 @@ function formatDate(value: string) {
   }
 }
 
+/** Wide scan window for Code 128 barcodes on the guest pass. */
+function barcodeScanBox(viewfinderWidth: number, viewfinderHeight: number) {
+  const width = Math.floor(Math.min(viewfinderWidth * 0.92, viewfinderWidth - 16))
+  const height = Math.floor(Math.min(Math.max(viewfinderHeight * 0.28, 96), viewfinderHeight * 0.42))
+  return { width, height }
+}
+
 type CheckState =
   | { status: 'idle' }
   | { status: 'loading'; ref: string }
@@ -67,7 +74,7 @@ export function AdminQrChecker() {
   const scannerRef = useRef<Html5Qrcode | null>(null)
   const lastHandledRef = useRef('')
   const fileInputRef = useRef<HTMLInputElement>(null)
-  const regionId = 'admin-qr-reader'
+  const regionId = 'admin-barcode-reader'
 
   const lookup = async (raw: string) => {
     const ref = extractBookingId(raw)
@@ -76,7 +83,7 @@ export function AdminQrChecker() {
         setCheck({
           status: 'invalid',
           ref: extractBookingId(raw) || raw.trim().toUpperCase(),
-          message: 'This code is not a Salute 21 booking QR.',
+          message: 'This code is not a Salute 21 booking barcode.',
         })
       }
       return
@@ -127,28 +134,29 @@ export function AdminQrChecker() {
     }
   }
 
+  const createScanner = async () => {
+    const { Html5Qrcode, Html5QrcodeSupportedFormats } = await import('html5-qrcode')
+    return new Html5Qrcode(regionId, {
+      // Guest pass prints a wide Code 128 barcode with the booking reference
+      formatsToSupport: [Html5QrcodeSupportedFormats.CODE_128],
+      verbose: false,
+      useBarCodeDetectorIfSupported: true,
+    } as ConstructorParameters<typeof Html5Qrcode>[1])
+  }
+
   const startScanner = async () => {
     setCamError('')
     resetResult()
     await stopScanner()
     try {
-      const { Html5Qrcode, Html5QrcodeSupportedFormats } = await import('html5-qrcode')
-      const scanner = new Html5Qrcode(regionId, {
-        // Pass prints standard QR_CODE with booking reference payload
-        formatsToSupport: [Html5QrcodeSupportedFormats.QR_CODE],
-        verbose: false,
-        useBarCodeDetectorIfSupported: true,
-      } as ConstructorParameters<typeof Html5Qrcode>[1])
+      const scanner = await createScanner()
       scannerRef.current = scanner
       setScanning(true)
       await scanner.start(
         { facingMode: { exact: 'environment' } },
         {
           fps: 12,
-          qrbox: (viewfinderWidth, viewfinderHeight) => {
-            const edge = Math.floor(Math.min(viewfinderWidth, viewfinderHeight) * 0.78)
-            return { width: edge, height: edge }
-          },
+          qrbox: barcodeScanBox,
           aspectRatio: 1.333,
           disableFlip: false,
         },
@@ -162,22 +170,14 @@ export function AdminQrChecker() {
     } catch {
       // Fallback without exact rear camera constraint (desktop / iOS quirks)
       try {
-        const { Html5Qrcode, Html5QrcodeSupportedFormats } = await import('html5-qrcode')
-        const scanner = new Html5Qrcode(regionId, {
-          formatsToSupport: [Html5QrcodeSupportedFormats.QR_CODE],
-          verbose: false,
-          useBarCodeDetectorIfSupported: true,
-        } as ConstructorParameters<typeof Html5Qrcode>[1])
+        const scanner = await createScanner()
         scannerRef.current = scanner
         setScanning(true)
         await scanner.start(
           { facingMode: 'environment' },
           {
             fps: 12,
-            qrbox: (viewfinderWidth, viewfinderHeight) => {
-              const edge = Math.floor(Math.min(viewfinderWidth, viewfinderHeight) * 0.78)
-              return { width: edge, height: edge }
-            },
+            qrbox: barcodeScanBox,
           },
           (decoded) => {
             void lookup(decoded)
@@ -203,18 +203,21 @@ export function AdminQrChecker() {
     try {
       const { Html5Qrcode, Html5QrcodeSupportedFormats } = await import('html5-qrcode')
       const scanner = new Html5Qrcode(regionId, {
-        formatsToSupport: [Html5QrcodeSupportedFormats.QR_CODE],
+        formatsToSupport: [Html5QrcodeSupportedFormats.CODE_128],
         verbose: false,
-      })
-      const decoded = await scanner.scanFile(file, true)
+        useBarCodeDetectorIfSupported: true,
+      } as ConstructorParameters<typeof Html5Qrcode>[1])
+      const decoded = await scanner.scanFile(file, /* showImage= */ true)
       await scanner.clear()
       await lookup(decoded)
     } catch {
-      setCamError('Could not read a booking QR from that image. Try a clearer photo of the pass QR.')
+      setCamError(
+        'Could not read a booking barcode from that image. Try a clearer photo of the wide code on the pass.',
+      )
       setCheck({
         status: 'invalid',
         ref: file.name,
-        message: 'No QR code detected in the image.',
+        message: 'No Code 128 barcode detected in the image.',
       })
     }
   }
@@ -232,9 +235,9 @@ export function AdminQrChecker() {
         <p className="text-[11px] font-semibold tracking-[0.2em] text-amber uppercase">
           Door check
         </p>
-        <h2 className="mt-2 font-display text-3xl text-ink italic">QR Code Checker</h2>
+        <h2 className="mt-2 font-display text-3xl text-ink italic">Barcode Checker</h2>
         <p className="mt-3 max-w-xl text-sm text-muted">
-          Point the camera at the QR on the guest pass. It reads standard QR codes encoding the
+          Point the camera at the wide barcode on the guest pass. It reads Code 128 encoding the
           booking reference (S21-••••••-••••).
         </p>
       </div>
@@ -321,7 +324,9 @@ export function AdminQrChecker() {
                 onFocus={(e) => {
                   const el = e.currentTarget
                   if ((el.selectionStart ?? 0) < 4) {
-                    requestAnimationFrame(() => el.setSelectionRange(Math.max(4, el.value.length), Math.max(4, el.value.length)))
+                    requestAnimationFrame(() =>
+                      el.setSelectionRange(Math.max(4, el.value.length), Math.max(4, el.value.length)),
+                    )
                   }
                 }}
                 className="field-input admin-ref-input__full"

@@ -11,6 +11,7 @@
     "preview": "vite preview",
     "start": "node server/index.js",
     "build:start": "npm run build && npm start",
+    "verify:barcode": "node scripts/verify-booking-qr.mjs",
     "verify:qr": "node scripts/verify-booking-qr.mjs"
   },
   "dependencies": {
