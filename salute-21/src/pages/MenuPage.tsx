@@ -491,23 +491,22 @@ export function MenuPage() {
     <div className="menu-magazine fixed inset-0 z-40 flex flex-col overflow-hidden bg-[#14110e] text-white select-none">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(212,181,106,0.07),transparent_55%)]" />
 
-      <header className="relative z-20 flex shrink-0 items-center justify-between gap-2 px-3 py-2.5 sm:gap-3 sm:px-4 sm:py-3 md:px-6">
-        <Link
-          to="/"
-          className="inline-flex items-center gap-1.5 text-sm font-medium text-white/75 transition hover:text-white"
-        >
-          <X className="size-4" />
-          <span className="hidden xs:inline sm:inline">{t('backHome')}</span>
-        </Link>
-
-        <div className="flex min-w-0 items-center gap-2 sm:gap-3">
-          <BrandLogo tone="light" className="text-[1.85rem] opacity-90 sm:text-[2.15rem]" />
-          <span className="hidden font-display text-sm tracking-[0.2em] text-gold/90 uppercase sm:inline">
-            {t('menuPageEyebrow')}
-          </span>
+      <header className="relative z-20 flex shrink-0 items-center justify-between gap-3 px-3 py-3 sm:gap-4 sm:px-4 sm:py-3.5 md:px-6">
+        <div className="flex min-w-0 items-center gap-2.5 sm:gap-3">
+          <Link
+            to="/"
+            className="inline-flex size-9 shrink-0 items-center justify-center text-white/75 transition hover:text-white"
+            aria-label={t('backHome')}
+          >
+            <X className="size-4" />
+          </Link>
+          <BrandLogo
+            tone="light"
+            className="text-[1.7rem] leading-none opacity-95 sm:text-[1.95rem]"
+          />
         </div>
 
-        <div className="flex items-center gap-2.5 sm:gap-3 md:gap-4">
+        <div className="flex shrink-0 items-center gap-2.5 sm:gap-3 md:gap-4">
           <LanguageFlagToggle solid={false} bare />
           <button
             type="button"
