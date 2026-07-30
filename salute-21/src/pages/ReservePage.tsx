@@ -130,7 +130,7 @@ export function ReservePage() {
 
             <div className="mt-7 hidden overflow-hidden md:block">
               <img
-                src="/images/interior.jpg"
+                src="/images/reserve-dining.jpg"
                 alt=""
                 className="aspect-[16/10] w-full object-cover"
               />

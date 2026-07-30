@@ -84,7 +84,7 @@ const CoverLeft = forwardRef<HTMLDivElement>(function CoverLeft(_props, ref) {
   return (
     <BookPage ref={ref} className="relative">
       <img
-        src="/images/gallery-food-1.jpg"
+        src="/images/menu-cover.jpg"
         alt=""
         className="absolute inset-0 h-full w-full object-cover"
       />

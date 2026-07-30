@@ -44,7 +44,7 @@ export function About() {
         >
           <div className="overflow-hidden rounded-[1.5rem] gold-border">
             <img
-              src="/images/interior.jpg"
+              src="/images/about-dining.jpg"
               alt="Salute 21"
               className="aspect-[4/5] w-full object-cover md:aspect-[5/6]"
             />

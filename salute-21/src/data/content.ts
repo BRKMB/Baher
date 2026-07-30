@@ -334,16 +334,16 @@ export const menu: MenuCategory[] = [
   },
 ]
 
+/** Gallery-only images — never reused on menu, hero, about, or reserve */
 export const gallery = [
-  { src: '/images/gallery-food-1.jpg', alt: 'Pasta at Salute 21' },
-  { src: '/images/gallery-food-2.jpg', alt: 'Fresh Italian pasta' },
   { src: '/images/gallery-food-3.jpg', alt: 'Wine at the table' },
-  { src: '/images/gallery-food-4.jpg', alt: 'Grilled steak' },
-  { src: '/images/gallery-food-5.jpg', alt: 'Dessert' },
-  { src: '/images/gallery-food-6.jpg', alt: 'Signature cocktail' },
-  { src: '/images/gallery-food-7.jpg', alt: 'Seafood plate' },
-  { src: '/images/gallery-food-8.jpg', alt: 'Bruschetta' },
-  { src: '/images/about-food.jpg', alt: 'Burrata' },
+  { src: '/images/gallery-extra-1.jpg', alt: 'Pasta at Salute 21' },
+  { src: '/images/gallery-extra-2.jpg', alt: 'Shared Italian plates' },
+  { src: '/images/gallery-extra-3.jpg', alt: 'Evening dining' },
+  { src: '/images/gallery-extra-4.jpg', alt: 'Fresh antipasti' },
+  { src: '/images/gallery-extra-5.jpg', alt: 'Seafood course' },
+  { src: '/images/gallery-extra-6.jpg', alt: 'Restaurant atmosphere' },
+  { src: '/images/interior.jpg', alt: 'Dining room' },
   { src: '/images/unsplash-food.jpg', alt: 'Shared plates' },
   { src: '/images/unsplash-tapas.jpg', alt: 'Small plates' },
   { src: '/images/unsplash-cocktail.jpg', alt: 'Drinks at Salute 21' },
