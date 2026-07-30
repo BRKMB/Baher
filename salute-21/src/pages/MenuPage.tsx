@@ -58,7 +58,11 @@ const BookPage = forwardRef<HTMLDivElement, PageProps>(function BookPage(
   ref,
 ) {
   return (
-    <div ref={ref} className={`menu-book-page h-full w-full select-none ${className}`}>
+    <div
+      ref={ref}
+      data-density="hard"
+      className={`menu-book-page h-full w-full select-none ${className}`}
+    >
       {children}
     </div>
   )

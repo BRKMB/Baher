@@ -187,6 +187,18 @@
 
   .menu-magazine .stf__block {
     box-shadow: inset 0 0 0 1px rgba(12, 11, 10, 0.04);
+    perspective: 2400px;
+    transform-style: preserve-3d;
+  }
+
+  .menu-magazine .stf__item.--hard {
+    background-color: #f3ebe0;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+
+  .menu-magazine .stf__item.--temporary {
+    box-shadow: -12px 0 28px rgba(0, 0, 0, 0.22);
   }
 
   .safe-bottom {
