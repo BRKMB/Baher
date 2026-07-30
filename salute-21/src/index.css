@@ -88,4 +88,33 @@
   .gold-border {
     border: 1px solid color-mix(in srgb, var(--color-amber) 45%, transparent);
   }
+
+  @keyframes marquee-x {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  .marquee-track {
+    animation: marquee-x 42s linear infinite;
+  }
+
+  .marquee-track:hover {
+    animation-play-state: paused;
+  }
+
+  .menu-book-page {
+    background: linear-gradient(180deg, #fbf8f1 0%, #f3eee3 100%);
+    color: #0c0b0a;
+    overflow: hidden;
+  }
+
+  .menu-book-shadow {
+    box-shadow:
+      0 30px 80px rgba(12, 11, 10, 0.28),
+      0 8px 24px rgba(12, 11, 10, 0.18);
+  }
 }

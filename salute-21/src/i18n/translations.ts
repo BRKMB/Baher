@@ -84,6 +84,9 @@ export const translations = {
     menuPageTitle: 'The Salute 21 card',
     menuPageIntro:
       'Spuntini are small plates — we recommend 3–4 per person. The kitchen closes one hour before the bar. v — vegan, w — vegetarian.',
+    menuBookTitle: 'Open the menu book',
+    menuBookHint: 'Drag a corner or use the arrows to turn pages — just like a real book.',
+    menuBookSpread: 'Turn the page',
     menuQrTitle: 'Scan for the menu',
     menuQrText: 'Share this QR code with guests — it opens the live menu page.',
     menuQrDownload: 'Download QR',
@@ -223,6 +226,9 @@ export const translations = {
     menuPageTitle: 'Karta Salute 21',
     menuPageIntro:
       'Spuntini to niewielkie przekąski — rekomendujemy 3–4 na osobę. Kuchnię zamykamy godzinę przed zamknięciem baru. v — wegańskie, w — wegetariańskie.',
+    menuBookTitle: 'Otwórz książkę menu',
+    menuBookHint: 'Przeciągnij róg strony lub użyj strzałek — jak w prawdziwej książce.',
+    menuBookSpread: 'Przewróć stronę',
     menuQrTitle: 'Zeskanuj menu',
     menuQrText: 'Udostępnij ten kod QR gościom — otwiera aktualną stronę menu.',
     menuQrDownload: 'Pobierz QR',

@@ -16,7 +16,7 @@ export function Contact() {
   ]
 
   return (
-    <section id="kontakt" className="px-5 pb-20 md:px-8 md:pb-28">
+    <section id="kontakt" className="relative z-10 bg-transparent px-5 pb-20 pt-10 md:px-8 md:pb-28 md:pt-16">
       <div className="mx-auto max-w-7xl overflow-hidden rounded-[1.8rem] bg-ink text-white">
         <div className="grid lg:grid-cols-2">
           <motion.div

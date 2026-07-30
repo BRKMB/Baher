@@ -7,6 +7,7 @@ export function Gallery() {
   const { t } = useI18n()
 
   return (
+    <>
     <section id="galeria" className="bg-ink px-5 py-20 text-white md:px-8 md:py-28">
       <div className="mx-auto max-w-7xl">
         <div className="mb-10 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
@@ -32,26 +33,29 @@ export function Gallery() {
           </a>
         </div>
 
-        <div className="columns-1 gap-4 sm:columns-2 lg:columns-3">
-          {gallery.map((item, index) => (
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {gallery.slice(0, 6).map((item, index) => (
             <motion.figure
               key={item.src}
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.5, delay: (index % 6) * 0.05 }}
-              className="mb-4 break-inside-avoid overflow-hidden rounded-2xl"
+              className="overflow-hidden rounded-2xl"
             >
               <img
                 src={item.src}
                 alt={item.alt}
                 loading="lazy"
-                className="w-full object-cover transition duration-700 hover:scale-[1.03]"
+                className="aspect-[4/5] w-full object-cover transition duration-700 hover:scale-[1.03]"
               />
             </motion.figure>
           ))}
         </div>
       </div>
     </section>
+    {/* Cream breathing room before contact card */}
+    <div className="h-10 bg-transparent md:h-16" aria-hidden />
+  </>
   )
 }

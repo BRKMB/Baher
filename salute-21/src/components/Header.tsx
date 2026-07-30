@@ -5,9 +5,10 @@ import { brand } from '../data/content'
 import { useI18n } from '../i18n/LanguageContext'
 import { BrandLogo } from './BrandLogo'
 import { InstagramIcon } from './icons'
+import { LanguageFlagToggle } from './LanguageFlagToggle'
 
 export function Header({ variant = 'landing' }: { variant?: 'landing' | 'page' }) {
-  const { t, lang, setLang } = useI18n()
+  const { t } = useI18n()
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
 
@@ -96,42 +97,7 @@ export function Header({ variant = 'landing' }: { variant?: 'landing' | 'page' }
         </nav>
 
         <div className="flex items-center gap-2 md:gap-3">
-          <div
-            className={`inline-flex items-center rounded-full p-1 text-xs font-bold tracking-wider ${
-              solid
-                ? 'border border-ink/15 bg-white text-ink shadow-sm'
-                : 'border border-white/35 bg-ink/55 text-white'
-            }`}
-            role="group"
-            aria-label={t('langLabel')}
-          >
-            <button
-              type="button"
-              onClick={() => setLang('en')}
-              className={`rounded-full px-3 py-1.5 transition ${
-                lang === 'en'
-                  ? 'bg-ink text-white'
-                  : solid
-                    ? 'text-ink/70 hover:text-ink'
-                    : 'text-white/80 hover:text-white'
-              }`}
-            >
-              EN
-            </button>
-            <button
-              type="button"
-              onClick={() => setLang('pl')}
-              className={`rounded-full px-3 py-1.5 transition ${
-                lang === 'pl'
-                  ? 'bg-ink text-white'
-                  : solid
-                    ? 'text-ink/70 hover:text-ink'
-                    : 'text-white/80 hover:text-white'
-              }`}
-            >
-              PL
-            </button>
-          </div>
+          <LanguageFlagToggle solid={solid} />
 
           <a
             href={brand.instagram}
