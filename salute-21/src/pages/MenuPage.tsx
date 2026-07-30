@@ -337,67 +337,6 @@ export function MenuPage() {
     active?.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' })
   }, [activeNavId])
 
-  // Pointer drag-to-scroll so the category strip swipes on phone and desktop
-  useEffect(() => {
-    const el = navRef.current
-    if (!el) return
-
-    let dragging = false
-    let moved = false
-    let startX = 0
-    let startScroll = 0
-
-    const onPointerDown = (e: PointerEvent) => {
-      // Touch / pen: native overflow scroll. Mouse: drag-to-scroll.
-      if (e.pointerType !== 'mouse' || e.button !== 0) return
-      dragging = true
-      moved = false
-      startX = e.clientX
-      startScroll = el.scrollLeft
-      el.setPointerCapture?.(e.pointerId)
-    }
-
-    const onPointerMove = (e: PointerEvent) => {
-      if (!dragging) return
-      const dx = e.clientX - startX
-      if (Math.abs(dx) > 4) moved = true
-      el.scrollLeft = startScroll - dx
-    }
-
-    const endDrag = (e: PointerEvent) => {
-      if (!dragging) return
-      dragging = false
-      try {
-        el.releasePointerCapture?.(e.pointerId)
-      } catch {
-        /* ignore */
-      }
-    }
-
-    // If the user dragged, don't fire the category button click
-    const onClickCapture = (e: MouseEvent) => {
-      if (moved) {
-        e.preventDefault()
-        e.stopPropagation()
-        moved = false
-      }
-    }
-
-    el.addEventListener('pointerdown', onPointerDown)
-    el.addEventListener('pointermove', onPointerMove)
-    el.addEventListener('pointerup', endDrag)
-    el.addEventListener('pointercancel', endDrag)
-    el.addEventListener('click', onClickCapture, true)
-
-    return () => {
-      el.removeEventListener('pointerdown', onPointerDown)
-      el.removeEventListener('pointermove', onPointerMove)
-      el.removeEventListener('pointerup', endDrag)
-      el.removeEventListener('pointercancel', endDrag)
-      el.removeEventListener('click', onClickCapture, true)
-    }
-  }, [])
-
   const pageNodes = useMemo(() => {
     const nodes: Array<{ key: string; node: ReactNode }> = [
       { key: 'cover-left', node: <CoverLeft key="cover-left" /> },
