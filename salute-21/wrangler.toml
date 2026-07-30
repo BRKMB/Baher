@@ -1,7 +1,8 @@
 name = "salute21"
 compatibility_date = "2026-07-30"
-preview_urls = true
+main = "worker.js"
 
 [assets]
 directory = "./dist"
+binding = "ASSETS"
 not_found_handling = "single-page-application"
