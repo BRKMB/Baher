@@ -210,21 +210,14 @@
     overscroll-behavior-x: contain;
     touch-action: pan-x;
     cursor: grab;
-    scrollbar-width: thin;
-    scrollbar-color: rgba(212, 181, 106, 0.45) transparent;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
   }
 
   .menu-cat-nav::-webkit-scrollbar {
-    height: 4px;
-  }
-
-  .menu-cat-nav::-webkit-scrollbar-thumb {
-    background: rgba(212, 181, 106, 0.45);
-    border-radius: 999px;
-  }
-
-  .menu-cat-nav::-webkit-scrollbar-track {
-    background: transparent;
+    display: none;
+    height: 0;
+    width: 0;
   }
 
   .menu-cat-nav.is-dragging {
