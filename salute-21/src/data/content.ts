@@ -31,7 +31,7 @@ export type MenuCategory = {
   items: MenuItem[]
 }
 
-/** Original Salute 21 card — Italian-leaning plates for Warsaw */
+/** Original Salute 21 card — restaurant menu for Warsaw */
 export const menu: MenuCategory[] = [
   {
     id: 'special',
@@ -127,8 +127,8 @@ export const menu: MenuCategory[] = [
       {
         name: { en: 'Cheese selection', pl: 'Selekcja serów' },
         desc: {
-          en: 'Three Italian cheeses, honey, walnuts, crackers',
-          pl: 'Trzy włoskie sery, miód, orzechy, krakersy',
+          en: 'Three cheeses, honey, walnuts, crackers',
+          pl: 'Trzy sery, miód, orzechy, krakersy',
         },
         price: 44,
         tags: ['w'],
@@ -340,7 +340,7 @@ export const menu: MenuCategory[] = [
 export const gallery = [
   { src: '/images/gallery-food-3.jpg', alt: 'Dessert and wine at the table' },
   { src: '/images/gallery-extra-1.jpg', alt: 'Pasta at Salute 21' },
-  { src: '/images/gallery-extra-2.jpg', alt: 'Shared Italian plates' },
+  { src: '/images/gallery-extra-2.jpg', alt: 'Shared dishes at the table' },
   { src: '/images/gallery-extra-3.jpg', alt: 'Evening dining' },
   { src: '/images/gallery-extra-4.jpg', alt: 'Fresh antipasti' },
   { src: '/images/gallery-extra-5.jpg', alt: 'Seafood course' },

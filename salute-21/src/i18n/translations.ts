@@ -11,13 +11,13 @@ export const translations = {
     navContact: 'Contact',
     reserveCta: 'Book a table',
     menuCta: 'View menu',
-    heroTitle: 'Italian kitchen, Egyptian soul',
+    heroTitle: 'A room with Egyptian soul',
     heroSubtitle:
-      'A restaurant in Wola where Mediterranean cooking meets a room of gold light, hieroglyph walls, and quiet statues — dinners meant to linger.',
+      'A restaurant in Wola — gold light, hieroglyph walls, quiet statues, and dinners meant to linger.',
     aboutEyebrow: 'About Salute 21',
     aboutTitle: 'A table between two worlds',
     aboutP1:
-      'Salute 21 is a restaurant first — Italian-inspired cooking in Warsaw, served in a room that carries an Egyptian soul: carved walls, warm gold, and decorative statues that set a different kind of evening.',
+      'Salute 21 is a restaurant first — generous cooking in Warsaw, served in a room that carries an Egyptian soul: carved walls, warm gold, and decorative statues that set a different kind of evening.',
     aboutP2:
       'Come for dinner, stay for the atmosphere. We cook with care, and the space does the rest — intimate, a little theatrical, always welcoming.',
     aboutP3: 'Salute 21 — where flavour meets story.',
@@ -28,9 +28,9 @@ export const translations = {
     value2Title: 'Egyptian atmosphere',
     value2Text:
       'Hieroglyph details on the walls, soft statue silhouettes, and candle-gold light — décor that makes the room feel like a secret.',
-    value3Title: 'Italian craft',
+    value3Title: 'Craft in the kitchen',
     value3Text:
-      'Olive oil, citrus, herbs, and honest technique — a southern kitchen cooked for Warsaw evenings.',
+      'Seasonal produce, honest technique, and details that stay quiet until you notice them.',
     highlightsEyebrow: 'What we serve',
     highlightsTitle: 'Dinner, drinks, brunch',
     highlightSpuntiniTitle: 'Restaurant',
@@ -69,7 +69,7 @@ export const translations = {
     contactEyebrow: 'Contact',
     contactTitle: 'Visit us',
     contactText:
-      'Salute 21 · Wola, Warsaw. Italian cooking in a room with Egyptian soul — write to us or drop by.',
+      'Salute 21 · Wola, Warsaw. A restaurant with Egyptian soul — write to us or drop by.',
     contactReserveViaIg: 'Reservations: book online or message us on Instagram',
     hoursTitle: 'Opening hours',
     hoursNoteLunch: 'Kitchen until one hour before close',
@@ -78,7 +78,7 @@ export const translations = {
     dayFri: 'Friday',
     daySat: 'Saturday',
     daySun: 'Sunday',
-    footerTagline: 'Italian kitchen · Egyptian soul · Warsaw',
+    footerTagline: 'Restaurant · Egyptian soul · Warsaw',
     footerRights: 'All rights reserved.',
     menuPageEyebrow: 'La Carta',
     menuPageTitle: 'The Salute 21 menu',
@@ -92,7 +92,7 @@ export const translations = {
     menuNavClose: 'Closing',
     menuCoverWelcome: 'Welcome',
     menuCoverAbout:
-      'Italian-inspired cooking in Wola — served in a room with Egyptian soul, and evenings that stretch.',
+      'A restaurant in Wola — served in a room with Egyptian soul, and evenings that stretch.',
     menuCoverHours: 'Hours',
     menuCoverVisit: 'Visit',
     menuCoverContents: 'Inside',
@@ -188,13 +188,13 @@ export const translations = {
     navContact: 'Kontakt',
     reserveCta: 'Zarezerwuj stolik',
     menuCta: 'Zobacz menu',
-    heroTitle: 'Włoska kuchnia, egipska dusza',
+    heroTitle: 'Sala o egipskiej duszy',
     heroSubtitle:
-      'Restauracja na Woli, gdzie śródziemnomorska kuchnia spotyka salę pełną złotego światła, hieroglifów na ścianach i cichych posągów — kolacje bez pośpiechu.',
+      'Restauracja na Woli — złote światło, hieroglify na ścianach, ciche posągi i kolacje bez pośpiechu.',
     aboutEyebrow: 'O Salute 21',
     aboutTitle: 'Stół między dwoma światami',
     aboutP1:
-      'Salute 21 to przede wszystkim restauracja — włosko inspirowana kuchnia w Warszawie, serwowana w sali o egipskiej duszy: rzeźbione ściany, ciepłe złoto i dekoracyjne posągi, które budują inny wieczór.',
+      'Salute 21 to przede wszystkim restauracja — hojna kuchnia w Warszawie, serwowana w sali o egipskiej duszy: rzeźbione ściany, ciepłe złoto i dekoracyjne posągi, które budują inny wieczór.',
     aboutP2:
       'Przyjdź na kolację, zostań dla atmosfery. Gotujemy z dbałością, a przestrzeń robi resztę — kameralnie, odrobinę teatralnie, zawsze gościnnie.',
     aboutP3: 'Salute 21 — gdzie smak spotyka opowieść.',
@@ -205,9 +205,9 @@ export const translations = {
     value2Title: 'Egipska atmosfera',
     value2Text:
       'Detale hieroglifów na ścianach, sylwetki posągów i świecące złoto — wystrój, który sprawia, że lokal staje się sekretem.',
-    value3Title: 'Włoskie rzemiosło',
+    value3Title: 'Rzemiosło kuchni',
     value3Text:
-      'Oliwa, cytrusy, zioła i uczciwa technika — południowa kuchnia gotowana na warszawskie wieczory.',
+      'Sezonowe produkty, uczciwa technika i detale, które zostają w tle — aż je zauważysz.',
     highlightsEyebrow: 'Co serwujemy',
     highlightsTitle: 'Kolacja, napoje, brunch',
     highlightSpuntiniTitle: 'Restauracja',
@@ -246,7 +246,7 @@ export const translations = {
     contactEyebrow: 'Kontakt',
     contactTitle: 'Odwiedź nas',
     contactText:
-      'Salute 21 · Wola, Warszawa. Włoska kuchnia w sali o egipskiej duszy — napisz albo wpadnij.',
+      'Salute 21 · Wola, Warszawa. Restauracja o egipskiej duszy — napisz albo wpadnij.',
     contactReserveViaIg: 'Rezerwacje: online albo napisz na Instagramie',
     hoursTitle: 'Godziny otwarcia',
     hoursNoteLunch: 'Kuchnia do godziny przed zamknięciem',
@@ -255,7 +255,7 @@ export const translations = {
     dayFri: 'Piątek',
     daySat: 'Sobota',
     daySun: 'Niedziela',
-    footerTagline: 'Włoska kuchnia · egipska dusza · Warszawa',
+    footerTagline: 'Restauracja · egipska dusza · Warszawa',
     footerRights: 'Wszelkie prawa zastrzeżone.',
     menuPageEyebrow: 'La Carta',
     menuPageTitle: 'Menu Salute 21',
@@ -269,7 +269,7 @@ export const translations = {
     menuNavClose: 'Zakończenie',
     menuCoverWelcome: 'Witamy',
     menuCoverAbout:
-      'Włosko inspirowana kuchnia na Woli — w sali o egipskiej duszy i wieczorami bez pośpiechu.',
+      'Restauracja na Woli — w sali o egipskiej duszy i wieczorami bez pośpiechu.',
     menuCoverHours: 'Godziny',
     menuCoverVisit: 'Odwiedź',
     menuCoverContents: 'W karcie',
