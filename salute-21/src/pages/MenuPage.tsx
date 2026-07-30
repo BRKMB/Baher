@@ -18,23 +18,21 @@ import { useI18n } from '../i18n/LanguageContext'
 import type { TranslationKey } from '../i18n/translations'
 
 const catTitle: Record<MenuCategory['id'], TranslationKey> = {
-  special: 'cat_special',
-  vege: 'cat_vege',
-  meat: 'cat_meat',
-  seafood: 'cat_seafood',
-  sliders: 'cat_sliders',
-  cocktails: 'cat_cocktails',
-  desserts: 'cat_desserts',
+  burgers: 'cat_burgers',
+  pizza: 'cat_pizza',
+  sides: 'cat_sides',
+  turkish: 'cat_turkish',
+  coffee: 'cat_coffee',
+  cold_drinks: 'cat_cold_drinks',
 }
 
 const catSub: Record<MenuCategory['id'], TranslationKey> = {
-  special: 'cat_special_sub',
-  vege: 'cat_vege_sub',
-  meat: 'cat_meat_sub',
-  seafood: 'cat_seafood_sub',
-  sliders: 'cat_sliders_sub',
-  cocktails: 'cat_cocktails_sub',
-  desserts: 'cat_desserts_sub',
+  burgers: 'cat_burgers_sub',
+  pizza: 'cat_pizza_sub',
+  sides: 'cat_sides_sub',
+  turkish: 'cat_turkish_sub',
+  coffee: 'cat_coffee_sub',
+  cold_drinks: 'cat_cold_drinks_sub',
 }
 
 type FlipApi = {
@@ -237,6 +235,7 @@ const CategoryImagePage = forwardRef<HTMLDivElement, { category: MenuCategory; i
 const CategoryItemsPage = forwardRef<HTMLDivElement, { category: MenuCategory }>(
   function CategoryItemsPage({ category }, ref) {
     const { t, lang } = useI18n()
+    let lastGroup = ''
     return (
       <BookPage ref={ref} className="flex flex-col p-5 sm:p-7 md:p-9">
         <PageEyebrow>{t(catSub[category.id])}</PageEyebrow>
@@ -244,32 +243,49 @@ const CategoryItemsPage = forwardRef<HTMLDivElement, { category: MenuCategory }>
           {t(catTitle[category.id])}
         </h3>
         <PageRule />
+        {category.note && (
+          <p className="mb-4 border-l-2 border-amber/50 bg-champagne/50 px-3 py-2 text-[11px] leading-relaxed text-muted sm:text-xs">
+            {category.note[lang]}
+          </p>
+        )}
         <ul className="flex-1 space-y-3 overflow-auto pr-1 sm:space-y-3.5">
-          {category.items.map((item) => (
-            <li key={item.name.en} className="border-b border-line/55 pb-3 last:border-0 sm:pb-3.5">
-              <div className="flex items-start justify-between gap-2 sm:gap-3">
-                <div className="min-w-0">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <h4 className="text-[13px] font-semibold text-ink sm:text-[15px]">{item.name[lang]}</h4>
-                    {item.tags?.includes('v') && (
-                      <span className="text-[9px] font-bold tracking-[0.14em] text-olive uppercase">
-                        vegan
-                      </span>
-                    )}
-                    {item.tags?.includes('w') && (
-                      <span className="text-[9px] font-bold tracking-[0.14em] text-amber-deep uppercase">
-                        vege
-                      </span>
-                    )}
+          {category.items.map((item) => {
+            const groupLabel = item.group?.[lang] || ''
+            const showGroup = Boolean(groupLabel && groupLabel !== lastGroup)
+            if (showGroup) lastGroup = groupLabel
+            return (
+              <li key={`${groupLabel}-${item.name.en}`} className="border-b border-line/55 pb-3 last:border-0 sm:pb-3.5">
+                {showGroup && (
+                  <p className="mb-2 text-[10px] font-semibold tracking-[0.2em] text-amber uppercase">
+                    {groupLabel}
+                  </p>
+                )}
+                <div className="flex items-start justify-between gap-2 sm:gap-3">
+                  <div className="min-w-0">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <h4 className="text-[13px] font-semibold text-ink sm:text-[15px]">
+                        {item.name[lang]}
+                      </h4>
+                      {item.tags?.includes('v') && (
+                        <span className="text-[9px] font-bold tracking-[0.14em] text-olive uppercase">
+                          vegan
+                        </span>
+                      )}
+                      {item.tags?.includes('w') && (
+                        <span className="text-[9px] font-bold tracking-[0.14em] text-amber-deep uppercase">
+                          vege
+                        </span>
+                      )}
+                    </div>
+                    <p className="mt-1 text-xs leading-relaxed text-muted">{item.desc[lang]}</p>
                   </div>
-                  <p className="mt-1 text-xs leading-relaxed text-muted">{item.desc[lang]}</p>
+                  <p className="shrink-0 font-display text-xl text-ink italic tabular-nums">
+                    {item.price}
+                  </p>
                 </div>
-                <p className="shrink-0 font-display text-xl text-ink italic tabular-nums">
-                  {item.price}
-                </p>
-              </div>
-            </li>
-          ))}
+              </li>
+            )
+          })}
         </ul>
         <p className="mt-4 text-right text-[10px] tracking-[0.22em] text-ink/35 uppercase">zł</p>
       </BookPage>
