@@ -1,12 +1,43 @@
 import { useEffect, useMemo, useState, type FormEvent } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { ArrowLeft, RefreshCw, Search } from 'lucide-react'
+import {
+  ArrowLeft,
+  CalendarDays,
+  Clock3,
+  Lock,
+  Mail,
+  Phone,
+  RefreshCw,
+  Search,
+  Users,
+} from 'lucide-react'
 import { Header } from '../components/Header'
 import { Footer } from '../components/Footer'
 import { listBookings, type Booking } from '../lib/booking'
 
 const KEY_STORAGE = 'salute21-admin-key'
+
+function todayISO() {
+  const d = new Date()
+  const y = d.getFullYear()
+  const m = String(d.getMonth() + 1).padStart(2, '0')
+  const day = String(d.getDate()).padStart(2, '0')
+  return `${y}-${m}-${day}`
+}
+
+function formatDate(value: string) {
+  try {
+    return new Date(`${value}T12:00:00`).toLocaleDateString('en-GB', {
+      weekday: 'short',
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric',
+    })
+  } catch {
+    return value
+  }
+}
 
 export function AdminBookingsPage() {
   const [key, setKey] = useState(() => sessionStorage.getItem(KEY_STORAGE) || '')
@@ -15,6 +46,7 @@ export function AdminBookingsPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [query, setQuery] = useState('')
+  const [tab, setTab] = useState<'upcoming' | 'past' | 'all'>('upcoming')
 
   const load = async (adminKey: string) => {
     if (!adminKey.trim()) return
@@ -43,6 +75,8 @@ export function AdminBookingsPage() {
     void load(draftKey)
   }
 
+  const today = todayISO()
+
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase()
     if (!q) return bookings
@@ -54,14 +88,37 @@ export function AdminBookingsPage() {
     )
   }, [bookings, query])
 
-  const upcoming = filtered.filter((b) => b.date >= new Date().toISOString().slice(0, 10))
-  const past = filtered.filter((b) => b.date < new Date().toISOString().slice(0, 10))
+  const upcoming = useMemo(
+    () =>
+      filtered
+        .filter((b) => b.date >= today)
+        .sort((a, b) => `${a.date}${a.time}`.localeCompare(`${b.date}${b.time}`)),
+    [filtered, today],
+  )
+  const past = useMemo(
+    () =>
+      filtered
+        .filter((b) => b.date < today)
+        .sort((a, b) => `${b.date}${b.time}`.localeCompare(`${a.date}${a.time}`)),
+    [filtered, today],
+  )
+  const tonight = upcoming.filter((b) => b.date === today)
+  const visible = tab === 'upcoming' ? upcoming : tab === 'past' ? past : filtered
+
+  const lock = () => {
+    sessionStorage.removeItem(KEY_STORAGE)
+    setKey('')
+    setDraftKey('')
+    setBookings([])
+    setQuery('')
+    setTab('upcoming')
+  }
 
   return (
     <div className="min-h-screen">
       <Header variant="page" />
-      <main className="px-4 pb-20 pt-24 sm:px-5 md:px-8 md:pb-28 md:pt-32">
-        <div className="mx-auto max-w-5xl">
+      <main className="admin-page px-4 pb-20 pt-24 sm:px-5 md:px-8 md:pb-28 md:pt-32">
+        <div className="mx-auto max-w-6xl">
           <Link
             to="/"
             className="mb-6 inline-flex items-center gap-2 text-sm font-medium text-muted transition hover:text-ink"
@@ -70,88 +127,127 @@ export function AdminBookingsPage() {
             Home
           </Link>
 
-          <p className="text-[11px] font-semibold tracking-[0.28em] text-amber uppercase">Staff</p>
-          <h1 className="mt-2 font-display text-4xl text-ink italic md:text-5xl">Bookings</h1>
-          <div className="luxury-rule my-5 max-w-xs" />
-          <p className="max-w-xl text-sm text-muted">
-            Private list of reservations stored in Cloudflare KV. Enter the admin key to unlock.
-          </p>
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <p className="text-[11px] font-semibold tracking-[0.28em] text-amber uppercase">
+                Staff console
+              </p>
+              <h1 className="mt-2 font-display text-4xl text-ink italic md:text-5xl">Bookings</h1>
+              <div className="luxury-rule my-4 max-w-xs" />
+              <p className="max-w-lg text-sm text-muted">
+                Reservations from the live booking system — search, review, and prepare the floor.
+              </p>
+            </div>
+            {key ? (
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => void load(key)}
+                  className="admin-btn admin-btn--ghost"
+                  disabled={loading}
+                >
+                  <RefreshCw className={`size-4 ${loading ? 'animate-spin' : ''}`} />
+                  Refresh
+                </button>
+                <button type="button" onClick={lock} className="admin-btn admin-btn--ghost">
+                  <Lock className="size-4" />
+                  Lock
+                </button>
+              </div>
+            ) : null}
+          </div>
 
           {!key ? (
-            <form onSubmit={onUnlock} className="mt-10 max-w-md space-y-4">
-              <label className="grid gap-2 text-sm">
-                <span className="text-[11px] font-semibold tracking-[0.18em] text-muted uppercase">
-                  Admin key
-                </span>
-                <input
-                  type="password"
-                  value={draftKey}
-                  onChange={(e) => setDraftKey(e.target.value)}
-                  className="field-input"
-                  placeholder="••••••••"
-                  autoComplete="current-password"
-                  required
-                />
-              </label>
-              {error && <p className="text-sm text-red-800">{error}</p>}
-              <button
-                type="submit"
-                disabled={loading}
-                className="rounded-full bg-ink px-6 py-3 text-sm font-semibold text-white disabled:opacity-50"
-              >
-                {loading ? 'Opening…' : 'Open bookings'}
-              </button>
+            <form onSubmit={onUnlock} className="admin-unlock mt-10">
+              <p className="text-[11px] font-semibold tracking-[0.18em] text-muted uppercase">
+                Admin password
+              </p>
+              <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-end">
+                <label className="grid flex-1 gap-2 text-sm">
+                  <span className="sr-only">Password</span>
+                  <input
+                    type="password"
+                    value={draftKey}
+                    onChange={(e) => setDraftKey(e.target.value)}
+                    className="field-input"
+                    placeholder="Enter password"
+                    autoComplete="current-password"
+                    required
+                  />
+                </label>
+                <button type="submit" disabled={loading} className="admin-btn admin-btn--solid">
+                  {loading ? 'Opening…' : 'Unlock'}
+                </button>
+              </div>
+              {error && <p className="mt-3 text-sm text-red-800">{error}</p>}
             </form>
           ) : (
-            <div className="mt-8 space-y-6">
-              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                <div className="relative max-w-md flex-1">
-                  <Search className="pointer-events-none absolute top-1/2 left-0 size-4 -translate-y-1/2 text-muted" />
+            <div className="mt-10 space-y-8">
+              <div className="admin-stats">
+                <Stat label="Total" value={bookings.length} />
+                <Stat label="Upcoming" value={upcoming.length} accent />
+                <Stat label="Today" value={tonight.length} />
+                <Stat label="Past" value={past.length} />
+              </div>
+
+              <div className="admin-toolbar">
+                <label className="admin-search">
+                  <Search className="admin-search__icon" aria-hidden />
                   <input
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
-                    className="field-input pl-7"
-                    placeholder="Search name, phone, ref…"
+                    placeholder="Search name, phone, reference…"
+                    aria-label="Search bookings"
                   />
-                </div>
-                <div className="flex items-center gap-2">
-                  <button
-                    type="button"
-                    onClick={() => void load(key)}
-                    className="inline-flex items-center gap-2 rounded-full border border-line px-4 py-2.5 text-sm font-medium text-ink transition hover:border-ink"
-                  >
-                    <RefreshCw className={`size-4 ${loading ? 'animate-spin' : ''}`} />
-                    Refresh
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      sessionStorage.removeItem(KEY_STORAGE)
-                      setKey('')
-                      setDraftKey('')
-                      setBookings([])
-                    }}
-                    className="rounded-full border border-line px-4 py-2.5 text-sm font-medium text-muted transition hover:border-ink hover:text-ink"
-                  >
-                    Lock
-                  </button>
+                </label>
+
+                <div className="admin-tabs" role="tablist" aria-label="Booking filters">
+                  {(
+                    [
+                      ['upcoming', `Upcoming (${upcoming.length})`],
+                      ['past', `Past (${past.length})`],
+                      ['all', `All (${filtered.length})`],
+                    ] as const
+                  ).map(([id, label]) => (
+                    <button
+                      key={id}
+                      type="button"
+                      role="tab"
+                      aria-selected={tab === id}
+                      onClick={() => setTab(id)}
+                      className={`admin-tabs__btn ${tab === id ? 'is-active' : ''}`}
+                    >
+                      {label}
+                    </button>
+                  ))}
                 </div>
               </div>
 
-              {error && <p className="text-sm text-red-800">{error}</p>}
-
-              <p className="text-sm text-muted">
-                {filtered.length} booking{filtered.length === 1 ? '' : 's'}
-                {query ? ' matched' : ''} · {upcoming.length} upcoming
-              </p>
-
-              <BookingGroup title="Upcoming" items={upcoming} />
-              <BookingGroup title="Past" items={past} />
-
-              {filtered.length === 0 && !loading && (
-                <p className="border-l-2 border-amber/40 bg-champagne/40 px-4 py-3 text-sm text-muted">
-                  No bookings yet.
+              {error && (
+                <p className="border-l-2 border-red-400 bg-red-50/80 px-4 py-3 text-sm text-red-900">
+                  {error}
                 </p>
+              )}
+
+              {visible.length === 0 && !loading ? (
+                <p className="border-l-2 border-amber/40 bg-champagne/50 px-4 py-3 text-sm text-muted">
+                  No bookings in this view.
+                </p>
+              ) : (
+                <div className="admin-list">
+                  <div className="admin-list__head" aria-hidden>
+                    <span>When</span>
+                    <span>Guest</span>
+                    <span>Party</span>
+                    <span>Contact</span>
+                    <span>Reference</span>
+                  </div>
+                  <ul>
+                    {visible.map((b, i) => (
+                      <BookingRow key={b.id} booking={b} index={i} isToday={b.date === today} />
+                    ))}
+                  </ul>
+                </div>
               )}
             </div>
           )}
@@ -162,44 +258,77 @@ export function AdminBookingsPage() {
   )
 }
 
-function BookingGroup({ title, items }: { title: string; items: Booking[] }) {
-  if (items.length === 0) return null
+function Stat({
+  label,
+  value,
+  accent = false,
+}: {
+  label: string
+  value: number
+  accent?: boolean
+}) {
   return (
-    <section>
-      <h2 className="font-display text-2xl text-ink italic">{title}</h2>
-      <ul className="mt-4 divide-y divide-line/70 border-y border-line/70">
-        {items.map((b, i) => (
-          <motion.li
-            key={b.id}
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: Math.min(i * 0.03, 0.3) }}
-            className="grid gap-2 py-4 sm:grid-cols-[7.5rem_1fr_auto] sm:items-start sm:gap-6"
-          >
-            <div>
-              <p className="font-display text-xl text-ink">{b.time}</p>
-              <p className="text-xs text-muted">{b.date}</p>
-            </div>
-            <div>
-              <p className="font-medium text-ink">
-                {b.name}{' '}
-                <span className="font-normal text-muted">
-                  · {b.guests} guest{b.guests === 1 ? '' : 's'}
-                </span>
-              </p>
-              <p className="mt-1 text-sm text-muted">
-                {b.phone} · {b.email}
-              </p>
-              {(b.occasion || b.notes) && (
-                <p className="mt-1 text-sm text-ink/70">
-                  {[b.occasion, b.notes].filter(Boolean).join(' — ')}
-                </p>
-              )}
-            </div>
-            <p className="font-mono text-xs tracking-wide text-amber sm:text-right">{b.id}</p>
-          </motion.li>
-        ))}
-      </ul>
-    </section>
+    <div className={`admin-stat ${accent ? 'is-accent' : ''}`}>
+      <p className="admin-stat__label">{label}</p>
+      <p className="admin-stat__value">{value}</p>
+    </div>
+  )
+}
+
+function BookingRow({
+  booking: b,
+  index,
+  isToday,
+}: {
+  booking: Booking
+  index: number
+  isToday: boolean
+}) {
+  return (
+    <motion.li
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: Math.min(index * 0.025, 0.25) }}
+      className={`admin-row ${isToday ? 'is-today' : ''}`}
+    >
+      <div className="admin-row__when">
+        <p className="admin-row__time">
+          <Clock3 className="size-3.5" strokeWidth={1.75} />
+          {b.time}
+        </p>
+        <p className="admin-row__date">
+          <CalendarDays className="size-3.5" strokeWidth={1.75} />
+          {formatDate(b.date)}
+        </p>
+        {isToday ? <span className="admin-row__badge">Today</span> : null}
+      </div>
+
+      <div className="admin-row__guest">
+        <p className="admin-row__name">{b.name}</p>
+        {(b.occasion || b.notes) && (
+          <p className="admin-row__note">{[b.occasion, b.notes].filter(Boolean).join(' — ')}</p>
+        )}
+      </div>
+
+      <div className="admin-row__party">
+        <Users className="size-3.5" strokeWidth={1.75} />
+        {b.guests}
+      </div>
+
+      <div className="admin-row__contact">
+        <p>
+          <Phone className="size-3.5" strokeWidth={1.75} />
+          <a href={`tel:${b.phone}`}>{b.phone}</a>
+        </p>
+        <p>
+          <Mail className="size-3.5" strokeWidth={1.75} />
+          <a href={`mailto:${b.email}`}>{b.email}</a>
+        </p>
+      </div>
+
+      <div className="admin-row__ref">
+        <code>{b.id}</code>
+      </div>
+    </motion.li>
   )
 }
