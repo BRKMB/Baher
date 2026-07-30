@@ -261,9 +261,6 @@ export function ReservePage() {
               </div>
               <div className="grid gap-6 sm:grid-cols-2">
                 <div className="grid gap-2 text-sm">
-                  <span className="text-[11px] font-semibold tracking-[0.18em] text-muted uppercase">
-                    {t('reserveDate')}
-                  </span>
                   <DatePicker
                     required
                     value={date}
