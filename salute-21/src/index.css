@@ -208,24 +208,38 @@
     overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
     overscroll-behavior-x: contain;
-    /* We handle horizontal drag ourselves so mouse + touch both swipe */
-    touch-action: none;
+    touch-action: pan-x;
     cursor: grab;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(212, 181, 106, 0.45) transparent;
   }
 
   .menu-cat-nav::-webkit-scrollbar {
-    display: none;
+    height: 4px;
+  }
+
+  .menu-cat-nav::-webkit-scrollbar-thumb {
+    background: rgba(212, 181, 106, 0.45);
+    border-radius: 999px;
+  }
+
+  .menu-cat-nav::-webkit-scrollbar-track {
+    background: transparent;
   }
 
   .menu-cat-nav.is-dragging {
     cursor: grabbing;
     scroll-behavior: auto;
+    user-select: none;
   }
 
-  .menu-cat-nav.is-dragging button {
+  .menu-cat-nav.is-dragging .menu-cat-nav__btn {
     pointer-events: none;
+  }
+
+  .menu-cat-nav__btn {
+    -webkit-user-drag: none;
+    user-drag: none;
   }
 
   .field-input {

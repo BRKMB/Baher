@@ -342,7 +342,7 @@ export function MenuPage() {
     const el = navRef.current
     if (!el) return
 
-    const THRESHOLD = 8
+    const THRESHOLD = 6
     let tracking = false
     let dragging = false
     let startX = 0
@@ -351,7 +351,7 @@ export function MenuPage() {
     let suppressClick = false
 
     const onPointerDown = (e: PointerEvent) => {
-      if (e.button !== 0 && e.pointerType === 'mouse') return
+      if (e.pointerType === 'mouse' && e.button !== 0) return
       tracking = true
       dragging = false
       startX = e.clientX
@@ -364,37 +364,25 @@ export function MenuPage() {
       const dx = e.clientX - startX
       if (!dragging) {
         if (Math.abs(dx) < THRESHOLD) return
-        // Confirmed drag — only now capture, so plain taps still click buttons
         dragging = true
         el.classList.add('is-dragging')
-        try {
-          el.setPointerCapture(e.pointerId)
-        } catch {
-          /* ignore */
-        }
       }
       el.scrollLeft = startScroll - dx
       e.preventDefault()
     }
 
     const endPointer = (e: PointerEvent) => {
-      if (!tracking || (pointerId !== null && pointerId !== e.pointerId)) return
+      if (!tracking || (pointerId !== null && e.pointerId !== pointerId)) return
       if (dragging) {
         suppressClick = true
-        // Clear after the click that follows pointerup (if any)
         window.setTimeout(() => {
           suppressClick = false
-        }, 0)
+        }, 50)
       }
       tracking = false
       dragging = false
       pointerId = null
       el.classList.remove('is-dragging')
-      try {
-        if (el.hasPointerCapture?.(e.pointerId)) el.releasePointerCapture(e.pointerId)
-      } catch {
-        /* ignore */
-      }
     }
 
     const onClickCapture = (e: Event) => {
@@ -404,18 +392,34 @@ export function MenuPage() {
       suppressClick = false
     }
 
+    // Horizontal wheel / trackpad while hovering the strip (desktop)
+    const onWheel = (e: WheelEvent) => {
+      if (el.scrollWidth <= el.clientWidth) return
+      const horiz = Math.abs(e.deltaX) > Math.abs(e.deltaY)
+      if (horiz) {
+        el.scrollLeft += e.deltaX
+        e.preventDefault()
+      } else if (e.shiftKey || Math.abs(e.deltaY) > 0) {
+        el.scrollLeft += e.deltaY
+        e.preventDefault()
+      }
+    }
+
     el.addEventListener('pointerdown', onPointerDown)
-    el.addEventListener('pointermove', onPointerMove, { passive: false })
-    el.addEventListener('pointerup', endPointer)
-    el.addEventListener('pointercancel', endPointer)
+    // Window listeners so mouse drag keeps working outside the strip
+    window.addEventListener('pointermove', onPointerMove, { passive: false })
+    window.addEventListener('pointerup', endPointer)
+    window.addEventListener('pointercancel', endPointer)
     el.addEventListener('click', onClickCapture, true)
+    el.addEventListener('wheel', onWheel, { passive: false })
 
     return () => {
       el.removeEventListener('pointerdown', onPointerDown)
-      el.removeEventListener('pointermove', onPointerMove)
-      el.removeEventListener('pointerup', endPointer)
-      el.removeEventListener('pointercancel', endPointer)
+      window.removeEventListener('pointermove', onPointerMove)
+      window.removeEventListener('pointerup', endPointer)
+      window.removeEventListener('pointercancel', endPointer)
       el.removeEventListener('click', onClickCapture, true)
+      el.removeEventListener('wheel', onWheel)
       el.classList.remove('is-dragging')
     }
   }, [])
@@ -526,16 +530,17 @@ export function MenuPage() {
         className="relative z-20 shrink-0 border-y border-white/10 bg-black/25"
       >
         <div ref={navRef} className="menu-cat-nav px-3 py-2.5 sm:px-4 md:py-3">
-          <div className="flex w-max min-w-full gap-2 md:gap-2.5 md:justify-center">
+          <div className="flex w-max gap-2 md:gap-2.5">
             {navItems.map((item) => {
               const active = item.id === activeNavId
               return (
                 <button
                   key={item.id}
                   type="button"
+                  draggable={false}
                   data-active={active ? 'true' : 'false'}
                   onClick={() => jumpTo(item.pageIndex)}
-                  className={`shrink-0 border px-3 py-1.5 text-[11px] font-semibold tracking-[0.14em] uppercase transition md:px-3.5 md:py-2 ${
+                  className={`menu-cat-nav__btn shrink-0 border px-3 py-1.5 text-[11px] font-semibold tracking-[0.14em] uppercase transition md:px-3.5 md:py-2 ${
                     active
                       ? 'border-gold bg-gold/15 text-gold'
                       : 'border-white/15 bg-white/5 text-white/70 hover:border-white/35 hover:text-white'
