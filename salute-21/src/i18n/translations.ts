@@ -140,6 +140,9 @@ export const translations = {
     reserveSummary: 'Reservation summary',
     reserveAvailable: 'Available times',
     reservePickTime: 'Please choose a time to continue.',
+    reservePickDate: 'Select a date',
+    reserveToday: 'Today',
+    reserveClose: 'Close',
     reserveNoSlots: 'No tables left for this day. Try another date.',
     reservePolicy:
       'Please arrive within 15 minutes of your booking time. For parties of 6+, a 10% service charge applies.',
@@ -307,6 +310,9 @@ export const translations = {
     reserveSummary: 'Podsumowanie rezerwacji',
     reserveAvailable: 'Dostępne godziny',
     reservePickTime: 'Wybierz godzinę, aby kontynuować.',
+    reservePickDate: 'Wybierz datę',
+    reserveToday: 'Dziś',
+    reserveClose: 'Zamknij',
     reserveNoSlots: 'Brak wolnych stolików tego dnia. Wybierz inną datę.',
     reservePolicy:
       'Prosimy o przybycie w ciągu 15 minut od godziny rezerwacji. Przy grupach od 6 osób doliczamy serwis 10%.',

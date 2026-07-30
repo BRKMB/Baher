@@ -370,4 +370,103 @@
       radial-gradient(ellipse 55% 40% at 50% 0%, rgba(212, 181, 106, 0.22), transparent 70%),
       radial-gradient(ellipse 40% 35% at 80% 80%, rgba(44, 58, 40, 0.1), transparent 60%);
   }
+
+  .date-picker__trigger {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    gap: 0.75rem;
+    border: none;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-line) 85%, transparent);
+    background: transparent;
+    padding: 0.85rem 0.15rem;
+    text-align: left;
+    font-size: 0.95rem;
+    transition:
+      border-color 0.25s ease,
+      background 0.25s ease;
+  }
+
+  .date-picker__trigger:hover,
+  .date-picker__trigger[aria-expanded='true'] {
+    border-bottom-color: var(--color-amber);
+    background: color-mix(in srgb, var(--color-champagne) 55%, transparent);
+  }
+
+  .date-picker__panel {
+    position: absolute;
+    z-index: 40;
+    top: calc(100% + 0.65rem);
+    left: 0;
+    width: min(100vw - 2rem, 20.5rem);
+    border: 1px solid color-mix(in srgb, var(--color-line) 80%, transparent);
+    background:
+      linear-gradient(180deg, color-mix(in srgb, var(--color-champagne) 92%, white), var(--color-paper));
+    padding: 1rem 1rem 0.9rem;
+    box-shadow: 0 22px 50px rgba(12, 11, 10, 0.12);
+  }
+
+  .date-picker__nav {
+    display: inline-flex;
+    width: 2.25rem;
+    height: 2.25rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    border: 1px solid var(--color-line);
+    background: color-mix(in srgb, var(--color-champagne) 70%, white);
+    color: var(--color-ink);
+    transition:
+      border-color 0.2s ease,
+      background 0.2s ease,
+      opacity 0.2s ease;
+  }
+
+  .date-picker__nav:hover:not(:disabled) {
+    border-color: var(--color-ink);
+  }
+
+  .date-picker__nav:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  .date-picker__day {
+    display: inline-flex;
+    height: 2.35rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    font-family: var(--font-display);
+    font-size: 1rem;
+    color: var(--color-ink);
+    transition:
+      background 0.18s ease,
+      color 0.18s ease,
+      border-color 0.18s ease;
+  }
+
+  .date-picker__day:hover:not(:disabled):not(.is-selected) {
+    background: color-mix(in srgb, var(--color-amber) 14%, transparent);
+  }
+
+  .date-picker__day.is-outside {
+    color: color-mix(in srgb, var(--color-muted) 45%, transparent);
+  }
+
+  .date-picker__day.is-today {
+    border-color: color-mix(in srgb, var(--color-amber) 55%, transparent);
+  }
+
+  .date-picker__day.is-selected {
+    background: var(--color-ink);
+    color: white;
+  }
+
+  .date-picker__day:disabled {
+    cursor: not-allowed;
+    color: color-mix(in srgb, var(--color-muted) 28%, transparent);
+    opacity: 0.55;
+  }
 }

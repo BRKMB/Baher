@@ -5,6 +5,7 @@ import { ArrowDown, ArrowLeft, CalendarDays, Clock3, Minus, Plus, Users } from '
 import { Header } from '../components/Header'
 import { Footer } from '../components/Footer'
 import { BrandLogo } from '../components/BrandLogo'
+import { DatePicker } from '../components/DatePicker'
 import {
   createBooking,
   getAvailability,
@@ -259,20 +260,18 @@ export function ReservePage() {
                 <span className="font-script text-2xl text-amber/80">01</span>
               </div>
               <div className="grid gap-6 sm:grid-cols-2">
-                <label className="grid gap-2 text-sm">
+                <div className="grid gap-2 text-sm">
                   <span className="text-[11px] font-semibold tracking-[0.18em] text-muted uppercase">
                     {t('reserveDate')}
                   </span>
-                  <input
+                  <DatePicker
                     required
-                    type="date"
+                    value={date}
                     min={minBookableDate()}
                     max={maxBookableDate()}
-                    value={date}
-                    onChange={(e) => setDate(e.target.value)}
-                    className="field-input"
+                    onChange={setDate}
                   />
-                </label>
+                </div>
                 <div className="grid gap-2 text-sm">
                   <span className="text-[11px] font-semibold tracking-[0.18em] text-muted uppercase">
                     {t('reserveGuests')}
