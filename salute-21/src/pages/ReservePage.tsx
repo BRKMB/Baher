@@ -6,6 +6,7 @@ import { Header } from '../components/Header'
 import { Footer } from '../components/Footer'
 import { BrandLogo } from '../components/BrandLogo'
 import { DatePicker } from '../components/DatePicker'
+import { Seo } from '../components/Seo'
 import {
   createBooking,
   getAvailability,
@@ -125,6 +126,13 @@ export function ReservePage() {
 
   return (
     <div className="min-h-screen">
+      <Seo
+        page="reserve"
+        breadcrumbs={[
+          { name: 'Home', path: '/' },
+          { name: 'Reserve', path: '/reserve' },
+        ]}
+      />
       <Header variant="page" />
 
       <section className="reserve-hero">

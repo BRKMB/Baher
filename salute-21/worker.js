@@ -3,10 +3,119 @@
  *
  * /api/bookings/* is handled here (KV-backed).
  * Everything else goes to the Assets binding (SPA).
+ * HTML shells get path-specific SEO meta injected for crawlers.
  */
 
+const SITE = 'https://salute21.com'
 const CAPACITY = 28
 const MAX_PARTY = 12
+
+/** Path → SEO (kept in Worker so bots get correct tags without waiting for JS) */
+const SEO_BY_PATH = {
+  '/': {
+    title: 'Salute 21 — Restaurant in Warsaw Wola | Egyptian Soul Fine Dining',
+    description:
+      'Salute 21 restaurant in Warszawa Wola (ul. Marcina Kasprzaka 24A). Egyptian-soul dining room, pizza, burgers, Turkish specials, brunch & table booking online.',
+    ogType: 'website',
+    robots: 'index, follow, max-image-preview:large',
+  },
+  '/menu': {
+    title: 'Menu — Salute 21 Restaurant Warsaw | Pizza, Burgers, Turkish & Drinks',
+    description:
+      'Salute 21 menu: smash burgers with fries, 32 cm wood-fired pizza, sides, Turkish specials, hot & cold coffee, tea and soft drinks. Wola, Warsaw.',
+    ogType: 'website',
+    robots: 'index, follow, max-image-preview:large',
+  },
+  '/reserve': {
+    title: 'Book a Table — Salute 21 Restaurant Warsaw Wola',
+    description:
+      'Reserve a table at Salute 21 in Warszawa Wola. Online booking for dinner, brunch and evenings — ul. Marcina Kasprzaka 24A.',
+    ogType: 'website',
+    robots: 'index, follow, max-image-preview:large',
+  },
+}
+
+function seoForPath(pathname) {
+  if (pathname.startsWith('/admin') || pathname.startsWith('/reserve/success')) {
+    return {
+      title: 'Salute 21',
+      description: 'Salute 21 restaurant — Warsaw.',
+      ogType: 'website',
+      robots: 'noindex, nofollow',
+    }
+  }
+  const key = pathname.length > 1 && pathname.endsWith('/') ? pathname.slice(0, -1) : pathname
+  return SEO_BY_PATH[key] || SEO_BY_PATH['/']
+}
+
+function escapeHtml(value) {
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+}
+
+function injectSeo(html, requestUrl) {
+  const url = new URL(requestUrl)
+  const pathname = url.pathname || '/'
+  const seo = seoForPath(pathname)
+  const canonicalPath = pathname.startsWith('/reserve/success')
+    ? '/reserve'
+    : pathname.startsWith('/admin')
+      ? '/'
+      : pathname === '/'
+        ? '/'
+        : pathname.replace(/\/$/, '') || '/'
+  const canonical =
+    canonicalPath === '/' ? `${SITE}/` : `${SITE}${canonicalPath}`
+  const image = `${SITE}/og.jpg`
+  const title = escapeHtml(seo.title)
+  const description = escapeHtml(seo.description)
+
+  let out = html
+  out = out.replace(/<title>[^<]*<\/title>/i, `<title>${title}</title>`)
+  out = out.replace(
+    /<meta\s+name="description"\s+content="[^"]*"\s*\/?>/i,
+    `<meta name="description" content="${description}" />`,
+  )
+  out = out.replace(
+    /<meta\s+name="robots"\s+content="[^"]*"\s*\/?>/i,
+    `<meta name="robots" content="${escapeHtml(seo.robots)}" />`,
+  )
+  out = out.replace(
+    /<link\s+rel="canonical"\s+href="[^"]*"\s*\/?>/i,
+    `<link rel="canonical" href="${canonical}" />`,
+  )
+
+  const dynamicTags = `
+    <meta property="og:type" content="${escapeHtml(seo.ogType)}" />
+    <meta property="og:title" content="${title}" />
+    <meta property="og:description" content="${description}" />
+    <meta property="og:url" content="${canonical}" />
+    <meta property="og:image" content="${image}" />
+    <meta name="twitter:title" content="${title}" />
+    <meta name="twitter:description" content="${description}" />
+    <meta name="twitter:image" content="${image}" />
+    <link rel="alternate" hreflang="x-default" href="${canonical}" />
+    <link rel="alternate" hreflang="en" href="${canonical}" />
+    <link rel="alternate" hreflang="pl" href="${canonical}" />
+  `
+
+  // Refresh key OG/Twitter tags that exist in the shell
+  out = out.replace(/<meta\s+property="og:title"\s+content="[^"]*"\s*\/?>/i, '')
+  out = out.replace(/<meta\s+property="og:description"\s+content="[^"]*"\s*\/?>/i, '')
+  out = out.replace(/<meta\s+property="og:url"\s+content="[^"]*"\s*\/?>/i, '')
+  out = out.replace(/<meta\s+property="og:type"\s+content="[^"]*"\s*\/?>/i, '')
+  out = out.replace(/<meta\s+name="twitter:title"\s+content="[^"]*"\s*\/?>/i, '')
+  out = out.replace(/<meta\s+name="twitter:description"\s+content="[^"]*"\s*\/?>/i, '')
+  out = out.replace(/<link\s+rel="alternate"\s+hreflang="x-default"\s+href="[^"]*"\s*\/?>/i, '')
+  out = out.replace(/<link\s+rel="alternate"\s+hreflang="en"\s+href="[^"]*"\s*\/?>/i, '')
+  out = out.replace(/<link\s+rel="alternate"\s+hreflang="pl"\s+href="[^"]*"\s*\/?>/i, '')
+
+  out = out.replace('</head>', `${dynamicTags}</head>`)
+  return out
+}
 
 const WEEKDAY_SLOTS = {
   0: [
@@ -273,22 +382,44 @@ async function handleApi(request, env) {
 
 export default {
   async fetch(request, env) {
+    const url = new URL(request.url)
+
+    // Single canonical host for SEO (www → apex)
+    if (url.hostname === 'www.salute21.com') {
+      url.hostname = 'salute21.com'
+      return Response.redirect(url.toString(), 301)
+    }
+
     const apiResponse = await handleApi(request, env)
     if (apiResponse) return apiResponse
 
     const assetResponse = await env.ASSETS.fetch(request)
     const contentType = assetResponse.headers.get('content-type') || ''
-    const url = new URL(request.url)
     const looksLikeAssetFile = /\.[a-z0-9]+$/i.test(url.pathname)
     const isHtmlShell =
       contentType.includes('text/html') ||
       (request.method === 'GET' && !looksLikeAssetFile)
 
-    // Keep SPA shell fresh so booking-pass UI updates are not stuck on old bundles
+    // Keep SPA shell fresh; inject path SEO so Google/social see the right tags
     if (isHtmlShell) {
       const headers = new Headers(assetResponse.headers)
       headers.set('Cache-Control', 'no-store, no-cache, max-age=0, must-revalidate')
       headers.set('Pragma', 'no-cache')
+      headers.set('content-type', 'text/html; charset=utf-8')
+
+      const html = await assetResponse.text()
+      const withSeo = injectSeo(html, request.url)
+      return new Response(withSeo, {
+        status: assetResponse.status,
+        statusText: assetResponse.statusText,
+        headers,
+      })
+    }
+
+    // Long-cache immutable hashed assets; short-cache SEO files
+    if (url.pathname === '/sitemap.xml' || url.pathname === '/robots.txt') {
+      const headers = new Headers(assetResponse.headers)
+      headers.set('Cache-Control', 'public, max-age=3600')
       return new Response(assetResponse.body, {
         status: assetResponse.status,
         statusText: assetResponse.statusText,

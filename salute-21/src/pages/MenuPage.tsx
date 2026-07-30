@@ -14,7 +14,9 @@ import { ChevronLeft, ChevronRight, Download, X } from 'lucide-react'
 import { BrandLogo } from '../components/BrandLogo'
 import { LanguageFlagToggle } from '../components/LanguageFlagToggle'
 import { MenuDietBadge, MenuDietLegend, type MenuDietTag } from '../components/MenuDietIcons'
+import { Seo } from '../components/Seo'
 import { brand, menu, type MenuCategory, type MenuItem } from '../data/content'
+import { buildMenuJsonLd } from '../seo/site'
 import { useI18n } from '../i18n/LanguageContext'
 import type { TranslationKey } from '../i18n/translations'
 
@@ -608,6 +610,25 @@ export function MenuPage() {
 
   return (
     <div className="menu-magazine fixed inset-0 z-40 flex h-dvh max-h-dvh flex-col overflow-hidden bg-[#14110e] text-white select-none">
+      <Seo
+        page="menu"
+        breadcrumbs={[
+          { name: 'Home', path: '/' },
+          { name: 'Menu', path: '/menu' },
+        ]}
+        extraJsonLd={[
+          buildMenuJsonLd(
+            menu.map((cat) => ({
+              name: t(catTitle[cat.id]),
+              items: cat.items.map((item) => ({
+                name: item.name.en,
+                description: item.desc.en,
+                price: item.price,
+              })),
+            })),
+          ),
+        ]}
+      />
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(212,181,106,0.07),transparent_55%)]" />
 
       <header className="menu-magazine__header relative z-30 flex shrink-0 items-center justify-between gap-2 bg-[#14110e] px-3 sm:gap-3 sm:px-4 md:px-6">

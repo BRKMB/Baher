@@ -17,6 +17,7 @@ import {
 import { Header } from '../components/Header'
 import { Footer } from '../components/Footer'
 import { AdminQrChecker } from '../components/AdminQrChecker'
+import { Seo } from '../components/Seo'
 import { formatGuestName, listBookings, type Booking } from '../lib/booking'
 
 const KEY_STORAGE = 'salute21-admin-key'
@@ -120,6 +121,7 @@ export function AdminBookingsPage() {
 
   return (
     <div className="min-h-screen">
+      <Seo page="admin" />
       <Header variant="page" />
       <main className="admin-page px-4 pb-20 pt-24 sm:px-5 md:px-8 md:pb-28 md:pt-32">
         <div className="mx-auto max-w-6xl">

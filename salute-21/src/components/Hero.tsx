@@ -13,7 +13,11 @@ export function Hero() {
       <div className="absolute inset-0">
         <img
           src="/images/hero.jpg"
-          alt="Salute 21"
+          alt="Neapolitan pizza at Salute 21 restaurant in Warsaw Wola"
+          width={1920}
+          height={1280}
+          fetchPriority="high"
+          decoding="async"
           className="h-full w-full scale-[1.02] object-cover object-center"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-ink/90 via-ink/70 to-ink/45" />

@@ -6,6 +6,7 @@ import { CalendarPlus, Download, BookOpen, Navigation } from 'lucide-react'
 import { Header } from '../components/Header'
 import { Footer } from '../components/Footer'
 import { BrandLogo } from '../components/BrandLogo'
+import { Seo } from '../components/Seo'
 import { PassBarcode } from '../components/PassBarcode'
 import { EgyptMotif } from '../components/EgyptMotif'
 import { PassEgyptBackdrop } from '../components/PassEgyptBackdrop'
@@ -69,6 +70,7 @@ export function BookingSuccessPage() {
 
   return (
     <div className="min-h-screen">
+      <Seo page="bookingSuccess" path={id ? `/reserve/success/${id}` : '/reserve/success'} />
       <Header variant="page" />
       <main className="px-4 pb-20 pt-24 sm:px-5 md:px-8 md:pb-28 md:pt-32">
         <motion.div

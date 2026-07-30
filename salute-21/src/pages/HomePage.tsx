@@ -6,10 +6,17 @@ import { Testimonials } from '../components/Testimonials'
 import { Gallery } from '../components/Gallery'
 import { Contact } from '../components/Contact'
 import { Footer } from '../components/Footer'
+import { Seo } from '../components/Seo'
 
 export function HomePage() {
   return (
     <div className="min-h-screen">
+      <Seo
+        page="home"
+        breadcrumbs={[
+          { name: 'Home', path: '/' },
+        ]}
+      />
       <Header variant="landing" />
       <main>
         <Hero />
