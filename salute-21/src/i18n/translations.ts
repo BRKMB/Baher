@@ -11,7 +11,7 @@ export const translations = {
     navContact: 'Contact',
     reserveCta: 'Book a table',
     menuCta: 'View menu',
-    heroTitle: 'Italian plates, Egyptian soul',
+    heroTitle: 'Italian kitchen, Egyptian soul',
     heroSubtitle:
       'A restaurant in Wola where Mediterranean cooking meets a room of gold light, hieroglyph walls, and quiet statues — dinners meant to linger.',
     aboutEyebrow: 'About Salute 21',
@@ -19,12 +19,12 @@ export const translations = {
     aboutP1:
       'Salute 21 is a restaurant first — Italian-inspired cooking in Warsaw, served in a room that carries an Egyptian soul: carved walls, warm gold, and decorative statues that set a different kind of evening.',
     aboutP2:
-      'Come for pasta and shared plates, stay for the atmosphere. We cook with care, and the space does the rest — intimate, a little theatrical, always welcoming.',
+      'Come for dinner, stay for the atmosphere. We cook with care, and the space does the rest — intimate, a little theatrical, always welcoming.',
     aboutP3: 'Salute 21 — where flavour meets story.',
     aboutCard: 'Kitchen · Egyptian room',
     value1Title: 'Share the table',
     value1Text:
-      'Plates meant for passing around. Order a few, taste everything, and let the evening find its pace.',
+      'Dishes meant for sharing. Order a few, taste everything, and let the evening find its pace.',
     value2Title: 'Egyptian atmosphere',
     value2Text:
       'Hieroglyph details on the walls, soft statue silhouettes, and candle-gold light — décor that makes the room feel like a secret.',
@@ -35,33 +35,33 @@ export const translations = {
     highlightsTitle: 'Dinner, drinks, brunch',
     highlightSpuntiniTitle: 'Restaurant',
     highlightSpuntiniText:
-      'Antipasti, pasta, grilled plates — the heart of Salute 21 is the kitchen.',
+      'Seasonal cooking from the Salute 21 kitchen — generous flavours, made to share.',
     highlightBarTitle: 'Wine & drinks',
     highlightBarText:
       'Wines by the glass, house cocktails, and zero-proof options to match the meal.',
     highlightBreakfastTitle: 'Weekend brunch',
-    highlightBreakfastText: 'Saturdays & Sundays from 11:00 — unhurried plates and coffee.',
+    highlightBreakfastText: 'Saturdays & Sundays from 11:00 — unhurried brunch and coffee.',
     galleryEyebrow: 'Gallery',
     galleryTitle: 'Taste, light, table',
-    galleryText: 'Plates from the kitchen — and the Egyptian glow of the room in Wola.',
+    galleryText: 'Moments from the kitchen — and the Egyptian glow of the room in Wola.',
     testimonialsEyebrow: 'Guest book',
     testimonialsTitle: 'Words from the table',
     testimonialsIntro:
-      'Quiet evenings, shared plates, a room with its own myth — notes from guests who return.',
+      'Quiet evenings, a shared table, a room with its own myth — notes from guests who return.',
     testi1Quote:
-      'Elegant without being stiff. The pasta was perfect, and the Egyptian room felt like a secret we wanted to keep.',
+      'Elegant without being stiff. The food was perfect, and the Egyptian room felt like a secret we wanted to keep.',
     testi1Role: 'Warsaw · designer',
     testi2Quote:
-      'Beautiful wine list and a kitchen that knows restraint. We booked again before the dessert arrived.',
+      'Beautiful wine list and a kitchen that knows restraint. We booked again before dessert arrived.',
     testi2Role: 'Regular guest',
     testi3Quote:
-      'Warm service, polished plates. Salute 21 has that rare balance of comfort, craft, and atmosphere.',
+      'Warm service, polished cooking. Salute 21 has that rare balance of comfort, craft, and atmosphere.',
     testi3Role: 'Food writer',
     testi4Quote:
       'Ideal for clients — confident cooking, a calm room with character, and a true restaurant feel in Wola.',
     testi4Role: 'Entrepreneur',
     testi5Quote:
-      'From the first pasta to tiramisu, everything felt intentional. The décor makes the evening memorable.',
+      'From the first course to the last, everything felt intentional. The décor makes the evening memorable.',
     testi5Role: 'Architect',
     testi6Quote:
       'We celebrated here and it felt intimate without trying. Outstanding hospitality.',
@@ -83,7 +83,7 @@ export const translations = {
     menuPageEyebrow: 'La Carta',
     menuPageTitle: 'The Salute 21 menu',
     menuPageIntro:
-      'We recommend a few plates to share. The kitchen closes one hour before closing time. v — vegan, w — vegetarian.',
+      'We recommend ordering a few things to share. The kitchen closes one hour before closing time. v — vegan, w — vegetarian.',
     menuBookTitle: 'Open the menu',
     menuBookHint: 'Turn the pages — as if the menu were in your hands.',
     menuBookSpread: 'Turn the page',
@@ -92,7 +92,7 @@ export const translations = {
     menuNavClose: 'Closing',
     menuCoverWelcome: 'Welcome',
     menuCoverAbout:
-      'Italian-inspired cooking in Wola — served in a room with Egyptian soul, shared plates, and evenings that stretch.',
+      'Italian-inspired cooking in Wola — served in a room with Egyptian soul, and evenings that stretch.',
     menuCoverHours: 'Hours',
     menuCoverVisit: 'Visit',
     menuCoverContents: 'Inside',
@@ -188,7 +188,7 @@ export const translations = {
     navContact: 'Kontakt',
     reserveCta: 'Zarezerwuj stolik',
     menuCta: 'Zobacz menu',
-    heroTitle: 'Włoskie talerze, egipska dusza',
+    heroTitle: 'Włoska kuchnia, egipska dusza',
     heroSubtitle:
       'Restauracja na Woli, gdzie śródziemnomorska kuchnia spotyka salę pełną złotego światła, hieroglifów na ścianach i cichych posągów — kolacje bez pośpiechu.',
     aboutEyebrow: 'O Salute 21',
@@ -196,12 +196,12 @@ export const translations = {
     aboutP1:
       'Salute 21 to przede wszystkim restauracja — włosko inspirowana kuchnia w Warszawie, serwowana w sali o egipskiej duszy: rzeźbione ściany, ciepłe złoto i dekoracyjne posągi, które budują inny wieczór.',
     aboutP2:
-      'Przyjdź na pastę i wspólne talerze, zostań dla atmosfery. Gotujemy z dbałością, a przestrzeń robi resztę — kameralnie, odrobinę teatralnie, zawsze gościnnie.',
+      'Przyjdź na kolację, zostań dla atmosfery. Gotujemy z dbałością, a przestrzeń robi resztę — kameralnie, odrobinę teatralnie, zawsze gościnnie.',
     aboutP3: 'Salute 21 — gdzie smak spotyka opowieść.',
     aboutCard: 'Kuchnia · Egipska sala',
     value1Title: 'Wspólny stół',
     value1Text:
-      'Talerze do przekazywania. Zamów kilka, spróbuj wszystkiego i pozwól wieczorowi znaleźć swój rytm.',
+      'Dania do dzielenia. Zamów kilka, spróbuj wszystkiego i pozwól wieczorowi znaleźć swój rytm.',
     value2Title: 'Egipska atmosfera',
     value2Text:
       'Detale hieroglifów na ścianach, sylwetki posągów i świecące złoto — wystrój, który sprawia, że lokal staje się sekretem.',
@@ -212,33 +212,33 @@ export const translations = {
     highlightsTitle: 'Kolacja, napoje, brunch',
     highlightSpuntiniTitle: 'Restauracja',
     highlightSpuntiniText:
-      'Antipasti, pasta, dania z grilla — sercem Salute 21 jest kuchnia.',
+      'Sezonowa kuchnia Salute 21 — hojne smaki, stworzone do dzielenia.',
     highlightBarTitle: 'Wino i napoje',
     highlightBarText:
       'Wina na kieliszki, koktajle domu i wersje zero-proof dopasowane do posiłku.',
     highlightBreakfastTitle: 'Weekendowy brunch',
-    highlightBreakfastText: 'Soboty i niedziele od 11:00 — bez pośpiechu, z kawą.',
+    highlightBreakfastText: 'Soboty i niedziele od 11:00 — brunch bez pośpiechu, z kawą.',
     galleryEyebrow: 'Galeria',
     galleryTitle: 'Smak, światło, stół',
-    galleryText: 'Talerze z kuchni — i egipskie światło sali na Woli.',
+    galleryText: 'Chwile z kuchni — i egipskie światło sali na Woli.',
     testimonialsEyebrow: 'Księga gości',
     testimonialsTitle: 'Słowa od stołu',
     testimonialsIntro:
-      'Spokojne wieczory, wspólne talerze, sala z własnym mitem — notatki gości, którzy wracają.',
+      'Spokojne wieczory, wspólny stół, sala z własnym mitem — notatki gości, którzy wracają.',
     testi1Quote:
-      'Elegancko, ale bez sztywności. Pasta była idealna, a egipska sala jak sekret, który chciało się zatrzymać.',
+      'Elegancko, ale bez sztywności. Jedzenie było idealne, a egipska sala jak sekret, który chciało się zatrzymać.',
     testi1Role: 'Warszawa · projektantka',
     testi2Quote:
       'Piękna karta win i kuchnia, która zna umiar. Zarezerwowaliśmy kolejny stolik przed deserem.',
     testi2Role: 'Stały gość',
     testi3Quote:
-      'Ciepła obsługa, dopracowane talerze. Salute 21 ma rzadką równowagę komfortu, rzemiosła i atmosfery.',
+      'Ciepła obsługa, dopracowana kuchnia. Salute 21 ma rzadką równowagę komfortu, rzemiosła i atmosfery.',
     testi3Role: 'Dziennikarka kulinarna',
     testi4Quote:
       'Idealne na spotkania biznesowe — pewna kuchnia, sala z charakterem i prawdziwy klimat restauracji na Woli.',
     testi4Role: 'Przedsiębiorca',
     testi5Quote:
-      'Od pierwszej pasty do tiramisu wszystko było przemyślane. Wystrój sprawia, że wieczór zostaje w pamięci.',
+      'Od pierwszego dania do ostatniego wszystko było przemyślane. Wystrój sprawia, że wieczór zostaje w pamięci.',
     testi5Role: 'Architekt',
     testi6Quote:
       'Świętowaliśmy tu i było kameralnie, bez udawania. Wyjątkowa gościnność.',
@@ -260,7 +260,7 @@ export const translations = {
     menuPageEyebrow: 'La Carta',
     menuPageTitle: 'Menu Salute 21',
     menuPageIntro:
-      'Polecamy kilka talerzy do dzielenia. Kuchnię zamykamy godzinę przed zamknięciem. v — wegańskie, w — wegetariańskie.',
+      'Polecamy zamówić kilka rzeczy do dzielenia. Kuchnię zamykamy godzinę przed zamknięciem. v — wegańskie, w — wegetariańskie.',
     menuBookTitle: 'Otwórz menu',
     menuBookHint: 'Przewracaj strony — jakbyś trzymał kartę w dłoniach.',
     menuBookSpread: 'Przewróć stronę',
@@ -269,7 +269,7 @@ export const translations = {
     menuNavClose: 'Zakończenie',
     menuCoverWelcome: 'Witamy',
     menuCoverAbout:
-      'Włosko inspirowana kuchnia na Woli — w sali o egipskiej duszy, ze wspólnymi talerzami i wieczorami bez pośpiechu.',
+      'Włosko inspirowana kuchnia na Woli — w sali o egipskiej duszy i wieczorami bez pośpiechu.',
     menuCoverHours: 'Godziny',
     menuCoverVisit: 'Odwiedź',
     menuCoverContents: 'W karcie',
