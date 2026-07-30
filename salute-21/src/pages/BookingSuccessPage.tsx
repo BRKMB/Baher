@@ -170,7 +170,11 @@ export function BookingSuccessPage() {
             </div>
 
             <div className="boarding-pass__stub">
-              {refId ? <PassBarcode value={refId} /> : null}
+              {refId ? (
+                <div className="boarding-pass__barcode-only" data-pass-code="code128">
+                  <PassBarcode value={refId} />
+                </div>
+              ) : null}
               <p className="boarding-pass__ref-label mt-4 text-[10px] font-semibold tracking-[0.24em] uppercase">
                 {t('reserveRef')}
               </p>

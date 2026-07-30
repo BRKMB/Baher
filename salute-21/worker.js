@@ -275,6 +275,27 @@ export default {
   async fetch(request, env) {
     const apiResponse = await handleApi(request, env)
     if (apiResponse) return apiResponse
-    return env.ASSETS.fetch(request)
+
+    const assetResponse = await env.ASSETS.fetch(request)
+    const contentType = assetResponse.headers.get('content-type') || ''
+    const url = new URL(request.url)
+    const looksLikeAssetFile = /\.[a-z0-9]+$/i.test(url.pathname)
+    const isHtmlShell =
+      contentType.includes('text/html') ||
+      (request.method === 'GET' && !looksLikeAssetFile)
+
+    // Keep SPA shell fresh so booking-pass UI updates are not stuck on old bundles
+    if (isHtmlShell) {
+      const headers = new Headers(assetResponse.headers)
+      headers.set('Cache-Control', 'no-store, no-cache, max-age=0, must-revalidate')
+      headers.set('Pragma', 'no-cache')
+      return new Response(assetResponse.body, {
+        status: assetResponse.status,
+        statusText: assetResponse.statusText,
+        headers,
+      })
+    }
+
+    return assetResponse
   },
 }

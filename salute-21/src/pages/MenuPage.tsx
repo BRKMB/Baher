@@ -13,7 +13,7 @@ import { QRCodeSVG } from 'qrcode.react'
 import { ChevronLeft, ChevronRight, Download, X } from 'lucide-react'
 import { BrandLogo } from '../components/BrandLogo'
 import { LanguageFlagToggle } from '../components/LanguageFlagToggle'
-import { brand, menu, type MenuCategory } from '../data/content'
+import { brand, menu, type MenuCategory, type MenuItem } from '../data/content'
 import { useI18n } from '../i18n/LanguageContext'
 import type { TranslationKey } from '../i18n/translations'
 
@@ -33,6 +33,50 @@ const catSub: Record<MenuCategory['id'], TranslationKey> = {
   turkish: 'cat_turkish_sub',
   coffee: 'cat_coffee_sub',
   cold_drinks: 'cat_cold_drinks_sub',
+}
+
+type ItemPageSlice = {
+  items: MenuItem[]
+  showNote: boolean
+}
+
+/** Split long drink lists so each flip page stays inside the book frame. */
+function itemSlicesFor(category: MenuCategory): ItemPageSlice[] {
+  const items = category.items
+  const hasGroups = items.some((item) => item.group)
+  if (!hasGroups || items.length <= 6) {
+    return [{ items, showNote: Boolean(category.note) }]
+  }
+
+  const groups: MenuItem[][] = []
+  let current = ''
+  let bucket: MenuItem[] = []
+  for (const item of items) {
+    const key = item.group?.en || ''
+    if (key !== current && bucket.length) {
+      groups.push(bucket)
+      bucket = []
+    }
+    current = key
+    bucket.push(item)
+  }
+  if (bucket.length) groups.push(bucket)
+
+  // Merge trailing groups that still fit on one page
+  const merged: MenuItem[][] = []
+  for (const group of groups) {
+    const prev = merged[merged.length - 1]
+    if (prev && prev.length + group.length <= 6) {
+      merged[merged.length - 1] = [...prev, ...group]
+    } else {
+      merged.push(group)
+    }
+  }
+
+  return merged.map((slice, i) => ({
+    items: slice,
+    showNote: i === 0 && Boolean(category.note),
+  }))
 }
 
 type FlipApi = {
@@ -232,66 +276,74 @@ const CategoryImagePage = forwardRef<HTMLDivElement, { category: MenuCategory; i
   },
 )
 
-const CategoryItemsPage = forwardRef<HTMLDivElement, { category: MenuCategory }>(
-  function CategoryItemsPage({ category }, ref) {
-    const { t, lang } = useI18n()
-    let lastGroup = ''
-    return (
-      <BookPage ref={ref} className="flex flex-col p-5 sm:p-7 md:p-9">
+const CategoryItemsPage = forwardRef<
+  HTMLDivElement,
+  { category: MenuCategory; items: MenuItem[]; showNote?: boolean }
+>(function CategoryItemsPage({ category, items, showNote = true }, ref) {
+  const { t, lang } = useI18n()
+  let lastGroup = ''
+  return (
+    <BookPage ref={ref} className="flex min-h-0 flex-col overflow-hidden p-5 sm:p-7 md:p-9">
+      <div className="shrink-0">
         <PageEyebrow>{t(catSub[category.id])}</PageEyebrow>
         <h3 className="mt-2 font-display text-3xl text-ink italic sm:text-4xl md:text-[2.75rem]">
           {t(catTitle[category.id])}
         </h3>
         <PageRule />
-        {category.note && (
-          <p className="mb-4 border-l-2 border-amber/50 bg-champagne/50 px-3 py-2 text-[11px] leading-relaxed text-muted sm:text-xs">
+        {showNote && category.note && (
+          <p className="mb-3 border-l-2 border-amber/50 bg-champagne/50 px-3 py-2 text-[11px] leading-relaxed text-muted sm:text-xs">
             {category.note[lang]}
           </p>
         )}
-        <ul className="flex-1 space-y-3 overflow-auto pr-1 sm:space-y-3.5">
-          {category.items.map((item) => {
-            const groupLabel = item.group?.[lang] || ''
-            const showGroup = Boolean(groupLabel && groupLabel !== lastGroup)
-            if (showGroup) lastGroup = groupLabel
-            return (
-              <li key={`${groupLabel}-${item.name.en}`} className="border-b border-line/55 pb-3 last:border-0 sm:pb-3.5">
-                {showGroup && (
-                  <p className="mb-2 text-[10px] font-semibold tracking-[0.2em] text-amber uppercase">
-                    {groupLabel}
-                  </p>
-                )}
-                <div className="flex items-start justify-between gap-2 sm:gap-3">
-                  <div className="min-w-0">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <h4 className="text-[13px] font-semibold text-ink sm:text-[15px]">
-                        {item.name[lang]}
-                      </h4>
-                      {item.tags?.includes('v') && (
-                        <span className="text-[9px] font-bold tracking-[0.14em] text-olive uppercase">
-                          vegan
-                        </span>
-                      )}
-                      {item.tags?.includes('w') && (
-                        <span className="text-[9px] font-bold tracking-[0.14em] text-amber-deep uppercase">
-                          vege
-                        </span>
-                      )}
-                    </div>
-                    <p className="mt-1 text-xs leading-relaxed text-muted">{item.desc[lang]}</p>
+      </div>
+      <ul className="min-h-0 flex-1 space-y-2.5 overflow-y-auto overscroll-contain pr-1 sm:space-y-3">
+        {items.map((item) => {
+          const groupLabel = item.group?.[lang] || ''
+          const showGroup = Boolean(groupLabel && groupLabel !== lastGroup)
+          if (showGroup) lastGroup = groupLabel
+          return (
+            <li
+              key={`${groupLabel}-${item.name.en}`}
+              className="border-b border-line/55 pb-2.5 last:border-0 sm:pb-3"
+            >
+              {showGroup && (
+                <p className="mb-1.5 text-[10px] font-semibold tracking-[0.2em] text-amber uppercase">
+                  {groupLabel}
+                </p>
+              )}
+              <div className="flex items-start justify-between gap-2 sm:gap-3">
+                <div className="min-w-0">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <h4 className="text-[13px] font-semibold text-ink sm:text-[15px]">
+                      {item.name[lang]}
+                    </h4>
+                    {item.tags?.includes('v') && (
+                      <span className="text-[9px] font-bold tracking-[0.14em] text-olive uppercase">
+                        vegan
+                      </span>
+                    )}
+                    {item.tags?.includes('w') && (
+                      <span className="text-[9px] font-bold tracking-[0.14em] text-amber-deep uppercase">
+                        vege
+                      </span>
+                    )}
                   </div>
-                  <p className="shrink-0 font-display text-xl text-ink italic tabular-nums">
-                    {item.price}
-                  </p>
+                  <p className="mt-0.5 text-xs leading-relaxed text-muted">{item.desc[lang]}</p>
                 </div>
-              </li>
-            )
-          })}
-        </ul>
-        <p className="mt-4 text-right text-[10px] tracking-[0.22em] text-ink/35 uppercase">zł</p>
-      </BookPage>
-    )
-  },
-)
+                <p className="shrink-0 font-display text-xl text-ink italic tabular-nums">
+                  {item.price}
+                </p>
+              </div>
+            </li>
+          )
+        })}
+      </ul>
+      <p className="mt-3 shrink-0 text-right text-[10px] tracking-[0.22em] text-ink/35 uppercase">
+        zł
+      </p>
+    </BookPage>
+  )
+})
 
 export function MenuPage() {
   const { t, lang } = useI18n()
@@ -304,23 +356,41 @@ export function MenuPage() {
 
   const COVER_PAGES = 2
 
+  const categoryPageStarts = useMemo(() => {
+    let cursor = COVER_PAGES
+    return menu.map((category) => {
+      const start = cursor
+      cursor += 1 + itemSlicesFor(category).length
+      return start
+    })
+  }, [])
+
   const navItems = useMemo(
     () => [
       { id: 'cover', label: t('menuNavCover'), pageIndex: 0 },
       ...menu.map((category, i) => ({
         id: category.id,
         label: t(catTitle[category.id]),
-        pageIndex: COVER_PAGES + i * 2,
+        pageIndex: categoryPageStarts[i] ?? COVER_PAGES,
       })),
     ],
-    [t],
+    [t, categoryPageStarts],
   )
 
   const activeNavId = useMemo(() => {
     if (page < COVER_PAGES) return 'cover'
-    const catIndex = Math.floor((page - COVER_PAGES) / 2)
-    return menu[Math.min(catIndex, menu.length - 1)]?.id ?? 'cover'
-  }, [page])
+    let active = menu[0]?.id ?? 'cover'
+    for (let i = 0; i < menu.length; i++) {
+      const start = categoryPageStarts[i] ?? COVER_PAGES
+      const next = categoryPageStarts[i + 1] ?? Number.POSITIVE_INFINITY
+      if (page >= start && page < next) {
+        active = menu[i].id
+        break
+      }
+      if (page >= start) active = menu[i].id
+    }
+    return active
+  }, [page, categoryPageStarts])
 
   useEffect(() => {
     const update = () => {
@@ -456,9 +526,18 @@ export function MenuPage() {
           />
         ),
       })
-      nodes.push({
-        key: `${category.id}-items`,
-        node: <CategoryItemsPage key={`${category.id}-items`} category={category} />,
+      itemSlicesFor(category).forEach((slice, sliceIndex) => {
+        nodes.push({
+          key: `${category.id}-items-${sliceIndex}`,
+          node: (
+            <CategoryItemsPage
+              key={`${category.id}-items-${sliceIndex}`}
+              category={category}
+              items={slice.items}
+              showNote={slice.showNote}
+            />
+          ),
+        })
       })
     })
     return nodes
@@ -507,8 +586,8 @@ export function MenuPage() {
     <div className="menu-magazine fixed inset-0 z-40 flex flex-col overflow-hidden bg-[#14110e] text-white select-none">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(212,181,106,0.07),transparent_55%)]" />
 
-      <header className="relative z-20 flex shrink-0 items-center justify-between gap-3 px-3 py-3 sm:gap-4 sm:px-4 sm:py-3.5 md:px-6">
-        <div className="flex min-w-0 items-center gap-2.5 sm:gap-3">
+      <header className="relative z-20 flex shrink-0 items-center justify-between gap-2 px-3 py-3 sm:gap-3 sm:px-4 sm:py-3.5 md:px-6">
+        <div className="flex min-w-0 items-center gap-2 sm:gap-2.5">
           <Link
             to="/"
             className="inline-flex size-9 shrink-0 items-center justify-center text-white/75 transition hover:text-white"
@@ -518,11 +597,11 @@ export function MenuPage() {
           </Link>
           <BrandLogo
             tone="light"
-            className="text-[1.7rem] leading-none opacity-95 sm:text-[1.95rem]"
+            className="max-w-[42vw] truncate text-[1.55rem] leading-none opacity-95 sm:max-w-none sm:text-[1.95rem]"
           />
         </div>
 
-        <div className="flex shrink-0 items-center gap-2.5 sm:gap-3 md:gap-4">
+        <div className="flex shrink-0 items-center gap-2 sm:gap-3 md:gap-4">
           <LanguageFlagToggle solid={false} bare />
           <button
             type="button"
@@ -533,7 +612,7 @@ export function MenuPage() {
           </button>
           <Link
             to="/reserve"
-            className="rounded-full bg-white px-3 py-1.5 text-[11px] font-semibold tracking-wide text-ink transition hover:bg-gold sm:px-4 sm:py-2 sm:text-xs"
+            className="rounded-full bg-white px-2.5 py-1.5 text-[11px] font-semibold tracking-wide text-ink transition hover:bg-gold sm:px-4 sm:py-2 sm:text-xs"
           >
             {t('reserveCta')}
           </Link>

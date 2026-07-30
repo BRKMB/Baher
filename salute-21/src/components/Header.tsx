@@ -48,15 +48,12 @@ export function Header({ variant = 'landing' }: { variant?: 'landing' | 'page' }
           : 'bg-ink/90 backdrop-blur-sm'
       }`}
     >
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-4 md:px-8">
-        <Link to="/" className="group flex items-center gap-3" aria-label="Salute 21">
-          <BrandLogo tone="light" className="text-[2.35rem] md:text-[2.75rem]" />
-          <span className="hidden font-display text-sm tracking-[0.22em] text-white/70 uppercase sm:inline">
-            21
-          </span>
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3.5 sm:gap-4 sm:px-5 md:px-8 md:py-4">
+        <Link to="/" className="group min-w-0 shrink" aria-label="Salute 21">
+          <BrandLogo tone="light" className="text-[2.05rem] leading-none sm:text-[2.25rem] md:text-[2.55rem]" />
         </Link>
 
-        <nav className="hidden items-center gap-7 lg:flex" aria-label="Main">
+        <nav className="hidden min-w-0 items-center gap-5 xl:gap-7 lg:flex" aria-label="Main">
           {links.map((link) =>
             link.to.startsWith('/#') ? (
               <a
@@ -82,7 +79,7 @@ export function Header({ variant = 'landing' }: { variant?: 'landing' | 'page' }
           )}
         </nav>
 
-        <div className="flex items-center gap-3 md:gap-4">
+        <div className="flex shrink-0 items-center gap-2.5 sm:gap-3 md:gap-4">
           <LanguageFlagToggle solid={false} />
 
           <a
@@ -97,7 +94,7 @@ export function Header({ variant = 'landing' }: { variant?: 'landing' | 'page' }
 
           <Link
             to="/reserve"
-            className="hidden items-center gap-2 rounded-full bg-white px-4 py-2.5 text-sm font-semibold text-ink transition hover:bg-champagne md:inline-flex"
+            className="hidden items-center gap-2 rounded-full bg-white px-3.5 py-2 text-sm font-semibold text-ink transition hover:bg-champagne md:inline-flex md:px-4 md:py-2.5"
           >
             <UtensilsCrossed className="size-4" strokeWidth={1.75} />
             {t('reserveCta')}
@@ -105,7 +102,7 @@ export function Header({ variant = 'landing' }: { variant?: 'landing' | 'page' }
 
           <button
             type="button"
-            className="inline-flex items-center justify-center text-white lg:hidden"
+            className="inline-flex size-10 items-center justify-center text-white lg:hidden"
             aria-label={open ? 'Close' : 'Menu'}
             onClick={() => setOpen((v) => !v)}
           >

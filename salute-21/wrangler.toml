@@ -1,13 +1,22 @@
 name = "salute21"
 compatibility_date = "2026-07-30"
 main = "worker.js"
+workers_dev = true
+
+[[routes]]
+pattern = "salute21.com"
+custom_domain = true
+
+[[routes]]
+pattern = "www.salute21.com"
+custom_domain = true
 
 [assets]
 directory = "./dist"
 binding = "ASSETS"
 not_found_handling = "single-page-application"
-# Always run the Worker for API routes so SPA fallback never swallows /api/*
-run_worker_first = ["/api/*"]
+# Worker first so /api/* is never swallowed and HTML shells get no-store cache headers
+run_worker_first = true
 
 [[kv_namespaces]]
 binding = "BOOKINGS"
