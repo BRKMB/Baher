@@ -171,7 +171,7 @@ export function BookingSuccessPage() {
                 {t('reserveRef')}
               </p>
               <p className="boarding-pass__ref">{refId}</p>
-              <p className="boarding-pass__hint mx-auto mt-3 max-w-[18rem] text-center text-xs leading-relaxed">
+              <p className="boarding-pass__hint mx-auto mt-2 max-w-none text-center text-[10px] leading-snug tracking-wide opacity-70 whitespace-nowrap sm:text-[11px]">
                 {t('reserveScanHint')}
               </p>
             </div>

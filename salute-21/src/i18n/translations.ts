@@ -133,7 +133,7 @@ export const translations = {
     reserveSuccessNote:
       'Please arrive within 15 minutes of your booking time.',
     reservePassLabel: 'Table pass',
-    reserveScanHint: 'Host scans this code to confirm your table — no questions needed.',
+    reserveScanHint: 'Show this code to the host.',
     reserveSavePass: 'Save pass to phone',
     reserveSavingPass: 'Saving…',
     reservePassSaved: 'Saved',
@@ -310,7 +310,7 @@ export const translations = {
     reserveSuccessNote:
       'Prosimy o przybycie w ciągu 15 minut od godziny rezerwacji.',
     reservePassLabel: 'Bilet stolika',
-    reserveScanHint: 'Obsługa skanuje ten kod, by potwierdzić stolik — bez pytań.',
+    reserveScanHint: 'Pokaż ten kod obsłudze.',
     reserveSavePass: 'Zapisz bilet w telefonie',
     reserveSavingPass: 'Zapisuję…',
     reservePassSaved: 'Zapisano',
