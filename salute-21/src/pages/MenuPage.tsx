@@ -366,8 +366,9 @@ export function MenuPage() {
     const update = () => {
       const vw = window.innerWidth
       const vh = window.innerHeight
-      const chrome = vw < 768 ? 168 : 140
-      const availableH = Math.max(400, vh - chrome)
+      // Header + category strip + footer — keep the book fully below the nav bar
+      const chrome = vw < 768 ? 196 : 188
+      const availableH = Math.max(360, vh - chrome)
 
       if (vw < 768) {
         const pageW = Math.min(Math.floor(vw - 20), 440)
@@ -378,7 +379,7 @@ export function MenuPage() {
         const pageW = Math.floor(maxSpreadW / 2)
         const pageH = Math.min(availableH, Math.round(pageW * 1.42))
         const finalW = Math.max(280, Math.min(pageW, Math.floor(pageH / 1.42)))
-        setDims({ w: finalW, h: Math.round(finalW * 1.42), mobile: false })
+        setDims({ w: finalW, h: Math.min(availableH, Math.round(finalW * 1.42)), mobile: false })
       }
     }
     update()
@@ -556,7 +557,7 @@ export function MenuPage() {
     <div className="menu-magazine fixed inset-0 z-40 flex flex-col overflow-hidden bg-[#14110e] text-white select-none">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(212,181,106,0.07),transparent_55%)]" />
 
-      <header className="relative z-20 flex shrink-0 items-center justify-between gap-2 px-3 py-3 sm:gap-3 sm:px-4 sm:py-3.5 md:px-6">
+      <header className="relative z-30 flex shrink-0 items-center justify-between gap-2 bg-[#14110e] px-3 py-3 sm:gap-3 sm:px-4 sm:py-3.5 md:px-6">
         <div className="flex min-w-0 items-center gap-2 sm:gap-2.5">
           <Link
             to="/"
@@ -591,7 +592,7 @@ export function MenuPage() {
 
       <nav
         aria-label={t('menuQuickNav')}
-        className="relative z-20 shrink-0 border-y border-white/10 bg-black/25"
+        className="menu-cat-bar relative z-30 shrink-0 border-y border-white/10"
       >
         <div ref={navRef} className="menu-cat-nav px-3 py-2.5 sm:px-4 md:py-3">
           <div className="flex w-max gap-2 md:gap-2.5">
@@ -618,7 +619,7 @@ export function MenuPage() {
         </div>
       </nav>
 
-      <div className="relative z-10 flex min-h-0 flex-1 items-center justify-center px-1 sm:px-2 md:px-4">
+      <div className="menu-book-slot relative z-10 flex min-h-0 flex-1 items-center justify-center overflow-hidden px-1 sm:px-2 md:px-4">
         <button
           type="button"
           onClick={flipPrev}
@@ -628,25 +629,25 @@ export function MenuPage() {
           <ChevronLeft className="size-8" strokeWidth={1.25} />
         </button>
 
-        <div className="menu-book-stage w-full max-w-[1200px] select-none">
+        <div className="menu-book-stage max-h-full w-full max-w-[1200px] select-none">
           <HTMLFlipBook
-            key={`${lang}-${dims.w}-${dims.mobile ? 'm' : 'd'}`}
+            key={`${lang}-${dims.w}-${dims.h}-${dims.mobile ? 'm' : 'd'}`}
             width={dims.w}
             height={dims.h}
-            size="stretch"
-            minWidth={dims.mobile ? 260 : 280}
-            maxWidth={dims.mobile ? 460 : 620}
-            minHeight={dims.mobile ? 380 : 400}
-            maxHeight={dims.mobile ? 780 : 900}
+            size="fixed"
+            minWidth={dims.w}
+            maxWidth={dims.w}
+            minHeight={dims.h}
+            maxHeight={dims.h}
             showCover={false}
             mobileScrollSupport
             drawShadow
             flippingTime={dims.mobile ? 850 : 950}
             usePortrait={dims.mobile}
             startPage={0}
-            autoSize
+            autoSize={false}
             maxShadowOpacity={0.55}
-            className="menu-magazine mx-auto select-none"
+            className="menu-flipbook mx-auto select-none"
             style={{ margin: '0 auto', userSelect: 'none' }}
             ref={bookRef as Ref<FlipApi>}
             onFlip={(e: { data: number }) => setPage(e.data)}
@@ -673,7 +674,7 @@ export function MenuPage() {
         </button>
       </div>
 
-      <footer className="relative z-20 flex shrink-0 items-center justify-between gap-3 px-3 py-2.5 sm:justify-center sm:gap-6 sm:px-4 sm:py-3 md:gap-8 safe-bottom">
+      <footer className="relative z-30 flex shrink-0 items-center justify-between gap-3 bg-[#14110e] px-3 py-2.5 sm:justify-center sm:gap-6 sm:px-4 sm:py-3 md:gap-8 safe-bottom">
         <button
           type="button"
           onClick={flipPrev}
