@@ -406,12 +406,16 @@ export function MenuPage() {
   const jumpTo = (pageIndex: number) => {
     const api = bookRef.current?.pageFlip()
     if (!api) return
+    // Always land on the section image page (even index for categories).
+    // turnToPage jumps instantly — flip() only advances one spread per call,
+    // which caused lag and wrong-section landings.
+    const target = Math.max(0, Math.min(pageIndex, (api.getPageCount?.() ?? pageNodes.length) - 1))
     try {
-      api.flip(pageIndex)
+      api.turnToPage(target)
     } catch {
-      api.turnToPage(pageIndex)
+      // ignore
     }
-    setPage(pageIndex)
+    setPage(target)
   }
 
   const totalPages = Math.max(pageCount || pageNodes.length, 1)
