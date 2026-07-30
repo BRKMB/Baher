@@ -3,7 +3,7 @@ import { Link, useLocation, useParams } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { toPng } from 'html-to-image'
 import { QRCodeSVG } from 'qrcode.react'
-import { CalendarPlus, Download, BookOpen, Check } from 'lucide-react'
+import { CalendarPlus, Download, BookOpen } from 'lucide-react'
 import { Header } from '../components/Header'
 import { Footer } from '../components/Footer'
 import { BrandLogo } from '../components/BrandLogo'
@@ -80,8 +80,33 @@ export function BookingSuccessPage() {
           className="mx-auto max-w-lg"
         >
           <div className="mb-8 text-center">
-            <p className="inline-flex items-center gap-2 text-[11px] font-semibold tracking-[0.28em] text-amber uppercase">
-              <Check className="size-3.5" strokeWidth={2.2} />
+            <motion.div
+              className="success-check mx-auto"
+              initial={{ opacity: 0, scale: 0.72 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ type: 'spring', stiffness: 220, damping: 16, delay: 0.05 }}
+              aria-hidden
+            >
+              <svg viewBox="0 0 72 72" className="success-check__svg">
+                <motion.circle
+                  cx="36"
+                  cy="36"
+                  r="30"
+                  className="success-check__ring"
+                  initial={{ pathLength: 0, opacity: 0.35 }}
+                  animate={{ pathLength: 1, opacity: 1 }}
+                  transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1], delay: 0.12 }}
+                />
+                <motion.path
+                  d="M22.5 37.2 L31.2 45.6 L49.5 26.8"
+                  className="success-check__mark"
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={{ pathLength: 1, opacity: 1 }}
+                  transition={{ duration: 0.42, ease: [0.22, 1, 0.36, 1], delay: 0.42 }}
+                />
+              </svg>
+            </motion.div>
+            <p className="mt-5 text-[11px] font-semibold tracking-[0.28em] text-amber uppercase">
               {t('reserveConfirmed')}
             </p>
             <h1 className="mt-3 font-display text-4xl text-ink italic md:text-5xl text-balance">

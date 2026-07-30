@@ -616,4 +616,41 @@
     letter-spacing: 0.08em;
     color: var(--color-ink);
   }
+
+  .success-check {
+    display: grid;
+    place-items: center;
+    width: 4.75rem;
+    height: 4.75rem;
+    border-radius: 999px;
+    background:
+      radial-gradient(circle at 50% 40%, rgba(212, 181, 106, 0.22), transparent 62%),
+      color-mix(in srgb, var(--color-olive) 92%, black);
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--color-gold) 35%, transparent),
+      0 14px 32px rgba(12, 11, 10, 0.12);
+  }
+
+  .success-check__svg {
+    width: 2.85rem;
+    height: 2.85rem;
+    overflow: visible;
+  }
+
+  .success-check__ring,
+  .success-check__mark {
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .success-check__ring {
+    stroke: color-mix(in srgb, var(--color-gold) 75%, white);
+    stroke-width: 2.25;
+  }
+
+  .success-check__mark {
+    stroke: #f7f1e4;
+    stroke-width: 3.4;
+  }
 }
