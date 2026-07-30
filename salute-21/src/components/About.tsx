@@ -47,8 +47,8 @@ export function About() {
             <img
               src="/images/about-dining.jpg"
               alt="Ancient Egyptian hieroglyph tablet with winged sun disk — Salute 21"
-              width={1024}
-              height={1536}
+              width={1122}
+              height={1402}
               loading="lazy"
               className="aspect-[4/5] w-full object-cover object-center md:aspect-[5/6]"
             />
