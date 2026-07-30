@@ -54,10 +54,22 @@ function json(data, status = 200) {
   })
 }
 
-function createId() {
-  const part = Math.random().toString(36).slice(2, 6).toUpperCase()
-  const stamp = Date.now().toString(36).toUpperCase().slice(-4)
-  return `S21-${stamp}${part}`
+function createId(dateStr) {
+  const alphabet = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'
+  let code = ''
+  const bytes =
+    typeof crypto !== 'undefined' && crypto.getRandomValues
+      ? crypto.getRandomValues(new Uint8Array(5))
+      : null
+  for (let i = 0; i < 5; i++) {
+    const n = bytes ? bytes[i] : Math.floor(Math.random() * alphabet.length)
+    code += alphabet[n % alphabet.length]
+  }
+  const d = new Date(`${String(dateStr || '').slice(0, 10)}T12:00:00`)
+  const valid = Number.isNaN(d.getTime()) ? new Date() : d
+  const mm = String(valid.getMonth() + 1).padStart(2, '0')
+  const yy = String(valid.getFullYear()).slice(-2)
+  return `S21-${code}-${mm}${yy}`
 }
 
 function slotsForDate(dateStr) {
@@ -192,7 +204,7 @@ async function handleApi(request, env) {
     }
 
     const booking = {
-      id: createId(),
+      id: createId(date),
       name,
       email,
       phone,

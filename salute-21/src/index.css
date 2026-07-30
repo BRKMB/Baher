@@ -521,4 +521,99 @@
     color: color-mix(in srgb, var(--color-muted) 28%, transparent);
     opacity: 0.55;
   }
+
+  .boarding-pass {
+    position: relative;
+    overflow: hidden;
+    background:
+      linear-gradient(165deg, #fbf7ef 0%, var(--color-champagne) 48%, #efe7d7 100%);
+    border: 1px solid color-mix(in srgb, var(--color-line) 75%, transparent);
+    box-shadow: 0 24px 50px rgba(12, 11, 10, 0.1);
+  }
+
+  .boarding-pass__top {
+    padding: 1.5rem 1.35rem 1.25rem;
+  }
+
+  @media (min-width: 640px) {
+    .boarding-pass__top {
+      padding: 1.75rem 1.6rem 1.4rem;
+    }
+  }
+
+  .boarding-pass__label {
+    margin: 0;
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  .boarding-pass__value {
+    margin: 0.3rem 0 0;
+    font-family: var(--font-body);
+    font-size: 1.05rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums lining-nums;
+    color: var(--color-ink);
+    line-height: 1.25;
+  }
+
+  .boarding-pass__perforation {
+    position: relative;
+    height: 1.4rem;
+    margin: 0 0.85rem;
+  }
+
+  .boarding-pass__perforation::before,
+  .boarding-pass__perforation::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 1.35rem;
+    height: 1.35rem;
+    border-radius: 999px;
+    background: var(--color-paper);
+    transform: translateY(-50%);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-line) 55%, transparent);
+  }
+
+  .boarding-pass__perforation::before {
+    left: -1.55rem;
+  }
+
+  .boarding-pass__perforation::after {
+    right: -1.55rem;
+  }
+
+  .boarding-pass__perforation span {
+    position: absolute;
+    left: 0.85rem;
+    right: 0.85rem;
+    top: 50%;
+    border-top: 1.5px dashed color-mix(in srgb, var(--color-line) 90%, transparent);
+    transform: translateY(-50%);
+  }
+
+  .boarding-pass__stub {
+    padding: 0.35rem 1.35rem 1.55rem;
+    text-align: center;
+  }
+
+  @media (min-width: 640px) {
+    .boarding-pass__stub {
+      padding: 0.35rem 1.6rem 1.75rem;
+    }
+  }
+
+  .boarding-pass__ref {
+    margin: 0.45rem 0 0;
+    font-family: var(--font-body);
+    font-size: clamp(1.15rem, 4.2vw, 1.45rem);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums lining-nums;
+    letter-spacing: 0.08em;
+    color: var(--color-ink);
+  }
 }
