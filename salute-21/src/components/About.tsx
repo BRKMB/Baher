@@ -46,8 +46,11 @@ export function About() {
           <div className="overflow-hidden rounded-[1.5rem] gold-border">
             <img
               src="/images/about-dining.jpg"
-              alt="Salute 21"
-              className="aspect-[4/5] w-full object-cover md:aspect-[5/6]"
+              alt="Ancient Egyptian hieroglyph tablet with winged sun disk — Salute 21"
+              width={1024}
+              height={1536}
+              loading="lazy"
+              className="aspect-[4/5] w-full object-cover object-center md:aspect-[5/6]"
             />
           </div>
           <div className="absolute -bottom-5 -left-3 max-w-[250px] rounded-2xl bg-ink px-5 py-4 text-white shadow-xl md:-left-6">
