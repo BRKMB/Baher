@@ -202,6 +202,31 @@
     display: none;
   }
 
+  /* Menu category strip — swipe / drag horizontally on any screen size */
+  .menu-cat-nav {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    touch-action: pan-x;
+    cursor: grab;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .menu-cat-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .menu-cat-nav:active {
+    cursor: grabbing;
+  }
+
+  .menu-cat-nav button {
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
   .field-input {
     width: 100%;
     border-radius: 0.9rem;

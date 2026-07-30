@@ -337,6 +337,67 @@ export function MenuPage() {
     active?.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' })
   }, [activeNavId])
 
+  // Pointer drag-to-scroll so the category strip swipes on phone and desktop
+  useEffect(() => {
+    const el = navRef.current
+    if (!el) return
+
+    let dragging = false
+    let moved = false
+    let startX = 0
+    let startScroll = 0
+
+    const onPointerDown = (e: PointerEvent) => {
+      // Touch / pen: native overflow scroll. Mouse: drag-to-scroll.
+      if (e.pointerType !== 'mouse' || e.button !== 0) return
+      dragging = true
+      moved = false
+      startX = e.clientX
+      startScroll = el.scrollLeft
+      el.setPointerCapture?.(e.pointerId)
+    }
+
+    const onPointerMove = (e: PointerEvent) => {
+      if (!dragging) return
+      const dx = e.clientX - startX
+      if (Math.abs(dx) > 4) moved = true
+      el.scrollLeft = startScroll - dx
+    }
+
+    const endDrag = (e: PointerEvent) => {
+      if (!dragging) return
+      dragging = false
+      try {
+        el.releasePointerCapture?.(e.pointerId)
+      } catch {
+        /* ignore */
+      }
+    }
+
+    // If the user dragged, don't fire the category button click
+    const onClickCapture = (e: MouseEvent) => {
+      if (moved) {
+        e.preventDefault()
+        e.stopPropagation()
+        moved = false
+      }
+    }
+
+    el.addEventListener('pointerdown', onPointerDown)
+    el.addEventListener('pointermove', onPointerMove)
+    el.addEventListener('pointerup', endDrag)
+    el.addEventListener('pointercancel', endDrag)
+    el.addEventListener('click', onClickCapture, true)
+
+    return () => {
+      el.removeEventListener('pointerdown', onPointerDown)
+      el.removeEventListener('pointermove', onPointerMove)
+      el.removeEventListener('pointerup', endDrag)
+      el.removeEventListener('pointercancel', endDrag)
+      el.removeEventListener('click', onClickCapture, true)
+    }
+  }, [])
+
   const pageNodes = useMemo(() => {
     const nodes: Array<{ key: string; node: ReactNode }> = [
       { key: 'cover-left', node: <CoverLeft key="cover-left" /> },
@@ -442,28 +503,27 @@ export function MenuPage() {
         aria-label={t('menuQuickNav')}
         className="relative z-20 shrink-0 border-y border-white/10 bg-black/25"
       >
-        <div
-          ref={navRef}
-          className="flex gap-2 overflow-x-auto px-3 py-2.5 scrollbar-none sm:justify-center sm:px-4 md:gap-2.5 md:py-3"
-        >
-          {navItems.map((item) => {
-            const active = item.id === activeNavId
-            return (
-              <button
-                key={item.id}
-                type="button"
-                data-active={active ? 'true' : 'false'}
-                onClick={() => jumpTo(item.pageIndex)}
-                className={`shrink-0 border px-3 py-1.5 text-[11px] font-semibold tracking-[0.14em] uppercase transition md:px-3.5 md:py-2 ${
-                  active
-                    ? 'border-gold bg-gold/15 text-gold'
-                    : 'border-white/15 bg-white/5 text-white/70 hover:border-white/35 hover:text-white'
-                }`}
-              >
-                {item.label}
-              </button>
-            )
-          })}
+        <div ref={navRef} className="menu-cat-nav px-3 py-2.5 sm:px-4 md:py-3">
+          <div className="flex w-max min-w-full gap-2 md:gap-2.5 md:justify-center">
+            {navItems.map((item) => {
+              const active = item.id === activeNavId
+              return (
+                <button
+                  key={item.id}
+                  type="button"
+                  data-active={active ? 'true' : 'false'}
+                  onClick={() => jumpTo(item.pageIndex)}
+                  className={`shrink-0 border px-3 py-1.5 text-[11px] font-semibold tracking-[0.14em] uppercase transition md:px-3.5 md:py-2 ${
+                    active
+                      ? 'border-gold bg-gold/15 text-gold'
+                      : 'border-white/15 bg-white/5 text-white/70 hover:border-white/35 hover:text-white'
+                  }`}
+                >
+                  {item.label}
+                </button>
+              )
+            })}
+          </div>
         </div>
       </nav>
 
