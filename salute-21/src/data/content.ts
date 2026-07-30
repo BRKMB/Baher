@@ -9,6 +9,8 @@ export const brand = {
     city: '01-211 Warszawa',
     mapsUrl:
       'https://www.google.com/maps/search/?api=1&query=Marcina+Kasprzaka+24A+Warszawa',
+    directionsUrl:
+      'https://www.google.com/maps/dir/?api=1&destination=Marcina+Kasprzaka+24A%2C+01-211+Warszawa',
   },
 }
 

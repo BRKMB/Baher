@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Link, useLocation, useParams } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { toPng } from 'html-to-image'
-import { CalendarPlus, Download, BookOpen } from 'lucide-react'
+import { CalendarPlus, Download, BookOpen, Navigation } from 'lucide-react'
 import { Header } from '../components/Header'
 import { Footer } from '../components/Footer'
 import { BrandLogo } from '../components/BrandLogo'
@@ -151,9 +151,9 @@ export function BookingSuccessPage() {
                 </div>
                 <div className="col-span-2">
                   <p className="boarding-pass__label">{t('contactTitle')}</p>
-                  <p className="boarding-pass__value text-[0.95rem]">
+                  <p className="boarding-pass__address">
                     {brand.address.street}
-                    <span className="text-muted"> · {brand.address.city}</span>
+                    <span> · {brand.address.city}</span>
                   </p>
                 </div>
               </div>
@@ -185,6 +185,16 @@ export function BookingSuccessPage() {
               <Download className="size-4" strokeWidth={1.7} />
               {saving ? t('reserveSavingPass') : savedHint ? t('reservePassSaved') : t('reserveSavePass')}
             </button>
+
+            <a
+              href={brand.address.directionsUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-amber/45 bg-amber/12 px-6 py-3.5 text-sm font-semibold text-ink transition hover:bg-amber/22"
+            >
+              <Navigation className="size-4" strokeWidth={1.7} />
+              {t('reserveGetDirections')}
+            </a>
 
             <div className="grid gap-3 sm:grid-cols-2">
               {booking && (
