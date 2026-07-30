@@ -87,12 +87,37 @@ async function writeBookings(env, list) {
   await env.BOOKINGS.put(LIST_KEY, JSON.stringify(list))
 }
 
+function adminKey(env) {
+  return String(env.ADMIN_KEY || 'salute21-view')
+}
+
+function isAdmin(request, env) {
+  const header = request.headers.get('X-Admin-Key') || ''
+  const query = new URL(request.url).searchParams.get('key') || ''
+  const provided = header || query
+  return Boolean(provided) && provided === adminKey(env)
+}
+
 async function handleApi(request, env) {
   const url = new URL(request.url)
   const path = url.pathname
 
   if (path === '/api/health') {
     return json({ ok: true, service: 'salute-21-booking' })
+  }
+
+  if (path === '/api/bookings' && request.method === 'GET') {
+    if (!isAdmin(request, env)) {
+      return json({ error: 'Unauthorized' }, 401)
+    }
+    const list = await readBookings(env)
+    // Newest first (already unshifted on create); sort by date+time for staff view
+    const sorted = [...list].sort((a, b) => {
+      const da = `${a.date || ''}T${a.time || '00:00'}`
+      const db = `${b.date || ''}T${b.time || '00:00'}`
+      return db.localeCompare(da)
+    })
+    return json({ bookings: sorted, count: sorted.length })
   }
 
   if (path === '/api/bookings/availability' && request.method === 'GET') {

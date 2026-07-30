@@ -174,6 +174,28 @@ export async function getBooking(id: string): Promise<Booking | null> {
   return readLocal().find((b) => b.id === id) ?? null
 }
 
+/** Staff-only list — requires admin key matching Worker ADMIN_KEY / default. */
+export async function listBookings(adminKey: string): Promise<Booking[]> {
+  const res = await fetch('/api/bookings', {
+    headers: {
+      Accept: 'application/json',
+      'X-Admin-Key': adminKey,
+    },
+  })
+  const contentType = res.headers.get('content-type') || ''
+  if (!contentType.includes('application/json')) {
+    throw new Error('API unavailable')
+  }
+  const data = (await res.json().catch(() => ({}))) as {
+    bookings?: Booking[]
+    error?: string
+  }
+  if (!res.ok) {
+    throw new Error(data.error || 'Unauthorized')
+  }
+  return Array.isArray(data.bookings) ? data.bookings : []
+}
+
 function readLocal(): Booking[] {
   try {
     return JSON.parse(localStorage.getItem('salute21-bookings') || '[]') as Booking[]

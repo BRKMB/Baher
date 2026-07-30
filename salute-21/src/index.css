@@ -237,15 +237,138 @@
 
   .field-input {
     width: 100%;
-    border-radius: 0.9rem;
-    border: 1px solid var(--color-line);
-    background: var(--color-paper);
-    padding: 0.85rem 1rem;
+    border-radius: 0;
+    border: none;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-line) 85%, transparent);
+    background: transparent;
+    padding: 0.85rem 0.15rem;
     outline: none;
-    transition: border-color 0.2s ease;
+    transition:
+      border-color 0.25s ease,
+      background 0.25s ease;
   }
 
   .field-input:focus {
-    border-color: var(--color-amber);
+    border-bottom-color: var(--color-amber);
+    background: color-mix(in srgb, var(--color-champagne) 55%, transparent);
+  }
+
+  .field-input::placeholder {
+    color: color-mix(in srgb, var(--color-muted) 55%, transparent);
+  }
+
+  .reserve-hero {
+    position: relative;
+    min-height: min(92vh, 820px);
+    display: grid;
+    align-items: end;
+    overflow: hidden;
+    color: white;
+  }
+
+  .reserve-hero__media {
+    position: absolute;
+    inset: 0;
+  }
+
+  .reserve-hero__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(1.04);
+  }
+
+  .reserve-hero__veil {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, rgba(12, 11, 10, 0.28) 0%, rgba(12, 11, 10, 0.18) 35%, rgba(12, 11, 10, 0.78) 100%),
+      radial-gradient(ellipse 70% 50% at 70% 20%, rgba(212, 181, 106, 0.18), transparent 60%);
+  }
+
+  .slot-chip {
+    min-height: 3rem;
+    border-radius: 999px;
+    border: 1px solid var(--color-line);
+    background: color-mix(in srgb, var(--color-champagne) 70%, white);
+    padding: 0.55rem 0.75rem;
+    text-align: center;
+    transition:
+      background 0.2s ease,
+      border-color 0.2s ease,
+      color 0.2s ease,
+      transform 0.2s ease;
+  }
+
+  .slot-chip:hover:not(:disabled):not(.is-selected) {
+    border-color: var(--color-ink);
+    transform: translateY(-1px);
+  }
+
+  .slot-chip.is-selected {
+    border-color: var(--color-ink);
+    background: var(--color-ink);
+    color: white;
+  }
+
+  .slot-chip:disabled {
+    cursor: not-allowed;
+    opacity: 0.35;
+  }
+
+  .occasion-chip {
+    border-radius: 999px;
+    border: 1px solid var(--color-line);
+    background: transparent;
+    padding: 0.65rem 1.05rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-ink);
+    transition:
+      background 0.2s ease,
+      border-color 0.2s ease,
+      color 0.2s ease;
+  }
+
+  .occasion-chip.is-selected {
+    border-color: var(--color-olive);
+    background: var(--color-olive);
+    color: white;
+  }
+
+  .guest-stepper {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-line) 85%, transparent);
+    padding-bottom: 0.35rem;
+  }
+
+  .guest-stepper__btn {
+    display: inline-flex;
+    size: 2.75rem;
+    width: 2.75rem;
+    height: 2.75rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    border: 1px solid var(--color-line);
+    background: color-mix(in srgb, var(--color-champagne) 80%, white);
+    color: var(--color-ink);
+    transition:
+      border-color 0.2s ease,
+      background 0.2s ease,
+      transform 0.2s ease;
+  }
+
+  .guest-stepper__btn:hover {
+    border-color: var(--color-ink);
+    transform: scale(1.04);
+  }
+
+  .success-glow {
+    background:
+      radial-gradient(ellipse 55% 40% at 50% 0%, rgba(212, 181, 106, 0.22), transparent 70%),
+      radial-gradient(ellipse 40% 35% at 80% 80%, rgba(44, 58, 40, 0.1), transparent 60%);
   }
 }

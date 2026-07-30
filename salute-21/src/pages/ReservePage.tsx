@@ -1,9 +1,10 @@
-import { useEffect, useMemo, useState, type FormEvent } from 'react'
+import { useEffect, useMemo, useRef, useState, type FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { ArrowLeft, CalendarDays, Clock3, Minus, Plus, Users } from 'lucide-react'
+import { ArrowDown, ArrowLeft, CalendarDays, Clock3, Minus, Plus, Users } from 'lucide-react'
 import { Header } from '../components/Header'
 import { Footer } from '../components/Footer'
+import { BrandLogo } from '../components/BrandLogo'
 import {
   createBooking,
   getAvailability,
@@ -14,9 +15,18 @@ import {
 } from '../lib/booking'
 import { useI18n } from '../i18n/LanguageContext'
 
+const OCCASIONS = [
+  { value: '', labelKey: 'occasionNone' as const },
+  { value: 'birthday', labelKey: 'occasionBirthday' as const },
+  { value: 'business', labelKey: 'occasionBusiness' as const },
+  { value: 'date', labelKey: 'occasionDate' as const },
+  { value: 'other', labelKey: 'occasionOther' as const },
+]
+
 export function ReservePage() {
   const { t, lang } = useI18n()
   const navigate = useNavigate()
+  const formRef = useRef<HTMLElement>(null)
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
@@ -106,101 +116,153 @@ export function ReservePage() {
     }
   }
 
+  const scrollToForm = () => {
+    formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+
   return (
     <div className="min-h-screen">
       <Header variant="page" />
-      <main className="px-4 pb-28 pt-24 sm:px-5 md:px-8 md:pb-28 md:pt-32">
-        <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-start lg:gap-12">
-          <motion.aside
-            initial={{ opacity: 0, y: 18 }}
+
+      <section className="reserve-hero">
+        <div className="reserve-hero__media" aria-hidden>
+          <motion.img
+            src="/images/reserve-dish.jpg"
+            alt=""
+            initial={{ scale: 1.08 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
+          />
+          <div className="reserve-hero__veil" />
+        </div>
+
+        <div className="relative z-10 mx-auto w-full max-w-7xl px-5 pb-16 pt-28 sm:px-6 md:px-8 md:pb-20 md:pt-32">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="lg:sticky lg:top-28"
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            className="max-w-xl"
           >
             <Link
               to="/"
-              className="mb-6 inline-flex items-center gap-2 text-sm font-medium text-muted transition hover:text-ink"
+              className="mb-8 inline-flex items-center gap-2 text-sm font-medium text-white/70 transition hover:text-white"
             >
               <ArrowLeft className="size-4" />
-              {t('backHome')}
+              {t('navHome')}
             </Link>
 
-            <p className="mb-3 text-[11px] font-semibold tracking-[0.28em] text-amber uppercase">
+            <BrandLogo tone="light" className="text-[clamp(2.8rem,8vw,4.6rem)]" />
+            <p className="mt-3 text-[11px] font-semibold tracking-[0.32em] text-gold uppercase">
               {t('reservePageEyebrow')}
             </p>
-            <h1 className="font-display text-[2.5rem] leading-[1.05] tracking-[-0.02em] text-ink italic md:text-6xl text-balance">
+            <h1 className="mt-4 font-display text-[clamp(2.4rem,6vw,4.2rem)] leading-[1.05] tracking-[-0.02em] text-white italic text-balance">
               {t('reservePageTitle')}
             </h1>
-            <div className="luxury-rule my-5 max-w-xs" />
-            <p className="max-w-md text-sm leading-relaxed text-muted md:text-base">
+            <p className="mt-5 max-w-md text-sm leading-relaxed text-white/80 md:text-base">
               {t('reservePageIntro')}
             </p>
 
-            <div className="mt-7 hidden overflow-hidden md:block">
-              <img
-                src="/images/reserve-dining.jpg"
-                alt=""
-                className="aspect-[16/10] w-full object-cover"
-              />
-            </div>
+            <motion.button
+              type="button"
+              onClick={scrollToForm}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.35, duration: 0.55 }}
+              className="mt-9 inline-flex items-center gap-3 rounded-full border border-white/35 bg-white/10 px-6 py-3.5 text-sm font-semibold text-white backdrop-blur-sm transition hover:border-white/70 hover:bg-white/18"
+            >
+              {t('reserveContinue')}
+              <ArrowDown className="size-4 animate-bounce" />
+            </motion.button>
+          </motion.div>
+        </div>
+      </section>
 
-            <ul className="mt-7 space-y-3 text-sm text-ink/80">
+      <main
+        ref={formRef}
+        id="reserve-form"
+        className="relative scroll-mt-24 px-4 pb-28 pt-14 sm:px-5 md:px-8 md:pb-28 md:pt-20"
+      >
+        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.88fr_1.12fr] lg:items-start lg:gap-14">
+          <motion.aside
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-40px' }}
+            transition={{ duration: 0.6 }}
+            className="lg:sticky lg:top-28"
+          >
+            <p className="text-[11px] font-semibold tracking-[0.28em] text-amber uppercase">
+              {t('reserveDetails')}
+            </p>
+            <h2 className="mt-3 font-display text-4xl text-ink italic md:text-5xl text-balance">
+              {t('reserveFormTitle')}
+            </h2>
+            <div className="luxury-rule my-5 max-w-xs" />
+            <p className="max-w-md text-sm leading-relaxed text-muted md:text-[0.95rem]">
+              {t('reserveFormIntro')}
+            </p>
+
+            <ul className="mt-8 space-y-4 text-sm text-ink/80">
               <li className="flex items-center gap-3">
-                <CalendarDays className="size-4 shrink-0 text-amber" />
+                <span className="inline-flex size-9 shrink-0 items-center justify-center rounded-full border border-line/80 bg-champagne/70">
+                  <CalendarDays className="size-4 text-amber" strokeWidth={1.6} />
+                </span>
                 {t('hoursNoteLunch')} · {t('hoursNoteBreakfast')}
               </li>
               <li className="flex items-center gap-3">
-                <Users className="size-4 shrink-0 text-amber" />
+                <span className="inline-flex size-9 shrink-0 items-center justify-center rounded-full border border-line/80 bg-champagne/70">
+                  <Users className="size-4 text-amber" strokeWidth={1.6} />
+                </span>
                 Max {MAX_PARTY_SIZE} {t('guestsLabel')}
               </li>
               <li className="flex items-start gap-3">
-                <Clock3 className="mt-0.5 size-4 shrink-0 text-amber" />
+                <span className="mt-0.5 inline-flex size-9 shrink-0 items-center justify-center rounded-full border border-line/80 bg-champagne/70">
+                  <Clock3 className="size-4 text-amber" strokeWidth={1.6} />
+                </span>
                 <span>{t('reservePolicy')}</span>
               </li>
             </ul>
 
-            {(date || time || guests) && (
-              <div className="mt-8 hidden border-t border-line pt-6 lg:block">
-                <p className="text-[10px] font-semibold tracking-[0.24em] text-amber uppercase">
-                  {t('reserveSummary')}
-                </p>
-                <dl className="mt-4 space-y-2 text-sm">
-                  <div className="flex justify-between gap-4">
-                    <dt className="text-muted">{t('reserveDate')}</dt>
-                    <dd className="font-medium text-ink">{formatDate(date)}</dd>
-                  </div>
-                  <div className="flex justify-between gap-4">
-                    <dt className="text-muted">{t('reserveTime')}</dt>
-                    <dd className="font-medium text-ink">{time || '—'}</dd>
-                  </div>
-                  <div className="flex justify-between gap-4">
-                    <dt className="text-muted">{t('reserveGuests')}</dt>
-                    <dd className="font-medium text-ink">
-                      {guests} {t('guestsLabel')}
-                    </dd>
-                  </div>
-                </dl>
-              </div>
-            )}
+            <div className="mt-10 hidden border-t border-line/70 pt-6 lg:block">
+              <p className="text-[10px] font-semibold tracking-[0.24em] text-amber uppercase">
+                {t('reserveSummary')}
+              </p>
+              <dl className="mt-4 space-y-3 text-sm">
+                <div className="flex justify-between gap-4">
+                  <dt className="text-muted">{t('reserveDate')}</dt>
+                  <dd className="font-medium text-ink">{formatDate(date)}</dd>
+                </div>
+                <div className="flex justify-between gap-4">
+                  <dt className="text-muted">{t('reserveTime')}</dt>
+                  <dd className="font-medium text-ink">{time || '—'}</dd>
+                </div>
+                <div className="flex justify-between gap-4">
+                  <dt className="text-muted">{t('reserveGuests')}</dt>
+                  <dd className="font-medium text-ink">
+                    {guests} {t('guestsLabel')}
+                  </dd>
+                </div>
+              </dl>
+            </div>
           </motion.aside>
 
           <motion.form
             onSubmit={onSubmit}
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.65, delay: 0.08 }}
-            className="border border-line bg-champagne/90 p-5 shadow-[0_24px_60px_rgba(12,11,10,0.07)] sm:p-7 md:p-8"
+            initial={{ opacity: 0, y: 22 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-40px' }}
+            transition={{ duration: 0.65, delay: 0.06 }}
+            className="relative bg-gradient-to-b from-champagne/40 via-transparent to-transparent px-1 py-1 sm:px-2"
           >
-            <section className="space-y-4">
+            <section className="space-y-5">
               <div className="flex items-baseline justify-between gap-3">
-                <h2 className="font-display text-2xl text-ink italic">{t('reserveDate')}</h2>
-                <span className="text-[10px] font-semibold tracking-[0.2em] text-amber uppercase">
-                  01
-                </span>
+                <h3 className="font-display text-2xl text-ink italic md:text-3xl">{t('reserveDate')}</h3>
+                <span className="font-script text-2xl text-amber/80">01</span>
               </div>
-              <div className="grid gap-4 sm:grid-cols-2">
+              <div className="grid gap-6 sm:grid-cols-2">
                 <label className="grid gap-2 text-sm">
-                  <span className="font-medium text-ink/75">{t('reserveDate')}</span>
+                  <span className="text-[11px] font-semibold tracking-[0.18em] text-muted uppercase">
+                    {t('reserveDate')}
+                  </span>
                   <input
                     required
                     type="date"
@@ -212,45 +274,47 @@ export function ReservePage() {
                   />
                 </label>
                 <div className="grid gap-2 text-sm">
-                  <span className="font-medium text-ink/75">{t('reserveGuests')}</span>
-                  <div className="flex items-center gap-3">
+                  <span className="text-[11px] font-semibold tracking-[0.18em] text-muted uppercase">
+                    {t('reserveGuests')}
+                  </span>
+                  <div className="guest-stepper">
                     <button
                       type="button"
                       onClick={() => bumpGuests(-1)}
-                      className="inline-flex size-11 items-center justify-center border border-line bg-paper text-ink transition hover:border-ink"
+                      className="guest-stepper__btn"
                       aria-label="-"
                     >
-                      <Minus className="size-4" />
+                      <Minus className="size-4" strokeWidth={1.75} />
                     </button>
-                    <p className="min-w-12 text-center font-display text-3xl text-ink tabular-nums">
+                    <p className="min-w-12 text-center font-display text-4xl text-ink tabular-nums leading-none">
                       {guests}
                     </p>
                     <button
                       type="button"
                       onClick={() => bumpGuests(1)}
-                      className="inline-flex size-11 items-center justify-center border border-line bg-paper text-ink transition hover:border-ink"
+                      className="guest-stepper__btn"
                       aria-label="+"
                     >
-                      <Plus className="size-4" />
+                      <Plus className="size-4" strokeWidth={1.75} />
                     </button>
                   </div>
                 </div>
               </div>
             </section>
 
-            <section className="mt-8 space-y-4 border-t border-line pt-7">
+            <section className="mt-10 space-y-5 border-t border-line/60 pt-9">
               <div className="flex items-baseline justify-between gap-3">
-                <h2 className="font-display text-2xl text-ink italic">{t('reserveAvailable')}</h2>
-                <span className="text-[10px] font-semibold tracking-[0.2em] text-amber uppercase">
-                  02
-                </span>
+                <h3 className="font-display text-2xl text-ink italic md:text-3xl">
+                  {t('reserveAvailable')}
+                </h3>
+                <span className="font-script text-2xl text-amber/80">02</span>
               </div>
               {slots.length === 0 ? (
-                <p className="border border-line bg-paper/70 px-4 py-3 text-sm text-muted">
+                <p className="border-l-2 border-amber/50 bg-champagne/50 px-4 py-3 text-sm text-muted">
                   {t('reserveNoSlots')}
                 </p>
               ) : (
-                <div className="grid grid-cols-3 gap-2 min-[420px]:grid-cols-4 sm:grid-cols-4 md:grid-cols-5">
+                <div className="grid grid-cols-3 gap-2.5 min-[420px]:grid-cols-4 sm:grid-cols-4 md:grid-cols-5">
                   {slots.map((slot) => {
                     const remaining = availability[slot] ?? 28
                     const disabled = remaining < guests
@@ -261,21 +325,10 @@ export function ReservePage() {
                         type="button"
                         disabled={disabled}
                         onClick={() => setTime(slot)}
-                        className={`min-h-12 border px-1.5 py-2 text-center transition ${
-                          selected
-                            ? 'border-ink bg-ink text-white'
-                            : disabled
-                              ? 'cursor-not-allowed border-line/50 bg-paper-deep/30 text-muted/35'
-                              : 'border-line bg-paper text-ink/85 hover:border-ink'
-                        }`}
+                        className={`slot-chip ${selected ? 'is-selected' : ''}`}
                       >
-                        <span className="block text-sm font-semibold tabular-nums">{slot}</span>
-                        <span
-                          className={`mt-0.5 block text-[9px] tracking-wide uppercase ${
-                            selected ? 'text-white/65' : 'text-muted/70'
-                          }`}
-                        >
-                          {disabled ? '—' : `${remaining}`}
+                        <span className="block text-sm font-semibold tabular-nums tracking-wide">
+                          {slot}
                         </span>
                       </button>
                     )
@@ -287,75 +340,87 @@ export function ReservePage() {
               )}
             </section>
 
-            <section className="mt-8 space-y-4 border-t border-line pt-7">
+            <section className="mt-10 space-y-5 border-t border-line/60 pt-9">
               <div className="flex items-baseline justify-between gap-3">
-                <h2 className="font-display text-2xl text-ink italic">{t('reserveName')}</h2>
-                <span className="text-[10px] font-semibold tracking-[0.2em] text-amber uppercase">
-                  03
-                </span>
+                <h3 className="font-display text-2xl text-ink italic md:text-3xl">{t('reserveDetails')}</h3>
+                <span className="font-script text-2xl text-amber/80">03</span>
               </div>
-              <div className="grid gap-4 sm:grid-cols-2">
+              <div className="grid gap-6 sm:grid-cols-2">
                 <label className="grid gap-2 text-sm sm:col-span-2">
-                  <span className="font-medium text-ink/75">{t('reserveName')}</span>
+                  <span className="text-[11px] font-semibold tracking-[0.18em] text-muted uppercase">
+                    {t('reserveName')}
+                  </span>
                   <input
                     required
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     className="field-input"
                     autoComplete="name"
+                    placeholder={t('reserveNamePh')}
                   />
                 </label>
                 <label className="grid gap-2 text-sm">
-                  <span className="font-medium text-ink/75">{t('reservePhone')}</span>
+                  <span className="text-[11px] font-semibold tracking-[0.18em] text-muted uppercase">
+                    {t('reservePhone')}
+                  </span>
                   <input
                     required
                     type="tel"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     className="field-input"
-                    placeholder="+48 ..."
+                    placeholder="+48 …"
                     autoComplete="tel"
                   />
                 </label>
                 <label className="grid gap-2 text-sm">
-                  <span className="font-medium text-ink/75">{t('reserveEmail')}</span>
+                  <span className="text-[11px] font-semibold tracking-[0.18em] text-muted uppercase">
+                    {t('reserveEmail')}
+                  </span>
                   <input
                     required
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className="field-input"
+                    placeholder="you@email.com"
                     autoComplete="email"
                   />
                 </label>
+                <div className="grid gap-3 text-sm sm:col-span-2">
+                  <span className="text-[11px] font-semibold tracking-[0.18em] text-muted uppercase">
+                    {t('reserveOccasion')}
+                  </span>
+                  <div className="flex flex-wrap gap-2">
+                    {OCCASIONS.map((item) => (
+                      <button
+                        key={item.value || 'none'}
+                        type="button"
+                        onClick={() => setOccasion(item.value)}
+                        className={`occasion-chip ${occasion === item.value ? 'is-selected' : ''}`}
+                      >
+                        {t(item.labelKey)}
+                      </button>
+                    ))}
+                  </div>
+                </div>
                 <label className="grid gap-2 text-sm sm:col-span-2">
-                  <span className="font-medium text-ink/75">{t('reserveOccasion')}</span>
-                  <select
-                    value={occasion}
-                    onChange={(e) => setOccasion(e.target.value)}
-                    className="field-input"
-                  >
-                    <option value="">{t('occasionNone')}</option>
-                    <option value="birthday">{t('occasionBirthday')}</option>
-                    <option value="business">{t('occasionBusiness')}</option>
-                    <option value="date">{t('occasionDate')}</option>
-                    <option value="other">{t('occasionOther')}</option>
-                  </select>
-                </label>
-                <label className="grid gap-2 text-sm sm:col-span-2">
-                  <span className="font-medium text-ink/75">{t('reserveNotes')}</span>
+                  <span className="text-[11px] font-semibold tracking-[0.18em] text-muted uppercase">
+                    {t('reserveNotes')}
+                  </span>
                   <textarea
                     rows={3}
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
                     className="field-input resize-none"
+                    placeholder={t('reserveNotesPh')}
                   />
                 </label>
               </div>
             </section>
 
             {error && (
-              <p className="mt-5 border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
+              <p className="mt-6 border-l-2 border-red-400 bg-red-50/80 px-4 py-3 text-sm text-red-900">
                 {error}
               </p>
             )}
@@ -363,7 +428,7 @@ export function ReservePage() {
             <button
               type="submit"
               disabled={submitting || !time}
-              className="mt-7 hidden w-full items-center justify-center rounded-full bg-ink px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-ink-soft disabled:cursor-not-allowed disabled:opacity-50 sm:inline-flex"
+              className="mt-9 hidden w-full items-center justify-center rounded-full bg-ink px-6 py-4 text-sm font-semibold tracking-wide text-white transition hover:bg-ink-soft disabled:cursor-not-allowed disabled:opacity-50 sm:inline-flex"
             >
               {submitting ? t('reserveSubmitting') : t('reserveSubmit')}
             </button>
@@ -371,8 +436,7 @@ export function ReservePage() {
         </div>
       </main>
 
-      {/* Mobile sticky confirm bar */}
-      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-champagne/95 px-4 py-3 backdrop-blur-md sm:hidden safe-bottom">
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-line/80 bg-champagne/95 px-4 py-3 backdrop-blur-md sm:hidden safe-bottom">
         <div className="mx-auto flex max-w-7xl items-center gap-3">
           <div className="min-w-0 flex-1">
             <p className="truncate text-xs text-muted">
