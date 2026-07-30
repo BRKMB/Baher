@@ -338,7 +338,7 @@ export const menu: MenuCategory[] = [
 
 /** Gallery-only images — never reused on menu, hero, about, or reserve */
 export const gallery = [
-  { src: '/images/gallery-food-3.jpg', alt: 'Wine at the table' },
+  { src: '/images/gallery-food-3.jpg', alt: 'Dessert and wine at the table' },
   { src: '/images/gallery-extra-1.jpg', alt: 'Pasta at Salute 21' },
   { src: '/images/gallery-extra-2.jpg', alt: 'Shared Italian plates' },
   { src: '/images/gallery-extra-3.jpg', alt: 'Evening dining' },
