@@ -828,7 +828,8 @@
   }
 
   .boarding-pass__hint {
-    color: rgba(244, 238, 227, 0.58);
+    color: rgba(244, 238, 227, 0.52);
+    font-weight: 450;
   }
 
   .boarding-pass__ref-label {
