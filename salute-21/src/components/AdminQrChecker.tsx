@@ -1,15 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
-import { CalendarDays, CheckCircle2, Clock3, ScanLine, Users, XCircle } from 'lucide-react'
+import { CalendarDays, CheckCircle2, Clock3, ImageUp, ScanLine, Users, XCircle } from 'lucide-react'
 import { formatGuestName, getBooking, type Booking } from '../lib/booking'
 import type { Html5Qrcode } from 'html5-qrcode'
 
-function extractBookingId(raw: string) {
+export function extractBookingId(raw: string) {
   const text = String(raw || '').trim()
   if (!text) return ''
-  // Direct reference
   const direct = text.toUpperCase().match(/S21-[A-Z0-9]{6}-\d{4}/)
   if (direct) return direct[0]
-  // URL ending with /reserve/success/S21-...
   try {
     const url = new URL(text)
     const parts = url.pathname.split('/').filter(Boolean)
@@ -23,7 +21,7 @@ function extractBookingId(raw: string) {
 }
 
 /** Editable tail after fixed `S21-` → `XXXXXX-XXXX` (auto dash + uppercase). */
-function formatReferenceTail(raw: string) {
+export function formatReferenceTail(raw: string) {
   const chars = String(raw || '')
     .toUpperCase()
     .replace(/[^A-Z0-9]/g, '')
@@ -32,7 +30,7 @@ function formatReferenceTail(raw: string) {
   return `${chars.slice(0, 6)}-${chars.slice(6)}`
 }
 
-function fullReferenceFromTail(tail: string) {
+export function fullReferenceFromTail(tail: string) {
   const formatted = formatReferenceTail(tail)
   return formatted ? `S21-${formatted}` : 'S21-'
 }
@@ -62,14 +60,24 @@ export function AdminQrChecker() {
   const [check, setCheck] = useState<CheckState>({ status: 'idle' })
   const [camError, setCamError] = useState('')
   const scannerRef = useRef<Html5Qrcode | null>(null)
-  const lastScanRef = useRef('')
+  const lastHandledRef = useRef('')
+  const fileInputRef = useRef<HTMLInputElement>(null)
   const regionId = 'admin-qr-reader'
 
   const lookup = async (raw: string) => {
     const ref = extractBookingId(raw)
-    if (!ref) return
-    if (lastScanRef.current === ref && check.status === 'valid') return
-    lastScanRef.current = ref
+    if (!ref || !/^S21-[A-Z0-9]{6}-\d{4}$/.test(ref)) {
+      if (raw.trim()) {
+        setCheck({
+          status: 'invalid',
+          ref: extractBookingId(raw) || raw.trim().toUpperCase(),
+          message: 'This code is not a Salute 21 booking QR.',
+        })
+      }
+      return
+    }
+    if (lastHandledRef.current === ref) return
+    lastHandledRef.current = ref
     setCheck({ status: 'loading', ref })
     try {
       const booking = await getBooking(ref)
@@ -83,12 +91,18 @@ export function AdminQrChecker() {
       }
       setCheck({ status: 'valid', booking })
     } catch {
+      lastHandledRef.current = ''
       setCheck({
         status: 'invalid',
         ref,
         message: 'Could not verify this code. Try again.',
       })
     }
+  }
+
+  const resetResult = () => {
+    lastHandledRef.current = ''
+    setCheck({ status: 'idle' })
   }
 
   const stopScanner = async () => {
@@ -110,6 +124,76 @@ export function AdminQrChecker() {
 
   const startScanner = async () => {
     setCamError('')
+    resetResult()
+    await stopScanner()
+    try {
+      const { Html5Qrcode, Html5QrcodeSupportedFormats } = await import('html5-qrcode')
+      const scanner = new Html5Qrcode(regionId, {
+        // Pass prints standard QR_CODE with booking reference payload
+        formatsToSupport: [Html5QrcodeSupportedFormats.QR_CODE],
+        verbose: false,
+        useBarCodeDetectorIfSupported: true,
+      } as ConstructorParameters<typeof Html5Qrcode>[1])
+      scannerRef.current = scanner
+      setScanning(true)
+      await scanner.start(
+        { facingMode: { exact: 'environment' } },
+        {
+          fps: 12,
+          qrbox: (viewfinderWidth, viewfinderHeight) => {
+            const edge = Math.floor(Math.min(viewfinderWidth, viewfinderHeight) * 0.78)
+            return { width: edge, height: edge }
+          },
+          aspectRatio: 1.333,
+          disableFlip: false,
+        },
+        (decoded) => {
+          void lookup(decoded)
+        },
+        () => {
+          /* frame miss — normal while aiming */
+        },
+      )
+    } catch {
+      // Fallback without exact rear camera constraint (desktop / iOS quirks)
+      try {
+        const { Html5Qrcode, Html5QrcodeSupportedFormats } = await import('html5-qrcode')
+        const scanner = new Html5Qrcode(regionId, {
+          formatsToSupport: [Html5QrcodeSupportedFormats.QR_CODE],
+          verbose: false,
+          useBarCodeDetectorIfSupported: true,
+        } as ConstructorParameters<typeof Html5Qrcode>[1])
+        scannerRef.current = scanner
+        setScanning(true)
+        await scanner.start(
+          { facingMode: 'environment' },
+          {
+            fps: 12,
+            qrbox: (viewfinderWidth, viewfinderHeight) => {
+              const edge = Math.floor(Math.min(viewfinderWidth, viewfinderHeight) * 0.78)
+              return { width: edge, height: edge }
+            },
+          },
+          (decoded) => {
+            void lookup(decoded)
+          },
+          () => undefined,
+        )
+      } catch (err) {
+        setScanning(false)
+        scannerRef.current = null
+        setCamError(
+          err instanceof Error
+            ? err.message
+            : 'Camera unavailable. Use “Scan image” or enter the reference below.',
+        )
+      }
+    }
+  }
+
+  const scanImageFile = async (file: File) => {
+    setCamError('')
+    resetResult()
     await stopScanner()
     try {
       const { Html5Qrcode, Html5QrcodeSupportedFormats } = await import('html5-qrcode')
@@ -117,26 +201,16 @@ export function AdminQrChecker() {
         formatsToSupport: [Html5QrcodeSupportedFormats.QR_CODE],
         verbose: false,
       })
-      scannerRef.current = scanner
-      setScanning(true)
-      await scanner.start(
-        { facingMode: 'environment' },
-        { fps: 8, qrbox: { width: 240, height: 240 }, aspectRatio: 1 },
-        (decoded) => {
-          void lookup(decoded)
-        },
-        () => {
-          /* frame miss */
-        },
-      )
-    } catch (err) {
-      setScanning(false)
-      scannerRef.current = null
-      setCamError(
-        err instanceof Error
-          ? err.message
-          : 'Camera unavailable. Enter the reference manually below.',
-      )
+      const decoded = await scanner.scanFile(file, true)
+      await scanner.clear()
+      await lookup(decoded)
+    } catch {
+      setCamError('Could not read a booking QR from that image. Try a clearer photo of the pass QR.')
+      setCheck({
+        status: 'invalid',
+        ref: file.name,
+        message: 'No QR code detected in the image.',
+      })
     }
   }
 
@@ -155,8 +229,8 @@ export function AdminQrChecker() {
         </p>
         <h2 className="mt-2 font-display text-3xl text-ink italic">QR Code Checker</h2>
         <p className="mt-3 max-w-xl text-sm text-muted">
-          Scan the guest pass QR. If the reservation is valid, the host sees the guest title &
-          name, party size, date and time instantly.
+          Point the camera at the QR on the guest pass. It reads standard QR codes encoding the
+          booking reference (S21-••••••-••••).
         </p>
       </div>
 
@@ -165,15 +239,43 @@ export function AdminQrChecker() {
           <div id={regionId} className="admin-qr__viewport" />
           <div className="mt-4 flex flex-wrap gap-2">
             {!scanning ? (
-              <button type="button" className="admin-btn admin-btn--solid" onClick={() => void startScanner()}>
+              <button
+                type="button"
+                className="admin-btn admin-btn--solid"
+                onClick={() => void startScanner()}
+              >
                 <ScanLine className="size-4" />
                 Start camera
               </button>
             ) : (
-              <button type="button" className="admin-btn admin-btn--ghost" onClick={() => void stopScanner()}>
+              <button
+                type="button"
+                className="admin-btn admin-btn--ghost"
+                onClick={() => void stopScanner()}
+              >
                 Stop camera
               </button>
             )}
+            <button
+              type="button"
+              className="admin-btn admin-btn--ghost"
+              onClick={() => fileInputRef.current?.click()}
+            >
+              <ImageUp className="size-4" />
+              Scan image
+            </button>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              capture="environment"
+              className="sr-only"
+              onChange={(e) => {
+                const file = e.target.files?.[0]
+                if (file) void scanImageFile(file)
+                e.target.value = ''
+              }}
+            />
           </div>
           {camError && <p className="mt-3 text-sm text-red-800">{camError}</p>}
 
@@ -181,6 +283,7 @@ export function AdminQrChecker() {
             className="mt-5"
             onSubmit={(e) => {
               e.preventDefault()
+              lastHandledRef.current = ''
               void lookup(fullReferenceFromTail(manual))
             }}
           >
@@ -234,6 +337,9 @@ export function AdminQrChecker() {
               </div>
               <p className="mt-3 text-sm text-muted">{check.message}</p>
               <p className="mt-2 font-mono text-xs tracking-wide text-amber-deep">{check.ref}</p>
+              <button type="button" className="admin-btn admin-btn--ghost mt-4" onClick={resetResult}>
+                Scan again
+              </button>
             </div>
           )}
 
@@ -287,10 +393,20 @@ export function AdminQrChecker() {
                 {(check.booking.occasion || check.booking.notes) && (
                   <div>
                     <dt>Notes</dt>
-                    <dd>{[check.booking.occasion, check.booking.notes].filter(Boolean).join(' — ')}</dd>
+                    <dd>
+                      {[check.booking.occasion, check.booking.notes].filter(Boolean).join(' — ')}
+                    </dd>
                   </div>
                 )}
               </dl>
+
+              <button
+                type="button"
+                className="admin-btn admin-btn--ghost mt-5"
+                onClick={resetResult}
+              >
+                Scan next guest
+              </button>
             </div>
           )}
         </section>

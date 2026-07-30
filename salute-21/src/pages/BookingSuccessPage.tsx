@@ -173,14 +173,15 @@ export function BookingSuccessPage() {
             <div className="boarding-pass__stub">
               {refId ? (
                 <div className="boarding-pass__codes">
-                  <div className="boarding-pass__qr">
+                  <div className="boarding-pass__qr" data-qr-format="QR_CODE" data-qr-value={refId}>
                     <QRCodeSVG
                       value={refId}
-                      size={112}
-                      level="M"
+                      size={168}
+                      level="H"
                       bgColor="#f7f1e6"
                       fgColor="#0c0b0a"
-                      marginSize={1}
+                      marginSize={2}
+                      title={`Booking QR ${refId}`}
                     />
                   </div>
                   <PassBarcode value={refId} />
