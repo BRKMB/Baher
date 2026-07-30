@@ -60,7 +60,6 @@ const BookPage = forwardRef<HTMLDivElement, PageProps>(function BookPage(
   return (
     <div
       ref={ref}
-      data-density="hard"
       className={`menu-book-page h-full w-full select-none ${className}`}
     >
       {children}
