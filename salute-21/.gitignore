@@ -23,9 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 
-data/
-!.gitkeep
-
-# Booking store
-data/
-!data/.gitkeep
+# Booking store (server JSON)
+/data/
+!/data/.gitkeep
