@@ -20,11 +20,6 @@ import type { TranslationKey } from '../i18n/translations'
 
 const DIET_TAGS: MenuDietTag[] = ['vegan', 'vege', 'spicy']
 
-/** Only tags actually used on items — keep cover legend in sync */
-const USED_DIET_TAGS = DIET_TAGS.filter((tag) =>
-  menu.some((cat) => cat.items.some((item) => item.tags?.includes(tag))),
-)
-
 const catTitle: Record<MenuCategory['id'], TranslationKey> = {
   burgers: 'cat_burgers',
   pizza: 'cat_pizza',
@@ -197,30 +192,28 @@ const CoverRight = forwardRef<HTMLDivElement>(function CoverRight(_props, ref) {
             </div>
           </div>
 
-          {USED_DIET_TAGS.length > 0 && (
-            <div className="border-t border-line/70 pt-3 sm:pt-4">
-              <p className="text-[10px] font-semibold tracking-[0.28em] text-amber uppercase">
-                {t('menuCoverSymbols')}
-              </p>
-              <MenuDietLegend
-                items={USED_DIET_TAGS.map((tag) => ({
-                  tag,
-                  label:
-                    tag === 'vegan'
-                      ? t('tagVegan')
-                      : tag === 'vege'
-                        ? t('tagVege')
-                        : t('tagSpicy'),
-                  hint:
-                    tag === 'vegan'
-                      ? t('tagVeganHint')
-                      : tag === 'vege'
-                        ? t('tagVegeHint')
-                        : t('tagSpicyHint'),
-                }))}
-              />
-            </div>
-          )}
+          <div className="border-t border-line/70 pt-3 sm:pt-4">
+            <p className="text-[10px] font-semibold tracking-[0.28em] text-amber uppercase">
+              {t('menuCoverSymbols')}
+            </p>
+            <MenuDietLegend
+              items={DIET_TAGS.map((tag) => ({
+                tag,
+                label:
+                  tag === 'vegan'
+                    ? t('tagVegan')
+                    : tag === 'vege'
+                      ? t('tagVege')
+                      : t('tagSpicy'),
+                hint:
+                  tag === 'vegan'
+                    ? t('tagVeganHint')
+                    : tag === 'vege'
+                      ? t('tagVegeHint')
+                      : t('tagSpicyHint'),
+              }))}
+            />
+          </div>
 
           <div className="border-t border-line/70 pt-3 sm:pt-4">
             <div className="flex items-end gap-3 sm:gap-4">

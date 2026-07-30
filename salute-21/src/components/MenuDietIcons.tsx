@@ -53,18 +53,20 @@ export function MenuDietLegend({
   if (items.length === 0) return null
 
   return (
-    <ul className="mt-2.5 grid gap-2">
+    <ul className="mt-2.5 grid grid-cols-3 gap-2 sm:gap-3">
       {items.map(({ tag, label, hint }) => {
         const meta = TAG_META[tag]
         const Icon = meta.Icon
         return (
-          <li key={tag} className="flex items-center gap-2.5 text-[11px] leading-snug sm:text-[12px]">
-            <span className={`inline-flex shrink-0 items-center ${meta.color}`} aria-hidden>
-              <Icon className="size-4" />
+          <li key={tag} className="flex min-w-0 flex-col items-center text-center">
+            <span className={`inline-flex items-center ${meta.color}`} aria-hidden>
+              <Icon className="size-5" />
             </span>
-            <span className="min-w-0">
-              <span className="font-semibold text-ink">{label}</span>
-              <span className="text-muted"> — {hint}</span>
+            <span className="mt-1.5 text-[11px] font-semibold leading-tight text-ink sm:text-[12px]">
+              {label}
+            </span>
+            <span className="mt-0.5 text-[9px] leading-snug text-muted sm:text-[10px]">
+              {hint}
             </span>
           </li>
         )
