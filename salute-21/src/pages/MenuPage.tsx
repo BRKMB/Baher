@@ -58,7 +58,7 @@ const BookPage = forwardRef<HTMLDivElement, PageProps>(function BookPage(
   ref,
 ) {
   return (
-    <div ref={ref} className={`menu-book-page h-full w-full ${className}`}>
+    <div ref={ref} className={`menu-book-page h-full w-full select-none ${className}`}>
       {children}
     </div>
   )
@@ -398,7 +398,7 @@ export function MenuPage() {
   }
 
   return (
-    <div className="menu-magazine fixed inset-0 z-40 flex flex-col overflow-hidden bg-[#14110e] text-white">
+    <div className="menu-magazine fixed inset-0 z-40 flex flex-col overflow-hidden bg-[#14110e] text-white select-none">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(212,181,106,0.07),transparent_55%)]" />
 
       <header className="relative z-20 flex shrink-0 items-center justify-between gap-2 px-3 py-2.5 sm:gap-3 sm:px-4 sm:py-3 md:px-6">
@@ -474,7 +474,7 @@ export function MenuPage() {
           <ChevronLeft className="size-8" strokeWidth={1.25} />
         </button>
 
-        <div className="menu-book-stage w-full max-w-[1200px] touch-pan-y">
+        <div className="menu-book-stage w-full max-w-[1200px] select-none">
           <HTMLFlipBook
             key={`${lang}-${dims.w}-${dims.mobile ? 'm' : 'd'}`}
             width={dims.w}
@@ -492,8 +492,8 @@ export function MenuPage() {
             startPage={0}
             autoSize
             maxShadowOpacity={0.55}
-            className="mx-auto"
-            style={{ margin: '0 auto' }}
+            className="menu-magazine mx-auto select-none"
+            style={{ margin: '0 auto', userSelect: 'none' }}
             ref={bookRef as Ref<FlipApi>}
             onFlip={(e: { data: number }) => setPage(e.data)}
             onInit={() => {
