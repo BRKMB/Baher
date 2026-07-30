@@ -10,7 +10,7 @@ export function BrandLogo({ tone = 'dark', className = 'text-[2.65rem] md:text-[
 
   return (
     <span
-      className={`brand-logo inline-flex items-baseline gap-[0.18em] leading-none select-none ${color} ${className}`}
+      className={`brand-logo inline-flex items-baseline gap-[0.18em] select-none ${color} ${className}`}
       aria-label="Salute 21"
     >
       <span className="font-script tracking-tight">Saluté</span>

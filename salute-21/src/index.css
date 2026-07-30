@@ -24,8 +24,11 @@
     font-weight: 400;
   }
 
+  /* Great Vibes has tall flourishes — never clip the wordmark */
   .brand-logo {
-    line-height: 0.85;
+    line-height: 1.2;
+    padding-block: 0.18em 0.1em;
+    overflow: visible;
   }
 
   html {

@@ -581,8 +581,8 @@ export function MenuPage() {
     <div className="menu-magazine fixed inset-0 z-40 flex h-dvh max-h-dvh flex-col overflow-hidden bg-[#14110e] text-white select-none">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(212,181,106,0.07),transparent_55%)]" />
 
-      <header className="relative z-30 flex shrink-0 items-center justify-between gap-2 bg-[#14110e] px-3 pt-[max(0.5rem,env(safe-area-inset-top))] pb-2 sm:gap-3 sm:px-4 sm:py-3 md:px-6 md:py-3.5">
-        <div className="flex min-w-0 items-center gap-2 sm:gap-2.5">
+      <header className="relative z-30 flex shrink-0 items-center justify-between gap-2 overflow-visible bg-[#14110e] px-3 pt-[max(0.65rem,env(safe-area-inset-top))] pb-2.5 sm:gap-3 sm:px-4 sm:py-3 md:px-6 md:py-3.5">
+        <div className="flex min-w-0 items-center gap-2 overflow-visible sm:gap-2.5">
           <Link
             to="/"
             className="inline-flex size-9 shrink-0 items-center justify-center text-white/75 transition hover:text-white"
@@ -592,7 +592,7 @@ export function MenuPage() {
           </Link>
           <BrandLogo
             tone="light"
-            className="max-w-[36vw] truncate text-[1.4rem] leading-none opacity-95 sm:max-w-none sm:text-[1.95rem]"
+            className="max-w-[36vw] text-[1.4rem] opacity-95 sm:max-w-none sm:text-[1.95rem]"
           />
         </div>
 

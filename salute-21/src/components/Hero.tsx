@@ -28,7 +28,7 @@ export function Hero() {
           transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
           className="max-w-3xl text-white"
         >
-          <BrandLogo tone="light" className="mb-7 text-[3.4rem] drop-shadow-md md:text-[4.6rem]" />
+          <BrandLogo tone="light" className="mb-7 text-[3.4rem] drop-shadow-md md:text-[4.6rem] [overflow:visible]" />
           <div className="mb-5 flex items-center gap-3">
             <span className="h-px w-10 bg-gold" />
             <p className="text-[11px] font-semibold tracking-[0.32em] text-gold uppercase md:text-xs">
