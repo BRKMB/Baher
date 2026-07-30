@@ -39,8 +39,8 @@ const catSub: Record<MenuCategory['id'], TranslationKey> = {
 
 type FlipApi = {
   pageFlip: () => {
-    flipNext: () => void
-    flipPrev: () => void
+    flipNext: (corner?: 'top' | 'bottom') => void
+    flipPrev: (corner?: 'top' | 'bottom') => void
     flip: (page: number) => void
     turnToPage: (page: number) => void
     getCurrentPageIndex: () => number
@@ -358,8 +358,8 @@ export function MenuPage() {
     return nodes
   }, [lang])
 
-  const flipNext = () => bookRef.current?.pageFlip()?.flipNext()
-  const flipPrev = () => bookRef.current?.pageFlip()?.flipPrev()
+  const flipNext = () => bookRef.current?.pageFlip()?.flipNext('top')
+  const flipPrev = () => bookRef.current?.pageFlip()?.flipPrev('top')
 
   const jumpTo = (pageIndex: number) => {
     const api = bookRef.current?.pageFlip()
@@ -487,7 +487,7 @@ export function MenuPage() {
             showCover={false}
             mobileScrollSupport
             drawShadow
-            flippingTime={dims.mobile ? 700 : 950}
+            flippingTime={dims.mobile ? 850 : 950}
             usePortrait={dims.mobile}
             startPage={0}
             autoSize

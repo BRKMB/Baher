@@ -4,8 +4,9 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
+    "postinstall": "node scripts/patch-pageflip.js",
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "node scripts/patch-pageflip.js && tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview",
     "start": "node server/index.js",
