@@ -381,7 +381,10 @@
     background: transparent;
     padding: 0.85rem 0.15rem;
     text-align: left;
+    font-family: var(--font-body);
     font-size: 0.95rem;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums lining-nums;
     transition:
       border-color 0.25s ease,
       background 0.25s ease;
@@ -433,13 +436,16 @@
 
   .date-picker__day {
     display: inline-flex;
-    height: 2.35rem;
+    height: 2.45rem;
     align-items: center;
     justify-content: center;
     border-radius: 999px;
     border: 1px solid transparent;
-    font-family: var(--font-display);
-    font-size: 1rem;
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums lining-nums;
+    letter-spacing: 0.01em;
     color: var(--color-ink);
     transition:
       background 0.18s ease,
