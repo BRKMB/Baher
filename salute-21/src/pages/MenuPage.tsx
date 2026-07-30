@@ -337,6 +337,89 @@ export function MenuPage() {
     active?.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' })
   }, [activeNavId])
 
+  // Drag / swipe to scroll the category strip on every device, without breaking taps
+  useEffect(() => {
+    const el = navRef.current
+    if (!el) return
+
+    const THRESHOLD = 8
+    let tracking = false
+    let dragging = false
+    let startX = 0
+    let startScroll = 0
+    let pointerId: number | null = null
+    let suppressClick = false
+
+    const onPointerDown = (e: PointerEvent) => {
+      if (e.button !== 0 && e.pointerType === 'mouse') return
+      tracking = true
+      dragging = false
+      startX = e.clientX
+      startScroll = el.scrollLeft
+      pointerId = e.pointerId
+    }
+
+    const onPointerMove = (e: PointerEvent) => {
+      if (!tracking || pointerId !== e.pointerId) return
+      const dx = e.clientX - startX
+      if (!dragging) {
+        if (Math.abs(dx) < THRESHOLD) return
+        // Confirmed drag — only now capture, so plain taps still click buttons
+        dragging = true
+        el.classList.add('is-dragging')
+        try {
+          el.setPointerCapture(e.pointerId)
+        } catch {
+          /* ignore */
+        }
+      }
+      el.scrollLeft = startScroll - dx
+      e.preventDefault()
+    }
+
+    const endPointer = (e: PointerEvent) => {
+      if (!tracking || (pointerId !== null && pointerId !== e.pointerId)) return
+      if (dragging) {
+        suppressClick = true
+        // Clear after the click that follows pointerup (if any)
+        window.setTimeout(() => {
+          suppressClick = false
+        }, 0)
+      }
+      tracking = false
+      dragging = false
+      pointerId = null
+      el.classList.remove('is-dragging')
+      try {
+        if (el.hasPointerCapture?.(e.pointerId)) el.releasePointerCapture(e.pointerId)
+      } catch {
+        /* ignore */
+      }
+    }
+
+    const onClickCapture = (e: Event) => {
+      if (!suppressClick) return
+      e.preventDefault()
+      e.stopPropagation()
+      suppressClick = false
+    }
+
+    el.addEventListener('pointerdown', onPointerDown)
+    el.addEventListener('pointermove', onPointerMove, { passive: false })
+    el.addEventListener('pointerup', endPointer)
+    el.addEventListener('pointercancel', endPointer)
+    el.addEventListener('click', onClickCapture, true)
+
+    return () => {
+      el.removeEventListener('pointerdown', onPointerDown)
+      el.removeEventListener('pointermove', onPointerMove)
+      el.removeEventListener('pointerup', endPointer)
+      el.removeEventListener('pointercancel', endPointer)
+      el.removeEventListener('click', onClickCapture, true)
+      el.classList.remove('is-dragging')
+    }
+  }, [])
+
   const pageNodes = useMemo(() => {
     const nodes: Array<{ key: string; node: ReactNode }> = [
       { key: 'cover-left', node: <CoverLeft key="cover-left" /> },

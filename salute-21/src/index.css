@@ -202,19 +202,30 @@
     display: none;
   }
 
-  /* Menu category strip — swipe horizontally when categories overflow */
+  /* Menu category strip — swipe/drag on any device; taps still activate buttons */
   .menu-cat-nav {
     overflow-x: auto;
     overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
     overscroll-behavior-x: contain;
-    touch-action: pan-x;
+    /* We handle horizontal drag ourselves so mouse + touch both swipe */
+    touch-action: none;
+    cursor: grab;
     scrollbar-width: none;
     -ms-overflow-style: none;
   }
 
   .menu-cat-nav::-webkit-scrollbar {
     display: none;
+  }
+
+  .menu-cat-nav.is-dragging {
+    cursor: grabbing;
+    scroll-behavior: auto;
+  }
+
+  .menu-cat-nav.is-dragging button {
+    pointer-events: none;
   }
 
   .field-input {
