@@ -80,7 +80,7 @@ export const translations = {
     daySun: 'Sunday',
     footerTagline: 'Restaurant · Egyptian soul · Warsaw',
     footerRights: 'All rights reserved.',
-    menuPageEyebrow: 'La Carta',
+    menuPageEyebrow: 'Menu',
     menuPageTitle: 'The Salute 21 menu',
     menuPageIntro:
       'Burgers with fries, 32 cm pizza, Turkish specials, sides, coffee and cold drinks. The kitchen closes one hour before closing time. v — vegan, w — vegetarian.',
@@ -264,7 +264,7 @@ export const translations = {
     daySun: 'Niedziela',
     footerTagline: 'Restauracja · egipska dusza · Warszawa',
     footerRights: 'Wszelkie prawa zastrzeżone.',
-    menuPageEyebrow: 'La Carta',
+    menuPageEyebrow: 'Menu',
     menuPageTitle: 'Menu Salute 21',
     menuPageIntro:
       'Burgery z frytkami, pizza 32 cm, specjały tureckie, przekąski, kawa i napoje zimne. Kuchnię zamykamy godzinę przed zamknięciem. v — wegańskie, w — wegetariańskie.',
