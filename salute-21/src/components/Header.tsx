@@ -160,6 +160,24 @@ export function Header({ variant = 'landing' }: { variant?: 'landing' | 'page' }
                 </Link>
               ),
             )}
+            <Link
+              to="/reserve"
+              onClick={() => setOpen(false)}
+              className="mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-ink px-5 py-3.5 text-sm font-semibold text-white"
+            >
+              <UtensilsCrossed className="size-4" strokeWidth={1.75} />
+              {t('reserveCta')}
+            </Link>
+            <a
+              href={brand.instagram}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 text-sm font-medium text-ink/70"
+              onClick={() => setOpen(false)}
+            >
+              <InstagramIcon className="size-4" />
+              {brand.instagramHandle}
+            </a>
           </nav>
         </div>
       )}
