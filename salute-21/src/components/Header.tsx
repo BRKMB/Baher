@@ -26,8 +26,6 @@ export function Header({ variant = 'landing' }: { variant?: 'landing' | 'page' }
     }
   }, [open])
 
-  const solid = variant === 'page' || scrolled || open
-
   const links =
     variant === 'landing'
       ? [
@@ -45,19 +43,15 @@ export function Header({ variant = 'landing' }: { variant?: 'landing' | 'page' }
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
-        solid
-          ? 'bg-champagne/95 shadow-[0_1px_0_var(--color-line)] backdrop-blur-md'
-          : 'bg-gradient-to-b from-ink/55 via-ink/20 to-transparent'
+        scrolled || open
+          ? 'bg-ink/95 shadow-[0_1px_0_rgba(212,181,106,0.18)] backdrop-blur-md'
+          : 'bg-ink/90 backdrop-blur-sm'
       }`}
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-4 md:px-8">
         <Link to="/" className="group flex items-center gap-3" aria-label="Salute 21">
-          <BrandLogo tone={solid ? 'dark' : 'light'} className="text-[2.35rem] md:text-[2.75rem]" />
-          <span
-            className={`hidden font-display text-sm tracking-[0.22em] uppercase sm:inline ${
-              solid ? 'text-ink' : 'text-white'
-            }`}
-          >
+          <BrandLogo tone="light" className="text-[2.35rem] md:text-[2.75rem]" />
+          <span className="hidden font-display text-sm tracking-[0.22em] text-white/70 uppercase sm:inline">
             21
           </span>
         </Link>
@@ -68,9 +62,7 @@ export function Header({ variant = 'landing' }: { variant?: 'landing' | 'page' }
               <a
                 key={link.to}
                 href={link.to}
-                className={`text-[13px] font-semibold tracking-[0.08em] uppercase transition ${
-                  solid ? 'text-ink/85 hover:text-ink' : 'text-white/90 hover:text-white'
-                }`}
+                className="text-[13px] font-semibold tracking-[0.08em] text-white/90 uppercase transition hover:text-white"
               >
                 {link.label}
               </a>
@@ -80,13 +72,7 @@ export function Header({ variant = 'landing' }: { variant?: 'landing' | 'page' }
                 to={link.to}
                 className={({ isActive }) =>
                   `text-[13px] font-semibold tracking-[0.08em] uppercase transition ${
-                    solid
-                      ? isActive
-                        ? 'text-ink'
-                        : 'text-ink/85 hover:text-ink'
-                      : isActive
-                        ? 'text-white'
-                        : 'text-white/90 hover:text-white'
+                    isActive ? 'text-white' : 'text-white/90 hover:text-white'
                   }`
                 }
               >
@@ -97,15 +83,13 @@ export function Header({ variant = 'landing' }: { variant?: 'landing' | 'page' }
         </nav>
 
         <div className="flex items-center gap-3 md:gap-4">
-          <LanguageFlagToggle solid={solid} />
+          <LanguageFlagToggle solid={false} />
 
           <a
             href={brand.instagram}
             target="_blank"
             rel="noreferrer"
-            className={`hidden items-center justify-center transition sm:inline-flex ${
-              solid ? 'text-ink/80 hover:text-ink' : 'text-white/85 hover:text-white'
-            }`}
+            className="hidden items-center justify-center text-white/85 transition hover:text-white sm:inline-flex"
             aria-label="Instagram"
           >
             <InstagramIcon className="size-5" />
@@ -113,11 +97,7 @@ export function Header({ variant = 'landing' }: { variant?: 'landing' | 'page' }
 
           <Link
             to="/reserve"
-            className={`hidden items-center gap-2 rounded-full px-4 py-2.5 text-sm font-semibold transition md:inline-flex ${
-              solid
-                ? 'bg-ink text-white hover:bg-ink-soft'
-                : 'bg-white text-ink hover:bg-champagne'
-            }`}
+            className="hidden items-center gap-2 rounded-full bg-white px-4 py-2.5 text-sm font-semibold text-ink transition hover:bg-champagne md:inline-flex"
           >
             <UtensilsCrossed className="size-4" strokeWidth={1.75} />
             {t('reserveCta')}
@@ -125,9 +105,7 @@ export function Header({ variant = 'landing' }: { variant?: 'landing' | 'page' }
 
           <button
             type="button"
-            className={`inline-flex items-center justify-center lg:hidden ${
-              solid ? 'text-ink' : 'text-white'
-            }`}
+            className="inline-flex items-center justify-center text-white lg:hidden"
             aria-label={open ? 'Close' : 'Menu'}
             onClick={() => setOpen((v) => !v)}
           >
@@ -137,14 +115,14 @@ export function Header({ variant = 'landing' }: { variant?: 'landing' | 'page' }
       </div>
 
       {open && (
-        <div className="border-t border-line bg-champagne px-5 py-6 lg:hidden">
+        <div className="border-t border-white/10 bg-ink px-5 py-6 lg:hidden">
           <nav className="flex flex-col gap-4">
             {links.map((link) =>
               link.to.startsWith('/#') ? (
                 <a
                   key={link.to}
                   href={link.to}
-                  className="font-display text-3xl text-ink"
+                  className="font-display text-3xl text-white"
                   onClick={() => setOpen(false)}
                 >
                   {link.label}
@@ -153,7 +131,7 @@ export function Header({ variant = 'landing' }: { variant?: 'landing' | 'page' }
                 <Link
                   key={link.to}
                   to={link.to}
-                  className="font-display text-3xl text-ink"
+                  className="font-display text-3xl text-white"
                   onClick={() => setOpen(false)}
                 >
                   {link.label}
@@ -163,7 +141,7 @@ export function Header({ variant = 'landing' }: { variant?: 'landing' | 'page' }
             <Link
               to="/reserve"
               onClick={() => setOpen(false)}
-              className="mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-ink px-5 py-3.5 text-sm font-semibold text-white"
+              className="mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-white px-5 py-3.5 text-sm font-semibold text-ink"
             >
               <UtensilsCrossed className="size-4" strokeWidth={1.75} />
               {t('reserveCta')}
@@ -172,7 +150,7 @@ export function Header({ variant = 'landing' }: { variant?: 'landing' | 'page' }
               href={brand.instagram}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-2 text-sm font-medium text-ink/70"
+              className="inline-flex items-center gap-2 text-sm font-medium text-white/70"
               onClick={() => setOpen(false)}
             >
               <InstagramIcon className="size-4" />
