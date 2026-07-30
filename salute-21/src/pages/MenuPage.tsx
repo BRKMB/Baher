@@ -13,9 +13,12 @@ import { QRCodeSVG } from 'qrcode.react'
 import { ChevronLeft, ChevronRight, Download, X } from 'lucide-react'
 import { BrandLogo } from '../components/BrandLogo'
 import { LanguageFlagToggle } from '../components/LanguageFlagToggle'
+import { MenuDietBadge, MenuDietLegend, type MenuDietTag } from '../components/MenuDietIcons'
 import { brand, menu, type MenuCategory, type MenuItem } from '../data/content'
 import { useI18n } from '../i18n/LanguageContext'
 import type { TranslationKey } from '../i18n/translations'
+
+const DIET_TAGS: MenuDietTag[] = ['vegan', 'vege', 'spicy']
 
 const catTitle: Record<MenuCategory['id'], TranslationKey> = {
   burgers: 'cat_burgers',
@@ -190,6 +193,19 @@ const CoverRight = forwardRef<HTMLDivElement>(function CoverRight(_props, ref) {
           </div>
 
           <div className="border-t border-line/70 pt-3 sm:pt-4">
+            <p className="text-[10px] font-semibold tracking-[0.28em] text-amber uppercase">
+              {t('menuCoverSymbols')}
+            </p>
+            <MenuDietLegend
+              items={[
+                { tag: 'vegan', label: t('tagVegan'), hint: t('tagVeganHint') },
+                { tag: 'vege', label: t('tagVege'), hint: t('tagVegeHint') },
+                { tag: 'spicy', label: t('tagSpicy'), hint: t('tagSpicyHint') },
+              ]}
+            />
+          </div>
+
+          <div className="border-t border-line/70 pt-3 sm:pt-4">
             <div className="flex items-end gap-3 sm:gap-4">
               <div className="min-w-0 flex-1">
                 <p className="text-[10px] font-semibold tracking-[0.28em] text-amber uppercase">
@@ -287,20 +303,23 @@ const CategoryItemsPage = forwardRef<
               )}
               <div className="flex items-start justify-between gap-2 sm:gap-3">
                 <div className="min-w-0">
-                  <div className="flex flex-wrap items-center gap-2">
+                  <div className="flex flex-wrap items-center gap-1.5">
                     <h4 className="text-[13px] font-semibold text-ink sm:text-[15px]">
                       {item.name[lang]}
                     </h4>
-                    {item.tags?.includes('v') && (
-                      <span className="text-[9px] font-bold tracking-[0.14em] text-olive uppercase">
-                        vegan
-                      </span>
-                    )}
-                    {item.tags?.includes('w') && (
-                      <span className="text-[9px] font-bold tracking-[0.14em] text-amber-deep uppercase">
-                        vege
-                      </span>
-                    )}
+                    {DIET_TAGS.filter((tag) => item.tags?.includes(tag)).map((tag) => (
+                      <MenuDietBadge
+                        key={tag}
+                        tag={tag}
+                        label={
+                          tag === 'vegan'
+                            ? t('tagVegan')
+                            : tag === 'vege'
+                              ? t('tagVege')
+                              : t('tagSpicy')
+                        }
+                      />
+                    ))}
                   </div>
                   <p className="mt-0.5 text-xs leading-relaxed text-muted">{item.desc[lang]}</p>
                 </div>
