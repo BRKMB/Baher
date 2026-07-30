@@ -70,14 +70,6 @@ function PageEyebrow({ children }: { children: ReactNode }) {
   )
 }
 
-function PageTitle({ children }: { children: ReactNode }) {
-  return (
-    <h2 className="mt-2 font-display text-[2rem] leading-[1.05] text-ink italic sm:text-[2.35rem] md:text-5xl">
-      {children}
-    </h2>
-  )
-}
-
 function PageRule() {
   return <div className="my-5 h-px w-14 bg-amber/55" />
 }
@@ -280,8 +272,6 @@ const CategoryItemsPage = forwardRef<HTMLDivElement, { category: MenuCategory }>
       </BookPage>
     )
   },
-)
-
 )
 
 export function MenuPage() {
