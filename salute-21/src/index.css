@@ -26,9 +26,30 @@
 
   /* Great Vibes has tall flourishes — never clip the wordmark */
   .brand-logo {
-    line-height: 1.2;
-    padding-block: 0.18em 0.1em;
+    line-height: 1.35;
+    padding-block: 0.28em 0.12em;
     overflow: visible;
+  }
+
+  /* Menu chrome: keep script flourishes inside the opaque header (parent is overflow:hidden) */
+  .menu-magazine__header {
+    min-height: 3.35rem;
+    padding-top: max(0.85rem, env(safe-area-inset-top));
+    padding-bottom: 0.7rem;
+  }
+
+  @media (min-width: 640px) {
+    .menu-magazine__header {
+      min-height: 3.75rem;
+      padding-top: 1rem;
+      padding-bottom: 0.85rem;
+    }
+  }
+
+  .menu-magazine__logo.brand-logo {
+    line-height: 1.4;
+    padding-top: 0.35em;
+    padding-bottom: 0.15em;
   }
 
   html {
