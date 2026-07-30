@@ -8,6 +8,7 @@ import { Footer } from '../components/Footer'
 import { BrandLogo } from '../components/BrandLogo'
 import { PassBarcode } from '../components/PassBarcode'
 import { EgyptMotif } from '../components/EgyptMotif'
+import { PassEgyptBackdrop } from '../components/PassEgyptBackdrop'
 import { brand } from '../data/content'
 import { downloadIcs, getBooking, type Booking } from '../lib/booking'
 import { useI18n } from '../i18n/LanguageContext'
@@ -116,6 +117,7 @@ export function BookingSuccessPage() {
           </div>
 
           <div ref={ticketRef} className="boarding-pass">
+            <PassEgyptBackdrop />
             <div className="boarding-pass__top">
               <div className="flex items-start justify-between gap-4">
                 <div>
