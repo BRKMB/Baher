@@ -380,6 +380,40 @@ async function handleApi(request, env) {
   return null
 }
 
+const SITEMAP_XML = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://salute21.com/</loc>
+    <lastmod>2026-07-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://salute21.com/menu</loc>
+    <lastmod>2026-07-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://salute21.com/reserve</loc>
+    <lastmod>2026-07-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+</urlset>
+`
+
+const ROBOTS_TXT = `# Salute 21 — https://salute21.com
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /reserve/success/
+Disallow: /api/
+
+Sitemap: https://salute21.com/sitemap.xml
+Host: salute21.com
+`
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url)
@@ -388,6 +422,24 @@ export default {
     if (url.hostname === 'www.salute21.com') {
       url.hostname = 'salute21.com'
       return Response.redirect(url.toString(), 301)
+    }
+
+    // Serve SEO files from the Worker (never SPA-fallback these)
+    if (request.method === 'GET' && url.pathname === '/sitemap.xml') {
+      return new Response(SITEMAP_XML, {
+        headers: {
+          'content-type': 'application/xml; charset=utf-8',
+          'cache-control': 'public, max-age=3600',
+        },
+      })
+    }
+    if (request.method === 'GET' && url.pathname === '/robots.txt') {
+      return new Response(ROBOTS_TXT, {
+        headers: {
+          'content-type': 'text/plain; charset=utf-8',
+          'cache-control': 'public, max-age=3600',
+        },
+      })
     }
 
     const apiResponse = await handleApi(request, env)
@@ -410,17 +462,6 @@ export default {
       const html = await assetResponse.text()
       const withSeo = injectSeo(html, request.url)
       return new Response(withSeo, {
-        status: assetResponse.status,
-        statusText: assetResponse.statusText,
-        headers,
-      })
-    }
-
-    // Long-cache immutable hashed assets; short-cache SEO files
-    if (url.pathname === '/sitemap.xml' || url.pathname === '/robots.txt') {
-      const headers = new Headers(assetResponse.headers)
-      headers.set('Cache-Control', 'public, max-age=3600')
-      return new Response(assetResponse.body, {
         status: assetResponse.status,
         statusText: assetResponse.statusText,
         headers,
