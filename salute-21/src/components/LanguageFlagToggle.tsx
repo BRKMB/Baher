@@ -1,16 +1,16 @@
 import { useI18n } from '../i18n/LanguageContext'
 
-function FlagPL({ className = 'size-7' }: { className?: string }) {
+function FlagPL({ className = 'h-5 w-8' }: { className?: string }) {
   return (
     <svg viewBox="0 0 32 24" className={className} aria-hidden="true">
       <rect width="32" height="24" rx="3" fill="#fff" />
       <rect y="12" width="32" height="12" fill="#DC143C" />
-      <rect width="32" height="24" rx="3" fill="none" stroke="rgba(0,0,0,0.12)" />
+      <rect width="32" height="24" rx="3" fill="none" stroke="rgba(0,0,0,0.14)" />
     </svg>
   )
 }
 
-function FlagEN({ className = 'size-7' }: { className?: string }) {
+function FlagEN({ className = 'h-5 w-8' }: { className?: string }) {
   return (
     <svg viewBox="0 0 32 24" className={className} aria-hidden="true">
       <rect width="32" height="24" rx="3" fill="#012169" />
@@ -26,21 +26,25 @@ function FlagEN({ className = 'size-7' }: { className?: string }) {
 export function LanguageFlagToggle({ solid }: { solid: boolean }) {
   const { lang, setLang, t } = useI18n()
   const next = lang === 'en' ? 'pl' : 'en'
+  const label = next === 'pl' ? 'Polski' : 'English'
 
   return (
     <button
       type="button"
       onClick={() => setLang(next)}
-      className={`inline-flex items-center gap-2 rounded-full border px-2.5 py-1.5 transition ${
+      className={`inline-flex size-11 items-center justify-center rounded-full border transition ${
         solid
-          ? 'border-ink/15 bg-white text-ink shadow-sm hover:border-ink/40'
-          : 'border-white/40 bg-ink/55 text-white hover:border-white'
+          ? 'border-ink/15 bg-white shadow-sm hover:border-ink/40'
+          : 'border-white/45 bg-ink/55 hover:border-white'
       }`}
-      aria-label={`${t('langLabel')}: ${next === 'pl' ? 'Polski' : 'English'}`}
-      title={next === 'pl' ? 'Polski' : 'English'}
+      aria-label={`${t('langLabel')}: ${label}`}
+      title={label}
     >
-      {next === 'pl' ? <FlagPL className="h-5 w-7 rounded-[3px]" /> : <FlagEN className="h-5 w-7 rounded-[3px]" />}
-      <span className="pr-1 text-[11px] font-bold tracking-wider uppercase">{next}</span>
+      {next === 'pl' ? (
+        <FlagPL className="h-[18px] w-7 rounded-[2px]" />
+      ) : (
+        <FlagEN className="h-[18px] w-7 rounded-[2px]" />
+      )}
     </button>
   )
 }

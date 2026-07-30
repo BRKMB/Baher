@@ -41,7 +41,8 @@ export function Testimonials() {
     role: t(item.roleKey),
     quote: t(item.quoteKey),
   }))
-  const loop = [...cards, ...cards]
+  // Triple for a seamless full-width loop
+  const loop = [...cards, ...cards, ...cards]
 
   return (
     <section id="opinie" className="overflow-hidden py-20 md:py-28">
@@ -58,11 +59,11 @@ export function Testimonials() {
         </p>
       </div>
 
-      <div className="relative">
-        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-12 bg-gradient-to-r from-champagne to-transparent md:w-24" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-12 bg-gradient-to-l from-champagne to-transparent md:w-24" />
+      <div className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]">
+        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-champagne to-transparent md:w-28" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-champagne to-transparent md:w-28" />
 
-        <div className="marquee-track flex w-max gap-5 px-5">
+        <div className="marquee-track flex w-max gap-5 py-2">
           {loop.map((item, index) => (
             <Card
               key={`${item.name}-${index}`}

@@ -7,8 +7,7 @@ export function Gallery() {
   const { t } = useI18n()
 
   return (
-    <>
-    <section id="galeria" className="bg-ink px-5 py-20 text-white md:px-8 md:py-28">
+    <section id="galeria" className="rounded-b-[1.8rem] bg-ink px-5 py-20 text-white md:rounded-b-[2.2rem] md:px-8 md:py-28">
       <div className="mx-auto max-w-7xl">
         <div className="mb-10 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
           <div>
@@ -54,8 +53,5 @@ export function Gallery() {
         </div>
       </div>
     </section>
-    {/* Cream breathing room before contact card */}
-    <div className="h-10 bg-transparent md:h-16" aria-hidden />
-  </>
   )
 }
