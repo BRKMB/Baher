@@ -1,81 +1,11 @@
+import { Carrot, Flame, Vegan, type LucideIcon } from 'lucide-react'
+
 export type MenuDietTag = 'vegan' | 'vege' | 'spicy'
 
-type IconProps = {
-  className?: string
-  title?: string
-}
-
-/** Leaf sprout — vegan */
-export function IconVegan({ className = 'size-3.5', title = 'Vegan' }: IconProps) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      className={className}
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.7"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      role="img"
-      aria-label={title}
-    >
-      <title>{title}</title>
-      <path d="M12 21V11" />
-      <path d="M12 14c-4.2-.2-7.5-2.4-8.8-6.2 4.5-.4 7.6 1 8.8 4.2" />
-      <path d="M12 14c4.2-.2 7.5-2.4 8.8-6.2-4.5-.4-7.6 1-8.8 4.2" />
-      <path d="M9.5 8.5c1.2-2.6 3-4.2 5.5-5.2-1.1 3.1-1.2 5.2-.8 7.2" />
-    </svg>
-  )
-}
-
-/** Carrot — vegetarian */
-export function IconVege({ className = 'size-3.5', title = 'Vegetarian' }: IconProps) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      className={className}
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.7"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      role="img"
-      aria-label={title}
-    >
-      <title>{title}</title>
-      <path d="M12.5 7.2c1.8-2.4 4.4-3.4 6.8-3.2-.2 2.5-1.4 5-3.8 6.7" />
-      <path d="M11.6 7.8c-2.4-1.7-3.8-4.2-4-6.7 2.4-.1 5 1 6.7 3.4" />
-      <path d="M10.2 9.2c-3.4 3.5-5.4 8.2-4.2 11.2 3.1 1 7.4-.8 10.8-4.3 1.6-1.6 2.6-3.4 2.8-5.1-2 .1-4.2-.5-6.2-1.8-.9-.6-2-1.1-3.2-1.2z" />
-    </svg>
-  )
-}
-
-/** Chili — spicy */
-export function IconSpicy({ className = 'size-3.5', title = 'Spicy' }: IconProps) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      className={className}
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.7"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      role="img"
-      aria-label={title}
-    >
-      <title>{title}</title>
-      <path d="M14.2 4.8c.4 1.4-.2 2.6-1.4 3.4" />
-      <path d="M12.8 8.2c-3.8.4-6.6 3.4-7 7.1-.3 3.2 1.6 5.9 4.4 6.5 3.4.7 6.8-1.6 8.2-5.2 1.6-4.1.2-8.3-3.4-9.4-1-.3-1.8-.1-2.2 1z" />
-      <path d="M10.8 12.2c.8 1.6 2.2 2.7 3.9 3.1" />
-    </svg>
-  )
-}
-
-const TAG_META: Record<MenuDietTag, { Icon: typeof IconVegan; color: string; ring: string }> = {
-  vegan: { Icon: IconVegan, color: 'text-olive', ring: 'border-olive/30' },
-  vege: { Icon: IconVege, color: 'text-amber-deep', ring: 'border-amber/40' },
-  spicy: { Icon: IconSpicy, color: 'text-red-800', ring: 'border-red-800/30' },
+const TAG_META: Record<MenuDietTag, { Icon: LucideIcon; color: string; ring: string }> = {
+  vegan: { Icon: Vegan, color: 'text-olive', ring: 'border-olive/35' },
+  vege: { Icon: Carrot, color: 'text-amber-deep', ring: 'border-amber/45' },
+  spicy: { Icon: Flame, color: 'text-red-700', ring: 'border-red-700/35' },
 }
 
 export function MenuDietBadge({
@@ -89,10 +19,11 @@ export function MenuDietBadge({
   const Icon = meta.Icon
   return (
     <span
-      className={`inline-flex size-[1.35rem] items-center justify-center rounded-full border bg-white/70 ${meta.ring} ${meta.color}`}
+      className={`inline-flex size-[1.4rem] items-center justify-center rounded-full border bg-white/80 ${meta.ring} ${meta.color}`}
       title={label}
+      aria-label={label}
     >
-      <Icon className="size-3.5" title={label} />
+      <Icon className="size-3.5" strokeWidth={2} aria-hidden />
     </span>
   )
 }
@@ -110,9 +41,10 @@ export function MenuDietLegend({
         return (
           <li key={tag} className="flex items-center gap-2 text-[11px] leading-snug sm:text-[12px]">
             <span
-              className={`inline-flex size-[1.35rem] shrink-0 items-center justify-center rounded-full border bg-white/80 ${meta.ring} ${meta.color}`}
+              className={`inline-flex size-[1.4rem] shrink-0 items-center justify-center rounded-full border bg-white/90 ${meta.ring} ${meta.color}`}
+              aria-hidden
             >
-              <Icon className="size-3.5" title={label} />
+              <Icon className="size-3.5" strokeWidth={2} />
             </span>
             <span className="min-w-0">
               <span className="font-semibold text-ink">{label}</span>
