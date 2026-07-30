@@ -10,10 +10,9 @@ import {
 import { Link } from 'react-router-dom'
 import HTMLFlipBook from 'react-pageflip'
 import { QRCodeSVG } from 'qrcode.react'
-import { ArrowLeft, ChevronLeft, ChevronRight, Download } from 'lucide-react'
-import { Header } from '../components/Header'
-import { Footer } from '../components/Footer'
+import { ChevronLeft, ChevronRight, Download, X } from 'lucide-react'
 import { BrandLogo } from '../components/BrandLogo'
+import { LanguageFlagToggle } from '../components/LanguageFlagToggle'
 import { menu, type MenuCategory } from '../data/content'
 import { useI18n } from '../i18n/LanguageContext'
 import type { TranslationKey } from '../i18n/translations'
@@ -73,19 +72,21 @@ const CoverFront = forwardRef<HTMLDivElement>(function CoverFront(_props, ref) {
   return (
     <BookPage ref={ref} hard className="relative bg-ink text-white">
       <img
-        src="/images/hero.jpg"
+        src="/images/menu-special.jpg"
         alt=""
-        className="absolute inset-0 h-full w-full object-cover opacity-45"
+        className="absolute inset-0 h-full w-full object-cover opacity-50"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/70 to-ink/40" />
+      <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/75 to-ink/35" />
       <div className="relative flex h-full flex-col items-center justify-center px-8 text-center">
         <BrandLogo tone="light" className="h-14 w-auto md:h-16" />
-        <p className="mt-6 text-[11px] font-semibold tracking-[0.35em] text-gold uppercase">
+        <p className="mt-8 text-[11px] font-semibold tracking-[0.4em] text-gold uppercase">
           {t('menuPageEyebrow')}
         </p>
-        <h1 className="mt-3 font-display text-4xl text-white md:text-5xl">{t('menuPageTitle')}</h1>
-        <div className="mt-6 h-px w-20 bg-gold/80" />
-        <p className="mt-6 max-w-xs text-sm leading-relaxed text-white/80">{t('menuBookHint')}</p>
+        <h1 className="mt-3 font-display text-5xl italic text-white md:text-6xl">
+          {t('menuPageTitle')}
+        </h1>
+        <div className="mt-7 h-px w-16 bg-gold/80" />
+        <p className="mt-7 max-w-xs text-sm leading-relaxed text-white/78">{t('menuBookHint')}</p>
       </div>
     </BookPage>
   )
@@ -94,17 +95,19 @@ const CoverFront = forwardRef<HTMLDivElement>(function CoverFront(_props, ref) {
 const IntroPage = forwardRef<HTMLDivElement>(function IntroPage(_props, ref) {
   const { t } = useI18n()
   return (
-    <BookPage ref={ref} className="flex flex-col justify-between p-7 md:p-9">
+    <BookPage ref={ref} className="flex flex-col justify-between p-8 md:p-10">
       <div>
-        <p className="text-[11px] font-semibold tracking-[0.28em] text-amber uppercase">Salute 21</p>
-        <h2 className="mt-3 font-display text-3xl text-ink md:text-4xl">{t('menuPageTitle')}</h2>
-        <div className="luxury-rule my-5 max-w-[180px]" />
-        <p className="text-sm leading-relaxed text-muted md:text-[15px]">{t('menuPageIntro')}</p>
+        <p className="text-[11px] font-semibold tracking-[0.32em] text-amber uppercase">Salute 21</p>
+        <h2 className="mt-4 font-display text-4xl italic leading-tight text-ink md:text-5xl">
+          {t('menuPageTitle')}
+        </h2>
+        <div className="luxury-rule my-6 max-w-[160px]" />
+        <p className="text-[15px] leading-relaxed text-muted md:text-base">{t('menuPageIntro')}</p>
       </div>
-      <div className="mt-8 overflow-hidden rounded-2xl">
-        <img src="/images/interior.jpg" alt="" className="aspect-[4/3] w-full object-cover" />
+      <div className="mt-8 overflow-hidden rounded-sm">
+        <img src="/images/menu-vege.jpg" alt="" className="aspect-[4/3] w-full object-cover" />
       </div>
-      <p className="mt-6 text-center text-[11px] tracking-[0.2em] text-ink/45 uppercase">
+      <p className="mt-6 text-center text-[11px] tracking-[0.28em] text-ink/40 uppercase">
         {t('menuBookSpread')}
       </p>
     </BookPage>
@@ -115,17 +118,23 @@ const CategoryImagePage = forwardRef<HTMLDivElement, { category: MenuCategory }>
   function CategoryImagePage({ category }, ref) {
     const { t } = useI18n()
     return (
-      <BookPage ref={ref} className="relative">
-        <img src={category.image} alt="" className="absolute inset-0 h-full w-full object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/35 to-ink/20" />
-        <div className="absolute inset-x-0 bottom-0 p-7 text-white md:p-9">
-          <p className="text-[11px] font-semibold tracking-[0.28em] text-gold uppercase">
+      <BookPage ref={ref} className="relative bg-ink">
+        <img
+          src={category.image}
+          alt=""
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/45 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 p-8 text-white md:p-10">
+          <p className="text-[11px] font-semibold tracking-[0.32em] text-gold uppercase">
             {t('menuPageEyebrow')}
           </p>
-          <h2 className="mt-2 font-display text-4xl text-white md:text-5xl">
+          <h2 className="mt-2 font-display text-5xl italic text-white md:text-6xl">
             {t(catTitle[category.id])}
           </h2>
-          <p className="mt-3 max-w-sm text-sm text-white/80">{t(catSub[category.id])}</p>
+          <p className="mt-3 max-w-sm text-sm leading-relaxed text-white/82">
+            {t(catSub[category.id])}
+          </p>
         </div>
       </BookPage>
     )
@@ -136,18 +145,20 @@ const CategoryItemsPage = forwardRef<HTMLDivElement, { category: MenuCategory }>
   function CategoryItemsPage({ category }, ref) {
     const { t, lang } = useI18n()
     return (
-      <BookPage ref={ref} className="flex flex-col p-6 md:p-8">
-        <div className="mb-4 border-b border-line pb-3">
-          <h3 className="font-display text-2xl text-ink md:text-3xl">{t(catTitle[category.id])}</h3>
-          <p className="mt-1 text-xs text-muted">{t(catSub[category.id])}</p>
+      <BookPage ref={ref} className="flex flex-col p-7 md:p-9">
+        <div className="mb-5 border-b border-line/80 pb-4">
+          <h3 className="font-display text-3xl italic text-ink md:text-4xl">
+            {t(catTitle[category.id])}
+          </h3>
+          <p className="mt-1.5 text-xs tracking-wide text-muted">{t(catSub[category.id])}</p>
         </div>
-        <ul className="flex-1 space-y-3 overflow-auto pr-1">
+        <ul className="flex-1 space-y-3.5 overflow-auto pr-1">
           {category.items.map((item) => (
-            <li key={item.name.en} className="border-b border-line/70 pb-3 last:border-0">
+            <li key={item.name.en} className="border-b border-line/60 pb-3.5 last:border-0">
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <div className="flex flex-wrap items-center gap-2">
-                    <h4 className="text-sm font-semibold text-ink md:text-[15px]">{item.name[lang]}</h4>
+                    <h4 className="text-[15px] font-semibold text-ink">{item.name[lang]}</h4>
                     {item.tags?.includes('v') && (
                       <span className="rounded-full border border-olive/30 px-1.5 py-0.5 text-[9px] font-bold tracking-wider text-olive uppercase">
                         vegan
@@ -161,12 +172,14 @@ const CategoryItemsPage = forwardRef<HTMLDivElement, { category: MenuCategory }>
                   </div>
                   <p className="mt-1 text-xs leading-relaxed text-muted">{item.desc[lang]}</p>
                 </div>
-                <p className="shrink-0 font-display text-lg text-ink tabular-nums">{item.price}</p>
+                <p className="shrink-0 font-display text-xl italic text-ink tabular-nums">
+                  {item.price}
+                </p>
               </div>
             </li>
           ))}
         </ul>
-        <p className="mt-3 text-right text-[10px] tracking-[0.16em] text-ink/40 uppercase">zł</p>
+        <p className="mt-3 text-right text-[10px] tracking-[0.2em] text-ink/35 uppercase">zł</p>
       </BookPage>
     )
   },
@@ -184,16 +197,16 @@ const CoverBack = forwardRef<HTMLDivElement>(function CoverBack(_props, ref) {
       className="flex flex-col items-center justify-center bg-ink p-8 text-center text-white"
     >
       <BrandLogo tone="light" className="h-12 w-auto" />
-      <p className="mt-6 text-[11px] font-semibold tracking-[0.28em] text-gold uppercase">
+      <p className="mt-8 text-[11px] font-semibold tracking-[0.32em] text-gold uppercase">
         {t('menuQrTitle')}
       </p>
-      <div className="mt-5 rounded-2xl bg-white p-3">
-        <QRCodeSVG value={menuUrl} size={140} bgColor="#ffffff" fgColor="#0c0b0a" level="M" />
+      <div className="mt-5 rounded-xl bg-white p-3">
+        <QRCodeSVG value={menuUrl} size={150} bgColor="#ffffff" fgColor="#0c0b0a" level="M" />
       </div>
       <p className="mt-5 max-w-xs text-sm text-white/75">{t('menuQrText')}</p>
       <Link
         to="/reserve"
-        className="mt-8 inline-flex rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-ink"
+        className="mt-8 inline-flex rounded-full bg-white px-6 py-2.5 text-sm font-semibold text-ink"
       >
         {t('reserveCta')}
       </Link>
@@ -204,7 +217,7 @@ const CoverBack = forwardRef<HTMLDivElement>(function CoverBack(_props, ref) {
 const BlankPage = forwardRef<HTMLDivElement>(function BlankPage(_props, ref) {
   return (
     <BookPage ref={ref} className="flex items-center justify-center p-8">
-      <BrandLogo tone="dark" className="h-10 w-auto opacity-40" />
+      <BrandLogo tone="dark" className="h-10 w-auto opacity-35" />
     </BookPage>
   )
 })
@@ -214,19 +227,24 @@ export function MenuPage() {
   const bookRef = useRef<FlipApi | null>(null)
   const [page, setPage] = useState(0)
   const [pageCount, setPageCount] = useState(0)
-  const [bookWidth, setBookWidth] = useState(420)
+  const [dims, setDims] = useState({ w: 480, h: 700 })
+  const [showQr, setShowQr] = useState(false)
 
   useEffect(() => {
     const update = () => {
-      const w = Math.min(460, Math.max(280, window.innerWidth * 0.42))
-      setBookWidth(Math.round(w))
+      const vw = window.innerWidth
+      const vh = window.innerHeight
+      // Two-page spread fills almost the whole viewport
+      const maxSpreadW = Math.min(vw - 24, 1180)
+      const pageW = Math.floor(maxSpreadW / 2)
+      const pageH = Math.min(Math.floor(vh - 88), Math.round(pageW * 1.42))
+      const finalW = Math.max(260, Math.min(pageW, Math.floor((pageH / 1.42))))
+      setDims({ w: finalW, h: Math.round(finalW * 1.42) })
     }
     update()
     window.addEventListener('resize', update)
     return () => window.removeEventListener('resize', update)
   }, [])
-
-  const bookHeight = Math.round(bookWidth * 1.48)
 
   const pageNodes = useMemo(() => {
     const nodes: Array<{ key: string; node: ReactNode }> = [
@@ -253,8 +271,11 @@ export function MenuPage() {
   const flipNext = () => bookRef.current?.pageFlip()?.flipNext()
   const flipPrev = () => bookRef.current?.pageFlip()?.flipPrev()
 
+  const menuUrl =
+    typeof window !== 'undefined' ? `${window.location.origin}/menu` : 'https://salute21.pl/menu'
+
   const downloadQr = () => {
-    const svg = document.querySelector('#menu-book-qr')
+    const svg = document.querySelector('#menu-fullscreen-qr')
     if (!svg) return
     const xml = new XMLSerializer().serializeToString(svg)
     const blob = new Blob([xml], { type: 'image/svg+xml;charset=utf-8' })
@@ -266,123 +287,166 @@ export function MenuPage() {
     URL.revokeObjectURL(url)
   }
 
-  const menuUrl =
-    typeof window !== 'undefined' ? `${window.location.origin}/menu` : 'https://salute21.pl/menu'
-
   return (
-    <div className="min-h-screen">
-      <Header variant="page" />
-      <main className="px-4 pb-20 pt-28 md:px-8 md:pb-28 md:pt-32">
-        <div className="mx-auto max-w-7xl">
-          <Link
-            to="/"
-            className="mb-6 inline-flex items-center gap-2 text-sm font-medium text-muted transition hover:text-ink"
+    <div className="menu-magazine fixed inset-0 z-40 flex flex-col overflow-hidden bg-[#14110e] text-white">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(224,192,122,0.08),transparent_55%)]" />
+
+      <header className="relative z-20 flex shrink-0 items-center justify-between gap-3 px-4 py-3 md:px-6">
+        <Link
+          to="/"
+          className="inline-flex items-center gap-2 text-sm font-medium text-white/75 transition hover:text-white"
+        >
+          <X className="size-4" />
+          <span className="hidden sm:inline">{t('backHome')}</span>
+        </Link>
+
+        <div className="flex items-center gap-3">
+          <BrandLogo tone="light" className="h-8 w-auto opacity-90" />
+          <span className="hidden font-display text-sm tracking-[0.2em] text-gold/90 uppercase sm:inline">
+            {t('menuPageEyebrow')}
+          </span>
+        </div>
+
+        <div className="flex items-center gap-3 md:gap-4">
+          <LanguageFlagToggle solid={false} bare />
+          <button
+            type="button"
+            onClick={() => setShowQr(true)}
+            className="text-[11px] font-semibold tracking-[0.18em] text-gold uppercase transition hover:text-white"
           >
-            <ArrowLeft className="size-4" />
-            {t('backHome')}
+            QR
+          </button>
+          <Link
+            to="/reserve"
+            className="hidden rounded-full bg-white px-4 py-2 text-xs font-semibold tracking-wide text-ink transition hover:bg-gold sm:inline-flex"
+          >
+            {t('reserveCta')}
           </Link>
+        </div>
+      </header>
 
-          <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-            <div>
-              <p className="mb-2 text-[11px] font-semibold tracking-[0.28em] text-amber uppercase">
-                {t('menuPageEyebrow')}
-              </p>
-              <h1 className="font-display text-4xl text-ink md:text-5xl">{t('menuBookTitle')}</h1>
-              <p className="mt-3 max-w-xl text-sm text-muted md:text-base">{t('menuBookHint')}</p>
-            </div>
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={flipPrev}
-                className="inline-flex size-11 items-center justify-center rounded-full border border-line bg-white text-ink transition hover:border-ink"
-                aria-label="Previous page"
-              >
-                <ChevronLeft className="size-5" />
-              </button>
-              <span className="min-w-16 text-center text-sm font-medium text-ink/70">
-                {Math.min(page + 1, Math.max(pageCount, 1))} / {Math.max(pageCount, 1)}
-              </span>
-              <button
-                type="button"
-                onClick={flipNext}
-                className="inline-flex size-11 items-center justify-center rounded-full border border-line bg-white text-ink transition hover:border-ink"
-                aria-label="Next page"
-              >
-                <ChevronRight className="size-5" />
-              </button>
-            </div>
-          </div>
+      <div className="relative z-10 flex min-h-0 flex-1 items-center justify-center px-2 pb-2 md:px-4">
+        <button
+          type="button"
+          onClick={flipPrev}
+          className="absolute left-2 z-30 hidden size-12 items-center justify-center text-white/70 transition hover:text-white md:left-4 md:inline-flex lg:left-8"
+          aria-label="Previous page"
+        >
+          <ChevronLeft className="size-8" strokeWidth={1.25} />
+        </button>
 
-          <div className="flex flex-col items-center gap-8 lg:flex-row lg:items-start lg:justify-center">
-            <div className="menu-book-shadow w-full max-w-[960px] overflow-hidden rounded-sm bg-[#1a1612] p-3 md:p-5">
-              <HTMLFlipBook
-                key={`${lang}-${bookWidth}`}
-                width={bookWidth}
-                height={bookHeight}
-                size="stretch"
-                minWidth={280}
-                maxWidth={500}
-                minHeight={420}
-                maxHeight={740}
-                showCover
-                mobileScrollSupport
-                drawShadow
-                flippingTime={900}
-                usePortrait
-                startPage={0}
-                autoSize
-                maxShadowOpacity={0.55}
-                className="mx-auto"
-                style={{ margin: '0 auto' }}
-                ref={bookRef as Ref<FlipApi>}
-                onFlip={(e: { data: number }) => setPage(e.data)}
-                onInit={() => {
-                  try {
-                    const count = bookRef.current?.pageFlip()?.getPageCount()
-                    if (count) setPageCount(count)
-                    else setPageCount(pageNodes.length)
-                  } catch {
-                    setPageCount(pageNodes.length)
-                  }
-                }}
-              >
-                {pageNodes.map((p) => p.node)}
-              </HTMLFlipBook>
-            </div>
+        <div className="menu-book-stage w-full max-w-[1200px]">
+          <HTMLFlipBook
+            key={`${lang}-${dims.w}`}
+            width={dims.w}
+            height={dims.h}
+            size="stretch"
+            minWidth={240}
+            maxWidth={620}
+            minHeight={360}
+            maxHeight={900}
+            showCover
+            mobileScrollSupport
+            drawShadow
+            flippingTime={1000}
+            usePortrait
+            startPage={0}
+            autoSize
+            maxShadowOpacity={0.65}
+            className="mx-auto"
+            style={{ margin: '0 auto' }}
+            ref={bookRef as Ref<FlipApi>}
+            onFlip={(e: { data: number }) => setPage(e.data)}
+            onInit={() => {
+              try {
+                const count = bookRef.current?.pageFlip()?.getPageCount()
+                setPageCount(count || pageNodes.length)
+              } catch {
+                setPageCount(pageNodes.length)
+              }
+            }}
+          >
+            {pageNodes.map((p) => p.node)}
+          </HTMLFlipBook>
+        </div>
 
-            <aside className="w-full max-w-sm rounded-[1.4rem] border border-line bg-champagne/90 p-6 shadow-[0_20px_50px_rgba(12,11,10,0.05)] lg:sticky lg:top-28">
-              <p className="text-[11px] font-semibold tracking-[0.24em] text-amber uppercase">QR</p>
-              <h2 className="mt-2 font-display text-2xl text-ink">{t('menuQrTitle')}</h2>
-              <p className="mt-2 text-sm leading-relaxed text-muted">{t('menuQrText')}</p>
-              <div className="my-5 flex justify-center rounded-2xl bg-white p-4 gold-border">
-                <QRCodeSVG
-                  id="menu-book-qr"
-                  value={menuUrl}
-                  size={160}
-                  bgColor="#ffffff"
-                  fgColor="#0c0b0a"
-                  level="M"
-                />
+        <button
+          type="button"
+          onClick={flipNext}
+          className="absolute right-2 z-30 hidden size-12 items-center justify-center text-white/70 transition hover:text-white md:right-4 md:inline-flex lg:right-8"
+          aria-label="Next page"
+        >
+          <ChevronRight className="size-8" strokeWidth={1.25} />
+        </button>
+      </div>
+
+      <footer className="relative z-20 flex shrink-0 items-center justify-center gap-5 px-4 py-3 md:gap-8">
+        <button
+          type="button"
+          onClick={flipPrev}
+          className="inline-flex size-10 items-center justify-center text-white/80 md:hidden"
+          aria-label="Previous page"
+        >
+          <ChevronLeft className="size-6" />
+        </button>
+        <p className="font-display text-sm tracking-[0.12em] text-white/55">
+          {Math.min(page + 1, Math.max(pageCount, 1))}
+          <span className="mx-2 text-white/30">/</span>
+          {Math.max(pageCount, 1)}
+        </p>
+        <button
+          type="button"
+          onClick={flipNext}
+          className="inline-flex size-10 items-center justify-center text-white/80 md:hidden"
+          aria-label="Next page"
+        >
+          <ChevronRight className="size-6" />
+        </button>
+        <p className="hidden text-[11px] tracking-[0.2em] text-white/40 uppercase md:block">
+          {t('menuBookHint')}
+        </p>
+      </footer>
+
+      {showQr && (
+        <div
+          className="absolute inset-0 z-50 flex items-center justify-center bg-ink/80 p-5 backdrop-blur-sm"
+          onClick={() => setShowQr(false)}
+        >
+          <div
+            className="w-full max-w-sm rounded-2xl bg-champagne p-6 text-ink shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="mb-4 flex items-start justify-between gap-3">
+              <div>
+                <p className="text-[11px] font-semibold tracking-[0.24em] text-amber uppercase">QR</p>
+                <h2 className="mt-1 font-display text-2xl italic">{t('menuQrTitle')}</h2>
               </div>
-              <button
-                type="button"
-                onClick={downloadQr}
-                className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-ink px-4 py-3 text-sm font-semibold text-white transition hover:bg-ink-soft"
-              >
-                <Download className="size-4" />
-                {t('menuQrDownload')}
+              <button type="button" onClick={() => setShowQr(false)} aria-label="Close">
+                <X className="size-5 text-ink/60" />
               </button>
-              <Link
-                to="/reserve"
-                className="mt-3 inline-flex w-full items-center justify-center rounded-full border border-amber/50 bg-amber/15 px-4 py-3 text-sm font-semibold text-ink transition hover:bg-amber"
-              >
-                {t('reserveCta')}
-              </Link>
-            </aside>
+            </div>
+            <p className="text-sm text-muted">{t('menuQrText')}</p>
+            <div className="my-5 flex justify-center rounded-xl bg-white p-4">
+              <QRCodeSVG
+                id="menu-fullscreen-qr"
+                value={menuUrl}
+                size={168}
+                bgColor="#ffffff"
+                fgColor="#0c0b0a"
+                level="M"
+              />
+            </div>
+            <button
+              type="button"
+              onClick={downloadQr}
+              className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-ink px-4 py-3 text-sm font-semibold text-white"
+            >
+              <Download className="size-4" />
+              {t('menuQrDownload')}
+            </button>
           </div>
         </div>
-      </main>
-      <Footer />
+      )}
     </div>
   )
 }

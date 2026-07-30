@@ -3,16 +3,16 @@
 @theme {
   --color-ink: #0c0b0a;
   --color-ink-soft: #1c1917;
-  --color-paper: #f3efe6;
-  --color-paper-deep: #e8e1d4;
-  --color-champagne: #f7f3ea;
-  --color-amber: #9a7428;
-  --color-amber-deep: #7a5a1c;
-  --color-gold: #e0c07a;
-  --color-muted: #4f4940;
-  --color-line: #d0c8b8;
-  --color-olive: #2f3b2a;
-  --font-display: "Cormorant Garamond", "Fraunces", Georgia, serif;
+  --color-paper: #f1ebe0;
+  --color-paper-deep: #e5dccb;
+  --color-champagne: #f6f1e6;
+  --color-amber: #8f6a2a;
+  --color-amber-deep: #6f5220;
+  --color-gold: #d4b56a;
+  --color-muted: #4a443b;
+  --color-line: #cfc5b3;
+  --color-olive: #2c3a28;
+  --font-display: "Cormorant Garamond", "Libre Baskerville", Georgia, serif;
   --font-body: "Outfit", "Manrope", system-ui, sans-serif;
 }
 
@@ -115,14 +115,18 @@
   }
 
   .menu-book-page {
-    background: linear-gradient(180deg, #fbf8f1 0%, #f3eee3 100%);
+    background:
+      linear-gradient(90deg, rgba(12, 11, 10, 0.04), transparent 18%),
+      linear-gradient(180deg, #fbf7ef 0%, #f2ebe0 100%);
     color: #0c0b0a;
     overflow: hidden;
   }
 
-  .menu-book-shadow {
-    box-shadow:
-      0 30px 80px rgba(12, 11, 10, 0.28),
-      0 8px 24px rgba(12, 11, 10, 0.18);
+  .menu-book-stage {
+    filter: drop-shadow(0 28px 60px rgba(0, 0, 0, 0.55));
+  }
+
+  .menu-magazine .stf__wrapper {
+    margin: 0 auto !important;
   }
 }

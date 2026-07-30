@@ -32,7 +32,7 @@ export type MenuCategory = {
 export const menu: MenuCategory[] = [
   {
     id: 'special',
-    image: '/images/dish-special.jpg',
+    image: '/images/menu-special.jpg',
     items: [
       {
         name: { en: 'Broad beans with peas', pl: 'Bób z groszkiem' },
@@ -74,7 +74,7 @@ export const menu: MenuCategory[] = [
   },
   {
     id: 'vege',
-    image: '/images/spuntini.png',
+    image: '/images/menu-vege.jpg',
     items: [
       {
         name: { en: 'Burrata', pl: 'Burrata' },
@@ -132,7 +132,7 @@ export const menu: MenuCategory[] = [
   },
   {
     id: 'meat',
-    image: '/images/gallery-30.jpg',
+    image: '/images/menu-steak.jpg',
     items: [
       {
         name: { en: 'Iberico skewer', pl: 'Szaszłyk iberico' },
@@ -170,7 +170,7 @@ export const menu: MenuCategory[] = [
   },
   {
     id: 'seafood',
-    image: '/images/gallery-24.jpg',
+    image: '/images/menu-seafood.jpg',
     items: [
       {
         name: { en: 'Argentine prawns with chorizo', pl: 'Krewetki argentyńskie z chorizo' },
@@ -216,7 +216,7 @@ export const menu: MenuCategory[] = [
   },
   {
     id: 'sliders',
-    image: '/images/gallery-17.jpg',
+    image: '/images/menu-sliders.jpg',
     items: [
       {
         name: { en: 'Oyster mushroom in panko', pl: 'Boczniak w panko' },
@@ -247,7 +247,7 @@ export const menu: MenuCategory[] = [
   },
   {
     id: 'cocktails',
-    image: '/images/bar.png',
+    image: '/images/menu-cocktail.jpg',
     items: [
       {
         name: { en: 'Negroni arancia', pl: 'Negroni arancia' },
@@ -301,7 +301,7 @@ export const menu: MenuCategory[] = [
   },
   {
     id: 'desserts',
-    image: '/images/gallery-33.jpg',
+    image: '/images/menu-dessert.jpg',
     items: [
       {
         name: { en: 'Salute brûlée cheesecake', pl: 'Sernik Salute brûlée' },

@@ -96,21 +96,19 @@ export function Header({ variant = 'landing' }: { variant?: 'landing' | 'page' }
           )}
         </nav>
 
-        <div className="flex items-center gap-2 md:gap-3">
+        <div className="flex items-center gap-3 md:gap-4">
           <LanguageFlagToggle solid={solid} />
 
           <a
             href={brand.instagram}
             target="_blank"
             rel="noreferrer"
-            className={`hidden size-10 items-center justify-center rounded-full border transition sm:inline-flex ${
-              solid
-                ? 'border-ink/20 bg-white text-ink hover:border-ink'
-                : 'border-white/40 bg-ink/40 text-white hover:border-white'
+            className={`hidden items-center justify-center transition sm:inline-flex ${
+              solid ? 'text-ink/80 hover:text-ink' : 'text-white/85 hover:text-white'
             }`}
             aria-label="Instagram"
           >
-            <InstagramIcon className="size-4" />
+            <InstagramIcon className="size-5" />
           </a>
 
           <Link
@@ -127,15 +125,13 @@ export function Header({ variant = 'landing' }: { variant?: 'landing' | 'page' }
 
           <button
             type="button"
-            className={`inline-flex size-10 items-center justify-center rounded-full border lg:hidden ${
-              solid
-                ? 'border-ink/20 bg-white text-ink'
-                : 'border-white/40 bg-ink/40 text-white'
+            className={`inline-flex items-center justify-center lg:hidden ${
+              solid ? 'text-ink' : 'text-white'
             }`}
             aria-label={open ? 'Close' : 'Menu'}
             onClick={() => setOpen((v) => !v)}
           >
-            {open ? <X className="size-5" /> : <Menu className="size-5" />}
+            {open ? <X className="size-6" /> : <Menu className="size-6" />}
           </button>
         </div>
       </div>

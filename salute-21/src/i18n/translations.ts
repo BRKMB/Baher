@@ -13,21 +13,21 @@ export const translations = {
     menuCta: 'View menu',
     heroTitle: 'The most important celebration is every day',
     heroSubtitle:
-      'A touch of Italian inspiration, a hint of Spanish influence, and a southern way of being. A bar where drinking is inseparable from eating.',
+      'Warm southern spirit, shared plates, and a bar where drinking is inseparable from eating.',
     aboutEyebrow: 'About Salute 21',
     aboutTitle: 'Word of the day: BAR',
     aboutP1:
       'We want to redefine the word bar — a place where drinking is inseparably linked with eating.',
     aboutP2:
-      'We have a soft spot for good food, Italian cocktails and wine. Every day. An escape, a second home, and a neighbourhood club for real encounters.',
-    aboutP3: 'Salute! Cheers. A pinch of Italy, a trace of Spain, and a southern state of mind.',
+      'We have a soft spot for good food, aperitivo culture, and wine. Every day. An escape, a second home, and a neighbourhood club for real encounters.',
+    aboutP3: 'Salute! Cheers. A southern state of mind — generous plates, long evenings, and glasses raised.',
     aboutCard: 'Cheers — every day in Wola.',
     value1Title: 'Celebrate daily',
     value1Text:
       'No special occasion required. The most important celebration happens every day — at the table, at the bar, among friends.',
     value2Title: 'Southern character',
     value2Text:
-      'Italian inspiration, Spanish tapas, and easy living. Food and drink belong together — without artificial divides.',
+      'Sun-soaked flavours, small plates to share, and easy living. Food and drink belong together — without artificial divides.',
     value3Title: 'Season & craft',
     value3Text:
       'Fresh ingredients, a changing menu, and precise technique. Every plate is about flavour, not spectacle.',
@@ -38,7 +38,7 @@ export const translations = {
       'Small plates meant for sharing — 3–4 per person and the evening finds its rhythm.',
     highlightBarTitle: 'Bar',
     highlightBarText:
-      'Signature Italian-inspired cocktails, zero-proof options, and a long sparkling wine list.',
+      'Signature cocktails with citrus and bitter notes, zero-proof options, and a long sparkling wine list.',
     highlightBreakfastTitle: 'Breakfast',
     highlightBreakfastText: 'Weekends from 10:00 — slow, southern, unhurried.',
     galleryEyebrow: 'Gallery',
@@ -80,18 +80,18 @@ export const translations = {
     daySun: 'Sunday',
     footerTagline: 'Bar & restaurant in Warsaw. Cheers — every day.',
     footerRights: 'All rights reserved.',
-    menuPageEyebrow: 'Menu',
+    menuPageEyebrow: 'La Carta',
     menuPageTitle: 'The Salute 21 card',
     menuPageIntro:
       'Spuntini are small plates — we recommend 3–4 per person. The kitchen closes one hour before the bar. v — vegan, w — vegetarian.',
-    menuBookTitle: 'Open the menu book',
-    menuBookHint: 'Drag a corner or use the arrows to turn pages — just like a real book.',
+    menuBookTitle: 'Open the menu',
+    menuBookHint: 'Turn the pages — as if the menu were in your hands.',
     menuBookSpread: 'Turn the page',
     menuQrTitle: 'Scan for the menu',
     menuQrText: 'Share this QR code with guests — it opens the live menu page.',
     menuQrDownload: 'Download QR',
     menuPrint: 'Print menu',
-    backHome: 'Back to home',
+    backHome: 'Close menu',
     reservePageEyebrow: 'Reservations',
     reservePageTitle: 'Book your table',
     reservePageIntro:
@@ -135,7 +135,7 @@ export const translations = {
     cat_meat: 'Meat',
     cat_meat_sub: 'Iberian flavours and bar classics',
     cat_seafood: 'Fish & seafood',
-    cat_seafood_sub: 'Fresh, light, Mediterranean',
+    cat_seafood_sub: 'Fresh, light, from the coast',
     cat_sliders: 'Sliders',
     cat_sliders_sub: 'Small but decisive',
     cat_cocktails: 'Cocktails',
@@ -155,21 +155,21 @@ export const translations = {
     menuCta: 'Zobacz menu',
     heroTitle: 'Najważniejsze święto jest na co dzień',
     heroSubtitle:
-      'Szczypta włoskich inspiracji, ślad wpływów hiszpańskich i trochę południowego stylu bycia. Bar, w którym picie nierozerwalnie łączy się z jedzeniem.',
+      'Południowy charakter, wspólne talerze i bar, w którym picie nierozerwalnie łączy się z jedzeniem.',
     aboutEyebrow: 'O Salute 21',
     aboutTitle: 'Słowo na dziś: BAR',
     aboutP1:
       'Chcemy odczarować słowo bar i nadać mu na nowo znaczenie miejsca, w którym picie nierozerwalnie łączy się z jedzeniem.',
     aboutP2:
-      'Mamy słabość do dobrego jedzenia, włoskich koktajli i wina. Codziennie. To ucieczka, drugi dom i klub dla sąsiedzkiej integracji.',
-    aboutP3: 'Salute! Na zdrowie. Szczypta Italii, ślad Hiszpanii i południowy styl bycia.',
+      'Mamy słabość do dobrego jedzenia, kultury aperitivo i wina. Codziennie. To ucieczka, drugi dom i klub dla sąsiedzkiej integracji.',
+    aboutP3: 'Salute! Na zdrowie. Południowy styl bycia — hojne talerze, długie wieczory i wzniesione kieliszki.',
     aboutCard: 'Na zdrowie — codziennie na Woli.',
     value1Title: 'Codziennie święto',
     value1Text:
       'Nie potrzeba okazji. Najważniejsze święto jest na co dzień — przy stole, przy barze, wśród znajomych.',
     value2Title: 'Południowy charakter',
     value2Text:
-      'Włoskie inspiracje, hiszpańskie tapas i swoboda bycia. Jedzenie łączy się z piciem — bez sztucznych podziałów.',
+      'Słoneczne smaki, małe talerze do dzielenia i swoboda bycia. Jedzenie łączy się z piciem — bez sztucznych podziałów.',
     value3Title: 'Sezon i rzemiosło',
     value3Text:
       'Świeże składniki, zmieniające się menu i precyzyjna technika. Każdy talerz opowiada o smaku, nie o efekciarstwie.',
@@ -180,7 +180,7 @@ export const translations = {
       'Małe talerzyki do dzielenia — 3–4 na osobę i wieczór nabiera rytmu.',
     highlightBarTitle: 'Bar',
     highlightBarText:
-      'Autorskie koktajle włoskie, wersje bezalkoholowe i długa karta win musujących.',
+      'Autorskie koktajle z nutą cytrusów i goryczy, wersje bezalkoholowe i długa karta win musujących.',
     highlightBreakfastTitle: 'Śniadania',
     highlightBreakfastText: 'W weekendy od 10:00 — powoli, południowo, bez pośpiechu.',
     galleryEyebrow: 'Galeria',
@@ -222,18 +222,18 @@ export const translations = {
     daySun: 'Niedziela',
     footerTagline: 'Bar i restauracja w Warszawie. Na zdrowie — codziennie.',
     footerRights: 'Wszelkie prawa zastrzeżone.',
-    menuPageEyebrow: 'Menu',
+    menuPageEyebrow: 'La Carta',
     menuPageTitle: 'Karta Salute 21',
     menuPageIntro:
       'Spuntini to niewielkie przekąski — rekomendujemy 3–4 na osobę. Kuchnię zamykamy godzinę przed zamknięciem baru. v — wegańskie, w — wegetariańskie.',
-    menuBookTitle: 'Otwórz książkę menu',
-    menuBookHint: 'Przeciągnij róg strony lub użyj strzałek — jak w prawdziwej książce.',
+    menuBookTitle: 'Otwórz menu',
+    menuBookHint: 'Przewracaj strony — jakbyś trzymał kartę w dłoniach.',
     menuBookSpread: 'Przewróć stronę',
     menuQrTitle: 'Zeskanuj menu',
     menuQrText: 'Udostępnij ten kod QR gościom — otwiera aktualną stronę menu.',
     menuQrDownload: 'Pobierz QR',
     menuPrint: 'Drukuj menu',
-    backHome: 'Wróć na start',
+    backHome: 'Zamknij menu',
     reservePageEyebrow: 'Rezerwacje',
     reservePageTitle: 'Zarezerwuj stolik',
     reservePageIntro:
@@ -277,7 +277,7 @@ export const translations = {
     cat_meat: 'Mięso',
     cat_meat_sub: 'Iberyjskie smaki i klasyka baru',
     cat_seafood: 'Ryby i owoce morza',
-    cat_seafood_sub: 'Świeże, lekkie, śródziemnomorskie',
+    cat_seafood_sub: 'Świeże, lekkie, z wybrzeża',
     cat_sliders: 'Slidery',
     cat_sliders_sub: 'Małe, ale konkretne',
     cat_cocktails: 'Koktajle',
