@@ -33,9 +33,10 @@ export function ReservePage() {
 
   useEffect(() => {
     let cancelled = false
+    setAvailability({})
     getAvailability(date)
       .then((data) => {
-        if (!cancelled) setAvailability(data.slots)
+        if (!cancelled) setAvailability(data.slots ?? {})
       })
       .catch(() => {
         if (!cancelled) {
@@ -50,8 +51,15 @@ export function ReservePage() {
   }, [date])
 
   useEffect(() => {
-    if (time && !slots.includes(time)) setTime('')
-  }, [slots, time])
+    if (time && (!slots.includes(time) || (availability[time] ?? 28) < guests)) {
+      setTime('')
+      return
+    }
+    if (!time && slots.length > 0) {
+      const firstOpen = slots.find((slot) => (availability[slot] ?? 28) >= guests)
+      if (firstOpen) setTime(firstOpen)
+    }
+  }, [slots, time, guests, availability])
 
   const onSubmit = async (event: FormEvent) => {
     event.preventDefault()
@@ -237,39 +245,45 @@ export function ReservePage() {
                   02
                 </span>
               </div>
-              <div className="grid grid-cols-3 gap-2 min-[420px]:grid-cols-4 sm:grid-cols-4 md:grid-cols-5">
-                {slots.map((slot) => {
-                  const remaining = availability[slot] ?? 28
-                  const disabled = remaining < guests
-                  const selected = time === slot
-                  return (
-                    <button
-                      key={slot}
-                      type="button"
-                      disabled={disabled}
-                      onClick={() => setTime(slot)}
-                      className={`min-h-12 border px-1.5 py-2 text-center transition ${
-                        selected
-                          ? 'border-ink bg-ink text-white'
-                          : disabled
-                            ? 'cursor-not-allowed border-line/50 bg-paper-deep/30 text-muted/35'
-                            : 'border-line bg-paper text-ink/85 hover:border-ink'
-                      }`}
-                    >
-                      <span className="block text-sm font-semibold tabular-nums">{slot}</span>
-                      <span
-                        className={`mt-0.5 block text-[9px] tracking-wide uppercase ${
-                          selected ? 'text-white/65' : 'text-muted/70'
+              {slots.length === 0 ? (
+                <p className="border border-line bg-paper/70 px-4 py-3 text-sm text-muted">
+                  {t('reserveNoSlots')}
+                </p>
+              ) : (
+                <div className="grid grid-cols-3 gap-2 min-[420px]:grid-cols-4 sm:grid-cols-4 md:grid-cols-5">
+                  {slots.map((slot) => {
+                    const remaining = availability[slot] ?? 28
+                    const disabled = remaining < guests
+                    const selected = time === slot
+                    return (
+                      <button
+                        key={slot}
+                        type="button"
+                        disabled={disabled}
+                        onClick={() => setTime(slot)}
+                        className={`min-h-12 border px-1.5 py-2 text-center transition ${
+                          selected
+                            ? 'border-ink bg-ink text-white'
+                            : disabled
+                              ? 'cursor-not-allowed border-line/50 bg-paper-deep/30 text-muted/35'
+                              : 'border-line bg-paper text-ink/85 hover:border-ink'
                         }`}
                       >
-                        {disabled ? '—' : `${remaining}`}
-                      </span>
-                    </button>
-                  )
-                })}
-              </div>
-              {!time && (
-                <p className="text-xs text-muted">{t('reserveAvailable')}</p>
+                        <span className="block text-sm font-semibold tabular-nums">{slot}</span>
+                        <span
+                          className={`mt-0.5 block text-[9px] tracking-wide uppercase ${
+                            selected ? 'text-white/65' : 'text-muted/70'
+                          }`}
+                        >
+                          {disabled ? '—' : `${remaining}`}
+                        </span>
+                      </button>
+                    )
+                  })}
+                </div>
+              )}
+              {slots.length > 0 && !time && (
+                <p className="text-xs text-muted">{t('reservePickTime')}</p>
               )}
             </section>
 

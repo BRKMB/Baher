@@ -18,7 +18,7 @@ export type Booking = BookingInput & {
   status: 'confirmed'
 }
 
-/** Opening slots by weekday (0=Sun … 6=Sat) */
+/** Opening slots by weekday (0=Sun … 6=Sat) — Europe/Warsaw restaurant hours */
 const WEEKDAY_SLOTS: Record<number, string[]> = {
   0: ['10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00', '20:30'],
   1: ['12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00', '20:30'],
@@ -35,45 +35,91 @@ function createId() {
   return `S21-${stamp}${part}`
 }
 
+/** Local calendar date YYYY-MM-DD (avoids UTC off-by-one from toISOString). */
+export function formatLocalDate(date = new Date()): string {
+  const y = date.getFullYear()
+  const m = String(date.getMonth() + 1).padStart(2, '0')
+  const d = String(date.getDate()).padStart(2, '0')
+  return `${y}-${m}-${d}`
+}
+
+function warsawNowParts() {
+  const parts = new Intl.DateTimeFormat('en-GB', {
+    timeZone: 'Europe/Warsaw',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    hourCycle: 'h23',
+  }).formatToParts(new Date())
+  const get = (type: string) => parts.find((p) => p.type === type)?.value ?? '00'
+  return {
+    date: `${get('year')}-${get('month')}-${get('day')}`,
+    minutes: Number(get('hour')) * 60 + Number(get('minute')),
+  }
+}
+
 export function getSlotsForDate(dateStr: string): string[] {
   if (!dateStr) return []
   const date = new Date(`${dateStr}T12:00:00`)
   if (Number.isNaN(date.getTime())) return []
-  const today = new Date()
-  today.setHours(0, 0, 0, 0)
-  if (date < today) return []
-  return WEEKDAY_SLOTS[date.getDay()] ?? []
+
+  const { date: todayWarsaw, minutes: nowMinutes } = warsawNowParts()
+  if (dateStr < todayWarsaw) return []
+
+  const slots = WEEKDAY_SLOTS[date.getDay()] ?? []
+  if (dateStr > todayWarsaw) return slots
+
+  // Today: hide slots that already started (15-min buffer)
+  return slots.filter((slot) => {
+    const [hh, mm] = slot.split(':').map(Number)
+    return hh * 60 + mm > nowMinutes + 15
+  })
 }
 
 export function minBookableDate(): string {
-  const d = new Date()
-  return d.toISOString().slice(0, 10)
+  return warsawNowParts().date
 }
 
 export function maxBookableDate(): string {
-  const d = new Date()
+  const d = new Date(`${minBookableDate()}T12:00:00`)
   d.setDate(d.getDate() + 60)
-  return d.toISOString().slice(0, 10)
+  return formatLocalDate(d)
 }
 
 async function api<T>(path: string, init?: RequestInit): Promise<T> {
   const res = await fetch(path, {
-    headers: { 'Content-Type': 'application/json', ...(init?.headers ?? {}) },
     ...init,
+    headers: { Accept: 'application/json', 'Content-Type': 'application/json', ...(init?.headers ?? {}) },
   })
-  const data = await res.json().catch(() => ({}))
-  if (!res.ok) {
-    throw new Error((data as { error?: string }).error || 'Request failed')
+
+  const contentType = res.headers.get('content-type') || ''
+  if (!contentType.includes('application/json')) {
+    throw new Error('API unavailable')
   }
-  return data as T
+
+  const data = (await res.json().catch(() => ({}))) as T & { error?: string }
+  if (!res.ok) {
+    throw new Error(data.error || 'Request failed')
+  }
+  return data
 }
 
 export async function getAvailability(date: string, time?: string) {
   const q = new URLSearchParams({ date })
   if (time) q.set('time', time)
-  return api<{ date: string; capacity: number; slots: Record<string, number>; remaining?: number }>(
-    `/api/bookings/availability?${q}`,
-  )
+  const data = await api<{
+    date: string
+    capacity: number
+    slots: Record<string, number>
+    remaining?: number
+  }>(`/api/bookings/availability?${q}`)
+
+  if (!data?.slots || typeof data.slots !== 'object') {
+    throw new Error('API unavailable')
+  }
+  return data
 }
 
 export async function createBooking(input: BookingInput): Promise<Booking> {
@@ -83,31 +129,49 @@ export async function createBooking(input: BookingInput): Promise<Booking> {
   if (input.guests < 1 || input.guests > MAX_PARTY_SIZE) {
     throw new Error('Invalid party size')
   }
+  if (!input.time) {
+    throw new Error('Missing time slot')
+  }
   const slots = getSlotsForDate(input.date)
   if (!slots.includes(input.time)) {
     throw new Error('Invalid time slot')
   }
 
   try {
-    return await api<Booking>('/api/bookings', {
+    const booking = await api<Booking>('/api/bookings', {
       method: 'POST',
       body: JSON.stringify(input),
     })
+    if (!booking?.id) throw new Error('API unavailable')
+    // Mirror to local so success page works offline / hard-refresh
+    try {
+      writeLocal([booking, ...readLocal().filter((b) => b.id !== booking.id)])
+    } catch {
+      /* ignore */
+    }
+    return booking
   } catch (err) {
-    // Offline / preview without API — local fallback store
     const message = err instanceof Error ? err.message : ''
-    if (message.includes('fully booked') || message.includes('zajęty')) throw err
+    if (
+      message.includes('fully booked') ||
+      message.includes('zajęty') ||
+      message === 'SLOT_TAKEN'
+    ) {
+      throw err
+    }
+    // Offline / preview without API — local fallback store
     return createLocalBooking(input)
   }
 }
 
 export async function getBooking(id: string): Promise<Booking | null> {
   try {
-    return await api<Booking>(`/api/bookings/${encodeURIComponent(id)}`)
+    const booking = await api<Booking>(`/api/bookings/${encodeURIComponent(id)}`)
+    if (booking?.id) return booking
   } catch {
-    const local = readLocal().find((b) => b.id === id)
-    return local ?? null
+    /* fall through to local */
   }
+  return readLocal().find((b) => b.id === id) ?? null
 }
 
 function readLocal(): Booking[] {

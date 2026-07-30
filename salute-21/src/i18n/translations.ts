@@ -128,6 +128,8 @@ export const translations = {
     reserveError: 'Something went wrong. Please try again.',
     reserveSummary: 'Reservation summary',
     reserveAvailable: 'Available times',
+    reservePickTime: 'Please choose a time to continue.',
+    reserveNoSlots: 'No tables left for this day. Try another date.',
     reservePolicy:
       'Please arrive within 15 minutes of your booking time. For parties of 6+, a 10% service charge applies.',
     occasionNone: 'No special occasion',
@@ -282,6 +284,8 @@ export const translations = {
     reserveError: 'Coś poszło nie tak. Spróbuj ponownie.',
     reserveSummary: 'Podsumowanie rezerwacji',
     reserveAvailable: 'Dostępne godziny',
+    reservePickTime: 'Wybierz godzinę, aby kontynuować.',
+    reserveNoSlots: 'Brak wolnych stolików tego dnia. Wybierz inną datę.',
     reservePolicy:
       'Prosimy o przybycie w ciągu 15 minut od godziny rezerwacji. Przy grupach od 6 osób doliczamy serwis 10%.',
     occasionNone: 'Bez specjalnej okazji',
