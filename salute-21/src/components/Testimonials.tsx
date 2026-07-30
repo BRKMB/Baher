@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
 import { useI18n } from '../i18n/LanguageContext'
 import type { TranslationKey } from '../i18n/translations'
 
@@ -14,64 +16,105 @@ const testimonials: Array<{
   { name: 'Michał Kamiński', roleKey: 'testi6Role', quoteKey: 'testi6Quote' },
 ]
 
-function Card({
-  name,
-  role,
-  quote,
-}: {
-  name: string
-  role: string
-  quote: string
-}) {
-  return (
-    <article className="w-[min(86vw,360px)] shrink-0 rounded-[1.35rem] border border-line bg-white/85 p-6 shadow-[0_18px_40px_rgba(12,11,10,0.05)]">
-      <p className="font-display text-[1.25rem] leading-snug text-ink">“{quote}”</p>
-      <div className="mt-5 border-t border-line pt-4">
-        <p className="text-sm font-semibold text-ink">{name}</p>
-        <p className="mt-1 text-[11px] font-medium tracking-[0.14em] text-amber uppercase">{role}</p>
-      </div>
-    </article>
-  )
-}
-
 export function Testimonials() {
   const { t } = useI18n()
-  const cards = testimonials.map((item) => ({
-    ...item,
+  const [active, setActive] = useState(0)
+  const items = testimonials.map((item) => ({
+    name: item.name,
     role: t(item.roleKey),
     quote: t(item.quoteKey),
   }))
-  // Triple for a seamless full-width loop
-  const loop = [...cards, ...cards, ...cards]
+  const current = items[active]
+
+  useEffect(() => {
+    const id = window.setInterval(() => {
+      setActive((i) => (i + 1) % items.length)
+    }, 5600)
+    return () => window.clearInterval(id)
+  }, [items.length])
 
   return (
-    <section id="opinie" className="overflow-hidden py-20 md:py-28">
-      <div className="mx-auto mb-10 max-w-7xl px-5 text-center md:px-8">
-        <p className="mb-3 text-[11px] font-semibold tracking-[0.28em] text-amber uppercase">
-          {t('testimonialsEyebrow')}
-        </p>
-        <h2 className="font-display text-4xl tracking-[-0.02em] text-ink md:text-5xl">
-          {t('testimonialsTitle')}
-        </h2>
-        <div className="luxury-rule mx-auto my-6 max-w-xs" />
-        <p className="mx-auto max-w-2xl text-base leading-relaxed text-muted">
-          {t('testimonialsIntro')}
-        </p>
-      </div>
+    <section id="opinie" className="relative overflow-hidden bg-ink text-white">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_30%_20%,rgba(212,181,106,0.12),transparent_50%)]" />
+      <div className="pointer-events-none absolute inset-0 opacity-[0.035] [background-image:url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.85%22 numOctaves=%224%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23n)%22/%3E%3C/svg%3E')]" />
 
-      <div className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]">
-        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-champagne to-transparent md:w-28" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-champagne to-transparent md:w-28" />
+      <div className="relative mx-auto max-w-5xl px-5 py-24 md:px-8 md:py-32">
+        <div className="text-center">
+          <p className="mb-4 text-[11px] font-semibold tracking-[0.34em] text-gold uppercase">
+            {t('testimonialsEyebrow')}
+          </p>
+          <h2 className="font-display text-4xl tracking-[-0.02em] text-white italic md:text-5xl">
+            {t('testimonialsTitle')}
+          </h2>
+          <div className="mx-auto my-7 h-px w-20 bg-gradient-to-r from-transparent via-gold to-transparent" />
+          <p className="mx-auto max-w-xl text-sm leading-relaxed text-white/65 md:text-base">
+            {t('testimonialsIntro')}
+          </p>
+        </div>
 
-        <div className="marquee-track flex w-max gap-5 py-2">
-          {loop.map((item, index) => (
-            <Card
-              key={`${item.name}-${index}`}
-              name={item.name}
-              role={item.role}
-              quote={item.quote}
+        <div className="relative mx-auto mt-14 min-h-[280px] max-w-3xl md:min-h-[300px] md:mt-16">
+          <span
+            aria-hidden
+            className="pointer-events-none absolute -top-6 left-0 font-display text-[7rem] leading-none text-gold/20 select-none md:-top-10 md:text-[9rem]"
+          >
+            “
+          </span>
+
+          <AnimatePresence mode="wait">
+            <motion.figure
+              key={current.name}
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -14 }}
+              transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+              className="relative px-2 text-center md:px-8"
+            >
+              <blockquote className="font-display text-[1.65rem] leading-[1.35] text-balance text-white italic md:text-[2.15rem] md:leading-[1.3]">
+                {current.quote}
+              </blockquote>
+              <figcaption className="mt-10">
+                <div className="mx-auto mb-5 h-px w-10 bg-gold/50" />
+                <p className="text-sm font-semibold tracking-wide text-white">{current.name}</p>
+                <p className="mt-2 text-[11px] font-medium tracking-[0.22em] text-gold uppercase">
+                  {current.role}
+                </p>
+              </figcaption>
+            </motion.figure>
+          </AnimatePresence>
+        </div>
+
+        <div className="mt-12 flex flex-wrap items-center justify-center gap-2.5 md:mt-14">
+          {items.map((item, index) => (
+            <button
+              key={item.name}
+              type="button"
+              onClick={() => setActive(index)}
+              aria-label={item.name}
+              aria-current={index === active}
+              className={`h-1.5 rounded-full transition-all duration-500 ${
+                index === active
+                  ? 'w-8 bg-gold'
+                  : 'w-1.5 bg-white/25 hover:bg-white/45'
+              }`}
             />
           ))}
+        </div>
+
+        <div className="mt-16 overflow-hidden border-t border-white/10 pt-8">
+          <div className="testimonial-names flex w-max gap-10 whitespace-nowrap px-4 text-[11px] font-medium tracking-[0.2em] text-white/40 uppercase">
+            {[...items, ...items].map((item, i) => (
+              <button
+                key={`${item.name}-strip-${i}`}
+                type="button"
+                onClick={() => setActive(i % items.length)}
+                className={`transition hover:text-gold ${
+                  i % items.length === active ? 'text-gold' : ''
+                }`}
+              >
+                {item.name}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
     </section>

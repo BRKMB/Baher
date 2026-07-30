@@ -44,10 +44,10 @@ export const translations = {
     galleryEyebrow: 'Gallery',
     galleryTitle: 'Taste, light, table',
     galleryText: 'Moments from the kitchen and bar — the same mood you find on our Instagram.',
-    testimonialsEyebrow: 'Guest voices',
-    testimonialsTitle: 'What our guests say',
+    testimonialsEyebrow: 'Livre d’or',
+    testimonialsTitle: 'Words from the table',
     testimonialsIntro:
-      'Quiet evenings, shared plates, and glasses raised — words from the people who make Salute 21 feel like home.',
+      'Quiet evenings, shared plates, raised glasses — notes left by those who make this house feel like home.',
     testi1Quote:
       'An evening of quiet elegance. The spuntini arrived like a conversation — unhurried, precise, and unforgettable.',
     testi1Role: 'Warsaw · designer',
@@ -195,10 +195,10 @@ export const translations = {
     galleryEyebrow: 'Galeria',
     galleryTitle: 'Smak, światło, stół',
     galleryText: 'Zdjęcia z kuchni i baru — te same klimaty, które znajdziesz na naszym Instagramie.',
-    testimonialsEyebrow: 'Głosy gości',
-    testimonialsTitle: 'Co mówią nasi Goście',
+    testimonialsEyebrow: 'Livre d’or',
+    testimonialsTitle: 'Słowa od stołu',
     testimonialsIntro:
-      'Spokojne wieczory, wspólne talerze i wzniesione kieliszki — słowa osób, dzięki którym Salute 21 staje się drugim domem.',
+      'Spokojne wieczory, wspólne talerze, wzniesione kieliszki — notatki gości, dzięki którym ten dom staje się domem.',
     testi1Quote:
       'Wieczór pełen cichej elegancji. Spuntini pojawiły się jak rozmowa — bez pośpiechu, precyzyjnie i niezapomniale.',
     testi1Role: 'Warszawa · projektantka',

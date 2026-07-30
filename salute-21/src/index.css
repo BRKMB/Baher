@@ -94,22 +94,24 @@
       transform: translateX(0);
     }
     to {
-      /* One third of the track (we render 3 copies) */
-      transform: translateX(-33.333%);
+      transform: translateX(-50%);
     }
   }
 
-  .marquee-track {
-    animation: marquee-x 48s linear infinite;
+  .marquee-track,
+  .testimonial-names {
+    animation: marquee-x 40s linear infinite;
     will-change: transform;
   }
 
-  .marquee-track:hover {
+  .marquee-track:hover,
+  .testimonial-names:hover {
     animation-play-state: paused;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .marquee-track {
+    .marquee-track,
+    .testimonial-names {
       animation: none;
     }
   }
