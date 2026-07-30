@@ -156,13 +156,15 @@ export function ReservePage() {
           >
             <Link
               to="/"
-              className="mb-8 inline-flex items-center gap-2 text-sm font-medium text-white/70 transition hover:text-white"
+              className="mb-6 flex w-fit items-center gap-2 text-sm font-medium text-white/70 transition hover:text-white"
             >
               <ArrowLeft className="size-4" />
               {t('navHome')}
             </Link>
 
-            <BrandLogo tone="light" className="text-[clamp(2.8rem,8vw,4.6rem)]" />
+            <div className="mt-2 overflow-visible pl-1">
+              <BrandLogo tone="light" className="text-[clamp(2.8rem,8vw,4.6rem)]" />
+            </div>
             <p className="mt-3 text-[11px] font-semibold tracking-[0.32em] text-gold uppercase">
               {t('reservePageEyebrow')}
             </p>
