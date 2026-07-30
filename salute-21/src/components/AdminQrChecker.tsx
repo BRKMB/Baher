@@ -20,19 +20,24 @@ export function extractBookingId(raw: string) {
   return text.toUpperCase()
 }
 
+/** Full reference field: always `S21-XXXXXX-XXXX`, letters+digits, uppercase. */
+export function formatFullReference(raw: string) {
+  let alnum = String(raw || '')
+    .toLocaleUpperCase('en-US')
+    .replace(/[^A-Z0-9]/g, '')
+  if (alnum.startsWith('S21')) alnum = alnum.slice(3)
+  const body = alnum.slice(0, 10)
+  if (body.length <= 6) return `S21-${body}`
+  return `S21-${body.slice(0, 6)}-${body.slice(6)}`
+}
+
 /** Editable tail after fixed `S21-` → `XXXXXX-XXXX` (auto dash + uppercase). */
 export function formatReferenceTail(raw: string) {
-  const chars = String(raw || '')
-    .toUpperCase()
-    .replace(/[^A-Z0-9]/g, '')
-    .slice(0, 10)
-  if (chars.length <= 6) return chars
-  return `${chars.slice(0, 6)}-${chars.slice(6)}`
+  return formatFullReference(raw).replace(/^S21-/, '')
 }
 
 export function fullReferenceFromTail(tail: string) {
-  const formatted = formatReferenceTail(tail)
-  return formatted ? `S21-${formatted}` : 'S21-'
+  return formatFullReference(`S21-${tail}`)
 }
 
 function formatDate(value: string) {
@@ -56,7 +61,7 @@ type CheckState =
 
 export function AdminQrChecker() {
   const [scanning, setScanning] = useState(false)
-  const [manual, setManual] = useState('')
+  const [manual, setManual] = useState('S21-')
   const [check, setCheck] = useState<CheckState>({ status: 'idle' })
   const [camError, setCamError] = useState('')
   const scannerRef = useRef<Html5Qrcode | null>(null)
@@ -284,30 +289,54 @@ export function AdminQrChecker() {
             onSubmit={(e) => {
               e.preventDefault()
               lastHandledRef.current = ''
-              void lookup(fullReferenceFromTail(manual))
+              void lookup(formatFullReference(manual))
             }}
           >
             <label className="grid gap-2 text-sm">
               <span className="text-[11px] font-semibold tracking-[0.18em] text-muted uppercase">
                 Or enter reference
               </span>
-              <div className="admin-ref-input">
-                <span className="admin-ref-input__prefix" aria-hidden>
-                  S21-
-                </span>
-                <input
-                  value={manual}
-                  onChange={(e) => setManual(formatReferenceTail(e.target.value))}
-                  className="admin-ref-input__field"
-                  placeholder="XXXXXX-XXXX"
-                  inputMode="text"
-                  autoCapitalize="characters"
-                  autoCorrect="off"
-                  spellCheck={false}
-                  maxLength={11}
-                  aria-label="Booking reference after S21-"
-                />
-              </div>
+              <input
+                type="text"
+                lang="en"
+                value={manual}
+                onChange={(e) => setManual(formatFullReference(e.target.value))}
+                onKeyDown={(e) => {
+                  const el = e.currentTarget
+                  const start = el.selectionStart ?? 0
+                  const end = el.selectionEnd ?? 0
+                  // Keep the fixed S21- prefix
+                  if (
+                    (e.key === 'Backspace' && start <= 4 && end <= 4) ||
+                    (e.key === 'Delete' && start < 4)
+                  ) {
+                    e.preventDefault()
+                    el.setSelectionRange(4, 4)
+                  }
+                }}
+                onClick={(e) => {
+                  const el = e.currentTarget
+                  if ((el.selectionStart ?? 0) < 4) el.setSelectionRange(4, 4)
+                }}
+                onFocus={(e) => {
+                  const el = e.currentTarget
+                  if ((el.selectionStart ?? 0) < 4) {
+                    requestAnimationFrame(() => el.setSelectionRange(Math.max(4, el.value.length), Math.max(4, el.value.length)))
+                  }
+                }}
+                className="field-input admin-ref-input__full"
+                placeholder="S21-7L1R9S-0726"
+                inputMode="text"
+                autoComplete="off"
+                autoCorrect="off"
+                autoCapitalize="characters"
+                spellCheck={false}
+                maxLength={15}
+                aria-label="Booking reference"
+              />
+              <span className="text-xs text-muted">
+                Letters and numbers — e.g. S21-7L1R9S-0726
+              </span>
             </label>
             <button type="submit" className="admin-btn admin-btn--ghost mt-3">
               Check reference
