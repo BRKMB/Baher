@@ -50,7 +50,7 @@ export function About() {
             />
           </div>
           <div className="absolute -bottom-5 -left-3 max-w-[250px] rounded-2xl bg-ink px-5 py-4 text-white shadow-xl md:-left-6">
-            <p className="font-display text-2xl leading-none text-white">Salute!</p>
+            <p className="font-script text-3xl leading-none text-white">Saluté 21</p>
             <p className="mt-2 text-sm text-white/80">{t('aboutCard')}</p>
           </div>
         </motion.div>

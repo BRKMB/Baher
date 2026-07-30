@@ -12,7 +12,7 @@ export function Footer() {
     <footer className="border-t border-line bg-champagne px-5 py-12 md:px-8">
       <div className="mx-auto flex max-w-7xl flex-col gap-8 md:flex-row md:items-end md:justify-between">
         <div>
-          <BrandLogo tone="dark" className="h-12 w-auto" />
+          <BrandLogo tone="dark" className="text-[2.85rem]" />
           <p className="mt-4 max-w-sm text-sm leading-relaxed text-ink/70">{t('footerTagline')}</p>
         </div>
 

@@ -13,10 +13,20 @@
   --color-line: #cfc5b3;
   --color-olive: #2c3a28;
   --font-display: "Cormorant Garamond", "Libre Baskerville", Georgia, serif;
+  --font-script: "Great Vibes", "Segoe Script", "Apple Chancery", cursive;
   --font-body: "Outfit", "Manrope", system-ui, sans-serif;
 }
 
 @layer base {
+  .font-script {
+    font-family: var(--font-script);
+    font-weight: 400;
+  }
+
+  .brand-logo {
+    line-height: 0.85;
+  }
+
   html {
     scroll-behavior: smooth;
   }

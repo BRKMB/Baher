@@ -153,7 +153,7 @@ export function buildIcs(booking: Booking): string {
     'CALSCALE:GREGORIAN',
     'METHOD:PUBLISH',
     'BEGIN:VEVENT',
-    `UID:${booking.id}@salute21.pl`,
+    `UID:${booking.id}@salute21.com`,
     `DTSTAMP:${stamp}`,
     `DTSTART:${start}`,
     `DTEND:${end}`,

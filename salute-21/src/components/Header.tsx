@@ -52,7 +52,7 @@ export function Header({ variant = 'landing' }: { variant?: 'landing' | 'page' }
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-4 md:px-8">
         <Link to="/" className="group flex items-center gap-3" aria-label="Salute 21">
-          <BrandLogo tone={solid ? 'dark' : 'light'} className="h-10 w-auto md:h-12" />
+          <BrandLogo tone={solid ? 'dark' : 'light'} className="text-[2.35rem] md:text-[2.75rem]" />
           <span
             className={`hidden font-display text-sm tracking-[0.22em] uppercase sm:inline ${
               solid ? 'text-ink' : 'text-white'

@@ -2,7 +2,7 @@ export const brand = {
   name: 'Salute 21',
   instagram: 'https://www.instagram.com/salute__21/',
   instagramHandle: '@salute__21',
-  email: 'ciao@salute21.pl',
+  email: 'contact@salute21.com',
   address: {
     street: 'ul. Marcina Kasprzaka 24A',
     district: 'Wola',
@@ -29,325 +29,328 @@ export type MenuCategory = {
   items: MenuItem[]
 }
 
+/** Original Salute 21 card — Italian-leaning plates for Warsaw */
 export const menu: MenuCategory[] = [
   {
     id: 'special',
-    image: '/images/menu-special.jpg',
+    image: '/images/gallery-food-1.jpg',
     items: [
       {
-        name: { en: 'Broad beans with peas', pl: 'Bób z groszkiem' },
+        name: { en: 'Burrata with roasted tomatoes', pl: 'Burrata z pieczonymi pomidorami' },
         desc: {
-          en: 'Vege glaze, balsamic, nut crunch, dill, fermented chilli',
-          pl: 'Vege glaze, balsamico, crunch orzechowy, koperek, fermentowane chilli',
+          en: 'Creamy burrata, slow-roasted cherry tomatoes, basil oil, grilled focaccia',
+          pl: 'Kremowa burrata, wolno pieczone pomidorki cherry, oliwa bazyliowa, grillowana focaccia',
         },
-        price: 29,
-        tags: ['v', 'special'],
+        price: 42,
+        tags: ['w', 'special'],
       },
       {
-        name: { en: 'Cecina Rubia Gallega', pl: 'Cecina Rubia Gallega' },
+        name: { en: 'Vitello tonnato', pl: 'Vitello tonnato' },
         desc: {
-          en: 'Beef aged 7 months, lightly smoked',
-          pl: 'Wołowina dojrzewająca 7 miesięcy, podwędzana',
+          en: 'Thinly sliced veal, tuna-caper sauce, lemon, crispy capers',
+          pl: 'Cienko krojona cielęcina, sos tuńczykowy z kaparami, cytryna, chrupiące kapary',
         },
-        price: 37,
+        price: 48,
         tags: ['special'],
       },
       {
-        name: { en: 'Bone marrow with chanterelles', pl: 'Szpik wołowy z kurkami' },
+        name: { en: 'Truffle tagliatelle', pl: 'Tagliatelle z truflą' },
         desc: {
-          en: 'Chanterelles, vege glaze, herb crumble, chives',
-          pl: 'Kurki, vege glaze, kruszonka ziołowa, szczypiorek',
+          en: 'Fresh egg pasta, butter, Parmigiano, black truffle',
+          pl: 'Świeży makaron jajeczny, masło, Parmigiano, czarna trufla',
         },
-        price: 36,
-        tags: ['special'],
+        price: 59,
+        tags: ['w', 'special'],
       },
       {
-        name: { en: 'Galletto', pl: 'Galletto' },
+        name: { en: 'Ossobuco alla milanese', pl: 'Ossobuco alla milanese' },
         desc: {
-          en: 'Chicken, harissa demi-glace, lemon, chives',
-          pl: 'Kurczak, demi glace z harissą, cytryna, szczypiorek',
+          en: 'Braised veal shank, saffron risotto, gremolata',
+          pl: 'Duszona golonka cielęca, risotto szafranowe, gremolata',
         },
-        price: 69,
+        price: 78,
         tags: ['special'],
       },
     ],
   },
   {
     id: 'vege',
-    image: '/images/menu-vege.jpg',
+    image: '/images/gallery-food-2.jpg',
     items: [
       {
-        name: { en: 'Burrata', pl: 'Burrata' },
+        name: { en: 'Caprese 21', pl: 'Caprese 21' },
         desc: {
-          en: 'Gazpacho, lima tomatoes, rhubarb, basil oil',
-          pl: 'Gazpacho, pomidory lima, rabarbar, oliwa bazyliowa',
+          en: 'Heirloom tomatoes, fior di latte, basil pesto, aged balsamic',
+          pl: 'Pomidory heirloom, fior di latte, pesto bazyliowe, dojrzały balsamico',
         },
-        price: 45,
+        price: 36,
         tags: ['w'],
       },
       {
-        name: { en: 'Raviolo', pl: 'Raviolo' },
+        name: { en: 'Grilled eggplant', pl: 'Grillowany bakłażan' },
         desc: {
-          en: 'Ricotta, spinach, egg yolk, burnt truffle butter, fresh truffle',
-          pl: 'Ricotta, szpinak, żółtko, palone masło truflowe, świeża trufla',
+          en: 'Smoky eggplant, stracciatella, pine nuts, mint',
+          pl: 'Wędzony bakłażan, stracciatella, orzeszki piniowe, mięta',
         },
-        price: 49,
+        price: 34,
+        tags: ['w'],
+      },
+      {
+        name: { en: 'Wild mushroom risotto', pl: 'Risotto z grzybami leśnymi' },
+        desc: {
+          en: 'Carnaroli rice, porcini, thyme, Parmigiano',
+          pl: 'Ryż carnaroli, borowiki, tymianek, Parmigiano',
+        },
+        price: 46,
         tags: ['w'],
       },
       {
         name: { en: 'Padrón peppers', pl: 'Papryczki padrón' },
         desc: {
-          en: 'Romesco sauce, Maldon salt',
-          pl: 'Sos romesco, sól Maldon',
+          en: 'Blistered peppers, flaky salt, lemon',
+          pl: 'Prażone papryczki, sól płatkowana, cytryna',
         },
-        price: 21,
+        price: 24,
         tags: ['v'],
       },
       {
-        name: { en: 'Patatas bravas', pl: 'Patatas bravas' },
+        name: { en: 'Focaccia & dips', pl: 'Focaccia i dipsy' },
         desc: {
-          en: 'Spicy aioli, classic aioli, spring onion',
-          pl: 'Pikantne aioli, klasyczne aioli, cebula dymka',
+          en: 'Warm rosemary focaccia, olive tapenade, white bean purée',
+          pl: 'Ciepła focaccia z rozmarynem, tapenada oliwkowa, puree z białej fasoli',
         },
-        price: 22,
+        price: 28,
+        tags: ['v'],
       },
       {
-        name: { en: 'Polenta fries', pl: 'Frytki z polenty' },
+        name: { en: 'Cheese selection', pl: 'Selekcja serów' },
         desc: {
-          en: 'Parmesan, mustard-parmesan aioli',
-          pl: 'Parmezan, aioli musztardowo-parmezanowe',
+          en: 'Three Italian cheeses, honey, walnuts, crackers',
+          pl: 'Trzy włoskie sery, miód, orzechy, krakersy',
         },
-        price: 25,
-      },
-      {
-        name: { en: 'Cheese board', pl: 'Deska serów' },
-        desc: {
-          en: 'Cheese selection, fig confit, caramelised walnuts',
-          pl: 'Selekcja serów, konfitura z figi, orzechy włoskie w karmelu',
-        },
-        price: 36,
+        price: 44,
         tags: ['w'],
       },
     ],
   },
   {
     id: 'meat',
-    image: '/images/menu-steak.jpg',
+    image: '/images/gallery-food-4.jpg',
     items: [
       {
-        name: { en: 'Iberico skewer', pl: 'Szaszłyk iberico' },
+        name: { en: 'Beef carpaccio', pl: 'Carpaccio wołowe' },
         desc: {
-          en: 'Pancetta, demi-glace, balsamic, wild garlic capers',
-          pl: 'Pancetta, demi glace, balsamico, kapary czosnku niedźwiedziego',
+          en: 'Raw beef, rocket, Parmigiano, lemon, olive oil',
+          pl: 'Surowe mięso wołowe, rukola, Parmigiano, cytryna, oliwa',
         },
-        price: 38,
+        price: 49,
       },
       {
-        name: { en: 'Solomillo iberico de bellota', pl: 'Solomillo iberico de bellota' },
+        name: { en: 'Chicken al limone', pl: 'Kurczak al limone' },
         desc: {
-          en: 'Iberian pork tenderloin, marsala, salsa verde',
-          pl: 'Polędwica iberyjska, marsala, salsa verde',
+          en: 'Pan-roasted chicken, lemon butter, herbs, crispy potatoes',
+          pl: 'Smażony kurczak, masło cytrynowe, zioła, chrupiące ziemniaki',
         },
-        price: 66,
+        price: 54,
       },
       {
-        name: { en: 'Bone-in ribeye', pl: 'Antrykot z kością' },
+        name: { en: 'Lamb chops', pl: 'Kotleciki jagnięce' },
         desc: {
-          en: 'Dry-aged 30 days, herbs, garlic — price per 100 g',
-          pl: 'Sezonowany 30 dni, zioła, czosnek — cena za 100 g',
+          en: 'Grilled lamb, rosemary, garlic, salsa verde',
+          pl: 'Grillowana jagnięcina, rozmaryn, czosnek, salsa verde',
         },
-        price: 52,
+        price: 72,
       },
       {
-        name: { en: 'Beef tartare', pl: 'Tatar wołowy' },
+        name: { en: 'Florentine steak', pl: 'Stek florencki' },
         desc: {
-          en: 'Shallot, San Marzano, chipotle, walnuts, salsa verde',
-          pl: 'Szalotka, San Marzano, chipotle, orzechy, salsa verde',
+          en: 'Dry-aged T-bone, sea salt, olive oil — price per 100 g',
+          pl: 'Sezonowany T-bone, sól morska, oliwa — cena za 100 g',
         },
-        price: 51,
+        price: 58,
       },
     ],
   },
   {
     id: 'seafood',
-    image: '/images/menu-seafood.jpg',
+    image: '/images/gallery-food-7.jpg',
     items: [
       {
-        name: { en: 'Argentine prawns with chorizo', pl: 'Krewetki argentyńskie z chorizo' },
+        name: { en: 'Octopus alla griglia', pl: 'Ośmiornica z grilla' },
         desc: {
-          en: 'Courgette, garlic, white wine, wild garlic oil',
-          pl: 'Cukinia, czosnek, białe wino, oliwa z czosnku niedźwiedziego',
+          en: 'Charred octopus, potato cream, paprika oil',
+          pl: 'Ośmiornica z rusztem, krem ziemniaczany, oliwa paprykowa',
         },
-        price: 49,
+        price: 56,
       },
       {
-        name: { en: 'Scallop', pl: 'Przegrzebek' },
+        name: { en: 'Prawns al ajillo', pl: 'Krewetki al ajillo' },
         desc: {
-          en: 'Prawns, mussels, leek béchamel, basil pesto',
-          pl: 'Krewetki, małże, beszamel porowy, pesto bazyliowe',
+          en: 'Garlic, chilli, white wine, parsley, grilled bread',
+          pl: 'Czosnek, chilli, białe wino, pietruszka, grillowany chleb',
         },
-        price: 42,
+        price: 52,
       },
       {
-        name: { en: 'Cod in tempura', pl: 'Dorsz w tempurze' },
+        name: { en: 'Seared scallops', pl: 'Smażone przegrzebki' },
         desc: {
-          en: 'Citrus-mustard aioli, 24-month parmesan',
-          pl: 'Aioli cytrusowo-musztardowe, parmezan 24 msc.',
+          en: 'Scallops, brown butter, citrus, fennel salad',
+          pl: 'Przegrzebki, brązowe masło, cytrusy, sałatka z kopru włoskiego',
         },
-        price: 31,
+        price: 58,
       },
       {
-        name: { en: 'Salmon crudo', pl: 'Łosoś crudo' },
+        name: { en: 'Sea bass crudo', pl: 'Crudo z labraksa' },
         desc: {
-          en: 'Ponzu, dashi, passion fruit, lemon, herbs',
-          pl: 'Ponzu, dashi, marakuja, cytryna, zioła',
+          en: 'Raw sea bass, blood orange, olive oil, chilli flakes',
+          pl: 'Surowy labraks, czerwona pomarańcza, oliwa, płatki chilli',
         },
         price: 47,
       },
       {
-        name: { en: 'Gillardeau oyster', pl: 'Ostryga Gillardeau' },
+        name: { en: 'Oysters', pl: 'Ostrygi' },
         desc: {
-          en: 'Lemon, gazpacho',
-          pl: 'Cytryna, gazpacho',
+          en: 'Fresh oysters, lemon, mignonette',
+          pl: 'Świeże ostrygi, cytryna, mignonette',
         },
-        price: 29,
+        price: 32,
       },
     ],
   },
   {
     id: 'sliders',
-    image: '/images/menu-sliders.jpg',
+    image: '/images/gallery-food-8.jpg',
     items: [
       {
-        name: { en: 'Oyster mushroom in panko', pl: 'Boczniak w panko' },
+        name: { en: 'Porchetta slider', pl: 'Slider porchetta' },
         desc: {
-          en: 'Dijon aioli, romaine, cheddar, fermented chilli',
-          pl: 'Aioli Dijon, sałata rzymska, cheddar, fermentowane chilli',
+          en: 'Slow-roasted pork, salsa verde, soft bun',
+          pl: 'Wolno pieczona wieprzowina, salsa verde, miękka bułka',
         },
-        price: 27,
+        price: 29,
+      },
+      {
+        name: { en: 'Meatball slider', pl: 'Slider z pulpety' },
+        desc: {
+          en: 'Beef & pork meatballs, tomato sugo, mozzarella',
+          pl: 'Pulpety wołowo-wieprzowe, sugo pomidorowe, mozzarella',
+        },
+        price: 28,
+      },
+      {
+        name: { en: 'Mushroom slider', pl: 'Slider z grzybami' },
+        desc: {
+          en: 'Roasted mushrooms, taleggio, rocket',
+          pl: 'Pieczone grzyby, taleggio, rukola',
+        },
+        price: 26,
         tags: ['w'],
-      },
-      {
-        name: { en: 'Wagyu beef', pl: 'Wołowina wagyu' },
-        desc: {
-          en: 'Classic aioli, pickled cucumber, jalapeño',
-          pl: 'Klasyczne aioli, piklowany ogórek, jalapeño',
-        },
-        price: 31,
-      },
-      {
-        name: { en: 'Tempura prawns', pl: 'Krewetki w tempurze' },
-        desc: {
-          en: 'Sweet-sour sauce, cucumber, radicchio',
-          pl: 'Sos słodko-kwaśny, ogórek, radicchio',
-        },
-        price: 30,
       },
     ],
   },
   {
     id: 'cocktails',
-    image: '/images/menu-cocktail.jpg',
+    image: '/images/gallery-food-6.jpg',
     items: [
       {
-        name: { en: 'Negroni arancia', pl: 'Negroni arancia' },
+        name: { en: 'Negroni 21', pl: 'Negroni 21' },
         desc: {
-          en: 'Gin, Campari, sweet vermouth, orange pickled in figs',
-          pl: 'Gin, Campari, słodki wermut, piklowana pomarańcza w figach',
+          en: 'Gin, bitter, sweet vermouth, orange twist',
+          pl: 'Gin, bitter, słodki wermut, skórka pomarańczy',
         },
-        price: 39,
+        price: 38,
       },
       {
-        name: { en: 'Ruby Salute!', pl: 'Ruby Salute!' },
+        name: { en: 'Spritz della casa', pl: 'Spritz della casa' },
         desc: {
-          en: 'Vodka, Aperol, aperitivo, grapefruit, egg white',
-          pl: 'Wódka, Aperol, aperitivo, grejpfrut, białko',
+          en: 'Aperitivo, prosecco, soda, olive',
+          pl: 'Aperitivo, prosecco, soda, oliwka',
         },
-        price: 39,
+        price: 34,
       },
       {
-        name: { en: 'Crema di limone', pl: 'Crema di limone' },
+        name: { en: 'Limoncello sour', pl: 'Limoncello sour' },
         desc: {
-          en: 'Limoncello, orange, lemon, pistachios',
-          pl: 'Limoncello, pomarańcza, cytryna, pistacje',
+          en: 'Limoncello, lemon, egg white, sugar',
+          pl: 'Limoncello, cytryna, białko, cukier',
         },
-        price: 39,
+        price: 36,
       },
       {
-        name: { en: 'Basilicious 2.0', pl: 'Basilicious 2.0' },
+        name: { en: 'Basil smash', pl: 'Basil smash' },
         desc: {
-          en: 'Gin, basil, apple',
-          pl: 'Gin, bazylia, jabłko',
+          en: 'Gin, fresh basil, lemon, soda',
+          pl: 'Gin, świeża bazylia, cytryna, soda',
         },
-        price: 39,
+        price: 36,
       },
       {
-        name: { en: 'Flamingo', pl: 'Flamingo' },
+        name: { en: 'Espresso martini', pl: 'Espresso martini' },
         desc: {
-          en: 'Gin, Aperol, strawberry, lime',
-          pl: 'Gin, Aperol, truskawka, limonka',
+          en: 'Vodka, coffee liqueur, fresh espresso',
+          pl: 'Wódka, likier kawowy, świeże espresso',
         },
-        price: 39,
+        price: 38,
       },
       {
-        name: { en: 'Salute Colada', pl: 'Salute Colada' },
+        name: { en: 'Zero-proof garden', pl: 'Zero-proof garden' },
         desc: {
-          en: 'Coconut-infused rum, lime, pineapple soda',
-          pl: 'Rum infuzowany kokosem, limonka, soda ananasowa',
+          en: 'Seedlip, cucumber, elderflower, tonic',
+          pl: 'Seedlip, ogórek, kwiat bzu, tonik',
         },
-        price: 35,
+        price: 28,
       },
     ],
   },
   {
     id: 'desserts',
-    image: '/images/menu-dessert.jpg',
+    image: '/images/gallery-food-5.jpg',
     items: [
       {
-        name: { en: 'Salute brûlée cheesecake', pl: 'Sernik Salute brûlée' },
+        name: { en: 'Tiramisu 21', pl: 'Tiramisu 21' },
         desc: {
-          en: 'Rose ice cream, white chocolate',
-          pl: 'Lody różane, biała czekolada',
-        },
-        price: 29,
-      },
-      {
-        name: { en: 'Salute! pistachio ice cream', pl: 'Pistacjowe lody Salute!' },
-        desc: {
-          en: 'Pistachios, white chocolate, crisp, Maldon salt',
-          pl: 'Pistacje, biała czekolada, prażynka, sól Maldon',
+          en: 'Espresso-soaked ladyfingers, mascarpone, cocoa',
+          pl: 'Biszkopty namoczone w espresso, mascarpone, kakao',
         },
         price: 32,
       },
       {
-        name: { en: 'Tres leches', pl: 'Tres leches' },
+        name: { en: 'Panna cotta', pl: 'Panna cotta' },
         desc: {
-          en: 'Cake, Earl Grey, nectarines, white chocolate',
-          pl: 'Ciastko, Earl Grey, nektarynki, biała czekolada',
+          en: 'Vanilla cream, seasonal berries, pistachio crunch',
+          pl: 'Krem waniliowy, sezonowe owoce, chrup pistacjowy',
         },
-        price: 29,
+        price: 30,
+      },
+      {
+        name: { en: 'Dark chocolate fondant', pl: 'Fondant z gorzkiej czekolady' },
+        desc: {
+          en: 'Warm chocolate cake, molten centre, vanilla gelato',
+          pl: 'Ciepłe ciasto czekoladowe z płynnym środkiem, lody waniliowe',
+        },
+        price: 34,
       },
     ],
   },
 ]
 
 export const gallery = [
-  { src: '/images/gallery-13.jpg', alt: 'Salute 21 dish' },
-  { src: '/images/gallery-17.jpg', alt: 'Spuntini on the table' },
-  { src: '/images/gallery-24.jpg', alt: 'Seafood' },
-  { src: '/images/gallery-27.jpg', alt: 'Signature cocktail' },
-  { src: '/images/gallery-30.jpg', alt: 'Meat plate' },
-  { src: '/images/gallery-33.jpg', alt: 'Dessert' },
-  { src: '/images/gallery-36.jpg', alt: 'Wine and bites' },
-  { src: '/images/gallery-41.jpg', alt: 'Bar atmosphere' },
-  { src: '/images/interior.jpg', alt: 'Salute 21 interior' },
-  { src: '/images/wine.jpg', alt: 'Wine selection' },
-  { src: '/images/unsplash-dining.jpg', alt: 'Dining table' },
-  { src: '/images/unsplash-cocktail.jpg', alt: 'Cocktails at the bar' },
+  { src: '/images/gallery-food-1.jpg', alt: 'Pasta at Salute 21' },
+  { src: '/images/gallery-food-2.jpg', alt: 'Fresh Italian pasta' },
+  { src: '/images/gallery-food-3.jpg', alt: 'Wine at the table' },
+  { src: '/images/gallery-food-4.jpg', alt: 'Grilled steak' },
+  { src: '/images/gallery-food-5.jpg', alt: 'Dessert' },
+  { src: '/images/gallery-food-6.jpg', alt: 'Signature cocktail' },
+  { src: '/images/gallery-food-7.jpg', alt: 'Seafood plate' },
+  { src: '/images/gallery-food-8.jpg', alt: 'Bruschetta' },
+  { src: '/images/about-food.jpg', alt: 'Burrata' },
+  { src: '/images/unsplash-food.jpg', alt: 'Shared plates' },
+  { src: '/images/unsplash-tapas.jpg', alt: 'Small plates' },
+  { src: '/images/unsplash-cocktail.jpg', alt: 'Bar cocktails' },
 ]
 
 export const highlights = [
-  { key: 'spuntini' as const, image: '/images/spuntini.png' },
-  { key: 'bar' as const, image: '/images/bar.png' },
-  { key: 'breakfast' as const, image: '/images/breakfast.jpg' },
+  { key: 'spuntini' as const, image: '/images/highlight-pasta.jpg' },
+  { key: 'bar' as const, image: '/images/highlight-bar.jpg' },
+  { key: 'breakfast' as const, image: '/images/highlight-brunch.jpg' },
 ]

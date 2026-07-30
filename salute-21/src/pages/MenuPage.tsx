@@ -80,14 +80,14 @@ const CoverLeft = forwardRef<HTMLDivElement>(function CoverLeft(_props, ref) {
   return (
     <BookPage ref={ref} className="relative">
       <img
-        src="/images/menu-special.jpg"
+        src="/images/gallery-food-1.jpg"
         alt=""
         className="absolute inset-0 h-full w-full object-cover"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-[#1a1612] via-[#1a1612]/55 to-[#1a1612]/25" />
       <div className="relative flex h-full flex-col justify-between p-5 text-white sm:p-8 md:p-10">
         <div>
-          <BrandLogo tone="light" className="h-11 w-auto opacity-95" />
+          <BrandLogo tone="light" className="text-[2.6rem] opacity-95 sm:text-[3rem]" />
           <p className="mt-5 text-[10px] font-semibold tracking-[0.34em] text-gold uppercase">
             {t('brandTag')}
           </p>
@@ -113,12 +113,12 @@ const CoverLeft = forwardRef<HTMLDivElement>(function CoverLeft(_props, ref) {
 const CoverRight = forwardRef<HTMLDivElement>(function CoverRight(_props, ref) {
   const { t } = useI18n()
   const menuUrl =
-    typeof window !== 'undefined' ? `${window.location.origin}/menu` : 'https://salute21.pl/menu'
+    typeof window !== 'undefined' ? `${window.location.origin}/menu` : 'https://salute21.com/menu'
   const hours = [
-    { day: t('dayMonThu'), time: '12–22' },
-    { day: t('dayFri'), time: '12–24' },
-    { day: t('daySat'), time: '10–24' },
-    { day: t('daySun'), time: '10–22' },
+    { day: t('dayMonThu'), time: '12–23' },
+    { day: t('dayFri'), time: '12–01' },
+    { day: t('daySat'), time: '11–01' },
+    { day: t('daySun'), time: '11–22' },
   ]
 
   return (
@@ -382,7 +382,7 @@ export function MenuPage() {
     : `${Math.floor(page / 2) + 1} / ${Math.max(1, Math.ceil(totalPages / 2))}`
 
   const menuUrl =
-    typeof window !== 'undefined' ? `${window.location.origin}/menu` : 'https://salute21.pl/menu'
+    typeof window !== 'undefined' ? `${window.location.origin}/menu` : 'https://salute21.com/menu'
 
   const downloadQr = () => {
     const svg = document.querySelector('#menu-fullscreen-qr')
@@ -411,7 +411,7 @@ export function MenuPage() {
         </Link>
 
         <div className="flex min-w-0 items-center gap-2 sm:gap-3">
-          <BrandLogo tone="light" className="h-7 w-auto opacity-90 sm:h-8" />
+          <BrandLogo tone="light" className="text-[1.85rem] opacity-90 sm:text-[2.15rem]" />
           <span className="hidden font-display text-sm tracking-[0.2em] text-gold/90 uppercase sm:inline">
             {t('menuPageEyebrow')}
           </span>
