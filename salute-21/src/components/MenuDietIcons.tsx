@@ -8,28 +8,20 @@ export type MenuDietTag = 'vegan' | 'vege' | 'spicy'
  * - Vegan → leaf
  * - Vegetarian → carrot
  * - Spicy → hot chili pepper (red)
+ * Icons stand alone (no circle badges).
  */
-const TAG_META: Record<
-  MenuDietTag,
-  { Icon: IconType; color: string; ring: string; bg: string }
-> = {
+const TAG_META: Record<MenuDietTag, { Icon: IconType; color: string }> = {
   vegan: {
     Icon: FaLeaf,
     color: 'text-[#2e7d32]',
-    ring: 'border-[#2e7d32]/40',
-    bg: 'bg-[#e8f5e9]',
   },
   vege: {
     Icon: FaCarrot,
     color: 'text-[#ef6c00]',
-    ring: 'border-[#ef6c00]/40',
-    bg: 'bg-[#fff3e0]',
   },
   spicy: {
     Icon: FaPepperHot,
     color: 'text-[#d32f2f]',
-    ring: 'border-[#d32f2f]/45',
-    bg: 'bg-[#fdecea]',
   },
 }
 
@@ -44,7 +36,7 @@ export function MenuDietBadge({
   const Icon = meta.Icon
   return (
     <span
-      className={`inline-flex size-[1.5rem] items-center justify-center rounded-full border ${meta.bg} ${meta.ring} ${meta.color}`}
+      className={`inline-flex items-center ${meta.color}`}
       title={label}
       aria-label={label}
     >
@@ -58,6 +50,8 @@ export function MenuDietLegend({
 }: {
   items: Array<{ tag: MenuDietTag; label: string; hint: string }>
 }) {
+  if (items.length === 0) return null
+
   return (
     <ul className="mt-2.5 grid gap-2">
       {items.map(({ tag, label, hint }) => {
@@ -65,10 +59,7 @@ export function MenuDietLegend({
         const Icon = meta.Icon
         return (
           <li key={tag} className="flex items-center gap-2.5 text-[11px] leading-snug sm:text-[12px]">
-            <span
-              className={`inline-flex size-[1.65rem] shrink-0 items-center justify-center rounded-full border ${meta.bg} ${meta.ring} ${meta.color}`}
-              aria-hidden
-            >
+            <span className={`inline-flex shrink-0 items-center ${meta.color}`} aria-hidden>
               <Icon className="size-4" />
             </span>
             <span className="min-w-0">

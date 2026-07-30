@@ -95,7 +95,6 @@ export const menu: MenuCategory[] = [
           pl: 'Sos pomidorowy, mozzarella, świeża bazylia',
         },
         price: 39,
-        tags: ['vege'],
       },
       {
         name: { en: '4 Cheese Pizza', pl: 'Pizza 4 sery' },
@@ -104,7 +103,6 @@ export const menu: MenuCategory[] = [
           pl: 'Mozzarella, gorgonzola, cheddar, parmezan',
         },
         price: 46,
-        tags: ['vege'],
       },
       {
         name: {
@@ -116,7 +114,6 @@ export const menu: MenuCategory[] = [
           pl: 'Baza pomidorowa, mozzarella, burrata, suszone pomidory',
         },
         price: 52,
-        tags: ['vege'],
       },
       {
         name: { en: 'Pizza with Sausage', pl: 'Pizza z kiełbasą' },
@@ -147,7 +144,6 @@ export const menu: MenuCategory[] = [
           pl: 'Złociste frytki, sól morska',
         },
         price: 16,
-        tags: ['vegan'],
       },
       {
         name: { en: 'Onion Rings', pl: 'Krążki cebulowe' },
@@ -156,7 +152,6 @@ export const menu: MenuCategory[] = [
           pl: 'Chrupiące krążki cebulowe w panierce',
         },
         price: 18,
-        tags: ['vege'],
       },
       {
         name: { en: 'Cheese Jalapeño Bites', pl: 'Cheese Jalapeño Bites' },
@@ -165,7 +160,7 @@ export const menu: MenuCategory[] = [
           pl: 'Roztopiony ser, jalapeño, chrupiąca panierka',
         },
         price: 22,
-        tags: ['vege', 'spicy'],
+        tags: ['spicy'],
       },
     ],
   },
@@ -194,7 +189,6 @@ export const menu: MenuCategory[] = [
           pl: 'Tostowany chleb, roztopiony ser kaşar',
         },
         price: 24,
-        tags: ['vege'],
       },
       {
         name: {
@@ -282,25 +276,21 @@ export const menu: MenuCategory[] = [
         name: { en: 'Black Tea', pl: 'Herbata czarna' },
         desc: { en: 'Classic black tea', pl: 'Klasyczna herbata czarna' },
         price: 12,
-        tags: ['vegan'],
       },
       {
         name: { en: 'Green Tea', pl: 'Herbata zielona' },
         desc: { en: 'Light green tea', pl: 'Delikatna herbata zielona' },
         price: 12,
-        tags: ['vegan'],
       },
       {
         name: { en: 'Fresh Mint', pl: 'Świeża mięta' },
         desc: { en: 'Fresh mint infusion', pl: 'Napar ze świeżej mięty' },
         price: 14,
-        tags: ['vegan'],
       },
       {
         name: { en: 'Fruit Infusion', pl: 'Napar owocowy' },
         desc: { en: 'Seasonal fruit blend', pl: 'Sezonowa mieszanka owocowa' },
         price: 14,
-        tags: ['vegan'],
       },
     ],
   },
@@ -349,7 +339,6 @@ export const menu: MenuCategory[] = [
         name: { en: 'Lemonade', pl: 'Lemoniada' },
         desc: { en: 'Fresh lemonade', pl: 'Świeża lemoniada' },
         price: 14,
-        tags: ['vegan'],
       },
       {
         group: { en: 'Non-alcoholic beer', pl: 'Piwo bezalkoholowe' },
