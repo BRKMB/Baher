@@ -126,10 +126,6 @@ export const translations = {
     reserveNotesPh: 'Allergies, seating preferences, celebration notes…',
     reserveSubmit: 'Book now',
     reserveSubmitting: 'Booking…',
-    reserveCaptcha: 'Security check',
-    reserveCaptchaHint: 'Solve this quick check to confirm you are human.',
-    reserveCaptchaError: 'Incorrect security answer. Please try again.',
-    reserveCaptchaRefresh: 'New question',
     reserveConfirmed: 'Confirmed',
     reserveSuccessTitle: 'Your table is reserved',
     reserveSuccessText:
@@ -307,10 +303,6 @@ export const translations = {
     reserveNotesPh: 'Alergie, preferencje miejsca, uwagi do celebracji…',
     reserveSubmit: 'Zarezerwuj teraz',
     reserveSubmitting: 'Rezerwuję…',
-    reserveCaptcha: 'Weryfikacja',
-    reserveCaptchaHint: 'Rozwiąż krótkie zadanie, by potwierdzić, że jesteś człowiekiem.',
-    reserveCaptchaError: 'Błędna odpowiedź. Spróbuj ponownie.',
-    reserveCaptchaRefresh: 'Nowe pytanie',
     reserveConfirmed: 'Potwierdzone',
     reserveSuccessTitle: 'Twój stolik jest zarezerwowany',
     reserveSuccessText:

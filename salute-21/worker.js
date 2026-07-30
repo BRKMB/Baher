@@ -43,7 +43,6 @@ const WEEKDAY_SLOTS = {
 }
 
 const LIST_KEY = 'bookings:list'
-const CAPTCHA_SECRET_DEFAULT = 'salute21-captcha'
 
 function json(data, status = 200) {
   return new Response(JSON.stringify(data), {
@@ -53,48 +52,6 @@ function json(data, status = 200) {
       'cache-control': 'no-store',
     },
   })
-}
-
-function captchaSecret(env) {
-  return String(env.CAPTCHA_SECRET || CAPTCHA_SECRET_DEFAULT)
-}
-
-async function hmacHex(secret, message) {
-  const key = await crypto.subtle.importKey(
-    'raw',
-    new TextEncoder().encode(secret),
-    { name: 'HMAC', hash: 'SHA-256' },
-    false,
-    ['sign'],
-  )
-  const sig = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(message))
-  return [...new Uint8Array(sig)].map((b) => b.toString(16).padStart(2, '0')).join('')
-}
-
-async function issueCaptcha(env) {
-  const a = 2 + Math.floor(Math.random() * 8)
-  const b = 2 + Math.floor(Math.random() * 8)
-  const exp = Date.now() + 10 * 60 * 1000
-  const payload = `${a}.${b}.${exp}`
-  const sig = await hmacHex(captchaSecret(env), payload)
-  return { a, b, token: `${payload}.${sig}` }
-}
-
-async function verifyCaptcha(env, token, answer) {
-  const raw = String(token || '')
-  const ans = Number(String(answer ?? '').trim())
-  if (!raw || !Number.isFinite(ans)) return false
-  const parts = raw.split('.')
-  if (parts.length !== 4) return false
-  const [aStr, bStr, expStr, sig] = parts
-  const a = Number(aStr)
-  const b = Number(bStr)
-  const exp = Number(expStr)
-  if (![a, b, exp].every((n) => Number.isFinite(n))) return false
-  if (Date.now() > exp) return false
-  if (ans !== a + b) return false
-  const expected = await hmacHex(captchaSecret(env), `${a}.${b}.${exp}`)
-  return sig === expected
 }
 
 function randomByte() {
@@ -177,16 +134,6 @@ async function handleApi(request, env) {
     return json({ ok: true, service: 'salute-21-booking', idFormat: 'S21-DLDLDL-MMYY' })
   }
 
-  if (path === '/api/captcha' && request.method === 'GET') {
-    const challenge = await issueCaptcha(env)
-    return json({
-      token: challenge.token,
-      a: challenge.a,
-      b: challenge.b,
-      question: `${challenge.a} + ${challenge.b}`,
-    })
-  }
-
   if (path === '/api/bookings' && request.method === 'GET') {
     if (!isAdmin(request, env)) {
       return json({ error: 'Unauthorized' }, 401)
@@ -242,14 +189,9 @@ async function handleApi(request, env) {
     const occasion = String(body.occasion || '').trim()
     const notes = String(body.notes || '').trim()
     const lang = body.lang === 'pl' ? 'pl' : 'en'
-    const captchaToken = String(body.captchaToken || '').trim()
-    const captchaAnswer = String(body.captchaAnswer || '').trim()
 
     if (!name || !email || !phone || !date || !time || !guests) {
       return json({ error: 'Missing required fields' }, 400)
-    }
-    if (!(await verifyCaptcha(env, captchaToken, captchaAnswer))) {
-      return json({ error: 'CAPTCHA_INVALID' }, 400)
     }
     if (guests < 1 || guests > MAX_PARTY) {
       return json({ error: 'Invalid party size' }, 400)
