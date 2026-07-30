@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import {
   ArrowLeft,
   CalendarDays,
+  ClipboardList,
   Clock3,
   Lock,
   Mail,
@@ -130,52 +131,65 @@ export function AdminBookingsPage() {
             Home
           </Link>
 
-          <div className="flex flex-wrap items-end justify-between gap-4">
+          <div className="admin-header">
             <div>
               <p className="text-[11px] font-semibold tracking-[0.28em] text-amber uppercase">
                 Staff console
               </p>
-              <h1 className="mt-2 font-display text-4xl text-ink italic md:text-5xl">Bookings</h1>
+              <h1 className="mt-2 font-display text-4xl text-ink italic md:text-5xl">
+                {view === 'checker' ? 'QR Checker' : 'Bookings'}
+              </h1>
               <div className="luxury-rule my-4 max-w-xs" />
               <p className="max-w-lg text-sm text-muted">
-                Reservations from the live booking system — search, review, and prepare the floor.
+                {view === 'checker'
+                  ? 'Scan a guest pass to confirm the reservation at the door.'
+                  : 'Reservations from the live booking system — search, review, and prepare the floor.'}
               </p>
             </div>
             {key ? (
-              <div className="flex flex-wrap items-center gap-2">
-                <div className="admin-view-switch" role="tablist" aria-label="Admin views">
-                  <button
-                    type="button"
-                    role="tab"
-                    aria-selected={view === 'bookings'}
-                    className={`admin-view-switch__btn ${view === 'bookings' ? 'is-active' : ''}`}
-                    onClick={() => setView('bookings')}
-                  >
-                    Bookings
-                  </button>
-                  <button
-                    type="button"
-                    role="tab"
-                    aria-selected={view === 'checker'}
-                    className={`admin-view-switch__btn ${view === 'checker' ? 'is-active' : ''}`}
-                    onClick={() => setView('checker')}
-                  >
-                    <QrCode className="size-3.5" />
-                    QR Code Checker
-                  </button>
-                </div>
+              <div className="admin-iconbar" role="toolbar" aria-label="Staff actions">
                 <button
                   type="button"
-                  onClick={() => void load(key)}
-                  className="admin-btn admin-btn--ghost"
-                  disabled={loading}
+                  className={`admin-iconbtn ${view === 'bookings' ? 'is-active' : ''}`}
+                  aria-label="Bookings"
+                  title="Bookings"
+                  aria-pressed={view === 'bookings'}
+                  onClick={() => setView('bookings')}
                 >
-                  <RefreshCw className={`size-4 ${loading ? 'animate-spin' : ''}`} />
-                  Refresh
+                  <ClipboardList className="admin-iconbtn__icon" strokeWidth={1.6} />
                 </button>
-                <button type="button" onClick={lock} className="admin-btn admin-btn--ghost">
-                  <Lock className="size-4" />
-                  Lock
+                <button
+                  type="button"
+                  className={`admin-iconbtn ${view === 'checker' ? 'is-active' : ''}`}
+                  aria-label="QR Code Checker"
+                  title="QR Code Checker"
+                  aria-pressed={view === 'checker'}
+                  onClick={() => setView('checker')}
+                >
+                  <QrCode className="admin-iconbtn__icon" strokeWidth={1.6} />
+                </button>
+                <span className="admin-iconbar__divider" aria-hidden />
+                <button
+                  type="button"
+                  className="admin-iconbtn"
+                  aria-label="Refresh"
+                  title="Refresh"
+                  disabled={loading}
+                  onClick={() => void load(key)}
+                >
+                  <RefreshCw
+                    className={`admin-iconbtn__icon ${loading ? 'animate-spin' : ''}`}
+                    strokeWidth={1.6}
+                  />
+                </button>
+                <button
+                  type="button"
+                  className="admin-iconbtn"
+                  aria-label="Lock"
+                  title="Lock"
+                  onClick={lock}
+                >
+                  <Lock className="admin-iconbtn__icon" strokeWidth={1.6} />
                 </button>
               </div>
             ) : null}

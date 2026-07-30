@@ -1030,6 +1030,66 @@
     color: color-mix(in srgb, var(--color-muted) 55%, transparent);
   }
 
+  .admin-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1.25rem 1.5rem;
+  }
+
+  .admin-iconbar {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.35rem;
+    border: 1px solid var(--color-line);
+    background: color-mix(in srgb, var(--color-champagne) 65%, white);
+  }
+
+  .admin-iconbar__divider {
+    width: 1px;
+    height: 1.55rem;
+    margin: 0 0.15rem;
+    background: color-mix(in srgb, var(--color-line) 90%, transparent);
+  }
+
+  .admin-iconbtn {
+    display: inline-grid;
+    place-items: center;
+    width: 2.85rem;
+    height: 2.85rem;
+    border: 1px solid transparent;
+    border-radius: 0;
+    background: transparent;
+    color: var(--color-ink);
+    transition:
+      background 0.2s ease,
+      border-color 0.2s ease,
+      color 0.2s ease;
+  }
+
+  .admin-iconbtn__icon {
+    width: 1.35rem;
+    height: 1.35rem;
+  }
+
+  .admin-iconbtn:hover:not(:disabled) {
+    border-color: color-mix(in srgb, var(--color-ink) 25%, transparent);
+    background: color-mix(in srgb, var(--color-champagne) 90%, white);
+  }
+
+  .admin-iconbtn.is-active {
+    border-color: var(--color-ink);
+    background: var(--color-ink);
+    color: #f7f1e6;
+  }
+
+  .admin-iconbtn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
   .admin-tabs {
     display: flex;
     flex-wrap: wrap;
@@ -1038,6 +1098,7 @@
 
   .admin-tabs__btn {
     border: 1px solid var(--color-line);
+    border-radius: 0;
     background: transparent;
     padding: 0.55rem 0.9rem;
     font-size: 0.78rem;
@@ -1061,7 +1122,7 @@
     align-items: center;
     justify-content: center;
     gap: 0.45rem;
-    border-radius: 999px;
+    border-radius: 0;
     padding: 0.7rem 1.15rem;
     font-size: 0.875rem;
     font-weight: 600;
@@ -1238,36 +1299,6 @@
     .admin-row__ref {
       text-align: right;
     }
-  }
-
-  .admin-view-switch {
-    display: inline-flex;
-    flex-wrap: wrap;
-    gap: 0.35rem;
-    margin-right: 0.35rem;
-  }
-
-  .admin-view-switch__btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    border: 1px solid var(--color-line);
-    background: transparent;
-    padding: 0.55rem 0.85rem;
-    font-size: 0.78rem;
-    font-weight: 600;
-    letter-spacing: 0.03em;
-    color: var(--color-muted);
-    transition:
-      background 0.2s ease,
-      border-color 0.2s ease,
-      color 0.2s ease;
-  }
-
-  .admin-view-switch__btn.is-active {
-    border-color: var(--color-ink);
-    background: var(--color-ink);
-    color: white;
   }
 
   .admin-qr__grid {
