@@ -29,22 +29,37 @@ const WEEKDAY_SLOTS: Record<number, string[]> = {
   6: ['10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00', '20:30', '21:00', '21:30', '22:00'],
 }
 
-function createId(dateStr?: string) {
-  const alphabet = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'
-  let code = ''
-  const bytes =
-    typeof crypto !== 'undefined' && crypto.getRandomValues
-      ? crypto.getRandomValues(new Uint8Array(6))
-      : null
-  for (let i = 0; i < 6; i++) {
-    const n = bytes ? bytes[i] : Math.floor(Math.random() * alphabet.length)
-    code += alphabet[n % alphabet.length]
+function randomByte() {
+  if (typeof crypto !== 'undefined' && crypto.getRandomValues) {
+    return crypto.getRandomValues(new Uint8Array(1))[0]
   }
+  return Math.floor(Math.random() * 256)
+}
+
+/** S21-7L1R9S-0826 → place · digit/letter×3 · MMYY from reservation date */
+function createId(dateStr?: string, existingIds: string[] = []) {
+  const letters = 'ABCDEFGHJKLMNPQRSTUVWXYZ'
+  const digits = '23456789'
+  const taken = new Set(existingIds)
+
   const d = new Date(`${String(dateStr || '').slice(0, 10)}T12:00:00`)
   const valid = Number.isNaN(d.getTime()) ? new Date() : d
   const mm = String(valid.getMonth() + 1).padStart(2, '0')
   const yy = String(valid.getFullYear()).slice(-2)
-  return `S21-${code}-${mm}${yy}`
+  const stamp = `${mm}${yy}`
+
+  for (let attempt = 0; attempt < 64; attempt++) {
+    let code = ''
+    for (let i = 0; i < 6; i++) {
+      // Pattern: digit letter digit letter digit letter (e.g. 7L1R9S)
+      const pool = i % 2 === 0 ? digits : letters
+      code += pool[randomByte() % pool.length]
+    }
+    const id = `S21-${code}-${stamp}`
+    if (!taken.has(id)) return id
+  }
+
+  return `S21-${digits[randomByte() % digits.length]}${letters[randomByte() % letters.length]}${digits[randomByte() % digits.length]}${letters[randomByte() % letters.length]}${digits[randomByte() % digits.length]}${letters[randomByte() % letters.length]}-${stamp}`
 }
 
 /** Local calendar date YYYY-MM-DD (avoids UTC off-by-one from toISOString). */
@@ -230,7 +245,10 @@ function createLocalBooking(input: BookingInput): Booking {
   }
   const booking: Booking = {
     ...input,
-    id: createId(input.date),
+    id: createId(
+      input.date,
+      list.map((b) => b.id),
+    ),
     createdAt: new Date().toISOString(),
     status: 'confirmed',
   }
