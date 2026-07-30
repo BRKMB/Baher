@@ -3,6 +3,7 @@ import { ArrowUpRight, BookOpen } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { useI18n } from '../i18n/LanguageContext'
 import { BrandLogo } from './BrandLogo'
+import { EgyptMotif } from './EgyptMotif'
 
 export function Hero() {
   const { t, lang } = useI18n()
@@ -40,6 +41,7 @@ export function Hero() {
           <p className="mt-6 max-w-xl text-base leading-relaxed text-white/90 md:text-lg">
             {t('heroSubtitle')}
           </p>
+          <EgyptMotif className="mt-6 max-w-md text-gold/80" />
 
           <div className="mt-10 flex flex-wrap items-center gap-3">
             <Link

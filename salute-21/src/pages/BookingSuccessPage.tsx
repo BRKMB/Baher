@@ -7,6 +7,7 @@ import { Header } from '../components/Header'
 import { Footer } from '../components/Footer'
 import { BrandLogo } from '../components/BrandLogo'
 import { PassBarcode } from '../components/PassBarcode'
+import { EgyptMotif } from '../components/EgyptMotif'
 import { brand } from '../data/content'
 import { downloadIcs, getBooking, type Booking } from '../lib/booking'
 import { useI18n } from '../i18n/LanguageContext'
@@ -50,7 +51,7 @@ export function BookingSuccessPage() {
       const dataUrl = await toPng(ticketRef.current, {
         cacheBust: true,
         pixelRatio: 2,
-        backgroundColor: '#f6f1e6',
+        backgroundColor: '#0f0d0b',
       })
       const a = document.createElement('a')
       a.href = dataUrl
@@ -111,22 +112,23 @@ export function BookingSuccessPage() {
             <p className="mx-auto mt-4 max-w-md text-sm leading-relaxed text-muted md:text-base">
               {t('reserveSuccessText')}
             </p>
+            <EgyptMotif className="mt-5" />
           </div>
 
           <div ref={ticketRef} className="boarding-pass">
             <div className="boarding-pass__top">
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <BrandLogo className="text-[2.1rem] md:text-[2.35rem]" />
-                  <p className="mt-1 text-[10px] font-semibold tracking-[0.22em] text-amber uppercase">
+                  <BrandLogo tone="light" className="text-[2.1rem] md:text-[2.35rem]" />
+                  <p className="boarding-pass__pass-label mt-1 text-[10px] font-semibold tracking-[0.22em] uppercase">
                     {t('reservePassLabel')}
                   </p>
                 </div>
                 <div className="text-right">
-                  <p className="text-[10px] font-semibold tracking-[0.18em] text-muted uppercase">
+                  <p className="boarding-pass__guests-label text-[10px] font-semibold tracking-[0.18em] uppercase">
                     {t('reserveGuests')}
                   </p>
-                  <p className="mt-0.5 text-2xl font-semibold tabular-nums text-ink">
+                  <p className="boarding-pass__guests-value mt-0.5 text-2xl font-semibold tabular-nums">
                     {booking ? booking.guests : '—'}
                   </p>
                 </div>
@@ -165,11 +167,11 @@ export function BookingSuccessPage() {
 
             <div className="boarding-pass__stub">
               {refId ? <PassBarcode value={refId} /> : null}
-              <p className="mt-4 text-[10px] font-semibold tracking-[0.24em] text-amber uppercase">
+              <p className="boarding-pass__ref-label mt-4 text-[10px] font-semibold tracking-[0.24em] uppercase">
                 {t('reserveRef')}
               </p>
               <p className="boarding-pass__ref">{refId}</p>
-              <p className="mx-auto mt-3 max-w-[18rem] text-center text-xs leading-relaxed text-muted">
+              <p className="boarding-pass__hint mx-auto mt-3 max-w-[18rem] text-center text-xs leading-relaxed">
                 {t('reserveScanHint')}
               </p>
             </div>

@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { Leaf, Sparkles, Users } from 'lucide-react'
 import { useI18n } from '../i18n/LanguageContext'
+import { EgyptMotif } from './EgyptMotif'
 
 const values = [
   { icon: Sparkles, title: 'value1Title' as const, text: 'value1Text' as const },
@@ -27,7 +28,7 @@ export function About() {
           <h2 className="font-display text-4xl leading-tight tracking-[-0.02em] text-ink md:text-5xl text-balance">
             {t('aboutTitle')}
           </h2>
-          <div className="luxury-rule my-6 max-w-xs" />
+          <EgyptMotif className="my-6 max-w-sm" />
           <div className="space-y-4 text-base leading-relaxed text-muted md:text-lg">
             <p>{t('aboutP1')}</p>
             <p>{t('aboutP2')}</p>

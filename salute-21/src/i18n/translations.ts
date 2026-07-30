@@ -2,7 +2,7 @@ export type Lang = 'en' | 'pl'
 
 export const translations = {
   en: {
-    brandTag: 'Warsaw · Wola',
+    brandTag: 'Warsaw · Egyptian soul',
     navHome: 'Home',
     navMenu: 'Menu',
     navReserve: 'Reserve',
@@ -11,26 +11,26 @@ export const translations = {
     navContact: 'Contact',
     reserveCta: 'Book a table',
     menuCta: 'View menu',
-    heroTitle: 'Italian soul, Warsaw evenings',
+    heroTitle: 'Italian plates, Egyptian soul',
     heroSubtitle:
-      'An Italian-inspired restaurant in Wola — seasonal cooking, shared plates, and dinners meant to linger.',
+      'A restaurant in Wola where Mediterranean cooking meets a room of gold light, hieroglyph walls, and quiet statues — dinners meant to linger.',
     aboutEyebrow: 'About Salute 21',
-    aboutTitle: 'A restaurant for every evening',
+    aboutTitle: 'A table between two worlds',
     aboutP1:
-      'Salute 21 is a restaurant first — Italian-inspired cooking in Warsaw, built around generous flavours, seasonal produce, and a table worth staying at.',
+      'Salute 21 is a restaurant first — Italian-inspired cooking in Warsaw, served in a room that carries an Egyptian soul: carved walls, warm gold, and decorative statues that set a different kind of evening.',
     aboutP2:
-      'Come for lunch or dinner, share a few plates, and stay for dessert. We cook with care, serve with warmth, and keep the room ready for long conversations.',
-    aboutP3: 'Salute 21 — good food, every day.',
-    aboutCard: 'Restaurant · Wola',
+      'Come for pasta and shared plates, stay for the atmosphere. We cook with care, and the space does the rest — intimate, a little theatrical, always welcoming.',
+    aboutP3: 'Salute 21 — where flavour meets story.',
+    aboutCard: 'Kitchen · Egyptian room',
     value1Title: 'Share the table',
     value1Text:
       'Plates meant for passing around. Order a few, taste everything, and let the evening find its pace.',
-    value2Title: 'Italian spirit',
+    value2Title: 'Egyptian atmosphere',
     value2Text:
-      'Olive oil, citrus, herbs, and honest technique — the southern kitchen we love, cooked for Warsaw.',
-    value3Title: 'Craft & season',
+      'Hieroglyph details on the walls, soft statue silhouettes, and candle-gold light — décor that makes the room feel like a secret.',
+    value3Title: 'Italian craft',
     value3Text:
-      'A menu that moves with the market. Precise cooking. Details that stay quiet until you notice them.',
+      'Olive oil, citrus, herbs, and honest technique — a southern kitchen cooked for Warsaw evenings.',
     highlightsEyebrow: 'What we serve',
     highlightsTitle: 'Dinner, drinks, brunch',
     highlightSpuntiniTitle: 'Restaurant',
@@ -43,25 +43,25 @@ export const translations = {
     highlightBreakfastText: 'Saturdays & Sundays from 11:00 — unhurried plates and coffee.',
     galleryEyebrow: 'Gallery',
     galleryTitle: 'Taste, light, table',
-    galleryText: 'Plates from the Salute 21 kitchen — the mood of a dinner in Wola.',
+    galleryText: 'Plates from the kitchen — and the Egyptian glow of the room in Wola.',
     testimonialsEyebrow: 'Guest book',
     testimonialsTitle: 'Words from the table',
     testimonialsIntro:
-      'Quiet evenings, shared plates, raised glasses — notes from guests who return.',
+      'Quiet evenings, shared plates, a room with its own myth — notes from guests who return.',
     testi1Quote:
-      'Elegant without being stiff. The pasta was perfect, and the room felt like a secret we wanted to keep.',
+      'Elegant without being stiff. The pasta was perfect, and the Egyptian room felt like a secret we wanted to keep.',
     testi1Role: 'Warsaw · designer',
     testi2Quote:
       'Beautiful wine list and a kitchen that knows restraint. We booked again before the dessert arrived.',
     testi2Role: 'Regular guest',
     testi3Quote:
-      'Warm service, polished plates. Salute 21 has that rare balance of comfort and craft.',
+      'Warm service, polished plates. Salute 21 has that rare balance of comfort, craft, and atmosphere.',
     testi3Role: 'Food writer',
     testi4Quote:
-      'Ideal for clients — confident cooking, a calm room, and a true restaurant feel in Wola.',
+      'Ideal for clients — confident cooking, a calm room with character, and a true restaurant feel in Wola.',
     testi4Role: 'Entrepreneur',
     testi5Quote:
-      'From the first pasta to tiramisu, everything felt intentional. A true neighbourhood restaurant.',
+      'From the first pasta to tiramisu, everything felt intentional. The décor makes the evening memorable.',
     testi5Role: 'Architect',
     testi6Quote:
       'We celebrated here and it felt intimate without trying. Outstanding hospitality.',
@@ -69,7 +69,7 @@ export const translations = {
     contactEyebrow: 'Contact',
     contactTitle: 'Visit us',
     contactText:
-      'Salute 21 restaurant · Wola, Warsaw. Write to us or drop by — there is always a table for dinner.',
+      'Salute 21 · Wola, Warsaw. Italian cooking in a room with Egyptian soul — write to us or drop by.',
     contactReserveViaIg: 'Reservations: book online or message us on Instagram',
     hoursTitle: 'Opening hours',
     hoursNoteLunch: 'Kitchen until one hour before close',
@@ -78,7 +78,7 @@ export const translations = {
     dayFri: 'Friday',
     daySat: 'Saturday',
     daySun: 'Sunday',
-    footerTagline: 'Italian-inspired restaurant in Warsaw · Salute 21',
+    footerTagline: 'Italian kitchen · Egyptian soul · Warsaw',
     footerRights: 'All rights reserved.',
     menuPageEyebrow: 'La Carta',
     menuPageTitle: 'The Salute 21 menu',
@@ -92,7 +92,7 @@ export const translations = {
     menuNavClose: 'Closing',
     menuCoverWelcome: 'Welcome',
     menuCoverAbout:
-      'An Italian-inspired restaurant in Wola — seasonal cooking, shared plates, and evenings that stretch.',
+      'Italian-inspired cooking in Wola — served in a room with Egyptian soul, shared plates, and evenings that stretch.',
     menuCoverHours: 'Hours',
     menuCoverVisit: 'Visit',
     menuCoverContents: 'Inside',
@@ -179,7 +179,7 @@ export const translations = {
     cat_desserts_sub: 'A sweet close to the evening',
   },
   pl: {
-    brandTag: 'Warszawa · Wola',
+    brandTag: 'Warszawa · Egipska dusza',
     navHome: 'Start',
     navMenu: 'Menu',
     navReserve: 'Rezerwacja',
@@ -188,26 +188,26 @@ export const translations = {
     navContact: 'Kontakt',
     reserveCta: 'Zarezerwuj stolik',
     menuCta: 'Zobacz menu',
-    heroTitle: 'Włoska dusza, warszawskie wieczory',
+    heroTitle: 'Włoskie talerze, egipska dusza',
     heroSubtitle:
-      'Restauracja o włoskim charakterze na Woli — sezonowa kuchnia, wspólne talerze i kolacje bez pośpiechu.',
+      'Restauracja na Woli, gdzie śródziemnomorska kuchnia spotyka salę pełną złotego światła, hieroglifów na ścianach i cichych posągów — kolacje bez pośpiechu.',
     aboutEyebrow: 'O Salute 21',
-    aboutTitle: 'Restauracja na każdy wieczór',
+    aboutTitle: 'Stół między dwoma światami',
     aboutP1:
-      'Salute 21 to przede wszystkim restauracja — włosko inspirowana kuchnia w Warszawie, oparta na hojnych smakach, sezonowych produktach i stole, przy którym chce się zostać.',
+      'Salute 21 to przede wszystkim restauracja — włosko inspirowana kuchnia w Warszawie, serwowana w sali o egipskiej duszy: rzeźbione ściany, ciepłe złoto i dekoracyjne posągi, które budują inny wieczór.',
     aboutP2:
-      'Wpadnij na lunch albo kolację, podziel się kilkoma talerzami i zostań na deser. Gotujemy z dbałością, serwujemy z ciepłem i dbamy o atmosferę długich rozmów.',
-    aboutP3: 'Salute 21 — dobre jedzenie, codziennie.',
-    aboutCard: 'Restauracja · Wola',
+      'Przyjdź na pastę i wspólne talerze, zostań dla atmosfery. Gotujemy z dbałością, a przestrzeń robi resztę — kameralnie, odrobinę teatralnie, zawsze gościnnie.',
+    aboutP3: 'Salute 21 — gdzie smak spotyka opowieść.',
+    aboutCard: 'Kuchnia · Egipska sala',
     value1Title: 'Wspólny stół',
     value1Text:
       'Talerze do przekazywania. Zamów kilka, spróbuj wszystkiego i pozwól wieczorowi znaleźć swój rytm.',
-    value2Title: 'Włoski charakter',
+    value2Title: 'Egipska atmosfera',
     value2Text:
-      'Oliwa, cytrusy, zioła i uczciwa technika — kuchnia, którą kochamy, gotowana dla Warszawy.',
-    value3Title: 'Rzemiosło i sezon',
+      'Detale hieroglifów na ścianach, sylwetki posągów i świecące złoto — wystrój, który sprawia, że lokal staje się sekretem.',
+    value3Title: 'Włoskie rzemiosło',
     value3Text:
-      'Menu podąża za rynkiem. Precyzyjna kuchnia. Detale, które zostają w tle — aż je zauważysz.',
+      'Oliwa, cytrusy, zioła i uczciwa technika — południowa kuchnia gotowana na warszawskie wieczory.',
     highlightsEyebrow: 'Co serwujemy',
     highlightsTitle: 'Kolacja, napoje, brunch',
     highlightSpuntiniTitle: 'Restauracja',
@@ -220,25 +220,25 @@ export const translations = {
     highlightBreakfastText: 'Soboty i niedziele od 11:00 — bez pośpiechu, z kawą.',
     galleryEyebrow: 'Galeria',
     galleryTitle: 'Smak, światło, stół',
-    galleryText: 'Talerze z kuchni Salute 21 — klimat kolacji na Woli.',
+    galleryText: 'Talerze z kuchni — i egipskie światło sali na Woli.',
     testimonialsEyebrow: 'Księga gości',
     testimonialsTitle: 'Słowa od stołu',
     testimonialsIntro:
-      'Spokojne wieczory, wspólne talerze, wzniesione kieliszki — notatki gości, którzy wracają.',
+      'Spokojne wieczory, wspólne talerze, sala z własnym mitem — notatki gości, którzy wracają.',
     testi1Quote:
-      'Elegancko, ale bez sztywności. Pasta była idealna, a lokal jak sekret, który chciało się zatrzymać.',
+      'Elegancko, ale bez sztywności. Pasta była idealna, a egipska sala jak sekret, który chciało się zatrzymać.',
     testi1Role: 'Warszawa · projektantka',
     testi2Quote:
       'Piękna karta win i kuchnia, która zna umiar. Zarezerwowaliśmy kolejny stolik przed deserem.',
     testi2Role: 'Stały gość',
     testi3Quote:
-      'Ciepła obsługa, dopracowane talerze. Salute 21 ma rzadką równowagę komfortu i rzemiosła.',
+      'Ciepła obsługa, dopracowane talerze. Salute 21 ma rzadką równowagę komfortu, rzemiosła i atmosfery.',
     testi3Role: 'Dziennikarka kulinarna',
     testi4Quote:
-      'Idealne na spotkania biznesowe — pewna kuchnia, spokojna sala i prawdziwy klimat restauracji na Woli.',
+      'Idealne na spotkania biznesowe — pewna kuchnia, sala z charakterem i prawdziwy klimat restauracji na Woli.',
     testi4Role: 'Przedsiębiorca',
     testi5Quote:
-      'Od pierwszej pasty do tiramisu wszystko było przemyślane. Prawdziwa sąsiedzka restauracja.',
+      'Od pierwszej pasty do tiramisu wszystko było przemyślane. Wystrój sprawia, że wieczór zostaje w pamięci.',
     testi5Role: 'Architekt',
     testi6Quote:
       'Świętowaliśmy tu i było kameralnie, bez udawania. Wyjątkowa gościnność.',
@@ -246,7 +246,7 @@ export const translations = {
     contactEyebrow: 'Kontakt',
     contactTitle: 'Odwiedź nas',
     contactText:
-      'Restauracja Salute 21 · Wola, Warszawa. Napisz albo wpadnij — zawsze znajdzie się stolik na kolację.',
+      'Salute 21 · Wola, Warszawa. Włoska kuchnia w sali o egipskiej duszy — napisz albo wpadnij.',
     contactReserveViaIg: 'Rezerwacje: online albo napisz na Instagramie',
     hoursTitle: 'Godziny otwarcia',
     hoursNoteLunch: 'Kuchnia do godziny przed zamknięciem',
@@ -255,7 +255,7 @@ export const translations = {
     dayFri: 'Piątek',
     daySat: 'Sobota',
     daySun: 'Niedziela',
-    footerTagline: 'Restauracja o włoskim charakterze w Warszawie · Salute 21',
+    footerTagline: 'Włoska kuchnia · egipska dusza · Warszawa',
     footerRights: 'Wszelkie prawa zastrzeżone.',
     menuPageEyebrow: 'La Carta',
     menuPageTitle: 'Menu Salute 21',
@@ -269,7 +269,7 @@ export const translations = {
     menuNavClose: 'Zakończenie',
     menuCoverWelcome: 'Witamy',
     menuCoverAbout:
-      'Restauracja o włoskim charakterze na Woli — sezonowa kuchnia, wspólne talerze i wieczory bez pośpiechu.',
+      'Włosko inspirowana kuchnia na Woli — w sali o egipskiej duszy, ze wspólnymi talerzami i wieczorami bez pośpiechu.',
     menuCoverHours: 'Godziny',
     menuCoverVisit: 'Odwiedź',
     menuCoverContents: 'W karcie',
