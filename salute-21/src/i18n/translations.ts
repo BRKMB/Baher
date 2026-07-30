@@ -13,15 +13,15 @@ export const translations = {
     menuCta: 'View menu',
     heroTitle: 'Italian soul, Warsaw evenings',
     heroSubtitle:
-      'A neighbourhood restaurant in Wola — shared plates, a thoughtful bar, and the easy rhythm of a long dinner.',
+      'An Italian-inspired restaurant in Wola — seasonal cooking, shared plates, and dinners meant to linger.',
     aboutEyebrow: 'About Salute 21',
-    aboutTitle: 'A table for every evening',
+    aboutTitle: 'A restaurant for every evening',
     aboutP1:
-      'Salute 21 is our Warsaw home for Italian-inspired cooking — generous flavours, seasonal produce, and a bar that belongs at the same table.',
+      'Salute 21 is a restaurant first — Italian-inspired cooking in Warsaw, built around generous flavours, seasonal produce, and a table worth staying at.',
     aboutP2:
-      'Come for aperitivo, stay for dinner. We cook for sharing, pour with care, and keep the room warm enough for lingering conversations.',
-    aboutP3: 'Salute 21 — raise a glass to the everyday.',
-    aboutCard: 'Wola · Warsaw',
+      'Come for lunch or dinner, share a few plates, and stay for dessert. We cook with care, serve with warmth, and keep the room ready for long conversations.',
+    aboutP3: 'Salute 21 — good food, every day.',
+    aboutCard: 'Restaurant · Wola',
     value1Title: 'Share the table',
     value1Text:
       'Plates meant for passing around. Order a few, taste everything, and let the evening find its pace.',
@@ -30,20 +30,20 @@ export const translations = {
       'Olive oil, citrus, herbs, and honest technique — the southern kitchen we love, cooked for Warsaw.',
     value3Title: 'Craft & season',
     value3Text:
-      'A menu that moves with the market. Cocktails with character. Details that stay quiet until you notice them.',
+      'A menu that moves with the market. Precise cooking. Details that stay quiet until you notice them.',
     highlightsEyebrow: 'What we serve',
-    highlightsTitle: 'Kitchen, bar, brunch',
-    highlightSpuntiniTitle: 'Kitchen',
+    highlightsTitle: 'Dinner, drinks, brunch',
+    highlightSpuntiniTitle: 'Restaurant',
     highlightSpuntiniText:
-      'Antipasti, pasta, grilled plates — choose a few and share the table.',
-    highlightBarTitle: 'Bar',
+      'Antipasti, pasta, grilled plates — the heart of Salute 21 is the kitchen.',
+    highlightBarTitle: 'Wine & drinks',
     highlightBarText:
-      'Classic cocktails, house spritz, zero-proof options, and wines by the glass.',
+      'Wines by the glass, house cocktails, and zero-proof options to match the meal.',
     highlightBreakfastTitle: 'Weekend brunch',
     highlightBreakfastText: 'Saturdays & Sundays from 11:00 — unhurried plates and coffee.',
     galleryEyebrow: 'Gallery',
     galleryTitle: 'Taste, light, table',
-    galleryText: 'Plates and glasses from Salute 21 — the mood of an evening in Wola.',
+    galleryText: 'Plates from the Salute 21 kitchen — the mood of a dinner in Wola.',
     testimonialsEyebrow: 'Guest book',
     testimonialsTitle: 'Words from the table',
     testimonialsIntro:
@@ -58,10 +58,10 @@ export const translations = {
       'Warm service, polished plates. Salute 21 has that rare balance of comfort and craft.',
     testi3Role: 'Food writer',
     testi4Quote:
-      'Ideal for clients — confident cooking, refined cocktails, and a calm corner of Wola.',
+      'Ideal for clients — confident cooking, a calm room, and a true restaurant feel in Wola.',
     testi4Role: 'Entrepreneur',
     testi5Quote:
-      'From the first Negroni 21 to tiramisu, everything felt intentional. A true neighbourhood favourite.',
+      'From the first pasta to tiramisu, everything felt intentional. A true neighbourhood restaurant.',
     testi5Role: 'Architect',
     testi6Quote:
       'We celebrated here and it felt intimate without trying. Outstanding hospitality.',
@@ -69,7 +69,7 @@ export const translations = {
     contactEyebrow: 'Contact',
     contactTitle: 'Visit us',
     contactText:
-      'Salute 21 · Wola, Warsaw. Write to us or drop by — there is always room for one more plate and a glass.',
+      'Salute 21 restaurant · Wola, Warsaw. Write to us or drop by — there is always a table for dinner.',
     contactReserveViaIg: 'Reservations: book online or message us on Instagram',
     hoursTitle: 'Opening hours',
     hoursNoteLunch: 'Kitchen until one hour before close',
@@ -78,12 +78,12 @@ export const translations = {
     dayFri: 'Friday',
     daySat: 'Saturday',
     daySun: 'Sunday',
-    footerTagline: 'Restaurant & bar in Warsaw · Salute 21',
+    footerTagline: 'Italian-inspired restaurant in Warsaw · Salute 21',
     footerRights: 'All rights reserved.',
     menuPageEyebrow: 'La Carta',
-    menuPageTitle: 'The Salute 21 card',
+    menuPageTitle: 'The Salute 21 menu',
     menuPageIntro:
-      'We recommend a few plates to share. Kitchen closes one hour before the bar. v — vegan, w — vegetarian.',
+      'We recommend a few plates to share. The kitchen closes one hour before closing time. v — vegan, w — vegetarian.',
     menuBookTitle: 'Open the menu',
     menuBookHint: 'Turn the pages — as if the menu were in your hands.',
     menuBookSpread: 'Turn the page',
@@ -92,7 +92,7 @@ export const translations = {
     menuNavClose: 'Closing',
     menuCoverWelcome: 'Welcome',
     menuCoverAbout:
-      'Italian-inspired cooking in Wola — seasonal plates, a thoughtful bar, and evenings that stretch.',
+      'An Italian-inspired restaurant in Wola — seasonal cooking, shared plates, and evenings that stretch.',
     menuCoverHours: 'Hours',
     menuCoverVisit: 'Visit',
     menuCoverContents: 'Inside',
@@ -167,15 +167,15 @@ export const translations = {
     menuCta: 'Zobacz menu',
     heroTitle: 'Włoska dusza, warszawskie wieczory',
     heroSubtitle:
-      'Sąsiedzka restauracja na Woli — wspólne talerze, przemyślany bar i spokojny rytm długiej kolacji.',
+      'Restauracja o włoskim charakterze na Woli — sezonowa kuchnia, wspólne talerze i kolacje bez pośpiechu.',
     aboutEyebrow: 'O Salute 21',
-    aboutTitle: 'Stół na każdy wieczór',
+    aboutTitle: 'Restauracja na każdy wieczór',
     aboutP1:
-      'Salute 21 to nasz warszawski dom włosko inspirowanej kuchni — hojne smaki, sezonowe produkty i bar, który należy do tego samego stołu.',
+      'Salute 21 to przede wszystkim restauracja — włosko inspirowana kuchnia w Warszawie, oparta na hojnych smakach, sezonowych produktach i stole, przy którym chce się zostać.',
     aboutP2:
-      'Wpadnij na aperitivo, zostań na kolację. Gotujemy do dzielenia, nalewamy z uwagą i dbamy, by dało się zostać dłużej.',
-    aboutP3: 'Salute 21 — wznosimy toast za codzienność.',
-    aboutCard: 'Wola · Warszawa',
+      'Wpadnij na lunch albo kolację, podziel się kilkoma talerzami i zostań na deser. Gotujemy z dbałością, serwujemy z ciepłem i dbamy o atmosferę długich rozmów.',
+    aboutP3: 'Salute 21 — dobre jedzenie, codziennie.',
+    aboutCard: 'Restauracja · Wola',
     value1Title: 'Wspólny stół',
     value1Text:
       'Talerze do przekazywania. Zamów kilka, spróbuj wszystkiego i pozwól wieczorowi znaleźć swój rytm.',
@@ -184,20 +184,20 @@ export const translations = {
       'Oliwa, cytrusy, zioła i uczciwa technika — kuchnia, którą kochamy, gotowana dla Warszawy.',
     value3Title: 'Rzemiosło i sezon',
     value3Text:
-      'Menu podąża za rynkiem. Koktajle z charakterem. Detale, które zostają w tle — aż je zauważysz.',
+      'Menu podąża za rynkiem. Precyzyjna kuchnia. Detale, które zostają w tle — aż je zauważysz.',
     highlightsEyebrow: 'Co serwujemy',
-    highlightsTitle: 'Kuchnia, bar, brunch',
-    highlightSpuntiniTitle: 'Kuchnia',
+    highlightsTitle: 'Kolacja, napoje, brunch',
+    highlightSpuntiniTitle: 'Restauracja',
     highlightSpuntiniText:
-      'Antipasti, pasta, dania z grilla — wybierz kilka i podziel się stołem.',
-    highlightBarTitle: 'Bar',
+      'Antipasti, pasta, dania z grilla — sercem Salute 21 jest kuchnia.',
+    highlightBarTitle: 'Wino i napoje',
     highlightBarText:
-      'Klasyczne koktajle, domowy spritz, wersje zero-proof i wina na kieliszki.',
+      'Wina na kieliszki, koktajle domu i wersje zero-proof dopasowane do posiłku.',
     highlightBreakfastTitle: 'Weekendowy brunch',
     highlightBreakfastText: 'Soboty i niedziele od 11:00 — bez pośpiechu, z kawą.',
     galleryEyebrow: 'Galeria',
     galleryTitle: 'Smak, światło, stół',
-    galleryText: 'Talerze i kieliszki z Salute 21 — klimat wieczoru na Woli.',
+    galleryText: 'Talerze z kuchni Salute 21 — klimat kolacji na Woli.',
     testimonialsEyebrow: 'Księga gości',
     testimonialsTitle: 'Słowa od stołu',
     testimonialsIntro:
@@ -212,10 +212,10 @@ export const translations = {
       'Ciepła obsługa, dopracowane talerze. Salute 21 ma rzadką równowagę komfortu i rzemiosła.',
     testi3Role: 'Dziennikarka kulinarna',
     testi4Quote:
-      'Idealne na spotkania biznesowe — pewna kuchnia, wyrafinowane koktajle i spokojny zakątek Woli.',
+      'Idealne na spotkania biznesowe — pewna kuchnia, spokojna sala i prawdziwy klimat restauracji na Woli.',
     testi4Role: 'Przedsiębiorca',
     testi5Quote:
-      'Od pierwszego Negroni 21 do tiramisu wszystko było przemyślane. Perełka na Woli.',
+      'Od pierwszej pasty do tiramisu wszystko było przemyślane. Prawdziwa sąsiedzka restauracja.',
     testi5Role: 'Architekt',
     testi6Quote:
       'Świętowaliśmy tu i było kameralnie, bez udawania. Wyjątkowa gościnność.',
@@ -223,7 +223,7 @@ export const translations = {
     contactEyebrow: 'Kontakt',
     contactTitle: 'Odwiedź nas',
     contactText:
-      'Salute 21 · Wola, Warszawa. Napisz albo wpadnij — zawsze znajdzie się miejsce na jeszcze jeden talerz i kieliszek.',
+      'Restauracja Salute 21 · Wola, Warszawa. Napisz albo wpadnij — zawsze znajdzie się stolik na kolację.',
     contactReserveViaIg: 'Rezerwacje: online albo napisz na Instagramie',
     hoursTitle: 'Godziny otwarcia',
     hoursNoteLunch: 'Kuchnia do godziny przed zamknięciem',
@@ -232,12 +232,12 @@ export const translations = {
     dayFri: 'Piątek',
     daySat: 'Sobota',
     daySun: 'Niedziela',
-    footerTagline: 'Restauracja i bar w Warszawie · Salute 21',
+    footerTagline: 'Restauracja o włoskim charakterze w Warszawie · Salute 21',
     footerRights: 'Wszelkie prawa zastrzeżone.',
     menuPageEyebrow: 'La Carta',
-    menuPageTitle: 'Karta Salute 21',
+    menuPageTitle: 'Menu Salute 21',
     menuPageIntro:
-      'Polecamy kilka talerzy do dzielenia. Kuchnię zamykamy godzinę przed barem. v — wegańskie, w — wegetariańskie.',
+      'Polecamy kilka talerzy do dzielenia. Kuchnię zamykamy godzinę przed zamknięciem. v — wegańskie, w — wegetariańskie.',
     menuBookTitle: 'Otwórz menu',
     menuBookHint: 'Przewracaj strony — jakbyś trzymał kartę w dłoniach.',
     menuBookSpread: 'Przewróć stronę',
@@ -246,7 +246,7 @@ export const translations = {
     menuNavClose: 'Zakończenie',
     menuCoverWelcome: 'Witamy',
     menuCoverAbout:
-      'Włosko inspirowana kuchnia na Woli — sezonowe talerze, przemyślany bar i wieczory bez pośpiechu.',
+      'Restauracja o włoskim charakterze na Woli — sezonowa kuchnia, wspólne talerze i wieczory bez pośpiechu.',
     menuCoverHours: 'Godziny',
     menuCoverVisit: 'Odwiedź',
     menuCoverContents: 'W karcie',

@@ -346,7 +346,7 @@ export const gallery = [
   { src: '/images/about-food.jpg', alt: 'Burrata' },
   { src: '/images/unsplash-food.jpg', alt: 'Shared plates' },
   { src: '/images/unsplash-tapas.jpg', alt: 'Small plates' },
-  { src: '/images/unsplash-cocktail.jpg', alt: 'Bar cocktails' },
+  { src: '/images/unsplash-cocktail.jpg', alt: 'Drinks at Salute 21' },
 ]
 
 export const highlights = [
