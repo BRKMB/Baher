@@ -1,16 +1,21 @@
 /**
  * Patches page-flip for correct reverse turns on portrait/mobile.
  *
- * Problem: native portrait BACK peels the previous page with mirrored soft
- * geometry, so the page you see mid-flip does not match the page that lands
- * after the turn completes.
+ * Goals:
+ * 1) Back peels from the LEFT (not the same as next/from the right).
+ * 2) The page revealed under the peel is the previous page — same page that
+ *    lands after the turn completes.
  *
- * Fix: rewrite portrait BACK as a forward peel of the CURRENT page that
- * reveals the PREVIOUS page underneath (bottom page). Completion still goes
- * to the previous page via portraitReverse. Mid-flip and final page match.
+ * Approach:
+ * - Shift portrait BACK coordinates onto the visible page (library otherwise
+ *   peels into the off-screen left half).
+ * - Rewrite portrait BACK leaves: peel the CURRENT page away (temp copy) and
+ *   draw the PREVIOUS page as the underlay (bottom). Keep BACK direction so
+ *   the curl comes from the left.
+ * - Always draw the bottom page in portrait BACK (stock skips it).
  *
  * Also: landscape soft BACK hides the current left page so it does not jump
- * to a different left page when the spread settles.
+ * when the previous spread settles.
  *
  * Soft density is required for the realistic paper-curl animation.
  * Safe to re-run; no-ops if already patched.
@@ -38,12 +43,12 @@ for (const rel of files) {
   let source = fs.readFileSync(file, 'utf8')
   let next = source
 
-  // --- Strip coordinate-shift BACK patches (caused mid/end page mismatch) ---
+  // Portrait BACK: map geometry onto the visible page (peel from the left)
   {
     const r = applyOnce(
       next,
-      'convertToPage(t,e){e||(e=this.direction);const i=this.getRect();let s;return s=0===e?t.x-i.left-i.width/2:"portrait"===this.orientation?i.width/2-(t.x-i.pageWidth)+i.left:i.width/2-t.x+i.left,{x:s,y:t.y-i.top}}',
       'convertToPage(t,e){e||(e=this.direction);const i=this.getRect();return{x:0===e?t.x-i.left-i.width/2:i.width/2-t.x+i.left,y:t.y-i.top}}',
+      'convertToPage(t,e){e||(e=this.direction);const i=this.getRect();let s;return s=0===e?t.x-i.left-i.width/2:"portrait"===this.orientation?i.width/2-(t.x-i.pageWidth)+i.left:i.width/2-t.x+i.left,{x:s,y:t.y-i.top}}',
     )
     next = r.source
     if (r.changed) changed += 1
@@ -51,18 +56,8 @@ for (const rel of files) {
   {
     const r = applyOnce(
       next,
-      'convertToGlobal(t,e){if(e||(e=this.direction),null==t)return null;const i=this.getRect();let s;return s=0===e?t.x+i.left+i.width/2:"portrait"===this.orientation?i.width/2-t.x+i.left+i.pageWidth:i.width/2-t.x+i.left,{x:s,y:t.y+i.top}}',
       'convertToGlobal(t,e){if(e||(e=this.direction),null==t)return null;const i=this.getRect();return{x:0===e?t.x+i.left+i.width/2:i.width/2-t.x+i.left,y:t.y+i.top}}',
-    )
-    next = r.source
-    if (r.changed) changed += 1
-  }
-  // Stock BACK flipping page (no forced temp copy) — reverse-as-forward handles portrait
-  {
-    const r = applyOnce(
-      next,
-      'if("portrait"===this.render.getOrientation())return 0===t?this.pages[e].newTemporaryCopy():this.pages[e-1].newTemporaryCopy();',
-      'if("portrait"===this.render.getOrientation())return 0===t?this.pages[e].newTemporaryCopy():this.pages[e-1];',
+      'convertToGlobal(t,e){if(e||(e=this.direction),null==t)return null;const i=this.getRect();let s;return s=0===e?t.x+i.left+i.width/2:"portrait"===this.orientation?i.width/2-t.x+i.left+i.pageWidth:i.width/2-t.x+i.left,{x:s,y:t.y+i.top}}',
     )
     next = r.source
     if (r.changed) changed += 1
@@ -79,8 +74,18 @@ for (const rel of files) {
     if (r.changed) changed += 1
   }
 
-  // Landscape soft BACK: do not keep drawing the current left page (it jumps
-  // to a different page when the previous spread settles).
+  // Always draw bottom page — needed so portrait BACK can reveal the previous page
+  {
+    const r = applyOnce(
+      next,
+      'drawBottomPage(){if(null===this.bottomPage)return;const t=null!=this.flippingPage?this.flippingPage.getDrawingDensity():null;"portrait"===this.orientation&&1===this.direction||(this.bottomPage.getElement().style.zIndex=(this.getSettings().startZIndex+3).toString(10),this.bottomPage.draw(t))}',
+      'drawBottomPage(){if(null===this.bottomPage)return;const t=null!=this.flippingPage?this.flippingPage.getDrawingDensity():null;this.bottomPage.getElement().style.zIndex=(this.getSettings().startZIndex+3).toString(10),this.bottomPage.draw(t)}',
+    )
+    next = r.source
+    if (r.changed) changed += 1
+  }
+
+  // Landscape soft BACK: do not keep drawing the current left page
   {
     const r = applyOnce(
       next,
@@ -91,7 +96,6 @@ for (const rel of files) {
     if (r.changed) changed += 1
   }
 
-  // --- Portrait reverse-as-forward ---
   // Detect Flip + FlipCalculation class letters from this build
   const flipClass = (next.match(
     /class ([a-z])\{constructor\(t,e\)\{this\.flippingPage=null,this\.bottomPage=null,this\.calc=null,this\.state="read"/,
@@ -112,23 +116,39 @@ for (const rel of files) {
       if (r.changed) changed += 1
     }
 
-    // fold(): apply rewrite after start
+    // Replace old reverse-as-forward hooks with left-peel reverse hooks
     {
       const r = applyOnce(
         next,
-        'fold(t){this.setState("user_fold"),null===this.calc&&this.start(t),this.do(this.render.convertToPage(t))}',
         'fold(t){if(this.setState("user_fold"),null===this.calc){if(!this.start(t))return;this.applyPortraitReverseAsForward()}this.do(this.render.convertToPage(t))}',
+        'fold(t){if(this.setState("user_fold"),null===this.calc){if(!this.start(t))return;this.applyPortraitReverseFromLeft()}this.do(this.render.convertToPage(t))}',
       )
       next = r.source
       if (r.changed) changed += 1
     }
-
-    // flip(): apply rewrite before animating
+    {
+      const r = applyOnce(
+        next,
+        'fold(t){this.setState("user_fold"),null===this.calc&&this.start(t),this.do(this.render.convertToPage(t))}',
+        'fold(t){if(this.setState("user_fold"),null===this.calc){if(!this.start(t))return;this.applyPortraitReverseFromLeft()}this.do(this.render.convertToPage(t))}',
+      )
+      next = r.source
+      if (r.changed) changed += 1
+    }
+    {
+      const r = applyOnce(
+        next,
+        'if(null!==this.calc&&this.render.finishAnimation(),!this.start(t))return;this.applyPortraitReverseAsForward();const e=this.getBoundsRect();this.setState("flipping");',
+        'if(null!==this.calc&&this.render.finishAnimation(),!this.start(t))return;this.applyPortraitReverseFromLeft();const e=this.getBoundsRect();this.setState("flipping");',
+      )
+      next = r.source
+      if (r.changed) changed += 1
+    }
     {
       const r = applyOnce(
         next,
         'if(null!==this.calc&&this.render.finishAnimation(),!this.start(t))return;const e=this.getBoundsRect();this.setState("flipping");',
-        'if(null!==this.calc&&this.render.finishAnimation(),!this.start(t))return;this.applyPortraitReverseAsForward();const e=this.getBoundsRect();this.setState("flipping");',
+        'if(null!==this.calc&&this.render.finishAnimation(),!this.start(t))return;this.applyPortraitReverseFromLeft();const e=this.getBoundsRect();this.setState("flipping");',
       )
       next = r.source
       if (r.changed) changed += 1
@@ -156,12 +176,19 @@ for (const rel of files) {
       if (r.changed) changed += 1
     }
 
-    // Inject helper once after flipPrev
+    // Strip old reverse-as-forward helper if present
+    if (next.includes('applyPortraitReverseAsForward(){')) {
+      next = next.replace(/applyPortraitReverseAsForward\(\)\{[^}]+\}/, '')
+      changed += 1
+    }
+
+    // Inject left-peel reverse helper after flipPrev (once)
     const flipPrevPatched =
       'flipPrev(t){const e=this.render.getRect(),i="portrait"===this.render.getOrientation()?e.left+e.pageWidth+12:e.left+12;this.flip({x:i,y:"top"===t?e.top+1:e.top+e.height-2})}'
-    const helper = `applyPortraitReverseAsForward(){if(null===this.calc||"portrait"!==this.render.getOrientation()||1!==this.calc.getDirection())return;const t=this.app.getPageCollection().getCurrentSpreadIndex();if(t<1)return;const e=this.app.getPageCollection().getPages(),i=this.calc.getCorner(),s=this.getBoundsRect();this.flippingPage=e[t].newTemporaryCopy(),this.bottomPage=e[t-1],this.portraitReverse=!0,this.render.setDirection(0),this.calc=new ${calcClass}(0,i,s.pageWidth.toString(10),s.height.toString(10)),this.render.setBottomPage(this.bottomPage),this.render.setFlippingPage(this.flippingPage)}`
+    // Peel CURRENT page with BACK direction (from the left); reveal PREVIOUS underneath.
+    const helper = `applyPortraitReverseFromLeft(){if(null===this.calc||"portrait"!==this.render.getOrientation()||1!==this.calc.getDirection())return;const t=this.app.getPageCollection().getCurrentSpreadIndex();if(t<1)return;const e=this.app.getPageCollection().getPages(),i=this.calc.getCorner(),s=this.getBoundsRect();this.flippingPage=e[t].newTemporaryCopy(),this.bottomPage=e[t-1],this.portraitReverse=!0,this.render.setDirection(1),this.calc=new ${calcClass}(1,i,s.pageWidth.toString(10),s.height.toString(10)),this.render.setBottomPage(this.bottomPage),this.render.setFlippingPage(this.flippingPage)}`
 
-    if (!next.includes('applyPortraitReverseAsForward(){')) {
+    if (!next.includes('applyPortraitReverseFromLeft(){')) {
       if (next.includes(flipPrevPatched)) {
         next = next.replace(flipPrevPatched, `${flipPrevPatched}${helper}`)
         changed += 1
