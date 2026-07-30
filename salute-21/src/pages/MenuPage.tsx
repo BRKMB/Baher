@@ -137,79 +137,83 @@ const CoverRight = forwardRef<HTMLDivElement>(function CoverRight(_props, ref) {
   ]
 
   return (
-    <BookPage ref={ref} className="flex flex-col p-5 sm:p-7 md:p-9">
-      <PageEyebrow>{t('menuCoverWelcome')}</PageEyebrow>
-      <h2 className="mt-2 font-display text-[1.85rem] leading-[1.05] text-ink italic sm:text-[2.2rem] md:text-4xl">
-        {brand.name}
-      </h2>
-      <div className="my-3 h-px w-12 bg-amber/55 sm:my-4" />
-      <p className="text-[13px] leading-relaxed text-muted sm:text-sm">{t('menuCoverAbout')}</p>
+    <BookPage ref={ref} className="flex min-h-0 flex-col overflow-hidden p-4 sm:p-7 md:p-9">
+      <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain pr-0.5">
+        <PageEyebrow>{t('menuCoverWelcome')}</PageEyebrow>
+        <h2 className="mt-1.5 font-display text-[1.65rem] leading-[1.05] text-ink italic sm:mt-2 sm:text-[2.2rem] md:text-4xl">
+          {brand.name}
+        </h2>
+        <div className="my-2.5 h-px w-12 bg-amber/55 sm:my-4" />
+        <p className="text-[12px] leading-relaxed text-muted sm:text-sm">{t('menuCoverAbout')}</p>
 
-      <div className="mt-5 grid flex-1 gap-5 sm:mt-6 sm:gap-6">
-        <div className="grid gap-5 sm:grid-cols-2 sm:gap-6">
-          <div>
-            <p className="text-[10px] font-semibold tracking-[0.28em] text-amber uppercase">
-              {t('menuCoverVisit')}
-            </p>
-            <p className="mt-2 text-[13px] leading-snug text-ink sm:text-sm">
-              {brand.address.street}
-              <br />
-              {brand.address.district}, {brand.address.city}
-            </p>
-            <p className="mt-2 text-[12px] text-muted">{brand.instagramHandle}</p>
-            <p className="text-[12px] text-muted">{brand.email}</p>
-            <Link
-              to="/reserve"
-              className="mt-4 inline-flex rounded-full bg-ink px-4 py-2 text-[11px] font-semibold tracking-wide text-white"
-            >
-              {t('reserveCta')}
-            </Link>
-          </div>
-
-          <div>
-            <p className="text-[10px] font-semibold tracking-[0.28em] text-amber uppercase">
-              {t('menuCoverHours')}
-            </p>
-            <ul className="mt-2 space-y-1.5">
-              {hours.map((row) => (
-                <li
-                  key={row.day}
-                  className="flex items-baseline justify-between gap-2 text-[12px] sm:text-[13px]"
-                >
-                  <span className="text-muted">{row.day}</span>
-                  <span className="font-display text-[15px] text-ink tabular-nums sm:text-base">
-                    {row.time}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-
-        <div className="mt-auto border-t border-line/70 pt-4">
-          <div className="flex items-end gap-4">
-            <div className="min-w-0 flex-1">
+        <div className="mt-4 grid gap-4 sm:mt-6 sm:gap-6">
+          <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
+            <div>
               <p className="text-[10px] font-semibold tracking-[0.28em] text-amber uppercase">
-                {t('menuQrTitle')}
+                {t('menuCoverVisit')}
               </p>
-              <p className="mt-2 text-[12px] leading-relaxed text-muted sm:text-[13px]">
-                {t('menuQrText')}
+              <p className="mt-1.5 text-[12px] leading-snug text-ink sm:mt-2 sm:text-sm">
+                {brand.address.street}
+                <br />
+                {brand.address.district}, {brand.address.city}
               </p>
-              <p className="mt-3 text-[10px] font-semibold tracking-[0.22em] text-ink/45 uppercase">
-                {t('menuCoverContents')}
+              <p className="mt-1.5 text-[11px] text-muted sm:mt-2 sm:text-[12px]">
+                {brand.instagramHandle}
               </p>
-              <p className="mt-1 text-[11px] leading-relaxed text-muted">
-                {menu.map((c) => t(catTitle[c.id])).join(' · ')}
-              </p>
+              <p className="text-[11px] text-muted sm:text-[12px]">{brand.email}</p>
+              <Link
+                to="/reserve"
+                className="mt-3 inline-flex rounded-full bg-ink px-3.5 py-1.5 text-[11px] font-semibold tracking-wide text-white sm:mt-4 sm:px-4 sm:py-2"
+              >
+                {t('reserveCta')}
+              </Link>
             </div>
-            <div className="shrink-0 border border-amber/35 bg-white p-2">
-              <QRCodeSVG
-                value={menuUrl}
-                size={96}
-                bgColor="#ffffff"
-                fgColor="#0c0b0a"
-                level="M"
-              />
+
+            <div>
+              <p className="text-[10px] font-semibold tracking-[0.28em] text-amber uppercase">
+                {t('menuCoverHours')}
+              </p>
+              <ul className="mt-1.5 space-y-1 sm:mt-2 sm:space-y-1.5">
+                {hours.map((row) => (
+                  <li
+                    key={row.day}
+                    className="flex items-baseline justify-between gap-2 text-[11px] sm:text-[13px]"
+                  >
+                    <span className="text-muted">{row.day}</span>
+                    <span className="font-display text-[14px] text-ink tabular-nums sm:text-base">
+                      {row.time}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          <div className="border-t border-line/70 pt-3 sm:pt-4">
+            <div className="flex items-end gap-3 sm:gap-4">
+              <div className="min-w-0 flex-1">
+                <p className="text-[10px] font-semibold tracking-[0.28em] text-amber uppercase">
+                  {t('menuQrTitle')}
+                </p>
+                <p className="mt-1.5 text-[11px] leading-relaxed text-muted sm:mt-2 sm:text-[13px]">
+                  {t('menuQrText')}
+                </p>
+                <p className="mt-2 text-[10px] font-semibold tracking-[0.22em] text-ink/45 uppercase sm:mt-3">
+                  {t('menuCoverContents')}
+                </p>
+                <p className="mt-1 line-clamp-3 text-[10px] leading-relaxed text-muted sm:text-[11px]">
+                  {menu.map((c) => t(catTitle[c.id])).join(' · ')}
+                </p>
+              </div>
+              <div className="shrink-0 border border-amber/35 bg-white p-1.5 sm:p-2">
+                <QRCodeSVG
+                  value={menuUrl}
+                  size={84}
+                  bgColor="#ffffff"
+                  fgColor="#0c0b0a"
+                  level="M"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -319,9 +323,10 @@ export function MenuPage() {
   const { t, lang } = useI18n()
   const bookRef = useRef<FlipApi | null>(null)
   const navRef = useRef<HTMLDivElement | null>(null)
+  const slotRef = useRef<HTMLDivElement | null>(null)
   const [page, setPage] = useState(0)
   const [pageCount, setPageCount] = useState(0)
-  const [dims, setDims] = useState({ w: 340, h: 500, mobile: true })
+  const [dims, setDims] = useState({ w: 320, h: 460, mobile: true })
   const [showQr, setShowQr] = useState(false)
 
   const COVER_PAGES = 2
@@ -362,29 +367,48 @@ export function MenuPage() {
     return active
   }, [page, categoryPageStarts])
 
+  // Size the flip-book from the real slot between header/nav and footer (no guessing chrome height)
   useEffect(() => {
-    const update = () => {
-      const vw = window.innerWidth
-      const vh = window.innerHeight
-      // Header + category strip + footer — keep the book fully below the nav bar
-      const chrome = vw < 768 ? 196 : 188
-      const availableH = Math.max(360, vh - chrome)
+    const slot = slotRef.current
+    if (!slot) return
 
-      if (vw < 768) {
-        const pageW = Math.min(Math.floor(vw - 20), 440)
-        const pageH = Math.min(availableH, Math.round(pageW * 1.48))
+    const update = () => {
+      const mobile = window.innerWidth < 768
+      const pad = mobile ? 10 : 16
+      const availW = Math.max(220, Math.floor(slot.clientWidth - pad))
+      const availH = Math.max(300, Math.floor(slot.clientHeight - pad))
+      const ratio = mobile ? 1.38 : 1.42
+
+      if (mobile) {
+        let pageW = availW
+        let pageH = Math.round(pageW * ratio)
+        if (pageH > availH) {
+          pageH = availH
+          pageW = Math.max(220, Math.floor(pageH / ratio))
+        }
         setDims({ w: pageW, h: pageH, mobile: true })
-      } else {
-        const maxSpreadW = Math.min(vw - 80, 1180)
-        const pageW = Math.floor(maxSpreadW / 2)
-        const pageH = Math.min(availableH, Math.round(pageW * 1.42))
-        const finalW = Math.max(280, Math.min(pageW, Math.floor(pageH / 1.42)))
-        setDims({ w: finalW, h: Math.min(availableH, Math.round(finalW * 1.42)), mobile: false })
+        return
       }
+
+      let pageW = Math.floor(availW / 2)
+      let pageH = Math.round(pageW * ratio)
+      if (pageH > availH) {
+        pageH = availH
+        pageW = Math.max(240, Math.floor(pageH / ratio))
+      }
+      setDims({ w: pageW, h: pageH, mobile: false })
     }
+
     update()
+    const ro = new ResizeObserver(() => update())
+    ro.observe(slot)
     window.addEventListener('resize', update)
-    return () => window.removeEventListener('resize', update)
+    window.visualViewport?.addEventListener('resize', update)
+    return () => {
+      ro.disconnect()
+      window.removeEventListener('resize', update)
+      window.visualViewport?.removeEventListener('resize', update)
+    }
   }, [])
 
   useEffect(() => {
@@ -554,10 +578,10 @@ export function MenuPage() {
   }
 
   return (
-    <div className="menu-magazine fixed inset-0 z-40 flex flex-col overflow-hidden bg-[#14110e] text-white select-none">
+    <div className="menu-magazine fixed inset-0 z-40 flex h-dvh max-h-dvh flex-col overflow-hidden bg-[#14110e] text-white select-none">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(212,181,106,0.07),transparent_55%)]" />
 
-      <header className="relative z-30 flex shrink-0 items-center justify-between gap-2 bg-[#14110e] px-3 py-3 sm:gap-3 sm:px-4 sm:py-3.5 md:px-6">
+      <header className="relative z-30 flex shrink-0 items-center justify-between gap-2 bg-[#14110e] px-3 pt-[max(0.5rem,env(safe-area-inset-top))] pb-2 sm:gap-3 sm:px-4 sm:py-3 md:px-6 md:py-3.5">
         <div className="flex min-w-0 items-center gap-2 sm:gap-2.5">
           <Link
             to="/"
@@ -568,7 +592,7 @@ export function MenuPage() {
           </Link>
           <BrandLogo
             tone="light"
-            className="max-w-[42vw] truncate text-[1.55rem] leading-none opacity-95 sm:max-w-none sm:text-[1.95rem]"
+            className="max-w-[36vw] truncate text-[1.4rem] leading-none opacity-95 sm:max-w-none sm:text-[1.95rem]"
           />
         </div>
 
@@ -594,8 +618,8 @@ export function MenuPage() {
         aria-label={t('menuQuickNav')}
         className="menu-cat-bar relative z-30 shrink-0 border-y border-white/10"
       >
-        <div ref={navRef} className="menu-cat-nav px-3 py-2.5 sm:px-4 md:py-3">
-          <div className="flex w-max gap-2 md:gap-2.5">
+        <div ref={navRef} className="menu-cat-nav px-3 py-1.5 sm:px-4 sm:py-2.5 md:py-3">
+          <div className="flex w-max gap-1.5 sm:gap-2 md:gap-2.5">
             {navItems.map((item) => {
               const active = item.id === activeNavId
               return (
@@ -605,7 +629,7 @@ export function MenuPage() {
                   draggable={false}
                   data-active={active ? 'true' : 'false'}
                   onClick={() => jumpTo(item.pageIndex)}
-                  className={`menu-cat-nav__btn shrink-0 border px-3 py-1.5 text-[11px] font-semibold tracking-[0.14em] uppercase transition md:px-3.5 md:py-2 ${
+                  className={`menu-cat-nav__btn shrink-0 border px-2.5 py-1 text-[10px] font-semibold tracking-[0.12em] uppercase transition sm:px-3 sm:py-1.5 sm:text-[11px] sm:tracking-[0.14em] md:px-3.5 md:py-2 ${
                     active
                       ? 'border-gold bg-gold/15 text-gold'
                       : 'border-white/15 bg-white/5 text-white/70 hover:border-white/35 hover:text-white'
@@ -619,7 +643,10 @@ export function MenuPage() {
         </div>
       </nav>
 
-      <div className="menu-book-slot relative z-10 flex min-h-0 flex-1 items-center justify-center overflow-hidden px-1 sm:px-2 md:px-4">
+      <div
+        ref={slotRef}
+        className="menu-book-slot relative z-10 flex min-h-0 flex-1 items-center justify-center overflow-hidden px-1.5 sm:px-2 md:px-4"
+      >
         <button
           type="button"
           onClick={flipPrev}
@@ -629,7 +656,10 @@ export function MenuPage() {
           <ChevronLeft className="size-8" strokeWidth={1.25} />
         </button>
 
-        <div className="menu-book-stage max-h-full w-full max-w-[1200px] select-none">
+        <div
+          className="menu-book-stage select-none"
+          style={{ width: dims.mobile ? dims.w : dims.w * 2, height: dims.h, maxWidth: '100%' }}
+        >
           <HTMLFlipBook
             key={`${lang}-${dims.w}-${dims.h}-${dims.mobile ? 'm' : 'd'}`}
             width={dims.w}
@@ -640,15 +670,15 @@ export function MenuPage() {
             minHeight={dims.h}
             maxHeight={dims.h}
             showCover={false}
-            mobileScrollSupport
+            mobileScrollSupport={false}
             drawShadow
-            flippingTime={dims.mobile ? 850 : 950}
+            flippingTime={dims.mobile ? 750 : 950}
             usePortrait={dims.mobile}
             startPage={0}
             autoSize={false}
-            maxShadowOpacity={0.55}
+            maxShadowOpacity={0.45}
             className="menu-flipbook mx-auto select-none"
-            style={{ margin: '0 auto', userSelect: 'none' }}
+            style={{ margin: '0 auto', userSelect: 'none', width: '100%', height: '100%' }}
             ref={bookRef as Ref<FlipApi>}
             onFlip={(e: { data: number }) => setPage(e.data)}
             onInit={() => {
@@ -674,20 +704,17 @@ export function MenuPage() {
         </button>
       </div>
 
-      <footer className="relative z-30 flex shrink-0 items-center justify-between gap-3 bg-[#14110e] px-3 py-2.5 sm:justify-center sm:gap-6 sm:px-4 sm:py-3 md:gap-8 safe-bottom">
+      <footer className="relative z-30 flex shrink-0 items-center justify-between gap-3 bg-[#14110e] px-3 py-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] sm:justify-center sm:gap-6 sm:px-4 sm:py-3 md:gap-8">
         <button
           type="button"
           onClick={flipPrev}
-          className="inline-flex size-11 items-center justify-center rounded-full border border-white/15 bg-white/5 text-white md:hidden"
+          className="inline-flex size-10 items-center justify-center rounded-full border border-white/15 bg-white/5 text-white md:hidden"
           aria-label="Previous page"
         >
-          <ChevronLeft className="size-6" />
+          <ChevronLeft className="size-5" />
         </button>
-        <div className="text-center">
+        <div className="min-w-0 text-center">
           <p className="font-display text-sm tracking-[0.12em] text-white/70">{pageLabel}</p>
-          <p className="mt-0.5 text-[10px] tracking-[0.16em] text-white/35 uppercase sm:hidden">
-            {t('menuBookHint')}
-          </p>
           <p className="mt-0.5 hidden text-[11px] tracking-[0.2em] text-white/40 uppercase sm:block">
             {t('menuBookHint')}
           </p>
@@ -695,10 +722,10 @@ export function MenuPage() {
         <button
           type="button"
           onClick={flipNext}
-          className="inline-flex size-11 items-center justify-center rounded-full border border-white/15 bg-white/5 text-white md:hidden"
+          className="inline-flex size-10 items-center justify-center rounded-full border border-white/15 bg-white/5 text-white md:hidden"
           aria-label="Next page"
         >
-          <ChevronRight className="size-6" />
+          <ChevronRight className="size-5" />
         </button>
       </footer>
 
