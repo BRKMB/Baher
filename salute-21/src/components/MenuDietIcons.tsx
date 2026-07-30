@@ -1,11 +1,36 @@
-import { Carrot, Flame, Vegan, type LucideIcon } from 'lucide-react'
+import type { IconType } from 'react-icons'
+import { FaCarrot, FaLeaf, FaPepperHot } from 'react-icons/fa'
 
 export type MenuDietTag = 'vegan' | 'vege' | 'spicy'
 
-const TAG_META: Record<MenuDietTag, { Icon: LucideIcon; color: string; ring: string }> = {
-  vegan: { Icon: Vegan, color: 'text-olive', ring: 'border-olive/35' },
-  vege: { Icon: Carrot, color: 'text-amber-deep', ring: 'border-amber/45' },
-  spicy: { Icon: Flame, color: 'text-red-700', ring: 'border-red-700/35' },
+/**
+ * Standard Font Awesome icons used across restaurants & food menus:
+ * - Vegan → leaf
+ * - Vegetarian → carrot
+ * - Spicy → hot chili pepper (red)
+ */
+const TAG_META: Record<
+  MenuDietTag,
+  { Icon: IconType; color: string; ring: string; bg: string }
+> = {
+  vegan: {
+    Icon: FaLeaf,
+    color: 'text-[#2e7d32]',
+    ring: 'border-[#2e7d32]/40',
+    bg: 'bg-[#e8f5e9]',
+  },
+  vege: {
+    Icon: FaCarrot,
+    color: 'text-[#ef6c00]',
+    ring: 'border-[#ef6c00]/40',
+    bg: 'bg-[#fff3e0]',
+  },
+  spicy: {
+    Icon: FaPepperHot,
+    color: 'text-[#d32f2f]',
+    ring: 'border-[#d32f2f]/45',
+    bg: 'bg-[#fdecea]',
+  },
 }
 
 export function MenuDietBadge({
@@ -19,11 +44,11 @@ export function MenuDietBadge({
   const Icon = meta.Icon
   return (
     <span
-      className={`inline-flex size-[1.4rem] items-center justify-center rounded-full border bg-white/80 ${meta.ring} ${meta.color}`}
+      className={`inline-flex size-[1.5rem] items-center justify-center rounded-full border ${meta.bg} ${meta.ring} ${meta.color}`}
       title={label}
       aria-label={label}
     >
-      <Icon className="size-3.5" strokeWidth={2} aria-hidden />
+      <Icon className="size-3.5" aria-hidden />
     </span>
   )
 }
@@ -34,17 +59,17 @@ export function MenuDietLegend({
   items: Array<{ tag: MenuDietTag; label: string; hint: string }>
 }) {
   return (
-    <ul className="mt-2 grid gap-1.5">
+    <ul className="mt-2.5 grid gap-2">
       {items.map(({ tag, label, hint }) => {
         const meta = TAG_META[tag]
         const Icon = meta.Icon
         return (
-          <li key={tag} className="flex items-center gap-2 text-[11px] leading-snug sm:text-[12px]">
+          <li key={tag} className="flex items-center gap-2.5 text-[11px] leading-snug sm:text-[12px]">
             <span
-              className={`inline-flex size-[1.4rem] shrink-0 items-center justify-center rounded-full border bg-white/90 ${meta.ring} ${meta.color}`}
+              className={`inline-flex size-[1.65rem] shrink-0 items-center justify-center rounded-full border ${meta.bg} ${meta.ring} ${meta.color}`}
               aria-hidden
             >
-              <Icon className="size-3.5" strokeWidth={2} />
+              <Icon className="size-4" />
             </span>
             <span className="min-w-0">
               <span className="font-semibold text-ink">{label}</span>
