@@ -1,5 +1,6 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { LanguageProvider } from './i18n/LanguageContext'
+import { SplashScreen } from './components/SplashScreen'
 import { HomePage } from './pages/HomePage'
 import { MenuPage } from './pages/MenuPage'
 import { ReservePage } from './pages/ReservePage'
@@ -9,6 +10,7 @@ import { AdminBookingsPage } from './pages/AdminBookingsPage'
 export default function App() {
   return (
     <LanguageProvider>
+      <SplashScreen />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<HomePage />} />

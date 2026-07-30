@@ -1520,3 +1520,79 @@
     font-variant-ligatures: none;
   }
 }
+
+/* —— Splash (black / white wordmark while app loads) —— */
+html.splash-lock,
+html.splash-lock body {
+  overflow: hidden;
+}
+
+.splash-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  background: #000;
+  color: #fff;
+  transition: opacity 0.7s ease, visibility 0.7s ease;
+}
+
+.splash-screen--leave {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.splash-screen__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: splash-mark-in 1.15s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.splash-screen__logo {
+  color: #fff;
+}
+
+.splash-screen__line {
+  display: block;
+  width: 0;
+  height: 1px;
+  margin-top: 0.35rem;
+  background: rgba(255, 255, 255, 0.55);
+  animation: splash-line-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.45s both;
+}
+
+@keyframes splash-mark-in {
+  from {
+    opacity: 0;
+    transform: scale(0.92) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes splash-line-in {
+  from {
+    width: 0;
+    opacity: 0;
+  }
+  to {
+    width: 4.5rem;
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .splash-screen__inner,
+  .splash-screen__line {
+    animation: none;
+  }
+
+  .splash-screen {
+    transition-duration: 0.2s;
+  }
+}
