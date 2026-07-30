@@ -336,22 +336,41 @@
     color: white;
   }
 
+  .reserve-when-row {
+    display: grid;
+    gap: 1.25rem 1.75rem;
+    align-items: stretch;
+  }
+
+  @media (min-width: 640px) {
+    .reserve-when-row {
+      grid-template-columns: 1.35fr 1fr;
+    }
+  }
+
   .guest-stepper {
-    display: inline-flex;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    min-height: 3.35rem;
     align-items: center;
-    gap: 1rem;
+    justify-content: space-between;
+    gap: 0.75rem;
+    border: none;
     border-bottom: 1px solid color-mix(in srgb, var(--color-line) 85%, transparent);
-    padding-bottom: 0.35rem;
+    background: transparent;
+    padding: 0.55rem 0.15rem;
   }
 
   .guest-stepper__btn {
     display: inline-flex;
-    width: 2.75rem;
-    height: 2.75rem;
+    width: 2.25rem;
+    height: 2.25rem;
+    flex-shrink: 0;
     align-items: center;
     justify-content: center;
     border-radius: 999px;
-    border: 1px solid var(--color-line);
+    border: 1px solid color-mix(in srgb, var(--color-line) 80%, transparent);
     background: color-mix(in srgb, var(--color-champagne) 80%, white);
     color: var(--color-ink);
     transition:
@@ -365,6 +384,32 @@
     transform: scale(1.04);
   }
 
+  .guest-stepper__count {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.15rem;
+    margin: 0;
+    line-height: 1;
+  }
+
+  .guest-stepper__value {
+    font-family: var(--font-body);
+    font-size: 1.35rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums lining-nums;
+    color: var(--color-ink);
+  }
+
+  .guest-stepper__label {
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
   .success-glow {
     background:
       radial-gradient(ellipse 55% 40% at 50% 0%, rgba(212, 181, 106, 0.22), transparent 70%),
@@ -374,12 +419,13 @@
   .date-picker__trigger {
     display: flex;
     width: 100%;
+    min-height: 3.35rem;
     align-items: center;
     gap: 0.75rem;
     border: none;
     border-bottom: 1px solid color-mix(in srgb, var(--color-line) 85%, transparent);
     background: transparent;
-    padding: 0.85rem 0.15rem;
+    padding: 0.55rem 0.15rem;
     text-align: left;
     font-family: var(--font-body);
     font-size: 0.95rem;

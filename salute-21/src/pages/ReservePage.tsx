@@ -256,44 +256,40 @@ export function ReservePage() {
           >
             <section className="space-y-5">
               <div className="flex items-baseline justify-between gap-3">
-                <h3 className="font-display text-2xl text-ink italic md:text-3xl">{t('reserveDate')}</h3>
+                <h3 className="font-display text-2xl text-ink italic md:text-3xl">
+                  {t('reserveWhenTitle')}
+                </h3>
                 <span className="font-script text-2xl text-amber/80">01</span>
               </div>
-              <div className="grid gap-6 sm:grid-cols-2">
-                <div className="grid gap-2 text-sm">
-                  <DatePicker
-                    required
-                    value={date}
-                    min={minBookableDate()}
-                    max={maxBookableDate()}
-                    onChange={setDate}
-                  />
-                </div>
-                <div className="grid gap-2 text-sm">
-                  <span className="text-[11px] font-semibold tracking-[0.18em] text-muted uppercase">
-                    {t('reserveGuests')}
-                  </span>
-                  <div className="guest-stepper">
-                    <button
-                      type="button"
-                      onClick={() => bumpGuests(-1)}
-                      className="guest-stepper__btn"
-                      aria-label="-"
-                    >
-                      <Minus className="size-4" strokeWidth={1.75} />
-                    </button>
-                    <p className="min-w-12 text-center font-display text-4xl text-ink tabular-nums leading-none">
-                      {guests}
-                    </p>
-                    <button
-                      type="button"
-                      onClick={() => bumpGuests(1)}
-                      className="guest-stepper__btn"
-                      aria-label="+"
-                    >
-                      <Plus className="size-4" strokeWidth={1.75} />
-                    </button>
-                  </div>
+              <div className="reserve-when-row">
+                <DatePicker
+                  required
+                  value={date}
+                  min={minBookableDate()}
+                  max={maxBookableDate()}
+                  onChange={setDate}
+                />
+                <div className="guest-stepper" aria-label={t('reserveGuests')}>
+                  <button
+                    type="button"
+                    onClick={() => bumpGuests(-1)}
+                    className="guest-stepper__btn"
+                    aria-label="-"
+                  >
+                    <Minus className="size-4" strokeWidth={1.75} />
+                  </button>
+                  <p className="guest-stepper__count">
+                    <span className="guest-stepper__value">{guests}</span>
+                    <span className="guest-stepper__label">{t('reserveGuests')}</span>
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => bumpGuests(1)}
+                    className="guest-stepper__btn"
+                    aria-label="+"
+                  >
+                    <Plus className="size-4" strokeWidth={1.75} />
+                  </button>
                 </div>
               </div>
             </section>
