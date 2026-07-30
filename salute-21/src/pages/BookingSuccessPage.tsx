@@ -186,27 +186,27 @@ export function BookingSuccessPage() {
               {saving ? t('reserveSavingPass') : savedHint ? t('reservePassSaved') : t('reserveSavePass')}
             </button>
 
-            <a
-              href={brand.address.directionsUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-amber/45 bg-amber/12 px-6 py-3.5 text-sm font-semibold text-ink transition hover:bg-amber/22"
-            >
-              <Navigation className="size-4" strokeWidth={1.7} />
-              {t('reserveGetDirections')}
-            </a>
+            {booking && (
+              <button
+                type="button"
+                onClick={() => downloadIcs(booking)}
+                className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-amber/45 bg-amber/12 px-6 py-3.5 text-sm font-semibold text-ink transition hover:bg-amber/22"
+              >
+                <CalendarPlus className="size-4" strokeWidth={1.7} />
+                {t('reserveAddCalendar')}
+              </button>
+            )}
 
             <div className="grid gap-3 sm:grid-cols-2">
-              {booking && (
-                <button
-                  type="button"
-                  onClick={() => downloadIcs(booking)}
-                  className="inline-flex items-center justify-center gap-2 rounded-full border border-line px-5 py-3.5 text-sm font-semibold text-ink transition hover:border-ink"
-                >
-                  <CalendarPlus className="size-4" strokeWidth={1.7} />
-                  {t('reserveAddCalendar')}
-                </button>
-              )}
+              <a
+                href={brand.address.directionsUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-line px-5 py-3.5 text-sm font-semibold text-ink transition hover:border-ink"
+              >
+                <Navigation className="size-4" strokeWidth={1.7} />
+                {t('reserveGetDirections')}
+              </a>
               <Link
                 to="/menu"
                 className="inline-flex items-center justify-center gap-2 rounded-full border border-line px-5 py-3.5 text-sm font-semibold text-ink transition hover:border-ink"
