@@ -595,15 +595,16 @@
     content: "";
     position: absolute;
     inset: 0 0 auto;
-    height: 3px;
-    background: repeating-linear-gradient(
+    height: 1px;
+    background: linear-gradient(
       90deg,
-      transparent 0 10px,
-      color-mix(in srgb, var(--color-gold) 55%, transparent) 10px 14px,
-      transparent 14px 22px,
-      color-mix(in srgb, var(--color-gold) 35%, transparent) 22px 24px
+      transparent 4%,
+      color-mix(in srgb, var(--color-gold) 55%, transparent) 22%,
+      color-mix(in srgb, var(--color-gold) 85%, white) 50%,
+      color-mix(in srgb, var(--color-gold) 55%, transparent) 78%,
+      transparent 96%
     );
-    opacity: 0.7;
+    opacity: 0.9;
   }
 
   .boarding-pass__top {
