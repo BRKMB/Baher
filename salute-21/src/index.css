@@ -114,6 +114,71 @@
     will-change: transform;
   }
 
+  .review-stars {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    color: var(--color-gold);
+  }
+
+  .review-stars__row {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+  }
+
+  .review-stars__slot {
+    width: 1.35rem;
+    height: 1.35rem;
+    position: relative;
+  }
+
+  .review-stars__icon {
+    width: 1.35rem;
+    height: 1.35rem;
+    display: block;
+    stroke-width: 1.25;
+  }
+
+  .review-stars__icon.is-full {
+    fill: var(--color-gold);
+    stroke: color-mix(in srgb, var(--color-gold) 85%, white);
+    filter: drop-shadow(0 0 8px rgba(212, 181, 106, 0.45));
+  }
+
+  .review-stars__icon.is-empty {
+    fill: transparent;
+    stroke: color-mix(in srgb, var(--color-gold) 55%, transparent);
+  }
+
+  .review-stars__half {
+    position: absolute;
+    inset: 0;
+    width: 50%;
+    overflow: hidden;
+  }
+
+  .review-stars__score {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-style: italic;
+    letter-spacing: 0.04em;
+    color: color-mix(in srgb, var(--color-gold) 92%, white);
+    font-variant-numeric: tabular-nums;
+  }
+
+  @media (min-width: 768px) {
+    .review-stars__slot,
+    .review-stars__icon {
+      width: 1.55rem;
+      height: 1.55rem;
+    }
+
+    .review-stars__score {
+      font-size: 1.15rem;
+    }
+  }
+
   .marquee-track:hover,
   .testimonial-names:hover {
     animation-play-state: paused;

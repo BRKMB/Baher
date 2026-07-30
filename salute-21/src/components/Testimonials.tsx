@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
+import { Star } from 'lucide-react'
 import { useI18n } from '../i18n/LanguageContext'
 import type { TranslationKey } from '../i18n/translations'
 
@@ -24,26 +25,25 @@ function dwellMsForQuote(quote: string) {
   return Math.min(18000, Math.max(7500, reading + 2800))
 }
 
-function StarGlyph({ fill, gradId }: { fill: 'full' | 'half' | 'empty'; gradId: string }) {
+function StarSlot({ fill }: { fill: 'full' | 'half' | 'empty' }) {
+  if (fill === 'half') {
+    return (
+      <span className="review-stars__slot relative inline-flex">
+        <Star className="review-stars__icon is-empty" aria-hidden />
+        <span className="review-stars__half" aria-hidden>
+          <Star className="review-stars__icon is-full" />
+        </span>
+      </span>
+    )
+  }
+
   return (
-    <svg viewBox="0 0 24 24" className="size-[1.05rem] md:size-5" aria-hidden>
-      <defs>
-        {fill === 'half' && (
-          <linearGradient id={gradId} x1="0" x2="1" y1="0" y2="0">
-            <stop offset="50%" stopColor="currentColor" />
-            <stop offset="50%" stopColor="currentColor" stopOpacity="0.22" />
-          </linearGradient>
-        )}
-      </defs>
-      <path
-        d="M12 2.4l2.55 5.55 6.05.7-4.5 4.15 1.25 5.95L12 15.7 6.65 18.75l1.25-5.95-4.5-4.15 6.05-.7L12 2.4z"
-        fill={fill === 'full' ? 'currentColor' : fill === 'half' ? `url(#${gradId})` : 'currentColor'}
-        fillOpacity={fill === 'empty' ? 0.22 : 1}
-        stroke="currentColor"
-        strokeWidth="0.6"
-        strokeLinejoin="round"
+    <span className="review-stars__slot inline-flex">
+      <Star
+        className={`review-stars__icon ${fill === 'full' ? 'is-full' : 'is-empty'}`}
+        aria-hidden
       />
-    </svg>
+    </span>
   )
 }
 
@@ -55,18 +55,13 @@ function StarRating({ value }: { value: number }) {
   })
 
   return (
-    <div
-      className="review-stars inline-flex items-center gap-1 text-gold"
-      aria-label={`${value} out of 5`}
-    >
-      {stars.map((fill, i) => (
-        <span key={i} className="review-stars__star drop-shadow-[0_0_10px_rgba(212,181,106,0.35)]">
-          <StarGlyph fill={fill} gradId={`review-star-half-${i}`} />
-        </span>
-      ))}
-      <span className="ml-2 font-display text-sm tracking-wide text-gold/90 tabular-nums not-italic md:text-[0.95rem]">
-        {value.toFixed(1)}
-      </span>
+    <div className="review-stars" aria-label={`${value} out of 5`}>
+      <div className="review-stars__row">
+        {stars.map((fill, i) => (
+          <StarSlot key={i} fill={fill} />
+        ))}
+      </div>
+      <span className="review-stars__score">{value.toFixed(1)}</span>
     </div>
   )
 }
@@ -126,7 +121,7 @@ export function Testimonials() {
               transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
               className="relative px-2 text-center md:px-8"
             >
-              <div className="mb-6 flex justify-center md:mb-7">
+              <div className="mb-7 flex justify-center md:mb-8">
                 <StarRating value={current.rating} />
               </div>
               <blockquote className="font-display text-[1.65rem] leading-[1.35] text-balance text-white italic md:text-[2.15rem] md:leading-[1.3]">
