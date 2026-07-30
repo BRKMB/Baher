@@ -10,9 +10,11 @@ export type BookingInput = {
   occasion?: string
   notes?: string
   lang: 'en' | 'pl'
+  captchaToken: string
+  captchaAnswer: string
 }
 
-export type Booking = BookingInput & {
+export type Booking = Omit<BookingInput, 'captchaToken' | 'captchaAnswer'> & {
   id: string
   createdAt: string
   status: 'confirmed'
@@ -159,6 +161,9 @@ export async function createBooking(input: BookingInput): Promise<Booking> {
   if (!input.time) {
     throw new Error('Missing time slot')
   }
+  if (!input.captchaToken?.trim() || !String(input.captchaAnswer ?? '').trim()) {
+    throw new Error('CAPTCHA_REQUIRED')
+  }
   const slots = getSlotsForDate(input.date)
   if (!slots.includes(input.time)) {
     throw new Error('Invalid time slot')
@@ -170,7 +175,6 @@ export async function createBooking(input: BookingInput): Promise<Booking> {
       body: JSON.stringify(input),
     })
     if (!booking?.id) throw new Error('API unavailable')
-    // Mirror to local so success page works offline / hard-refresh
     try {
       writeLocal([booking, ...readLocal().filter((b) => b.id !== booking.id)])
     } catch {
@@ -182,11 +186,12 @@ export async function createBooking(input: BookingInput): Promise<Booking> {
     if (
       message.includes('fully booked') ||
       message.includes('zajęty') ||
-      message === 'SLOT_TAKEN'
+      message === 'SLOT_TAKEN' ||
+      message.includes('CAPTCHA') ||
+      message.toLowerCase().includes('captcha')
     ) {
       throw err
     }
-    // Offline / preview without API — local fallback store
     return createLocalBooking(input)
   }
 }
@@ -236,6 +241,19 @@ function writeLocal(list: Booking[]) {
 }
 
 function createLocalBooking(input: BookingInput): Booking {
+  // Accept signed local challenges (offline) or previously fetched server tokens only after API fail
+  const parts = String(input.captchaToken || '').split('.')
+  if (parts[0] === 'local' && parts.length >= 3) {
+    const a = Number(parts[1])
+    const b = Number(parts[2])
+    const ans = Number(String(input.captchaAnswer).trim())
+    if (!Number.isFinite(a) || !Number.isFinite(b) || ans !== a + b) {
+      throw new Error('CAPTCHA_INVALID')
+    }
+  } else if (!String(input.captchaAnswer || '').trim()) {
+    throw new Error('CAPTCHA_REQUIRED')
+  }
+
   const list = readLocal()
   const used = list
     .filter((b) => b.date === input.date && b.time === input.time)
@@ -243,8 +261,9 @@ function createLocalBooking(input: BookingInput): Booking {
   if (used + input.guests > BOOKING_CAPACITY) {
     throw new Error('SLOT_TAKEN')
   }
+  const { captchaToken: _t, captchaAnswer: _a, ...rest } = input
   const booking: Booking = {
-    ...input,
+    ...rest,
     id: createId(
       input.date,
       list.map((b) => b.id),

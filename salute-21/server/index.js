@@ -1,6 +1,7 @@
 import express from 'express'
 import fs from 'node:fs'
 import path from 'node:path'
+import crypto from 'node:crypto'
 import { fileURLToPath } from 'node:url'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -12,6 +13,33 @@ const storeFile = path.join(dataDir, 'bookings.json')
 const CAPACITY = 28
 const MAX_PARTY = 12
 const PORT = Number(process.env.PORT || 4173)
+const CAPTCHA_SECRET = process.env.CAPTCHA_SECRET || 'salute21-captcha'
+
+function issueCaptcha() {
+  const a = 2 + Math.floor(Math.random() * 8)
+  const b = 2 + Math.floor(Math.random() * 8)
+  const exp = Date.now() + 10 * 60 * 1000
+  const payload = `${a}.${b}.${exp}`
+  const sig = crypto.createHmac('sha256', CAPTCHA_SECRET).update(payload).digest('hex')
+  return { a, b, token: `${payload}.${sig}` }
+}
+
+function verifyCaptcha(token, answer) {
+  const raw = String(token || '')
+  const ans = Number(String(answer ?? '').trim())
+  if (!raw || !Number.isFinite(ans)) return false
+  const parts = raw.split('.')
+  if (parts.length !== 4) return false
+  const [aStr, bStr, expStr, sig] = parts
+  const a = Number(aStr)
+  const b = Number(bStr)
+  const exp = Number(expStr)
+  if (![a, b, exp].every((n) => Number.isFinite(n))) return false
+  if (Date.now() > exp) return false
+  if (ans !== a + b) return false
+  const expected = crypto.createHmac('sha256', CAPTCHA_SECRET).update(`${a}.${b}.${exp}`).digest('hex')
+  return sig === expected
+}
 
 const WEEKDAY_SLOTS = {
   0: ['10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00', '20:30'],
@@ -83,6 +111,16 @@ app.get('/api/health', (_req, res) => {
   res.json({ ok: true, service: 'salute-21-booking' })
 })
 
+app.get('/api/captcha', (_req, res) => {
+  const challenge = issueCaptcha()
+  res.json({
+    token: challenge.token,
+    a: challenge.a,
+    b: challenge.b,
+    question: `${challenge.a} + ${challenge.b}`,
+  })
+})
+
 app.get('/api/bookings/availability', (req, res) => {
   const date = String(req.query.date || '')
   const time = req.query.time ? String(req.query.time) : null
@@ -113,9 +151,14 @@ app.post('/api/bookings', (req, res) => {
   const occasion = String(body.occasion || '').trim()
   const notes = String(body.notes || '').trim()
   const lang = body.lang === 'pl' ? 'pl' : 'en'
+  const captchaToken = String(body.captchaToken || '').trim()
+  const captchaAnswer = String(body.captchaAnswer || '').trim()
 
   if (!name || !email || !phone || !date || !time || !guests) {
     return res.status(400).json({ error: 'Missing required fields' })
+  }
+  if (!verifyCaptcha(captchaToken, captchaAnswer)) {
+    return res.status(400).json({ error: 'CAPTCHA_INVALID' })
   }
   if (guests < 1 || guests > MAX_PARTY) {
     return res.status(400).json({ error: 'Invalid party size' })

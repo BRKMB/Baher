@@ -14,6 +14,11 @@ import {
   minBookableDate,
   MAX_PARTY_SIZE,
 } from '../lib/booking'
+import {
+  answerMatchesChallenge,
+  fetchCaptcha,
+  type CaptchaChallenge,
+} from '../lib/captcha'
 import { useI18n } from '../i18n/LanguageContext'
 
 const OCCASIONS = [
@@ -39,8 +44,27 @@ export function ReservePage() {
   const [availability, setAvailability] = useState<Record<string, number>>({})
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState('')
+  const [captcha, setCaptcha] = useState<CaptchaChallenge | null>(null)
+  const [captchaAnswer, setCaptchaAnswer] = useState('')
+  const [website, setWebsite] = useState('') // honeypot
 
   const slots = useMemo(() => getSlotsForDate(date), [date])
+
+  const loadCaptcha = async () => {
+    const challenge = await fetchCaptcha()
+    setCaptcha(challenge)
+    setCaptchaAnswer('')
+  }
+
+  useEffect(() => {
+    let cancelled = false
+    fetchCaptcha().then((challenge) => {
+      if (!cancelled) setCaptcha(challenge)
+    })
+    return () => {
+      cancelled = true
+    }
+  }, [])
 
   useEffect(() => {
     let cancelled = false
@@ -75,6 +99,12 @@ export function ReservePage() {
   const onSubmit = async (event: FormEvent) => {
     event.preventDefault()
     setError('')
+    if (website.trim()) return
+    if (!captcha || !answerMatchesChallenge(captcha, captchaAnswer)) {
+      setError(t('reserveCaptchaError'))
+      await loadCaptcha()
+      return
+    }
     setSubmitting(true)
     try {
       const booking = await createBooking({
@@ -87,12 +117,17 @@ export function ReservePage() {
         occasion,
         notes,
         lang,
+        captchaToken: captcha.token,
+        captchaAnswer: String(captchaAnswer).trim(),
       })
       navigate(`/reserve/success/${booking.id}`, { state: { booking } })
     } catch (err) {
       const msg = err instanceof Error ? err.message : ''
       if (msg.includes('fully booked') || msg === 'SLOT_TAKEN') {
         setError(t('reserveSlotTaken'))
+      } else if (msg.includes('CAPTCHA') || msg.toLowerCase().includes('captcha')) {
+        setError(t('reserveCaptchaError'))
+        await loadCaptcha()
       } else {
         setError(t('reserveError'))
       }
@@ -181,7 +216,7 @@ export function ReservePage() {
       <main
         ref={formRef}
         id="reserve-form"
-        className="relative scroll-mt-24 px-4 pb-28 pt-14 sm:px-5 md:px-8 md:pb-28 md:pt-20"
+        className="relative scroll-mt-24 px-4 pb-16 pt-14 sm:px-5 md:px-8 md:pb-24 md:pt-20"
       >
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.88fr_1.12fr] lg:items-start lg:gap-14">
           <motion.aside
@@ -411,6 +446,51 @@ export function ReservePage() {
               </div>
             </section>
 
+            <section className="mt-10 space-y-4 border-t border-line/60 pt-9">
+              <div className="flex items-baseline justify-between gap-3">
+                <h3 className="font-display text-2xl text-ink italic md:text-3xl">
+                  {t('reserveCaptcha')}
+                </h3>
+                <span className="font-script text-2xl text-amber/80">04</span>
+              </div>
+              <p className="text-sm text-muted">{t('reserveCaptchaHint')}</p>
+              <div className="flex flex-wrap items-end gap-3">
+                <label className="grid min-w-[10rem] flex-1 gap-2 text-sm">
+                  <span className="text-[11px] font-semibold tracking-[0.18em] text-muted uppercase">
+                    {captcha ? captcha.question : '…'} =
+                  </span>
+                  <input
+                    required
+                    inputMode="numeric"
+                    autoComplete="off"
+                    value={captchaAnswer}
+                    onChange={(e) => setCaptchaAnswer(e.target.value)}
+                    className="field-input max-w-[10rem]"
+                    aria-label={t('reserveCaptcha')}
+                  />
+                </label>
+                <button
+                  type="button"
+                  onClick={() => void loadCaptcha()}
+                  className="rounded-full border border-line/80 bg-champagne/60 px-4 py-3 text-xs font-semibold tracking-wide text-ink transition hover:border-ink/40"
+                >
+                  {t('reserveCaptchaRefresh')}
+                </button>
+              </div>
+              {/* Honeypot — leave empty */}
+              <div className="absolute -left-[9999px] top-0 h-0 w-0 overflow-hidden opacity-0" aria-hidden>
+                <label>
+                  Website
+                  <input
+                    tabIndex={-1}
+                    autoComplete="off"
+                    value={website}
+                    onChange={(e) => setWebsite(e.target.value)}
+                  />
+                </label>
+              </div>
+            </section>
+
             {error && (
               <p className="mt-6 border-l-2 border-red-400 bg-red-50/80 px-4 py-3 text-sm text-red-900">
                 {error}
@@ -419,40 +499,14 @@ export function ReservePage() {
 
             <button
               type="submit"
-              disabled={submitting || !time}
-              className="mt-9 hidden w-full items-center justify-center rounded-full bg-ink px-6 py-4 text-sm font-semibold tracking-wide text-white transition hover:bg-ink-soft disabled:cursor-not-allowed disabled:opacity-50 sm:inline-flex"
+              disabled={submitting || !time || !captcha}
+              className="mt-9 inline-flex w-full items-center justify-center rounded-full bg-ink px-6 py-4 text-base font-semibold tracking-wide text-white transition hover:bg-ink-soft disabled:cursor-not-allowed disabled:opacity-50"
             >
               {submitting ? t('reserveSubmitting') : t('reserveSubmit')}
             </button>
           </motion.form>
         </div>
       </main>
-
-      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-line/80 bg-champagne/95 px-4 py-3 backdrop-blur-md sm:hidden safe-bottom">
-        <div className="mx-auto flex max-w-7xl items-center gap-3">
-          <div className="min-w-0 flex-1">
-            <p className="truncate text-xs text-muted">
-              {formatDate(date)}
-              {time ? ` · ${time}` : ''}
-            </p>
-            <p className="truncate text-sm font-semibold text-ink">
-              {guests} {t('guestsLabel')}
-              {!time ? ` · ${t('reserveAvailable')}` : ''}
-            </p>
-          </div>
-          <button
-            type="button"
-            disabled={submitting || !time}
-            onClick={() => {
-              const form = document.querySelector('form')
-              form?.requestSubmit()
-            }}
-            className="shrink-0 rounded-full bg-ink px-5 py-3 text-sm font-semibold text-white disabled:opacity-45"
-          >
-            {submitting ? t('reserveSubmitting') : t('reserveSubmit')}
-          </button>
-        </div>
-      </div>
 
       <Footer />
     </div>
