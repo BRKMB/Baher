@@ -116,9 +116,9 @@ export const menu: MenuCategory[] = [
         price: 50,
       },
       {
-        name: { en: 'Pizza with Sucuk', pl: 'Pizza z kiełbasą sucuk' },
+        name: { en: 'Pizza with Turkish Sausage', pl: 'Pizza z kiełbasą sucuk' },
         desc: {
-          en: 'Tomato sauce, mozzarella, sucuk sausage',
+          en: 'Tomato sauce, mozzarella, Turkish sausage',
           pl: 'Sos pomidorowy, mozzarella, kiełbasa sucuk',
         },
         price: 44,
@@ -192,11 +192,11 @@ export const menu: MenuCategory[] = [
       },
       {
         name: {
-          en: 'Toast with Cheese & Sucuk',
+          en: 'Toast with Cheese & Turkish Sausage',
           pl: 'Tost z serem i kiełbasą sucuk',
         },
         desc: {
-          en: 'Toasted bread, cheese, sucuk sausage',
+          en: 'Toasted bread, cheese, Turkish sausage',
           pl: 'Tostowany chleb, ser, kiełbasa sucuk',
         },
         price: 29,
