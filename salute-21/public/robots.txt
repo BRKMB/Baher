@@ -1,0 +1,9 @@
+# Salute 21 — https://salute21.com
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /reserve/success/
+Disallow: /api/
+
+Sitemap: https://salute21.com/sitemap.xml
+Host: salute21.com

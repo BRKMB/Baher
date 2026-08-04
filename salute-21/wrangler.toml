@@ -1,0 +1,33 @@
+name = "salute21"
+compatibility_date = "2026-07-30"
+main = "worker.js"
+workers_dev = true
+
+# Refresh Instagram gallery every hour (requires INSTAGRAM_* secrets)
+[triggers]
+crons = ["0 * * * *"]
+
+[[routes]]
+pattern = "salute21.com"
+custom_domain = true
+
+[[routes]]
+pattern = "www.salute21.com"
+custom_domain = true
+
+[assets]
+directory = "./dist"
+binding = "ASSETS"
+not_found_handling = "single-page-application"
+# Worker first so /api/* is never swallowed and HTML shells get no-store cache headers
+run_worker_first = true
+
+[[kv_namespaces]]
+binding = "BOOKINGS"
+id = "11c41b8a408b4e17b33bd0c2620ccbd7"
+preview_id = "520a1fd9af474718a44b4d97b726ddb7"
+
+# Set with:
+#   npx wrangler secret put INSTAGRAM_ACCESS_TOKEN
+#   npx wrangler secret put INSTAGRAM_USER_ID
+# Account must be Instagram Business/Creator linked to a Facebook Page.
