@@ -50,44 +50,106 @@ type ItemPageSlice = {
   continuation?: boolean
 }
 
+type SliceLayout = {
+  pageH: number
+  mobile: boolean
+}
+
+/** Group consecutive items that share the same section heading. */
+function itemRuns(items: MenuItem[]): MenuItem[][] {
+  const runs: MenuItem[][] = []
+  let current: MenuItem[] = []
+  let lastKey: string | null = null
+
+  for (const item of items) {
+    const key = item.group?.en ?? ''
+    if (lastKey !== null && key !== lastKey && current.length) {
+      runs.push(current)
+      current = []
+    }
+    current.push(item)
+    lastKey = key
+  }
+  if (current.length) runs.push(current)
+  return runs
+}
+
+function runCost(run: MenuItem[]): number {
+  const hasGroup = Boolean(run[0]?.group)
+  return run.length + (hasGroup ? 0.45 : 0)
+}
+
 /**
- * Split dense categories across multiple book pages.
- * Page-flip clips overflow, so long lists must not rely on in-page scroll.
+ * How many item-units fit on one leaf for the current book size.
+ * Slightly pessimistic so content never clips behind page-flip overflow:hidden.
  */
-function itemSlicesFor(category: MenuCategory): ItemPageSlice[] {
+function pageItemCapacity(layout: SliceLayout, showNote: boolean): number {
+  const pad = layout.mobile ? 34 : 58
+  const header = layout.mobile ? 76 : 98
+  const note = showNote ? (layout.mobile ? 36 : 42) : 0
+  const footer = 22
+  const usable = Math.max(72, layout.pageH - pad - header - note - footer)
+  const unit = layout.mobile ? 58 : 62
+  return Math.max(2, Math.floor(usable / unit))
+}
+
+/**
+ * Split category items across as many book leaves as the viewport needs.
+ * Prefers keeping section groups together; falls back to mid-group splits on short screens.
+ */
+function itemSlicesFor(category: MenuCategory, layout: SliceLayout): ItemPageSlice[] {
   const items = category.items
   const hasNote = Boolean(category.note)
+  if (!items.length) return [{ items: [], showNote: hasNote }]
 
-  // Hot coffee: note + 8 drinks overflow a single leaf — keep classics, continue mocha/macchiato.
-  if (category.id === 'hot_coffee') {
-    return [
-      { items: items.slice(0, 5), showNote: true },
-      { items: items.slice(5), showNote: false, continuation: true },
-    ]
-  }
-
-  // Cold drinks: soft + juices fit; non-alcoholic beer needs the next leaf.
-  if (category.id === 'cold_drinks') {
-    return [
-      { items: items.slice(0, 7), showNote: false },
-      { items: items.slice(7), showNote: false, continuation: true },
-    ]
-  }
-
-  const limit = hasNote ? 6 : 8
-  if (items.length <= limit) {
-    return [{ items, showNote: hasNote }]
-  }
-
+  const runs = itemRuns(items)
   const slices: ItemPageSlice[] = []
-  for (let i = 0; i < items.length; i += limit) {
+  let bucket: MenuItem[] = []
+  let used = 0
+  let showNote = hasNote
+
+  const flush = () => {
+    if (!bucket.length) return
     slices.push({
-      items: items.slice(i, i + limit),
-      showNote: hasNote && i === 0,
-      continuation: i > 0,
+      items: bucket,
+      showNote,
+      continuation: slices.length > 0,
     })
+    bucket = []
+    used = 0
+    showNote = false
   }
-  return slices
+
+  for (const run of runs) {
+    let remaining = run
+    while (remaining.length) {
+      const capacity = pageItemCapacity(layout, showNote && bucket.length === 0)
+      const cost = runCost(remaining)
+
+      if (used + cost <= capacity) {
+        bucket = bucket.concat(remaining)
+        used += cost
+        remaining = []
+        break
+      }
+
+      if (bucket.length > 0) {
+        // Clean break before this group — retry on a fresh leaf.
+        flush()
+        continue
+      }
+
+      // This group alone is taller than the leaf — split mid-group.
+      const take = Math.max(1, Math.min(remaining.length, capacity))
+      bucket = remaining.slice(0, take)
+      used = runCost(bucket)
+      flush()
+      remaining = remaining.slice(take)
+    }
+  }
+
+  flush()
+  return slices.length ? slices : [{ items, showNote: hasNote }]
 }
 
 type FlipApi = {
@@ -175,7 +237,7 @@ const CoverRight = forwardRef<HTMLDivElement>(function CoverRight(_props, ref) {
 
   return (
     <BookPage ref={ref} className="flex min-h-0 flex-col overflow-hidden p-4 sm:p-7 md:p-9">
-      <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain pr-0.5">
+      <div className="menu-items-scroll min-h-0 flex-1 overflow-y-auto overscroll-contain pr-0.5">
         <PageEyebrow>{t('menuCoverWelcome')}</PageEyebrow>
         <h2 className="mt-1.5 font-display text-[1.65rem] leading-[1.05] text-ink italic sm:mt-2 sm:text-[2.2rem] md:text-4xl">
           {brand.name}
@@ -352,7 +414,7 @@ const CategoryItemsPage = forwardRef<
           </p>
         )}
       </div>
-      <ul className="min-h-0 flex-1 space-y-2 overflow-hidden pr-0.5 sm:space-y-2.5">
+      <ul className="menu-items-scroll min-h-0 flex-1 space-y-2 overflow-y-auto overscroll-contain pr-0.5 sm:space-y-2.5">
         {items.map((item) => {
           const groupLabel = item.group?.[lang] || ''
           const showGroup = Boolean(groupLabel && groupLabel !== lastGroup)
@@ -417,15 +479,19 @@ export function MenuPage() {
   const [showQr, setShowQr] = useState(false)
 
   const COVER_PAGES = 2
+  const sliceLayout = useMemo<SliceLayout>(
+    () => ({ pageH: dims.h, mobile: dims.mobile }),
+    [dims.h, dims.mobile],
+  )
 
   const categoryPageStarts = useMemo(() => {
     let cursor = COVER_PAGES
     return menu.map((category) => {
       const start = cursor
-      cursor += 1 + itemSlicesFor(category).length
+      cursor += 1 + itemSlicesFor(category, sliceLayout).length
       return start
     })
-  }, [])
+  }, [sliceLayout])
 
   const navItems = useMemo(
     () => [
@@ -608,7 +674,7 @@ export function MenuPage() {
           />
         ),
       })
-      itemSlicesFor(category).forEach((slice, sliceIndex) => {
+      itemSlicesFor(category, sliceLayout).forEach((slice, sliceIndex) => {
         nodes.push({
           key: `${category.id}-items-${sliceIndex}`,
           node: (
@@ -624,7 +690,7 @@ export function MenuPage() {
       })
     })
     return nodes
-  }, [lang])
+  }, [lang, sliceLayout])
 
   const flipNext = () => bookRef.current?.pageFlip()?.flipNext('top')
   const flipPrev = () => bookRef.current?.pageFlip()?.flipPrev('top')
@@ -777,7 +843,7 @@ export function MenuPage() {
             minHeight={dims.h}
             maxHeight={dims.h}
             showCover={false}
-            mobileScrollSupport={false}
+            mobileScrollSupport
             drawShadow
             flippingTime={dims.mobile ? 750 : 950}
             usePortrait={dims.mobile}

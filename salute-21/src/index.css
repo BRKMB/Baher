@@ -233,6 +233,13 @@
     -webkit-tap-highlight-color: transparent;
   }
 
+  /* Safety net if a leaf still overflows after height-aware slicing */
+  .menu-book-page .menu-items-scroll {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    touch-action: pan-y;
+  }
+
   .menu-book-page img {
     -webkit-user-drag: none;
     user-drag: none;
