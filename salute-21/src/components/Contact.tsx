@@ -9,10 +9,9 @@ export function Contact() {
   const { t } = useI18n()
 
   const hours = [
-    { day: t('dayMonThu'), time: '12:00 – 23:00', note: t('hoursNoteLunch') },
-    { day: t('dayFri'), time: '12:00 – 01:00', note: t('hoursNoteLunch') },
-    { day: t('daySat'), time: '11:00 – 01:00', note: t('hoursNoteBreakfast') },
-    { day: t('daySun'), time: '11:00 – 22:00', note: t('hoursNoteBreakfast') },
+    { day: t('dayMonThu'), time: '09:00 – 23:00', note: t('hoursNoteLunch') },
+    { day: t('dayFriSat'), time: '09:00 – 23:30', note: t('hoursNoteLunch') },
+    { day: t('daySun'), time: '10:00 – 21:00', note: t('hoursNoteLunch') },
   ]
 
   return (
