@@ -47,25 +47,43 @@ export function MenuDietBadge({
 
 export function MenuDietLegend({
   items,
+  compact = false,
 }: {
   items: Array<{ tag: MenuDietTag; label: string; hint: string }>
+  compact?: boolean
 }) {
   if (items.length === 0) return null
 
   return (
-    <ul className="mt-2.5 grid grid-cols-3 gap-2 sm:gap-3">
+    <ul
+      className={`grid grid-cols-3 ${
+        compact ? 'mt-1.5 gap-1.5 sm:mt-2.5 sm:gap-3' : 'mt-2.5 gap-2 sm:gap-3'
+      }`}
+    >
       {items.map(({ tag, label, hint }) => {
         const meta = TAG_META[tag]
         const Icon = meta.Icon
         return (
           <li key={tag} className="flex min-w-0 flex-col items-center text-center">
             <span className={`inline-flex items-center ${meta.color}`} aria-hidden>
-              <Icon className="size-5" />
+              <Icon className={compact ? 'size-4 sm:size-5' : 'size-5'} />
             </span>
-            <span className="mt-1.5 text-[11px] font-semibold leading-tight text-ink sm:text-[12px]">
+            <span
+              className={`font-semibold leading-tight text-ink ${
+                compact
+                  ? 'mt-1 text-[10px] sm:mt-1.5 sm:text-[12px]'
+                  : 'mt-1.5 text-[11px] sm:text-[12px]'
+              }`}
+            >
               {label}
             </span>
-            <span className="mt-0.5 text-[9px] leading-snug text-muted sm:text-[10px]">
+            <span
+              className={`leading-snug text-muted ${
+                compact
+                  ? 'mt-0.5 text-[8px] sm:text-[10px]'
+                  : 'mt-0.5 text-[9px] sm:text-[10px]'
+              }`}
+            >
               {hint}
             </span>
           </li>

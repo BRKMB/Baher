@@ -1,6 +1,7 @@
 import {
   forwardRef,
   useEffect,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -88,6 +89,80 @@ const BookPage = forwardRef<HTMLDivElement, PageProps>(function BookPage(
   )
 })
 
+/**
+ * Scale leaf content to the visible page height so nothing is clipped on short phones.
+ * Falls back to scroll only if scaling would go below the readability floor.
+ */
+function FitLeaf({ children }: { children: ReactNode }) {
+  const frameRef = useRef<HTMLDivElement>(null)
+  const contentRef = useRef<HTMLDivElement>(null)
+  const scaleRef = useRef(1)
+  const scrollableRef = useRef(false)
+  const [scale, setScale] = useState(1)
+  const [scrollable, setScrollable] = useState(false)
+
+  useLayoutEffect(() => {
+    const frame = frameRef.current
+    const content = contentRef.current
+    if (!frame || !content) return
+
+    let raf = 0
+    const measure = () => {
+      cancelAnimationFrame(raf)
+      raf = requestAnimationFrame(() => {
+        const avail = frame.clientHeight
+        if (avail <= 0) return
+        const visualH = content.getBoundingClientRect().height
+        const current = scaleRef.current || 1
+        const need = visualH / current
+        if (need <= 0) return
+        const raw = avail / need
+        const next = raw >= 0.995 ? 1 : Math.max(0.8, Math.min(1, raw))
+        const canScroll = raw < 0.8
+        if (
+          Math.abs(next - scaleRef.current) < 0.008 &&
+          canScroll === scrollableRef.current
+        ) {
+          return
+        }
+        scaleRef.current = next
+        scrollableRef.current = canScroll
+        setScale(next)
+        setScrollable(canScroll)
+      })
+    }
+
+    measure()
+    const ro = new ResizeObserver(measure)
+    ro.observe(frame)
+    ro.observe(content)
+    return () => {
+      cancelAnimationFrame(raf)
+      ro.disconnect()
+    }
+  }, [])
+
+  return (
+    <div
+      ref={frameRef}
+      className={`menu-fit-leaf h-full min-h-0 w-full ${
+        scrollable ? 'menu-items-scroll overflow-y-auto overscroll-contain' : 'overflow-hidden'
+      }`}
+    >
+      <div
+        ref={contentRef}
+        className="w-full origin-top-left"
+        style={{
+          transform: scale < 1 ? `scale(${scale})` : undefined,
+          width: scale < 1 ? `${100 / scale}%` : '100%',
+        }}
+      >
+        {children}
+      </div>
+    </div>
+  )
+}
+
 function PageEyebrow({ children }: { children: ReactNode }) {
   return (
     <p className="text-[10px] font-semibold tracking-[0.32em] text-amber uppercase">{children}</p>
@@ -142,50 +217,52 @@ const CoverRight = forwardRef<HTMLDivElement>(function CoverRight(_props, ref) {
   ]
 
   return (
-    <BookPage ref={ref} className="flex min-h-0 flex-col overflow-hidden p-4 sm:p-7 md:p-9">
-      <div className="menu-items-scroll min-h-0 flex-1 overflow-y-auto overscroll-contain pr-0.5">
+    <BookPage ref={ref} className="menu-pad overflow-hidden p-3 sm:p-7 md:p-9">
+      <FitLeaf>
         <PageEyebrow>{t('menuCoverWelcome')}</PageEyebrow>
-        <h2 className="mt-1.5 font-display text-[1.65rem] leading-[1.05] text-ink italic sm:mt-2 sm:text-[2.2rem] md:text-4xl">
+        <h2 className="mt-1 font-display text-[1.45rem] leading-[1.05] text-ink italic sm:mt-2 sm:text-[2.2rem] md:text-4xl">
           {brand.name}
         </h2>
-        <div className="my-2.5 h-px w-12 bg-amber/55 sm:my-4" />
-        <p className="text-[12px] leading-relaxed text-muted sm:text-sm">{t('menuCoverAbout')}</p>
+        <div className="my-2 h-px w-12 bg-amber/55 sm:my-4" />
+        <p className="text-[11px] leading-snug text-muted sm:text-sm sm:leading-relaxed">
+          {t('menuCoverAbout')}
+        </p>
 
-        <div className="mt-4 grid gap-4 sm:mt-6 sm:gap-6">
-          <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
-            <div>
+        <div className="mt-3 grid gap-3 sm:mt-6 sm:gap-6">
+          <div className="grid grid-cols-2 gap-3 sm:gap-6">
+            <div className="min-w-0">
               <p className="text-[10px] font-semibold tracking-[0.28em] text-amber uppercase">
                 {t('menuCoverVisit')}
               </p>
-              <p className="mt-1.5 text-[12px] leading-snug text-ink sm:mt-2 sm:text-sm">
+              <p className="mt-1 text-[11px] leading-snug text-ink sm:mt-2 sm:text-sm">
                 {brand.address.street}
                 <br />
                 {brand.address.district}, {brand.address.city}
               </p>
-              <p className="mt-1.5 text-[11px] text-muted sm:mt-2 sm:text-[12px]">
+              <p className="mt-1 text-[10px] text-muted sm:mt-2 sm:text-[12px]">
                 {brand.instagramHandle}
               </p>
-              <p className="text-[11px] text-muted sm:text-[12px]">{brand.email}</p>
+              <p className="text-[10px] text-muted sm:text-[12px]">{brand.email}</p>
               <Link
                 to="/reserve"
-                className="mt-3 inline-flex rounded-full bg-ink px-3.5 py-1.5 text-[11px] font-semibold tracking-wide text-white sm:mt-4 sm:px-4 sm:py-2"
+                className="mt-2 inline-flex rounded-full bg-ink px-3 py-1.5 text-[10px] font-semibold tracking-wide text-white sm:mt-4 sm:px-4 sm:py-2 sm:text-xs"
               >
                 {t('reserveCta')}
               </Link>
             </div>
 
-            <div>
+            <div className="min-w-0">
               <p className="text-[10px] font-semibold tracking-[0.28em] text-amber uppercase">
                 {t('menuCoverHours')}
               </p>
-              <ul className="mt-1.5 space-y-1 sm:mt-2 sm:space-y-1.5">
+              <ul className="mt-1 space-y-0.5 sm:mt-2 sm:space-y-1.5">
                 {hours.map((row) => (
                   <li
                     key={row.day}
-                    className="flex items-baseline justify-between gap-2 text-[11px] sm:text-[13px]"
+                    className="flex items-baseline justify-between gap-1.5 text-[10px] sm:text-[13px]"
                   >
-                    <span className="text-muted">{row.day}</span>
-                    <span className="font-display text-[14px] text-ink tabular-nums sm:text-base">
+                    <span className="min-w-0 truncate text-muted">{row.day}</span>
+                    <span className="shrink-0 font-display text-[13px] text-ink tabular-nums sm:text-base">
                       {row.time}
                     </span>
                   </li>
@@ -194,11 +271,12 @@ const CoverRight = forwardRef<HTMLDivElement>(function CoverRight(_props, ref) {
             </div>
           </div>
 
-          <div className="border-t border-line/70 pt-3 sm:pt-4">
+          <div className="border-t border-line/70 pt-2.5 sm:pt-4">
             <p className="text-[10px] font-semibold tracking-[0.28em] text-amber uppercase">
               {t('menuCoverSymbols')}
             </p>
             <MenuDietLegend
+              compact
               items={DIET_TAGS.map((tag) => ({
                 tag,
                 label:
@@ -217,35 +295,36 @@ const CoverRight = forwardRef<HTMLDivElement>(function CoverRight(_props, ref) {
             />
           </div>
 
-          <div className="border-t border-line/70 pt-3 sm:pt-4">
-            <div className="flex items-end gap-3 sm:gap-4">
+          <div className="border-t border-line/70 pt-2.5 sm:pt-4">
+            <div className="flex items-end gap-2.5 sm:gap-4">
               <div className="min-w-0 flex-1">
                 <p className="text-[10px] font-semibold tracking-[0.28em] text-amber uppercase">
                   {t('menuQrTitle')}
                 </p>
-                <p className="mt-1.5 text-[11px] leading-relaxed text-muted sm:mt-2 sm:text-[13px]">
+                <p className="mt-1 text-[10px] leading-snug text-muted sm:mt-2 sm:text-[13px] sm:leading-relaxed">
                   {t('menuQrText')}
                 </p>
-                <p className="mt-2 text-[10px] font-semibold tracking-[0.22em] text-ink/45 uppercase sm:mt-3">
+                <p className="mt-1.5 hidden text-[10px] font-semibold tracking-[0.22em] text-ink/45 uppercase sm:mt-3 sm:block">
                   {t('menuCoverContents')}
                 </p>
-                <p className="mt-1 line-clamp-3 text-[10px] leading-relaxed text-muted sm:text-[11px]">
+                <p className="mt-1 hidden text-[10px] leading-relaxed text-muted sm:line-clamp-3 sm:block sm:text-[11px]">
                   {menu.map((c) => t(catTitle[c.id])).join(' · ')}
                 </p>
               </div>
-              <div className="shrink-0 border border-amber/35 bg-white p-1.5 sm:p-2">
+              <div className="size-14 shrink-0 border border-amber/35 bg-white p-1 sm:size-[88px] sm:p-2">
                 <QRCodeSVG
                   value={menuUrl}
                   size={84}
                   bgColor="#ffffff"
                   fgColor="#0c0b0a"
                   level="M"
+                  className="h-full w-full"
                 />
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </FitLeaf>
     </BookPage>
   )
 })
@@ -290,80 +369,79 @@ const CategoryItemsPage = forwardRef<
   let lastGroup = ''
   const dense = items.length >= 7
   return (
-    <BookPage
-      ref={ref}
-      className="menu-pad flex min-h-0 flex-col overflow-hidden p-4 sm:p-6 md:p-8"
-    >
-      <div className="shrink-0">
+    <BookPage ref={ref} className="menu-pad overflow-hidden p-3 sm:p-6 md:p-8">
+      <FitLeaf>
         <PageEyebrow>{t(catSub[category.id])}</PageEyebrow>
-        <h3 className="mt-1.5 font-display text-[1.65rem] text-ink italic sm:text-3xl md:text-[2.55rem]">
+        <h3
+          className={`mt-1 font-display text-ink italic ${
+            dense
+              ? 'text-[1.45rem] sm:text-3xl md:text-[2.4rem]'
+              : 'text-[1.55rem] sm:text-3xl md:text-[2.55rem]'
+          }`}
+        >
           {t(catTitle[category.id])}
         </h3>
-        <div className={`h-px w-14 bg-amber/55 ${dense ? 'my-2' : 'my-3'}`} />
-      </div>
-      <ul
-        className={`menu-items-scroll min-h-0 flex-1 overflow-y-auto overscroll-contain pr-0.5 ${
-          dense ? 'space-y-1.5 sm:space-y-2' : 'space-y-2 sm:space-y-2.5'
-        }`}
-      >
-        {items.map((item) => {
-          const groupLabel = item.group?.[lang] || ''
-          const showGroup = Boolean(groupLabel && groupLabel !== lastGroup)
-          if (showGroup) lastGroup = groupLabel
-          return (
-            <li
-              key={`${groupLabel}-${item.name.en}`}
-              className={`border-b border-line/55 last:border-0 ${
-                dense ? 'pb-1.5 sm:pb-2' : 'pb-2 sm:pb-2.5'
-              }`}
-            >
-              {showGroup && (
-                <p className="mb-1 text-[10px] font-semibold tracking-[0.2em] text-amber uppercase">
-                  {groupLabel}
-                </p>
-              )}
-              <div className="flex items-start justify-between gap-2 sm:gap-3">
-                <div className="min-w-0">
-                  <div className="flex flex-wrap items-center gap-1.5">
-                    <h4 className="text-[13px] font-semibold text-ink sm:text-[15px]">
-                      {item.name[lang]}
-                    </h4>
-                    {DIET_TAGS.filter((tag) => item.tags?.includes(tag)).map((tag) => (
-                      <MenuDietBadge
-                        key={tag}
-                        tag={tag}
-                        label={
-                          tag === 'vegan'
-                            ? t('tagVegan')
-                            : tag === 'vege'
-                              ? t('tagVege')
-                              : t('tagSpicy')
-                        }
-                      />
-                    ))}
+        <div className={`h-px w-14 bg-amber/55 ${dense ? 'my-1.5 sm:my-2.5' : 'my-2 sm:my-3'}`} />
+        <ul className={dense ? 'space-y-1 sm:space-y-2' : 'space-y-1.5 sm:space-y-2.5'}>
+          {items.map((item) => {
+            const groupLabel = item.group?.[lang] || ''
+            const showGroup = Boolean(groupLabel && groupLabel !== lastGroup)
+            if (showGroup) lastGroup = groupLabel
+            return (
+              <li
+                key={`${groupLabel}-${item.name.en}`}
+                className={`border-b border-line/55 last:border-0 ${
+                  dense ? 'pb-1 sm:pb-2' : 'pb-1.5 sm:pb-2.5'
+                }`}
+              >
+                {showGroup && (
+                  <p className="mb-0.5 text-[9px] font-semibold tracking-[0.18em] text-amber uppercase sm:mb-1 sm:text-[10px] sm:tracking-[0.2em]">
+                    {groupLabel}
+                  </p>
+                )}
+                <div className="flex items-start justify-between gap-2 sm:gap-3">
+                  <div className="min-w-0">
+                    <div className="flex flex-wrap items-center gap-1.5">
+                      <h4 className="text-[12px] font-semibold text-ink sm:text-[15px]">
+                        {item.name[lang]}
+                      </h4>
+                      {DIET_TAGS.filter((tag) => item.tags?.includes(tag)).map((tag) => (
+                        <MenuDietBadge
+                          key={tag}
+                          tag={tag}
+                          label={
+                            tag === 'vegan'
+                              ? t('tagVegan')
+                              : tag === 'vege'
+                                ? t('tagVege')
+                                : t('tagSpicy')
+                          }
+                        />
+                      ))}
+                    </div>
+                    <p className="mt-0.5 text-[10px] leading-snug text-muted sm:text-xs">
+                      {item.desc[lang]}
+                    </p>
                   </div>
-                  <p className="mt-0.5 text-[11px] leading-snug text-muted sm:text-xs">
-                    {item.desc[lang]}
+                  <p className="shrink-0 font-display text-base text-ink italic tabular-nums sm:text-xl">
+                    {item.price}
                   </p>
                 </div>
-                <p className="shrink-0 font-display text-lg text-ink italic tabular-nums sm:text-xl">
-                  {item.price}
-                </p>
-              </div>
-            </li>
-          )
-        })}
-      </ul>
-      <div className="mt-2 flex shrink-0 items-end justify-between gap-3">
-        {showNote && category.note ? (
-          <p className="min-w-0 text-[10px] leading-snug tracking-wide text-ink/45">
-            {category.note[lang]}
-          </p>
-        ) : (
-          <span />
-        )}
-        <p className="shrink-0 text-[10px] tracking-[0.22em] text-ink/35 uppercase">zł</p>
-      </div>
+              </li>
+            )
+          })}
+        </ul>
+        <div className="mt-2 flex items-end justify-between gap-3 pb-0.5">
+          {showNote && category.note ? (
+            <p className="min-w-0 text-[10px] leading-snug tracking-wide text-ink/45">
+              {category.note[lang]}
+            </p>
+          ) : (
+            <span />
+          )}
+          <p className="shrink-0 text-[10px] tracking-[0.22em] text-ink/35 uppercase">zł</p>
+        </div>
+      </FitLeaf>
     </BookPage>
   )
 })
@@ -423,17 +501,23 @@ export function MenuPage() {
 
     const update = () => {
       const mobile = window.innerWidth < 768
-      const pad = mobile ? 10 : 16
+      const pad = mobile ? 6 : 16
       const availW = Math.max(220, Math.floor(slot.clientWidth - pad))
-      const availH = Math.max(300, Math.floor(slot.clientHeight - pad))
-      const ratio = mobile ? 1.38 : 1.42
+      const availH = Math.max(280, Math.floor(slot.clientHeight - pad))
+      // Slightly taller mobile leaves — more room for dense price lists / cover.
+      const ratio = mobile ? 1.48 : 1.42
 
       if (mobile) {
-        let pageW = availW
-        let pageH = Math.round(pageW * ratio)
-        if (pageH > availH) {
-          pageH = availH
-          pageW = Math.max(220, Math.floor(pageH / ratio))
+        // Prefer using the full slot height on phones so content is not cropped.
+        let pageH = availH
+        let pageW = Math.max(220, Math.floor(pageH / ratio))
+        if (pageW > availW) {
+          pageW = availW
+          pageH = Math.round(pageW * ratio)
+          if (pageH > availH) {
+            pageH = availH
+            pageW = Math.max(220, Math.floor(pageH / ratio))
+          }
         }
         setDims({ w: pageW, h: pageH, mobile: true })
         return
