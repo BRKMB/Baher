@@ -47,11 +47,47 @@ const catSub: Record<MenuCategory['id'], TranslationKey> = {
 type ItemPageSlice = {
   items: MenuItem[]
   showNote: boolean
+  continuation?: boolean
 }
 
-/** Keep each category on one items page when possible (titles stay unique). */
+/**
+ * Split dense categories across multiple book pages.
+ * Page-flip clips overflow, so long lists must not rely on in-page scroll.
+ */
 function itemSlicesFor(category: MenuCategory): ItemPageSlice[] {
-  return [{ items: category.items, showNote: Boolean(category.note) }]
+  const items = category.items
+  const hasNote = Boolean(category.note)
+
+  // Hot coffee: note + 8 drinks overflow a single leaf — keep classics, continue mocha/macchiato.
+  if (category.id === 'hot_coffee') {
+    return [
+      { items: items.slice(0, 5), showNote: true },
+      { items: items.slice(5), showNote: false, continuation: true },
+    ]
+  }
+
+  // Cold drinks: soft + juices fit; non-alcoholic beer needs the next leaf.
+  if (category.id === 'cold_drinks') {
+    return [
+      { items: items.slice(0, 7), showNote: false },
+      { items: items.slice(7), showNote: false, continuation: true },
+    ]
+  }
+
+  const limit = hasNote ? 6 : 8
+  if (items.length <= limit) {
+    return [{ items, showNote: hasNote }]
+  }
+
+  const slices: ItemPageSlice[] = []
+  for (let i = 0; i < items.length; i += limit) {
+    slices.push({
+      items: items.slice(i, i + limit),
+      showNote: hasNote && i === 0,
+      continuation: i > 0,
+    })
+  }
+  return slices
 }
 
 type FlipApi = {
@@ -88,10 +124,6 @@ function PageEyebrow({ children }: { children: ReactNode }) {
   return (
     <p className="text-[10px] font-semibold tracking-[0.32em] text-amber uppercase">{children}</p>
   )
-}
-
-function PageRule() {
-  return <div className="my-5 h-px w-14 bg-amber/55" />
 }
 
 /** Cover left — brand face of the menu */
@@ -280,25 +312,47 @@ const CategoryImagePage = forwardRef<HTMLDivElement, { category: MenuCategory; i
 
 const CategoryItemsPage = forwardRef<
   HTMLDivElement,
-  { category: MenuCategory; items: MenuItem[]; showNote?: boolean }
->(function CategoryItemsPage({ category, items, showNote = true }, ref) {
+  {
+    category: MenuCategory
+    items: MenuItem[]
+    showNote?: boolean
+    continuation?: boolean
+  }
+>(function CategoryItemsPage(
+  { category, items, showNote = true, continuation = false },
+  ref,
+) {
   const { t, lang } = useI18n()
   let lastGroup = ''
   return (
-    <BookPage ref={ref} className="flex min-h-0 flex-col overflow-hidden p-5 sm:p-7 md:p-9">
+    <BookPage
+      ref={ref}
+      className="menu-pad flex min-h-0 flex-col overflow-hidden p-4 sm:p-6 md:p-8"
+    >
       <div className="shrink-0">
         <PageEyebrow>{t(catSub[category.id])}</PageEyebrow>
-        <h3 className="mt-2 font-display text-3xl text-ink italic sm:text-4xl md:text-[2.75rem]">
+        <h3
+          className={`mt-1.5 font-display text-ink italic ${
+            continuation
+              ? 'text-2xl sm:text-3xl md:text-[2.35rem]'
+              : 'text-[1.65rem] sm:text-3xl md:text-[2.55rem]'
+          }`}
+        >
           {t(catTitle[category.id])}
+          {continuation ? (
+            <span className="ml-2 align-middle font-sans text-[10px] font-semibold tracking-[0.18em] text-ink/40 not-italic uppercase">
+              {lang === 'pl' ? 'c.d.' : 'cont.'}
+            </span>
+          ) : null}
         </h3>
-        <PageRule />
+        <div className="my-3 h-px w-14 bg-amber/55" />
         {showNote && category.note && (
-          <p className="mb-3 border-l-2 border-amber/50 bg-champagne/50 px-3 py-2 text-[11px] leading-relaxed text-muted sm:text-xs">
+          <p className="mb-2.5 border-l-2 border-amber/50 bg-champagne/50 px-3 py-1.5 text-[11px] leading-snug text-muted sm:text-xs">
             {category.note[lang]}
           </p>
         )}
       </div>
-      <ul className="min-h-0 flex-1 space-y-2.5 overflow-y-auto overscroll-contain pr-1 sm:space-y-3">
+      <ul className="min-h-0 flex-1 space-y-2 overflow-hidden pr-0.5 sm:space-y-2.5">
         {items.map((item) => {
           const groupLabel = item.group?.[lang] || ''
           const showGroup = Boolean(groupLabel && groupLabel !== lastGroup)
@@ -306,10 +360,10 @@ const CategoryItemsPage = forwardRef<
           return (
             <li
               key={`${groupLabel}-${item.name.en}`}
-              className="border-b border-line/55 pb-2.5 last:border-0 sm:pb-3"
+              className="border-b border-line/55 pb-2 last:border-0 sm:pb-2.5"
             >
               {showGroup && (
-                <p className="mb-1.5 text-[10px] font-semibold tracking-[0.2em] text-amber uppercase">
+                <p className="mb-1 text-[10px] font-semibold tracking-[0.2em] text-amber uppercase">
                   {groupLabel}
                 </p>
               )}
@@ -333,9 +387,11 @@ const CategoryItemsPage = forwardRef<
                       />
                     ))}
                   </div>
-                  <p className="mt-0.5 text-xs leading-relaxed text-muted">{item.desc[lang]}</p>
+                  <p className="mt-0.5 text-[11px] leading-snug text-muted sm:text-xs">
+                    {item.desc[lang]}
+                  </p>
                 </div>
-                <p className="shrink-0 font-display text-xl text-ink italic tabular-nums">
+                <p className="shrink-0 font-display text-lg text-ink italic tabular-nums sm:text-xl">
                   {item.price}
                 </p>
               </div>
@@ -343,7 +399,7 @@ const CategoryItemsPage = forwardRef<
           )
         })}
       </ul>
-      <p className="mt-3 shrink-0 text-right text-[10px] tracking-[0.22em] text-ink/35 uppercase">
+      <p className="mt-2 shrink-0 text-right text-[10px] tracking-[0.22em] text-ink/35 uppercase">
         zł
       </p>
     </BookPage>
@@ -561,6 +617,7 @@ export function MenuPage() {
               category={category}
               items={slice.items}
               showNote={slice.showNote}
+              continuation={slice.continuation}
             />
           ),
         })
