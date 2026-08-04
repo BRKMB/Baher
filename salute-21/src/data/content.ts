@@ -44,7 +44,7 @@ export type MenuCategory = {
   items: MenuItem[]
 }
 
-/** Current Salute 21 printed card — adapted for the site flip-book */
+/** Current Salute 21 printed card — prices & items match the physical menu */
 export const menu: MenuCategory[] = [
   {
     id: 'burgers',
@@ -60,7 +60,7 @@ export const menu: MenuCategory[] = [
           en: 'Smash patty, soft bun, house sauce, pickles',
           pl: 'Smash burger, miękka bułka, sos domu, pikle',
         },
-        price: 39,
+        price: 51,
       },
       {
         name: { en: 'Cheddar Smash Burger', pl: 'Cheddar Smash Burger' },
@@ -68,7 +68,7 @@ export const menu: MenuCategory[] = [
           en: 'Double smash, melted cheddar, soft bun, house sauce',
           pl: 'Podwójny smash, cheddar, miękka bułka, sos domu',
         },
-        price: 44,
+        price: 56,
       },
       {
         name: { en: 'Chicken Burger', pl: 'Chicken Burger' },
@@ -76,7 +76,7 @@ export const menu: MenuCategory[] = [
           en: 'Crispy chicken, soft bun, fresh salad, house sauce',
           pl: 'Chrupiący kurczak, miękka bułka, sałata, sos domu',
         },
-        price: 41,
+        price: 49,
       },
     ],
   },
@@ -94,7 +94,7 @@ export const menu: MenuCategory[] = [
           en: 'Tomato sauce, mozzarella, fresh basil',
           pl: 'Sos pomidorowy, mozzarella, świeża bazylia',
         },
-        price: 39,
+        price: 35,
       },
       {
         name: { en: '4 Cheese Pizza', pl: 'Pizza 4 sery' },
@@ -113,15 +113,15 @@ export const menu: MenuCategory[] = [
           en: 'Tomato base, mozzarella, burrata, sun-dried tomatoes',
           pl: 'Baza pomidorowa, mozzarella, burrata, suszone pomidory',
         },
-        price: 52,
+        price: 50,
       },
       {
-        name: { en: 'Pizza with Sausage', pl: 'Pizza z kiełbasą' },
+        name: { en: 'Pizza with Sucuk', pl: 'Pizza z kiełbasą sucuk' },
         desc: {
-          en: 'Tomato sauce, mozzarella, sausage',
-          pl: 'Sos pomidorowy, mozzarella, kiełbasa',
+          en: 'Tomato sauce, mozzarella, sucuk sausage',
+          pl: 'Sos pomidorowy, mozzarella, kiełbasa sucuk',
         },
-        price: 45,
+        price: 44,
       },
     ],
   },
@@ -132,34 +132,34 @@ export const menu: MenuCategory[] = [
       {
         name: { en: 'Crispy Chicken Box', pl: 'Crispy Chicken Box' },
         desc: {
-          en: 'Crispy chicken pieces, house dip',
-          pl: 'Chrupiące kawałki kurczaka, dip domu',
+          en: 'Chicken pieces + fries + 1 sauce',
+          pl: 'Kawałki kurczaka + frytki + 1 sos',
         },
-        price: 32,
+        price: 25,
       },
       {
         name: { en: 'Fries', pl: 'Frytki' },
         desc: {
-          en: 'Golden fries, sea salt',
-          pl: 'Złociste frytki, sól morska',
+          en: '200 g — steak/thick or thin',
+          pl: '200 g — steak/grube lub cienkie',
         },
-        price: 16,
+        price: 12,
       },
       {
         name: { en: 'Onion Rings', pl: 'Krążki cebulowe' },
         desc: {
-          en: 'Crispy battered onion rings',
-          pl: 'Chrupiące krążki cebulowe w panierce',
+          en: '6 pcs, crispy battered',
+          pl: '6 szt., chrupiące w panierce',
         },
-        price: 18,
+        price: 15,
       },
       {
-        name: { en: 'Cheese Jalapeño Bites', pl: 'Cheese Jalapeño Bites' },
+        name: { en: 'Jalapeño Cheese Balls', pl: 'Kulki serowe jalapeño' },
         desc: {
-          en: 'Melted cheese, jalapeño heat, crisp coating',
-          pl: 'Roztopiony ser, jalapeño, chrupiąca panierka',
+          en: '6 pcs, melted cheese, jalapeño heat',
+          pl: '6 szt., ser, jalapeño',
         },
-        price: 22,
+        price: 18,
         tags: ['spicy'],
       },
     ],
@@ -170,36 +170,36 @@ export const menu: MenuCategory[] = [
     items: [
       {
         name: {
-          en: 'Meatball Sandwich (with Pickles)',
-          pl: 'Kanapka z pulpety (z ogórkami)',
+          en: 'Köfte Ekmek (Meatball Sandwich)',
+          pl: 'Köfte Ekmek',
         },
         desc: {
-          en: 'Warm meatballs, pickles, soft bread',
-          pl: 'Ciepłe pulpety, ogórki kiszone, miękki chleb',
-        },
-        price: 34,
-      },
-      {
-        name: {
-          en: 'Toast with Cheese (Kaşarlı Toast)',
-          pl: 'Tost z serem (Kaşarlı Toast)',
-        },
-        desc: {
-          en: 'Toasted bread, melted kaşar cheese',
-          pl: 'Tostowany chleb, roztopiony ser kaşar',
+          en: 'Meatball sandwich with pickles',
+          pl: 'Kanapka z pulpety z ogórkami',
         },
         price: 24,
       },
       {
         name: {
-          en: 'Toast with Cheese & Sausage',
-          pl: 'Tost z serem i kiełbasą',
+          en: 'Toast with Cheese (Kaşarlı Tost)',
+          pl: 'Tost z serem (Kaşarlı Tost)',
         },
         desc: {
-          en: 'Toasted bread, cheese, sausage',
-          pl: 'Tostowany chleb, ser, kiełbasa',
+          en: 'Toasted bread, melted kaşar cheese',
+          pl: 'Tostowany chleb, roztopiony ser kaşar',
         },
-        price: 28,
+        price: 25,
+      },
+      {
+        name: {
+          en: 'Toast with Cheese & Sucuk',
+          pl: 'Tost z serem i kiełbasą sucuk',
+        },
+        desc: {
+          en: 'Toasted bread, cheese, sucuk sausage',
+          pl: 'Tostowany chleb, ser, kiełbasa sucuk',
+        },
+        price: 29,
       },
     ],
   },
@@ -207,39 +207,49 @@ export const menu: MenuCategory[] = [
     id: 'hot_coffee',
     image: '/images/menu-hot-coffee.jpg',
     note: {
-      en: 'Milk alternative + 2 zł',
-      pl: 'Alternatywa mleka + 2 zł',
+      en: 'Lactose-free milk + 2 zł',
+      pl: 'Mleko bezlaktozowe + 2 zł',
     },
     items: [
       {
         name: { en: 'Espresso', pl: 'Espresso' },
         desc: { en: 'Single shot', pl: 'Pojedyncze' },
-        price: 10,
+        price: 13,
       },
       {
         name: { en: 'Doppio', pl: 'Doppio' },
         desc: { en: 'Double espresso', pl: 'Podwójne espresso' },
-        price: 12,
+        price: 15,
       },
       {
         name: { en: 'Americano', pl: 'Americano' },
         desc: { en: 'Espresso with hot water', pl: 'Espresso z gorącą wodą' },
-        price: 13,
+        price: 15,
       },
       {
         name: { en: 'Cappuccino', pl: 'Cappuccino' },
         desc: { en: 'Espresso, steamed milk, foam', pl: 'Espresso, spienione mleko' },
-        price: 15,
+        price: 17,
       },
       {
         name: { en: 'Latte', pl: 'Latte' },
         desc: { en: 'Espresso with silky milk', pl: 'Espresso z aksamitnym mlekiem' },
-        price: 16,
+        price: 18,
       },
       {
         name: { en: 'Flat White', pl: 'Flat White' },
         desc: { en: 'Double espresso, microfoam', pl: 'Podwójne espresso, mikrofoam' },
-        price: 16,
+        price: 18,
+      },
+      {
+        name: { en: 'Café Mocha', pl: 'Café Mocha' },
+        desc: { en: 'Espresso, chocolate, steamed milk', pl: 'Espresso, czekolada, spienione mleko' },
+        price: 19,
+      },
+      {
+        name: { en: 'Macchiato', pl: 'Macchiato' },
+        desc: { en: 'Espresso with a dash of foam', pl: 'Espresso z odrobiną pianki' },
+        price: 15,
       },
     ],
   },
@@ -247,24 +257,29 @@ export const menu: MenuCategory[] = [
     id: 'cold_coffee',
     image: '/images/menu-cold-coffee.jpg',
     note: {
-      en: 'Milk alternative + 2 zł',
-      pl: 'Alternatywa mleka + 2 zł',
+      en: 'Lactose-free milk + 2 zł',
+      pl: 'Mleko bezlaktozowe + 2 zł',
     },
     items: [
       {
         name: { en: 'Ice Americano', pl: 'Ice Americano' },
         desc: { en: 'Espresso over ice', pl: 'Espresso na lodzie' },
-        price: 14,
+        price: 17,
       },
       {
         name: { en: 'Ice Latte', pl: 'Ice Latte' },
         desc: { en: 'Espresso, cold milk, ice', pl: 'Espresso, zimne mleko, lód' },
-        price: 17,
+        price: 19,
       },
       {
-        name: { en: 'Ice Cappuccino', pl: 'Ice Cappuccino' },
-        desc: { en: 'Iced cappuccino style', pl: 'Mrożone cappuccino' },
-        price: 17,
+        name: { en: 'Ice Mocha', pl: 'Ice Mocha' },
+        desc: { en: 'Iced mocha with chocolate', pl: 'Mrożone mocha z czekoladą' },
+        price: 20,
+      },
+      {
+        name: { en: 'Ice Coffee', pl: 'Ice Coffee' },
+        desc: { en: 'Chilled coffee over ice', pl: 'Schłodzona kawa na lodzie' },
+        price: 19,
       },
     ],
   },
@@ -275,22 +290,32 @@ export const menu: MenuCategory[] = [
       {
         name: { en: 'Black Tea', pl: 'Herbata czarna' },
         desc: { en: 'Classic black tea', pl: 'Klasyczna herbata czarna' },
-        price: 12,
+        price: 10,
       },
       {
         name: { en: 'Green Tea', pl: 'Herbata zielona' },
         desc: { en: 'Light green tea', pl: 'Delikatna herbata zielona' },
-        price: 12,
+        price: 10,
       },
       {
-        name: { en: 'Fresh Mint', pl: 'Świeża mięta' },
-        desc: { en: 'Fresh mint infusion', pl: 'Napar ze świeżej mięty' },
-        price: 14,
+        name: { en: 'Mint', pl: 'Mięta' },
+        desc: { en: 'Mint infusion', pl: 'Napar z mięty' },
+        price: 10,
       },
       {
-        name: { en: 'Fruit Infusion', pl: 'Napar owocowy' },
-        desc: { en: 'Seasonal fruit blend', pl: 'Sezonowa mieszanka owocowa' },
-        price: 14,
+        name: { en: 'Chamomile', pl: 'Rumianek' },
+        desc: { en: 'Chamomile infusion', pl: 'Napar z rumianku' },
+        price: 10,
+      },
+      {
+        name: { en: 'Ginger with Lemon', pl: 'Imbir z cytryną' },
+        desc: { en: 'Ginger and lemon infusion', pl: 'Napar z imbiru i cytryny' },
+        price: 11,
+      },
+      {
+        name: { en: 'Forest Fruits', pl: 'Owoce leśne' },
+        desc: { en: 'Forest fruit blend', pl: 'Mieszanka owoców leśnych' },
+        price: 11,
       },
     ],
   },
@@ -299,25 +324,25 @@ export const menu: MenuCategory[] = [
     image: '/images/menu-cold-drinks.jpg',
     items: [
       {
-        group: { en: 'Soft drinks (250 ml)', pl: 'Napoje (250 ml)' },
+        group: { en: 'Soft drinks (250 ml)', pl: 'Napoje gazowane (250 ml)' },
         name: { en: 'Cola', pl: 'Cola' },
         desc: { en: 'Classic cola', pl: 'Klasyczna cola' },
         price: 10,
       },
       {
-        group: { en: 'Soft drinks (250 ml)', pl: 'Napoje (250 ml)' },
+        group: { en: 'Soft drinks (250 ml)', pl: 'Napoje gazowane (250 ml)' },
         name: { en: 'Cola Zero', pl: 'Cola Zero' },
         desc: { en: 'Zero sugar', pl: 'Bez cukru' },
         price: 10,
       },
       {
-        group: { en: 'Soft drinks (250 ml)', pl: 'Napoje (250 ml)' },
+        group: { en: 'Soft drinks (250 ml)', pl: 'Napoje gazowane (250 ml)' },
         name: { en: 'Lemon-Lime Soda', pl: 'Napój cytryna-limonka' },
         desc: { en: 'Sparkling lemon-lime', pl: 'Gazowany cytryna-limonka' },
         price: 10,
       },
       {
-        group: { en: 'Soft drinks (250 ml)', pl: 'Napoje (250 ml)' },
+        group: { en: 'Soft drinks (250 ml)', pl: 'Napoje gazowane (250 ml)' },
         name: { en: 'Orange Soda', pl: 'Napój pomarańczowy' },
         desc: { en: 'Sparkling orange', pl: 'Gazowany pomarańczowy' },
         price: 10,
@@ -326,7 +351,7 @@ export const menu: MenuCategory[] = [
         group: { en: 'Juices / iced teas / lemonade', pl: 'Soki / iced tea / lemoniada' },
         name: { en: 'Orange Juice', pl: 'Sok pomarańczowy' },
         desc: { en: 'Chilled orange juice', pl: 'Chłodzony sok pomarańczowy' },
-        price: 12,
+        price: 11,
       },
       {
         group: { en: 'Juices / iced teas / lemonade', pl: 'Soki / iced tea / lemoniada' },
@@ -336,15 +361,15 @@ export const menu: MenuCategory[] = [
       },
       {
         group: { en: 'Juices / iced teas / lemonade', pl: 'Soki / iced tea / lemoniada' },
-        name: { en: 'Lemonade', pl: 'Lemoniada' },
-        desc: { en: 'Fresh lemonade', pl: 'Świeża lemoniada' },
-        price: 14,
+        name: { en: 'Classic Lemon Lemonade', pl: 'Klasyczna cytrynowa' },
+        desc: { en: 'Classic lemon lemonade', pl: 'Klasyczna lemoniada cytrynowa' },
+        price: 15,
       },
       {
         group: { en: 'Non-alcoholic beer', pl: 'Piwo bezalkoholowe' },
         name: { en: 'Non-Alcoholic Lager', pl: 'Lager bezalkoholowy' },
         desc: { en: '0.0% lager', pl: 'Lager 0.0%' },
-        price: 14,
+        price: 15,
       },
       {
         group: { en: 'Non-alcoholic beer', pl: 'Piwo bezalkoholowe' },
