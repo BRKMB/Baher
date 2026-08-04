@@ -47,110 +47,15 @@ const catSub: Record<MenuCategory['id'], TranslationKey> = {
 type ItemPageSlice = {
   items: MenuItem[]
   showNote: boolean
-  continuation?: boolean
-}
-
-type SliceLayout = {
-  pageH: number
-  mobile: boolean
-}
-
-/** Group consecutive items that share the same section heading. */
-function itemRuns(items: MenuItem[]): MenuItem[][] {
-  const runs: MenuItem[][] = []
-  let current: MenuItem[] = []
-  let lastKey: string | null = null
-
-  for (const item of items) {
-    const key = item.group?.en ?? ''
-    if (lastKey !== null && key !== lastKey && current.length) {
-      runs.push(current)
-      current = []
-    }
-    current.push(item)
-    lastKey = key
-  }
-  if (current.length) runs.push(current)
-  return runs
-}
-
-function runCost(run: MenuItem[]): number {
-  const hasGroup = Boolean(run[0]?.group)
-  return run.length + (hasGroup ? 0.45 : 0)
 }
 
 /**
- * How many item-units fit on one leaf for the current book size.
- * Slightly pessimistic so content never clips behind page-flip overflow:hidden.
+ * One items leaf per category — keeps the book rhythm:
+ * category photo on the left, full price list on the right.
+ * Dense lists use compact type + in-page scroll instead of continuation pages.
  */
-function pageItemCapacity(layout: SliceLayout, showNote: boolean): number {
-  const pad = layout.mobile ? 34 : 58
-  const header = layout.mobile ? 76 : 98
-  const note = showNote ? (layout.mobile ? 36 : 42) : 0
-  const footer = 22
-  const usable = Math.max(72, layout.pageH - pad - header - note - footer)
-  // Pessimistic unit: ingredient lines on the printed card run longer than one row.
-  const unit = layout.mobile ? 70 : 74
-  return Math.max(2, Math.floor(usable / unit))
-}
-
-/**
- * Split category items across as many book leaves as the viewport needs.
- * Prefers keeping section groups together; falls back to mid-group splits on short screens.
- */
-function itemSlicesFor(category: MenuCategory, layout: SliceLayout): ItemPageSlice[] {
-  const items = category.items
-  const hasNote = Boolean(category.note)
-  if (!items.length) return [{ items: [], showNote: hasNote }]
-
-  const runs = itemRuns(items)
-  const slices: ItemPageSlice[] = []
-  let bucket: MenuItem[] = []
-  let used = 0
-  let showNote = hasNote
-
-  const flush = () => {
-    if (!bucket.length) return
-    slices.push({
-      items: bucket,
-      showNote,
-      continuation: slices.length > 0,
-    })
-    bucket = []
-    used = 0
-    showNote = false
-  }
-
-  for (const run of runs) {
-    let remaining = run
-    while (remaining.length) {
-      const capacity = pageItemCapacity(layout, showNote && bucket.length === 0)
-      const cost = runCost(remaining)
-
-      if (used + cost <= capacity) {
-        bucket = bucket.concat(remaining)
-        used += cost
-        remaining = []
-        break
-      }
-
-      if (bucket.length > 0) {
-        // Clean break before this group — retry on a fresh leaf.
-        flush()
-        continue
-      }
-
-      // This group alone is taller than the leaf — split mid-group.
-      const take = Math.max(1, Math.min(remaining.length, capacity))
-      bucket = remaining.slice(0, take)
-      used = runCost(bucket)
-      flush()
-      remaining = remaining.slice(take)
-    }
-  }
-
-  flush()
-  return slices.length ? slices : [{ items, showNote: hasNote }]
+function itemSlicesFor(category: MenuCategory): ItemPageSlice[] {
+  return [{ items: category.items, showNote: Boolean(category.note) }]
 }
 
 type FlipApi = {
@@ -379,14 +284,11 @@ const CategoryItemsPage = forwardRef<
     category: MenuCategory
     items: MenuItem[]
     showNote?: boolean
-    continuation?: boolean
   }
->(function CategoryItemsPage(
-  { category, items, showNote = true, continuation = false },
-  ref,
-) {
+>(function CategoryItemsPage({ category, items, showNote = true }, ref) {
   const { t, lang } = useI18n()
   let lastGroup = ''
+  const dense = items.length >= 7
   return (
     <BookPage
       ref={ref}
@@ -394,28 +296,16 @@ const CategoryItemsPage = forwardRef<
     >
       <div className="shrink-0">
         <PageEyebrow>{t(catSub[category.id])}</PageEyebrow>
-        <h3
-          className={`mt-1.5 font-display text-ink italic ${
-            continuation
-              ? 'text-2xl sm:text-3xl md:text-[2.35rem]'
-              : 'text-[1.65rem] sm:text-3xl md:text-[2.55rem]'
-          }`}
-        >
+        <h3 className="mt-1.5 font-display text-[1.65rem] text-ink italic sm:text-3xl md:text-[2.55rem]">
           {t(catTitle[category.id])}
-          {continuation ? (
-            <span className="ml-2 align-middle font-sans text-[10px] font-semibold tracking-[0.18em] text-ink/40 not-italic uppercase">
-              {lang === 'pl' ? 'c.d.' : 'cont.'}
-            </span>
-          ) : null}
         </h3>
-        <div className="my-3 h-px w-14 bg-amber/55" />
-        {showNote && category.note && (
-          <p className="mb-2.5 border-l-2 border-amber/50 bg-champagne/50 px-3 py-1.5 text-[11px] leading-snug text-muted sm:text-xs">
-            {category.note[lang]}
-          </p>
-        )}
+        <div className={`h-px w-14 bg-amber/55 ${dense ? 'my-2' : 'my-3'}`} />
       </div>
-      <ul className="menu-items-scroll min-h-0 flex-1 space-y-2 overflow-y-auto overscroll-contain pr-0.5 sm:space-y-2.5">
+      <ul
+        className={`menu-items-scroll min-h-0 flex-1 overflow-y-auto overscroll-contain pr-0.5 ${
+          dense ? 'space-y-1.5 sm:space-y-2' : 'space-y-2 sm:space-y-2.5'
+        }`}
+      >
         {items.map((item) => {
           const groupLabel = item.group?.[lang] || ''
           const showGroup = Boolean(groupLabel && groupLabel !== lastGroup)
@@ -423,7 +313,9 @@ const CategoryItemsPage = forwardRef<
           return (
             <li
               key={`${groupLabel}-${item.name.en}`}
-              className="border-b border-line/55 pb-2 last:border-0 sm:pb-2.5"
+              className={`border-b border-line/55 last:border-0 ${
+                dense ? 'pb-1.5 sm:pb-2' : 'pb-2 sm:pb-2.5'
+              }`}
             >
               {showGroup && (
                 <p className="mb-1 text-[10px] font-semibold tracking-[0.2em] text-amber uppercase">
@@ -462,9 +354,16 @@ const CategoryItemsPage = forwardRef<
           )
         })}
       </ul>
-      <p className="mt-2 shrink-0 text-right text-[10px] tracking-[0.22em] text-ink/35 uppercase">
-        zł
-      </p>
+      <div className="mt-2 flex shrink-0 items-end justify-between gap-3">
+        {showNote && category.note ? (
+          <p className="min-w-0 text-[10px] leading-snug tracking-wide text-ink/45">
+            {category.note[lang]}
+          </p>
+        ) : (
+          <span />
+        )}
+        <p className="shrink-0 text-[10px] tracking-[0.22em] text-ink/35 uppercase">zł</p>
+      </div>
     </BookPage>
   )
 })
@@ -480,19 +379,15 @@ export function MenuPage() {
   const [showQr, setShowQr] = useState(false)
 
   const COVER_PAGES = 2
-  const sliceLayout = useMemo<SliceLayout>(
-    () => ({ pageH: dims.h, mobile: dims.mobile }),
-    [dims.h, dims.mobile],
-  )
 
   const categoryPageStarts = useMemo(() => {
     let cursor = COVER_PAGES
     return menu.map((category) => {
       const start = cursor
-      cursor += 1 + itemSlicesFor(category, sliceLayout).length
+      cursor += 1 + itemSlicesFor(category).length
       return start
     })
-  }, [sliceLayout])
+  }, [])
 
   const navItems = useMemo(
     () => [
@@ -675,7 +570,7 @@ export function MenuPage() {
           />
         ),
       })
-      itemSlicesFor(category, sliceLayout).forEach((slice, sliceIndex) => {
+      itemSlicesFor(category).forEach((slice, sliceIndex) => {
         nodes.push({
           key: `${category.id}-items-${sliceIndex}`,
           node: (
@@ -684,14 +579,13 @@ export function MenuPage() {
               category={category}
               items={slice.items}
               showNote={slice.showNote}
-              continuation={slice.continuation}
             />
           ),
         })
       })
     })
     return nodes
-  }, [lang, sliceLayout])
+  }, [lang])
 
   const flipNext = () => bookRef.current?.pageFlip()?.flipNext('top')
   const flipPrev = () => bookRef.current?.pageFlip()?.flipPrev('top')
