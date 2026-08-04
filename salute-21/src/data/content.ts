@@ -51,30 +51,30 @@ export const menu: MenuCategory[] = [
     image: '/images/menu-burgers.jpg',
     note: {
       en: 'All burgers are served with fries · Add a drink to any burger + 8 zł',
-      pl: 'Wszystkie burgery serwujemy z frytkami · Dodaj napój do burgera + 8 zł',
+      pl: 'Wszystkie burgery serwowane są z frytkami · Dodaj napój do dowolnego burgera + 8 zł',
     },
     items: [
       {
         name: { en: 'Smash Burger', pl: 'Smash Burger' },
         desc: {
-          en: 'Smash patty, soft bun, house sauce, pickles',
-          pl: 'Smash burger, miękka bułka, sos domu, pikle',
+          en: '2× 80 g beef, brioche bun, caramelized onion, pickle, house sauce',
+          pl: '2× 80 g wołowiny, bułka brioche, karmelizowana cebula, ogórek kiszony, sos autorski',
         },
         price: 51,
       },
       {
         name: { en: 'Cheddar Smash Burger', pl: 'Cheddar Smash Burger' },
         desc: {
-          en: 'Double smash, melted cheddar, soft bun, house sauce',
-          pl: 'Podwójny smash, cheddar, miękka bułka, sos domu',
+          en: '2× 80 g beef, 2× cheddar, brioche bun, pickle, house sauce',
+          pl: '2× 80 g wołowiny, 2× ser cheddar, bułka brioche, ogórek kiszony, sos autorski',
         },
         price: 56,
       },
       {
         name: { en: 'Chicken Burger', pl: 'Chicken Burger' },
         desc: {
-          en: 'Crispy chicken, soft bun, fresh salad, house sauce',
-          pl: 'Chrupiący kurczak, miękka bułka, sałata, sos domu',
+          en: '150 g crispy chicken fillet, brioche bun, fresh lettuce, mayonnaise',
+          pl: '150 g chrupiącego fileta z kurczaka, bułka brioche, świeża sałata, majonez',
         },
         price: 49,
       },
@@ -99,8 +99,8 @@ export const menu: MenuCategory[] = [
       {
         name: { en: '4 Cheese Pizza', pl: 'Pizza 4 sery' },
         desc: {
-          en: 'Mozzarella, gorgonzola, cheddar, Parmesan',
-          pl: 'Mozzarella, gorgonzola, cheddar, parmezan',
+          en: 'Mozzarella, gorgonzola, Parmesan, Gouda',
+          pl: 'Mozzarella, gorgonzola, parmezan, gouda',
         },
         price: 46,
       },
@@ -110,16 +110,16 @@ export const menu: MenuCategory[] = [
           pl: 'Pizza Burrata & suszone pomidory',
         },
         desc: {
-          en: 'Tomato base, mozzarella, burrata, sun-dried tomatoes',
-          pl: 'Baza pomidorowa, mozzarella, burrata, suszone pomidory',
+          en: 'Margherita base + whole burrata, sun-dried tomatoes, rocket, pesto',
+          pl: 'Baza margherita + cała burrata, suszone pomidory, rukola, pesto',
         },
         price: 50,
       },
       {
         name: { en: 'Pizza with Turkish Sausage', pl: 'Pizza z kiełbasą sucuk' },
         desc: {
-          en: 'Tomato sauce, mozzarella, Turkish sausage',
-          pl: 'Sos pomidorowy, mozzarella, kiełbasa sucuk',
+          en: 'Tomato sauce, mozzarella, Turkish sausage, peppers',
+          pl: 'Sos pomidorowy, mozzarella, kiełbasa sucuk, papryka',
         },
         price: 44,
       },
@@ -132,32 +132,32 @@ export const menu: MenuCategory[] = [
       {
         name: { en: 'Crispy Chicken Box', pl: 'Crispy Chicken Box' },
         desc: {
-          en: 'Chicken pieces + fries + 1 sauce',
-          pl: 'Kawałki kurczaka + frytki + 1 sos',
+          en: 'Crispy chicken pieces + fries + 1 sauce',
+          pl: 'Chrupiące kąski z kurczaka + frytki + 1 sos',
         },
         price: 25,
       },
       {
         name: { en: 'Fries', pl: 'Frytki' },
         desc: {
-          en: '200 g — steak/thick or thin',
-          pl: '200 g — steak/grube lub cienkie',
+          en: '200 g portion — steak (thick) or thin',
+          pl: 'Porcja 200 g — stekowe (grube) lub cienkie',
         },
         price: 12,
       },
       {
         name: { en: 'Onion Rings', pl: 'Krążki cebulowe' },
         desc: {
-          en: '6 pcs, crispy battered',
-          pl: '6 szt., chrupiące w panierce',
+          en: '6 pcs',
+          pl: '6 szt.',
         },
         price: 15,
       },
       {
         name: { en: 'Jalapeño Cheese Balls', pl: 'Kulki serowe jalapeño' },
         desc: {
-          en: '6 pcs, melted cheese, jalapeño heat',
-          pl: '6 szt., ser, jalapeño',
+          en: '6 pcs',
+          pl: '6 szt.',
         },
         price: 18,
         tags: ['spicy'],
@@ -171,11 +171,11 @@ export const menu: MenuCategory[] = [
       {
         name: {
           en: 'Köfte Ekmek (Meatball Sandwich)',
-          pl: 'Köfte Ekmek',
+          pl: 'Köfte Ekmek (kanapka z klopsikami)',
         },
         desc: {
-          en: 'Meatball sandwich with pickles',
-          pl: 'Kanapka z pulpety z ogórkami',
+          en: 'Grilled beef meatballs, fresh bread, tomato, sumac onion, parsley',
+          pl: 'Grillowane klopsiki wołowe, świeży chleb, pomidor, cebula z sumakiem, pietruszka',
         },
         price: 24,
       },
@@ -185,8 +185,8 @@ export const menu: MenuCategory[] = [
           pl: 'Tost z serem (Kaşarlı Tost)',
         },
         desc: {
-          en: 'Toasted bread, melted kaşar cheese',
-          pl: 'Tostowany chleb, roztopiony ser kaşar',
+          en: 'Toast bread, kaşar/Gouda cheese, butter, pickle',
+          pl: 'Pieczywo tostowe, ser kaşar/gouda, masło, ogórek kiszony',
         },
         price: 25,
       },
@@ -196,8 +196,8 @@ export const menu: MenuCategory[] = [
           pl: 'Tost z serem i kiełbasą sucuk',
         },
         desc: {
-          en: 'Toasted bread, cheese, Turkish sausage',
-          pl: 'Tostowany chleb, ser, kiełbasa sucuk',
+          en: 'Toast bread, kaşar cheese, Turkish sausage, butter',
+          pl: 'Pieczywo tostowe, ser kaşar, kiełbasa sucuk, masło',
         },
         price: 29,
       },

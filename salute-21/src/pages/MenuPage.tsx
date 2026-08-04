@@ -89,7 +89,8 @@ function pageItemCapacity(layout: SliceLayout, showNote: boolean): number {
   const note = showNote ? (layout.mobile ? 36 : 42) : 0
   const footer = 22
   const usable = Math.max(72, layout.pageH - pad - header - note - footer)
-  const unit = layout.mobile ? 58 : 62
+  // Pessimistic unit: ingredient lines on the printed card run longer than one row.
+  const unit = layout.mobile ? 70 : 74
   return Math.max(2, Math.floor(usable / unit))
 }
 
