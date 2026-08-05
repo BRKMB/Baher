@@ -11,6 +11,8 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
+  flutter_web_plugins:
+    sdk: flutter
   intl: any
   go_router: ^15.1.2
   flutter_riverpod: ^2.6.1
@@ -37,5 +39,7 @@ flutter:
   assets:
     - assets/seed/
     - assets/logos/
+    - assets/logos/svg/
+    - assets/logos/marks/
     - assets/i18n/
     - assets/brand/

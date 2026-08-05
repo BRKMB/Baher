@@ -15,6 +15,7 @@ class ServiceGuide {
     required this.steps,
     required this.issues,
     required this.altMethods,
+    required this.alternatives,
     required this.votesWorks,
     required this.votesBroken,
     required this.votesOutdated,
@@ -39,6 +40,7 @@ class ServiceGuide {
   final List<String> steps;
   final List<String> issues;
   final List<String> altMethods;
+  final List<String> alternatives;
   final int votesWorks;
   final int votesBroken;
   final int votesOutdated;
@@ -62,6 +64,7 @@ class ServiceGuide {
         steps: (j['steps'] as List).cast<String>(),
         issues: (j['issues'] as List?)?.cast<String>() ?? const [],
         altMethods: (j['altMethods'] as List?)?.cast<String>() ?? const [],
+        alternatives: (j['alternatives'] as List?)?.map((e) => '$e').toList() ?? const [],
         votesWorks: (j['votes']?['works'] as int?) ?? 0,
         votesBroken: (j['votes']?['broken'] as int?) ?? 0,
         votesOutdated: (j['votes']?['outdated'] as int?) ?? 0,

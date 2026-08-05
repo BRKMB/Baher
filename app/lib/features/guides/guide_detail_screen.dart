@@ -45,15 +45,15 @@ class GuideDetailScreen extends ConsumerWidget {
                   Expanded(
                     child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                       Text('${labels[g.difficulty]} · ~${g.estMinutes} min', style: const TextStyle(fontWeight: FontWeight.w700)),
-                      if (g.verified) Text('${t.t('verified')} · ${g.lastVerified}', style: const TextStyle(color: Color(0xFF7EAB00), fontWeight: FontWeight.w600)),
+                      if (g.verified) Text('${t.t('verified')} · ${g.lastVerified}', style: TextStyle(color: bubAccentOn(context), fontWeight: FontWeight.w600)),
                     ]),
                   ),
                 ]),
                 const SizedBox(height: 14),
                 Row(children: [
-                  Text(t.t('communityTrust'), style: TextStyle(color: Colors.grey.shade600, fontWeight: FontWeight.w600)),
+                  Text(t.t('communityTrust'), style: TextStyle(color: Colors.grey.shade700, fontWeight: FontWeight.w600)),
                   const Spacer(),
-                  Text('$trust% ${t.t('works').toLowerCase()}', style: const TextStyle(fontWeight: FontWeight.w800, color: Color(0xFF7EAB00))),
+                  Text('$trust% ${t.t('works').toLowerCase()}', style: TextStyle(fontWeight: FontWeight.w800, color: bubAccentOn(context))),
                 ]),
                 const SizedBox(height: 6),
                 ClipRRect(
@@ -108,9 +108,54 @@ class GuideDetailScreen extends ConsumerWidget {
                   ),
                 )),
           ],
+          if (g.altMethods.isNotEmpty) ...[
+            const SizedBox(height: 16),
+            Text(t.t('altMethods').toUpperCase(), style: TextStyle(fontWeight: FontWeight.w700, color: Colors.grey.shade700)),
+            const SizedBox(height: 8),
+            ...g.altMethods.map((m) => Padding(
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: Glass(
+                    padding: const EdgeInsets.all(14),
+                    child: Row(children: [
+                      const Icon(Icons.alt_route_rounded, color: BubColors.blue),
+                      const SizedBox(width: 10),
+                      Expanded(child: Text(m, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 13))),
+                    ]),
+                  ),
+                )),
+          ],
+          if (g.alternatives.isNotEmpty) ...[
+            const SizedBox(height: 16),
+            Text(t.t('cheaperAlternatives').toUpperCase(), style: TextStyle(fontWeight: FontWeight.w700, color: Colors.grey.shade700)),
+            const SizedBox(height: 8),
+            Glass(
+              padding: const EdgeInsets.all(14),
+              child: Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: g.alternatives.map((a) => Chip(label: Text(a, style: const TextStyle(fontWeight: FontWeight.w600)))).toList(),
+              ),
+            ),
+          ],
+          if (g.countryNotes.isNotEmpty) ...[
+            const SizedBox(height: 16),
+            Text(t.t('countryNotes').toUpperCase(), style: TextStyle(fontWeight: FontWeight.w700, color: Colors.grey.shade700)),
+            const SizedBox(height: 8),
+            ...g.countryNotes.map((n) => Padding(
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: Glass(
+                    padding: const EdgeInsets.all(14),
+                    child: Row(children: [
+                      const Icon(Icons.public_rounded, color: BubColors.pink),
+                      const SizedBox(width: 10),
+                      Expanded(child: Text(n, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 13))),
+                    ]),
+                  ),
+                )),
+          ],
           if (g.cancellationScripts.isNotEmpty) ...[
             const SizedBox(height: 16),
-            Text(t.t('copyScript').toUpperCase(), style: TextStyle(fontWeight: FontWeight.w700, color: Colors.grey.shade600)),
+            Text(t.t('copyScript').toUpperCase(), style: TextStyle(fontWeight: FontWeight.w700, color: Colors.grey.shade700)),
             const SizedBox(height: 8),
             ...g.cancellationScripts.map((script) => Padding(
                   padding: const EdgeInsets.only(bottom: 8),

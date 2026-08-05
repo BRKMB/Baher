@@ -1,5 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import '../data/logos.dart';
 import '../theme/brand.dart';
 
 class Glass extends StatelessWidget {
@@ -24,7 +26,7 @@ class Glass extends StatelessWidget {
     final body = ClipRRect(
       borderRadius: BorderRadius.circular(borderRadius),
       child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 22, sigmaY: 22),
+        filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
         child: Container(
           padding: padding,
           decoration: BoxDecoration(
@@ -33,17 +35,19 @@ class Glass extends StatelessWidget {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: tint != null
-                  ? [tint!.withValues(alpha: 0.9), tint!.withValues(alpha: 0.75)]
+                  ? [tint!.withValues(alpha: 0.94), tint!.withValues(alpha: 0.86)]
                   : dark
-                      ? [Colors.white.withValues(alpha: 0.12), Colors.white.withValues(alpha: 0.05)]
-                      : [Colors.white.withValues(alpha: 0.72), Colors.white.withValues(alpha: 0.48)],
+                      ? [Colors.white.withValues(alpha: 0.14), Colors.white.withValues(alpha: 0.07)]
+                      : [Colors.white.withValues(alpha: 0.96), Colors.white.withValues(alpha: 0.88)],
             ),
-            border: Border.all(color: Colors.white.withValues(alpha: dark ? 0.12 : 0.55)),
+            border: Border.all(
+              color: dark ? Colors.white.withValues(alpha: 0.16) : const Color(0xFFD0D4E0),
+            ),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: dark ? 0.35 : 0.08),
-                blurRadius: 24,
-                offset: const Offset(0, 10),
+                color: Colors.black.withValues(alpha: dark ? 0.4 : 0.1),
+                blurRadius: 18,
+                offset: const Offset(0, 8),
               ),
             ],
           ),
@@ -74,7 +78,7 @@ class BrandHeaderMark extends StatelessWidget {
             decoration: BoxDecoration(
               color: BubColors.ink,
               borderRadius: BorderRadius.circular(15),
-              border: Border.all(color: BubColors.lime.withValues(alpha: 0.35)),
+              border: Border.all(color: BubColors.lime.withValues(alpha: 0.45)),
             ),
             alignment: Alignment.center,
             child: const Text(
@@ -132,36 +136,58 @@ class LogoTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bg = _parseColor(color);
-    final assetCandidates = <String>[
-      if (serviceId != null) 'assets/logos/$serviceId.png',
-      if (serviceId != null) 'assets/logos/$serviceId.svg',
-      if (serviceId != null) 'assets/logos/svg/$serviceId.svg',
-    ];
+    final spec = logoFor(serviceId) ?? logoFor(name);
+    final fallbackBg = _parseColor(color);
+    final bg = spec?.bg ?? fallbackBg;
+    final radius = BorderRadius.circular(size * 0.22);
 
     return Container(
       width: size,
       height: size,
       decoration: BoxDecoration(
         color: bg,
-        borderRadius: BorderRadius.circular(size * 0.22),
+        borderRadius: radius,
+        border: Border.all(color: Colors.black.withValues(alpha: 0.06)),
         boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.12), blurRadius: 8, offset: const Offset(0, 3))],
       ),
       clipBehavior: Clip.antiAlias,
-      child: assetCandidates.isEmpty
+      child: spec == null
           ? _Letter(name: name, size: size)
-          : Image.asset(
-              assetCandidates.first,
-              fit: BoxFit.cover,
-              errorBuilder: (_, __, ___) => _Letter(name: name, size: size),
-            ),
+          : spec.kind == LogoKind.mark
+              ? Padding(
+                  padding: EdgeInsets.all(size * 0.22),
+                  child: SvgPicture.asset(
+                    spec.asset,
+                    colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                    fit: BoxFit.contain,
+                    placeholderBuilder: (_) => _Letter(name: name, size: size * 0.7),
+                  ),
+                )
+              : spec.asset.toLowerCase().endsWith('.svg')
+                  ? Padding(
+                      padding: EdgeInsets.all(size * 0.12),
+                      child: SvgPicture.asset(spec.asset, fit: BoxFit.contain),
+                    )
+                  : Padding(
+                      // Full-bleed brand tiles (Netflix/Spotify color blocks) need less inset.
+                      padding: EdgeInsets.all(spec.bg.toARGB32() == const Color(0xFFF4F5F8).toARGB32() ? size * 0.14 : size * 0.06),
+                      child: Image.asset(
+                        spec.asset,
+                        fit: BoxFit.contain,
+                        errorBuilder: (_, error, stack) => _Letter(name: name, size: size),
+                      ),
+                    ),
     );
   }
 
   Color _parseColor(String hex) {
     var h = hex.replaceAll('#', '');
     if (h.length == 6) h = 'FF$h';
-    return Color(int.parse(h, radix: 16));
+    try {
+      return Color(int.parse(h, radix: 16));
+    } catch (_) {
+      return BubColors.ink;
+    }
   }
 }
 

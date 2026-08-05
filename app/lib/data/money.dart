@@ -48,8 +48,15 @@ String formatMoney(double amount, String currency) {
     'PLN': 'zł',
     'SAR': 'SR',
     'AED': 'AED',
+    'KWD': 'KD',
+    'QAR': 'QR',
+    'TRY': '₺',
+    'INR': '₹',
+    'CAD': 'C\$',
+    'AUD': 'A\$',
+    'JPY': '¥',
   };
-  final sym = symbols[currency] ?? currency;
-  final decimals = amount >= 100 || amount == amount.roundToDouble() ? 0 : 2;
-  return '$sym${amount.toStringAsFixed(decimals)}';
+  final sym = symbols[currency] ?? '$currency ';
+  // Always show cents for money clarity (avoids "$15" looking rounded/broken).
+  return '$sym${amount.toStringAsFixed(2)}';
 }

@@ -1,7 +1,8 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:share_plus/share_plus.dart';
 import '../../data/i18n.dart';
 import '../../data/money.dart';
 import '../../data/store.dart';
@@ -16,62 +17,74 @@ class SettingsScreen extends ConsumerWidget {
     final state = ref.watch(appStoreProvider);
     final store = ref.read(appStoreProvider.notifier);
     final t = context.i18n;
+    final accent = bubAccentOn(context);
 
     return Scaffold(
       appBar: AppBar(title: Text(t.t('settings'))),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(20, 8, 20, 40),
         children: [
-          Text(t.t('language').toUpperCase(), style: TextStyle(fontWeight: FontWeight.w700, color: Colors.grey.shade600)),
+          Text(t.t('language').toUpperCase(), style: TextStyle(fontWeight: FontWeight.w700, color: Colors.grey.shade700)),
           const SizedBox(height: 8),
           Glass(
             padding: const EdgeInsets.all(8),
-            child: Column(children: [
-              for (final loc in [('en', t.t('english')), ('ar', t.t('arabic')), ('pl', t.t('polish'))])
-                RadioListTile<String>(
-                  value: loc.$1,
-                  groupValue: state.settings.locale,
-                  title: Text(loc.$2, style: const TextStyle(fontWeight: FontWeight.w600)),
-                  activeColor: BubColors.lime,
-                  onChanged: (v) => store.setSettings(state.settings.copyWith(locale: v)),
-                ),
-            ]),
+            child: RadioGroup<String>(
+              groupValue: state.settings.locale,
+              onChanged: (v) {
+                if (v != null) store.setSettings(state.settings.copyWith(locale: v));
+              },
+              child: Column(children: [
+                for (final loc in [('en', t.t('english')), ('ar', t.t('arabic')), ('pl', t.t('polish'))])
+                  RadioListTile<String>(
+                    value: loc.$1,
+                    title: Text(loc.$2, style: const TextStyle(fontWeight: FontWeight.w600)),
+                    activeColor: BubColors.limeDeep,
+                  ),
+              ]),
+            ),
           ),
           const SizedBox(height: 16),
-          Text(t.t('appearance').toUpperCase(), style: TextStyle(fontWeight: FontWeight.w700, color: Colors.grey.shade600)),
+          Text(t.t('appearance').toUpperCase(), style: TextStyle(fontWeight: FontWeight.w700, color: Colors.grey.shade700)),
           const SizedBox(height: 8),
           Glass(
             padding: const EdgeInsets.all(8),
-            child: Column(children: [
-              for (final mode in ['system', 'light', 'dark'])
-                RadioListTile<String>(
-                  value: mode,
-                  groupValue: state.settings.themeMode,
-                  title: Text(mode[0].toUpperCase() + mode.substring(1), style: const TextStyle(fontWeight: FontWeight.w600)),
-                  onChanged: (v) => store.setSettings(state.settings.copyWith(themeMode: v)),
-                ),
-            ]),
+            child: RadioGroup<String>(
+              groupValue: state.settings.themeMode,
+              onChanged: (v) {
+                if (v != null) store.setSettings(state.settings.copyWith(themeMode: v));
+              },
+              child: Column(children: [
+                for (final mode in ['system', 'light', 'dark'])
+                  RadioListTile<String>(
+                    value: mode,
+                    title: Text(mode[0].toUpperCase() + mode.substring(1), style: const TextStyle(fontWeight: FontWeight.w600)),
+                    activeColor: BubColors.limeDeep,
+                  ),
+              ]),
+            ),
           ),
           const SizedBox(height: 16),
-          Text(t.t('displayCurrency').toUpperCase(), style: TextStyle(fontWeight: FontWeight.w700, color: Colors.grey.shade600)),
+          Text(t.t('displayCurrency').toUpperCase(), style: TextStyle(fontWeight: FontWeight.w700, color: Colors.grey.shade700)),
           const SizedBox(height: 8),
           Glass(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: DropdownButtonFormField<String>(
-              value: state.settings.currency,
+              initialValue: state.settings.currency,
               decoration: const InputDecoration(border: InputBorder.none),
               items: usdRates.keys.map((c) => DropdownMenuItem(value: c, child: Text(c))).toList(),
-              onChanged: (v) => store.setSettings(state.settings.copyWith(currency: v)),
+              onChanged: (v) {
+                if (v != null) store.setSettings(state.settings.copyWith(currency: v));
+              },
             ),
           ),
           const SizedBox(height: 16),
-          Text(t.t('yourData').toUpperCase(), style: TextStyle(fontWeight: FontWeight.w700, color: Colors.grey.shade600)),
+          Text(t.t('yourData').toUpperCase(), style: TextStyle(fontWeight: FontWeight.w700, color: Colors.grey.shade700)),
           const SizedBox(height: 8),
           Glass(
             padding: const EdgeInsets.all(4),
             child: Column(children: [
               ListTile(
-                leading: const Icon(Icons.document_scanner_rounded, color: Color(0xFF7EAB00)),
+                leading: Icon(Icons.document_scanner_rounded, color: accent),
                 title: Text(t.t('scanReceipt'), style: const TextStyle(fontWeight: FontWeight.w700)),
                 subtitle: Text(t.t('scanReceiptSubtitle')),
                 onTap: () => context.push('/ocr'),
@@ -91,26 +104,40 @@ class SettingsScreen extends ConsumerWidget {
                 onTap: () => ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(t.t('gmailImportBody')))),
               ),
               ListTile(
-                leading: const Icon(Icons.download_rounded),
+                leading: Icon(Icons.ios_share_rounded, color: accent),
                 title: Text(t.t('exportJson'), style: const TextStyle(fontWeight: FontWeight.w700)),
-                onTap: () {
-                  final payload = jsonEncode({
-                    'subscriptions': state.subscriptions.map((e) => e.toJson()).toList(),
-                    'settings': state.settings.toJson(),
-                  });
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Backup ready (${payload.length} bytes)')));
+                subtitle: Text(t.t('exportSubtitle')),
+                onTap: () async {
+                  final payload = store.exportBackupJson();
+                  await SharePlus.instance.share(ShareParams(text: payload, subject: 'BUB SUB backup'));
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.upload_file_rounded),
+                title: Text(t.t('importData'), style: const TextStyle(fontWeight: FontWeight.w700)),
+                subtitle: Text(t.t('importSubtitle')),
+                onTap: () => _importDialog(context, store, t),
+              ),
+              ListTile(
+                leading: const Icon(Icons.copy_all_rounded),
+                title: Text(t.t('copyBackup'), style: const TextStyle(fontWeight: FontWeight.w700)),
+                onTap: () async {
+                  await Clipboard.setData(ClipboardData(text: store.exportBackupJson()));
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(t.t('backupCopied'))));
+                  }
                 },
               ),
             ]),
           ),
           const SizedBox(height: 16),
-          Text(t.t('reputation').toUpperCase(), style: TextStyle(fontWeight: FontWeight.w700, color: Colors.grey.shade600)),
+          Text(t.t('reputation').toUpperCase(), style: TextStyle(fontWeight: FontWeight.w700, color: Colors.grey.shade700)),
           const SizedBox(height: 8),
           Glass(
             padding: const EdgeInsets.all(16),
             child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Text('${state.settings.reputationPoints} pts', style: const TextStyle(fontSize: 28, fontWeight: FontWeight.w800)),
-              Text(t.t('topVerifiers'), style: TextStyle(color: Colors.grey.shade600, fontWeight: FontWeight.w600)),
+              Text(t.t('topVerifiers'), style: TextStyle(color: Colors.grey.shade700, fontWeight: FontWeight.w600)),
               const SizedBox(height: 8),
               const Text('1. You  ·  verified votes & price alerts', style: TextStyle(fontWeight: FontWeight.w600)),
               const Text('2. Community seed team', style: TextStyle(fontWeight: FontWeight.w600)),
@@ -120,7 +147,7 @@ class SettingsScreen extends ConsumerWidget {
           Glass(
             padding: const EdgeInsets.all(16),
             child: Row(children: [
-              const Icon(Icons.shield_rounded, color: Color(0xFF7EAB00)),
+              Icon(Icons.shield_rounded, color: accent),
               const SizedBox(width: 10),
               Expanded(child: Text(t.t('privacyBody'), style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 13))),
             ]),
@@ -145,5 +172,46 @@ class SettingsScreen extends ConsumerWidget {
         ],
       ),
     );
+  }
+
+  Future<void> _importDialog(BuildContext context, AppStore store, dynamic t) async {
+    final ctrl = TextEditingController();
+    final ok = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(t.t('importData')),
+        content: SizedBox(
+          width: 420,
+          child: TextField(
+            controller: ctrl,
+            maxLines: 8,
+            decoration: InputDecoration(
+              hintText: t.t('pasteBackupHint'),
+              border: const OutlineInputBorder(),
+            ),
+          ),
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(ctx, false), child: Text(t.t('cancel'))),
+          FilledButton(onPressed: () => Navigator.pop(ctx, true), child: Text(t.t('importData'))),
+        ],
+      ),
+    );
+    if (ok != true || !context.mounted) {
+      ctrl.dispose();
+      return;
+    }
+    try {
+      final count = await store.importBackupJson(ctrl.text.trim());
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(t.t('importDone', {'count': '$count'}))));
+      }
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(t.t('importFailed'))));
+      }
+    } finally {
+      ctrl.dispose();
+    }
   }
 }

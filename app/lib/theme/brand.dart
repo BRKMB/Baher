@@ -4,12 +4,19 @@ import 'package:google_fonts/google_fonts.dart';
 /// Official BUB SUB brand tokens from the leather app-icon identity.
 abstract final class BubColors {
   static const lime = Color(0xFFC8FF00);
+  /// Readable lime for text/icons on light surfaces (neon lime fails WCAG).
+  static const limeDeep = Color(0xFF5C8600);
   static const pink = Color(0xFFFF2D8A);
   static const blue = Color(0xFF2F6BFF);
   static const ink = Color(0xFF0A0A0A);
   static const inkSoft = Color(0xFF0F121A);
-  static const mist = Color(0xFFE8E9EF);
+  static const mist = Color(0xFFE6E8F0);
+  static const mistDeep = Color(0xFFD5D8E4);
 }
+
+/// Accent text/icon color that stays legible on the current surface.
+Color bubAccentOn(BuildContext context) =>
+    Theme.of(context).brightness == Brightness.dark ? BubColors.lime : BubColors.limeDeep;
 
 ThemeData buildBubTheme({required Brightness brightness}) {
   final dark = brightness == Brightness.dark;
@@ -45,9 +52,11 @@ ThemeData buildBubTheme({required Brightness brightness}) {
       foregroundColor: BubColors.ink,
     ),
     chipTheme: ChipThemeData(
-      selectedColor: BubColors.ink,
-      backgroundColor: dark ? Colors.white10 : Colors.white54,
+      selectedColor: dark ? BubColors.lime : BubColors.ink,
+      backgroundColor: dark ? Colors.white10 : Colors.white,
       labelStyle: GoogleFonts.outfit(fontWeight: FontWeight.w600, fontSize: 13),
+      side: BorderSide(color: dark ? Colors.white24 : BubColors.mistDeep),
     ),
+    dividerColor: dark ? Colors.white12 : BubColors.mistDeep,
   );
 }

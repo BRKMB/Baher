@@ -6,6 +6,7 @@ import '../../data/i18n.dart';
 import '../../data/models.dart';
 import '../../data/money.dart';
 import '../../data/store.dart';
+import '../../theme/brand.dart';
 import '../../widgets/glass.dart';
 
 class DetailScreen extends ConsumerWidget {
@@ -25,6 +26,8 @@ class DetailScreen extends ConsumerWidget {
 
     final currency = state.settings.currency;
     final renewal = effectiveNextRenewal(sub);
+    final accent = bubAccentOn(context);
+    const reminderOptions = [7, 3, 1, 0];
 
     return Scaffold(
       appBar: AppBar(
@@ -41,7 +44,7 @@ class DetailScreen extends ConsumerWidget {
               const SizedBox(height: 12),
               Text(sub.name, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w800)),
               Text(formatMoney(sub.price, sub.currency), style: const TextStyle(fontSize: 34, fontWeight: FontWeight.w800)),
-              Text('${formatMoney(monthlyCost(sub, currency), currency)} / mo', style: TextStyle(color: Colors.grey.shade600)),
+              Text('${formatMoney(monthlyCost(sub, currency), currency)} / mo', style: TextStyle(color: Colors.grey.shade700)),
             ]),
           ),
           const SizedBox(height: 12),
@@ -51,7 +54,38 @@ class DetailScreen extends ConsumerWidget {
               _row(t.t('nextRenewal'), '$renewal (${relativeLabel(renewal)})'),
               _row(t.t('billingCycle'), sub.cycle.name),
               _row(t.t('category'), sub.category),
+              _row(t.t('autoRenew'), sub.autoRenew ? 'On' : 'Off'),
             ]),
+          ),
+          const SizedBox(height: 12),
+          Text(t.t('reminders').toUpperCase(), style: TextStyle(fontWeight: FontWeight.w700, color: Colors.grey.shade700, letterSpacing: 0.8)),
+          const SizedBox(height: 8),
+          Glass(
+            padding: const EdgeInsets.all(14),
+            child: Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: reminderOptions.map((d) {
+                final selected = sub.remindDaysBefore.contains(d);
+                final label = d == 0 ? t.t('remindDayOf') : t.t('remindDaysBefore', {'days': '$d'});
+                return FilterChip(
+                  selected: selected,
+                  label: Text(label),
+                  selectedColor: BubColors.lime,
+                  checkmarkColor: BubColors.ink,
+                  onSelected: (on) {
+                    final next = [...sub.remindDaysBefore];
+                    if (on) {
+                      if (!next.contains(d)) next.add(d);
+                    } else {
+                      next.remove(d);
+                    }
+                    next.sort((a, b) => b.compareTo(a));
+                    store.updateSubscription(sub.id, (s) => s.copyWith(remindDaysBefore: next));
+                  },
+                );
+              }).toList(),
+            ),
           ),
           if (sub.serviceId != null) ...[
             const SizedBox(height: 12),
@@ -70,6 +104,15 @@ class DetailScreen extends ConsumerWidget {
               ),
               child: Text(t.t('markCancelled')),
             ),
+          if (sub.status == SubStatus.cancelled)
+            FilledButton(
+              style: FilledButton.styleFrom(backgroundColor: accent, foregroundColor: Colors.white),
+              onPressed: () => store.updateSubscription(
+                sub.id,
+                (s) => s.copyWith(status: SubStatus.active, autoRenew: true, cancelledAt: null),
+              ),
+              child: Text(t.t('restoreTracking')),
+            ),
           TextButton(
             onPressed: () async {
               await store.deleteSubscription(sub.id);
@@ -85,7 +128,7 @@ class DetailScreen extends ConsumerWidget {
   Widget _row(String k, String v) => Padding(
         padding: const EdgeInsets.symmetric(vertical: 8),
         child: Row(children: [
-          Expanded(child: Text(k, style: TextStyle(color: Colors.grey.shade600))),
+          Expanded(child: Text(k, style: TextStyle(color: Colors.grey.shade700))),
           Text(v, style: const TextStyle(fontWeight: FontWeight.w700)),
         ]),
       );

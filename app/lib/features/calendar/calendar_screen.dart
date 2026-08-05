@@ -5,6 +5,7 @@ import '../../data/dates.dart';
 import '../../data/i18n.dart';
 import '../../data/money.dart';
 import '../../data/store.dart';
+import '../../theme/brand.dart';
 import '../../widgets/glass.dart';
 
 class CalendarScreen extends ConsumerStatefulWidget {
@@ -84,7 +85,7 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
                       ),
                       child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
                         Text('$day', style: TextStyle(fontWeight: FontWeight.w700, color: isToday ? const Color(0xFF5F8000) : null)),
-                        if (has) Container(width: 5, height: 5, decoration: const BoxDecoration(color: Color(0xFF7EAB00), shape: BoxShape.circle)),
+                        if (has) Container(width: 5, height: 5, decoration: BoxDecoration(color: bubAccentOn(context), shape: BoxShape.circle)),
                       ]),
                     );
                   },

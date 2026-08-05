@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_web_plugins/url_strategy.dart';
 import 'app.dart';
 import 'services/local_notifications.dart';
 
@@ -7,6 +8,8 @@ import 'services/local_notifications.dart';
 /// iOS Share Extension / Android ACTION_SEND into [sharedPayload].
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // Hash URLs keep deep links working on simple static hosts (Cloud preview).
+  setUrlStrategy(const HashUrlStrategy());
   final reminders = LocalReminderService();
   try {
     await reminders.init();

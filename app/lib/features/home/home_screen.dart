@@ -68,7 +68,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       Text(t.t('tagline'), style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: Colors.grey.shade500, letterSpacing: 1.2)),
                       Text.rich(TextSpan(children: [
                         TextSpan(text: 'BUB ', style: TextStyle(fontSize: 24, fontWeight: FontWeight.w800, color: Theme.of(context).colorScheme.onSurface)),
-                        const TextSpan(text: 'SUB', style: TextStyle(fontSize: 24, fontWeight: FontWeight.w800, color: Color(0xFF7EAB00))),
+                        TextSpan(
+                          text: 'SUB',
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.w800,
+                            color: Theme.of(context).brightness == Brightness.dark ? BubColors.lime : BubColors.limeDeep,
+                          ),
+                        ),
                       ])),
                     ],
                   ),

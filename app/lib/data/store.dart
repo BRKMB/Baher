@@ -152,6 +152,33 @@ class AppStore extends StateNotifier<AppState> {
     await _init();
   }
 
+  String exportBackupJson() => jsonEncode({
+        'version': 1,
+        'exportedAt': DateTime.now().toUtc().toIso8601String(),
+        'subscriptions': state.subscriptions.map((e) => e.toJson()).toList(),
+        'settings': state.settings.toJson(),
+      });
+
+  Future<int> importBackupJson(String raw) async {
+    final decoded = jsonDecode(raw);
+    if (decoded is! Map<String, dynamic>) {
+      throw const FormatException('Backup must be a JSON object');
+    }
+    final subsRaw = decoded['subscriptions'];
+    if (subsRaw is! List) {
+      throw const FormatException('Backup missing subscriptions[]');
+    }
+    final subs = subsRaw.cast<Map<String, dynamic>>().map(Subscription.fromJson).toList();
+    var settings = state.settings;
+    if (decoded['settings'] is Map<String, dynamic>) {
+      settings = AppSettings.fromJson(decoded['settings'] as Map<String, dynamic>);
+    }
+    state = state.copyWith(subscriptions: subs, settings: settings);
+    await _persistSubs();
+    await _persistSettings();
+    return subs.length;
+  }
+
   String newId() => _uuid.v4();
 
   ServiceGuide? guideById(String id) {

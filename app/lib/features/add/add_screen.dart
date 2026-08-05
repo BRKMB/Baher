@@ -23,8 +23,16 @@ class _AddScreenState extends ConsumerState<AddScreen> {
   String color = '#71747f';
   bool isTrial = false;
   bool autoRenew = true;
+  List<int> remindDays = [3, 1];
   late String nextRenewal = addDays(todayIso(), 30);
   late String trialEnds = addDays(todayIso(), 7);
+
+  @override
+  void dispose() {
+    nameCtrl.dispose();
+    priceCtrl.dispose();
+    super.dispose();
+  }
 
   @override
   void initState() {
@@ -46,6 +54,7 @@ class _AddScreenState extends ConsumerState<AddScreen> {
           color = s.color;
           isTrial = s.isTrial;
           autoRenew = s.autoRenew;
+          remindDays = [...s.remindDaysBefore];
           nextRenewal = s.nextRenewal;
           trialEnds = s.trialEndsAt ?? trialEnds;
           setState(() {});
@@ -96,7 +105,7 @@ class _AddScreenState extends ConsumerState<AddScreen> {
             SizedBox(
               width: 110,
               child: DropdownButtonFormField<String>(
-                value: currency,
+                initialValue: currency,
                 decoration: InputDecoration(labelText: t.t('currency'), border: const OutlineInputBorder()),
                 items: const ['USD', 'EUR', 'EGP', 'PLN', 'GBP', 'SAR', 'AED'].map((c) => DropdownMenuItem(value: c, child: Text(c))).toList(),
                 onChanged: (v) => setState(() => currency = v ?? currency),
@@ -118,6 +127,27 @@ class _AddScreenState extends ConsumerState<AddScreen> {
           SwitchListTile(title: Text(t.t('freeTrial')), value: isTrial, onChanged: (v) => setState(() => isTrial = v)),
           SwitchListTile(title: Text(t.t('autoRenew')), value: autoRenew, onChanged: (v) => setState(() => autoRenew = v)),
           const SizedBox(height: 8),
+          Text(t.t('reminders'), style: const TextStyle(fontWeight: FontWeight.w700)),
+          const SizedBox(height: 6),
+          Wrap(
+            spacing: 8,
+            children: [7, 3, 1, 0].map((d) {
+              final selected = remindDays.contains(d);
+              return FilterChip(
+                selected: selected,
+                label: Text(d == 0 ? t.t('remindDayOf') : t.t('remindDaysBefore', {'days': '$d'})),
+                onSelected: (on) => setState(() {
+                  if (on) {
+                    if (!remindDays.contains(d)) remindDays.add(d);
+                  } else {
+                    remindDays.remove(d);
+                  }
+                  remindDays.sort((a, b) => b.compareTo(a));
+                }),
+              );
+            }).toList(),
+          ),
+          const SizedBox(height: 12),
           FilledButton(
             onPressed: () async {
               final price = double.tryParse(priceCtrl.text);
@@ -137,7 +167,7 @@ class _AddScreenState extends ConsumerState<AddScreen> {
                 isTrial: isTrial,
                 trialEndsAt: isTrial ? trialEnds : null,
                 tags: const [],
-                remindDaysBefore: const [3, 1],
+                remindDaysBefore: List<int>.from(remindDays),
                 createdAt: todayIso(),
               );
               if (widget.editId == null) {

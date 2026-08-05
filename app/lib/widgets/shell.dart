@@ -66,9 +66,9 @@ class _Tab extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             if (active) Container(width: 28, height: 3, decoration: BoxDecoration(color: BubColors.lime, borderRadius: BorderRadius.circular(99))),
-            Icon(icon, color: active ? const Color(0xFF7EAB00) : Colors.grey, size: 22),
+            Icon(icon, color: active ? bubAccentOn(context) : Colors.grey.shade600, size: 22),
             const SizedBox(height: 2),
-            Text(label, style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: active ? const Color(0xFF7EAB00) : Colors.grey)),
+            Text(label, style: TextStyle(fontSize: 10, fontWeight: FontWeight.w700, color: active ? bubAccentOn(context) : Colors.grey.shade600)),
           ],
         ),
       ),

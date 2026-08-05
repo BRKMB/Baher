@@ -14,8 +14,15 @@ class GuidesScreen extends ConsumerStatefulWidget {
 }
 
 class _GuidesScreenState extends ConsumerState<GuidesScreen> {
+  late final TextEditingController _searchCtrl = TextEditingController(text: widget.initialQuery);
   late String query = widget.initialQuery;
   int difficulty = 0;
+
+  @override
+  void dispose() {
+    _searchCtrl.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +33,7 @@ class _GuidesScreenState extends ConsumerState<GuidesScreen> {
     var list = [...state.guides];
     if (query.isNotEmpty) {
       final q = query.toLowerCase();
-      list = list.where((g) => g.name.toLowerCase().contains(q) || g.domain.toLowerCase().contains(q)).toList();
+      list = list.where((g) => g.name.toLowerCase().contains(q) || g.domain.toLowerCase().contains(q) || g.category.toLowerCase().contains(q)).toList();
     }
     if (difficulty != 0) list = list.where((g) => g.difficulty == difficulty).toList();
     list.sort((a, b) {
@@ -36,19 +43,20 @@ class _GuidesScreenState extends ConsumerState<GuidesScreen> {
     });
 
     final labels = {0: t.t('all'), 1: t.t('easy'), 2: t.t('medium'), 3: t.t('hard'), 4: t.t('veryHard')};
+    final accent = bubAccentOn(context);
 
     return SafeArea(
       child: ListView(
         padding: const EdgeInsets.fromLTRB(20, 12, 20, 120),
         children: [
           Text(t.t('cancelAnything'), style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w800)),
-          Text(t.t('cancelSubtitle'), style: TextStyle(color: Colors.grey.shade600)),
+          Text(t.t('cancelSubtitle'), style: TextStyle(color: Colors.grey.shade700)),
           const SizedBox(height: 12),
           Glass(
             padding: const EdgeInsets.all(14),
             child: Row(
               children: [
-                const Icon(Icons.verified_user_rounded, color: Color(0xFF7EAB00)),
+                Icon(Icons.verified_user_rounded, color: accent),
                 const SizedBox(width: 10),
                 Expanded(child: Text(t.t('cancelIntro'), style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 13))),
               ],
@@ -59,8 +67,7 @@ class _GuidesScreenState extends ConsumerState<GuidesScreen> {
             borderRadius: 20,
             padding: const EdgeInsets.symmetric(horizontal: 14),
             child: TextField(
-              controller: TextEditingController(text: query)
-                ..selection = TextSelection.collapsed(offset: query.length),
+              controller: _searchCtrl,
               decoration: InputDecoration(hintText: t.t('searchGuides'), border: InputBorder.none, icon: const Icon(Icons.search)),
               onChanged: (v) => setState(() => query = v),
             ),
