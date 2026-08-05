@@ -73,7 +73,7 @@ export function PhoneFrame({ children }: { children: ReactNode }) {
   if (!framed) {
     return (
       <div
-        className="relative h-dvh w-full overflow-hidden bg-ink-50 dark:bg-ink-950"
+        className="relative h-dvh w-full overflow-hidden liquid-screen"
         style={{ ['--sat' as string]: 'env(safe-area-inset-top, 0px)', ['--sab' as string]: 'env(safe-area-inset-bottom, 0px)' }}
       >
         {children}
@@ -97,7 +97,7 @@ export function PhoneFrame({ children }: { children: ReactNode }) {
             <div className="rounded-[62px] bg-black" style={{ padding: BEZEL - 6 }}>
               {/* screen */}
               <div
-                className="relative overflow-hidden rounded-[55px] bg-ink-50 dark:bg-ink-950"
+                className="relative overflow-hidden rounded-[55px] liquid-screen"
                 style={{
                   width: SCREEN_W,
                   height: SCREEN_H,

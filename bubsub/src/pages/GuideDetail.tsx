@@ -38,7 +38,7 @@ export function GuideDetail() {
         {/* Summary card */}
         <Card className="p-5">
           <div className="flex items-center gap-4">
-            <LogoTile name={guide.name} color={guide.color} size="lg" />
+            <LogoTile name={guide.name} color={guide.color} serviceId={guide.id} size="lg" />
             <div className="flex-1 min-w-0">
               <div className="flex flex-wrap items-center gap-1.5">
                 <span

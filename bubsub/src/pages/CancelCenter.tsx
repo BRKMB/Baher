@@ -32,21 +32,21 @@ export function CancelCenter() {
     <div className="page-in">
       <PageHeader title="Cancel anything" subtitle="Community-verified cancellation guides" />
       <div className="px-5" style={{ paddingBottom: 'calc(var(--sab, 0px) + 96px)' }}>
-        <div className="flex items-start gap-3 p-4 rounded-3xl bg-mint-50 dark:bg-mint-700/15 border border-mint-200/70 dark:border-mint-700/30 mb-4">
+        <div className="flex items-start gap-3 p-4 rounded-[26px] glass mb-4">
           <IconShield className="w-5 h-5 text-mint-600 dark:text-mint-400 shrink-0 mt-0.5" strokeWidth={2} />
-          <p className="text-[13px] leading-snug text-mint-800 dark:text-mint-200 font-medium">
+          <p className="text-[13px] leading-snug text-ink-700 dark:text-ink-200 font-medium">
             No hidden buttons. No dark patterns. Every guide shows you exactly where to click — maintained and verified by the community.
           </p>
         </div>
 
         <div className="relative">
-          <IconSearch className="w-[18px] h-[18px] absolute left-4 top-1/2 -translate-y-1/2 text-ink-400" />
+          <IconSearch className="w-[18px] h-[18px] absolute left-4 top-1/2 -translate-y-1/2 text-ink-400 z-[1]" />
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search a service to cancel"
             aria-label="Search cancellation guides"
-            className="w-full h-[44px] pl-11 pr-4 rounded-2xl bg-white dark:bg-ink-900 border border-ink-100/60 dark:border-ink-800/60 text-[15px] text-ink-900 dark:text-ink-50 placeholder:text-ink-400 shadow-card dark:shadow-card-dark"
+            className="w-full h-[48px] pl-11 pr-4 rounded-[20px] glass-strong text-[15px] text-ink-900 dark:text-ink-50 placeholder:text-ink-400"
           />
         </div>
 
@@ -55,10 +55,10 @@ export function CancelCenter() {
             <button
               key={f.id}
               onClick={() => setDifficulty(f.id)}
-              className={`shrink-0 px-3.5 h-[32px] rounded-full text-[13px] font-semibold transition-colors ${
+              className={`shrink-0 px-3.5 h-[34px] rounded-full text-[13px] font-semibold transition-all ${
                 difficulty === f.id
-                  ? 'bg-ink-900 text-white dark:bg-ink-50 dark:text-ink-900'
-                  : 'bg-white dark:bg-ink-900 text-ink-600 dark:text-ink-300 border border-ink-100/80 dark:border-ink-800'
+                  ? 'bg-ink-900 text-white dark:bg-white dark:text-ink-900 shadow-sm'
+                  : 'glass-soft text-ink-600 dark:text-ink-300'
               }`}
             >
               {f.id !== 0 && (
@@ -81,7 +81,7 @@ export function CancelCenter() {
             <Link key={s.id} to={`/cancel/${s.id}`} className="block">
               <Card className="p-4">
                 <div className="flex items-center gap-3.5">
-                  <LogoTile name={s.name} color={s.color} />
+                  <LogoTile name={s.name} color={s.color} serviceId={s.id} />
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-1.5">
                       <h3 className="text-[15px] font-semibold text-ink-900 dark:text-ink-50 truncate">{s.name}</h3>

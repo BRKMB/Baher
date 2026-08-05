@@ -124,7 +124,7 @@ export function SubscriptionForm() {
                       : 'border-ink-100/80 dark:border-ink-800 bg-white dark:bg-ink-900'
                   }`}
                 >
-                  <LogoTile name={s.name} color={s.color} size="sm" />
+                  <LogoTile name={s.name} color={s.color} serviceId={s.id} size="sm" />
                   <span className="text-[13px] font-semibold text-ink-800 dark:text-ink-100 whitespace-nowrap">{s.name}</span>
                 </button>
               ))}

@@ -129,7 +129,7 @@ export function Analytics() {
           {topExpensive.map((s, i) => (
             <Link key={s.id} to={`/subs/${s.id}`} className="flex items-center gap-3 px-4 py-3">
               <span className="text-[13px] font-bold text-ink-300 dark:text-ink-600 w-4 tabular-nums">{i + 1}</span>
-              <LogoTile name={s.name} color={s.color} size="sm" />
+              <LogoTile name={s.name} color={s.color} serviceId={s.serviceId} size="sm" />
               <div className="flex-1 min-w-0">
                 <p className="text-[14px] font-semibold text-ink-900 dark:text-ink-50 truncate">{s.name}</p>
                 <p className="text-[11px] text-ink-400">{formatMoney(yearlyCost(s, currency), currency, { compact: true })}/year</p>

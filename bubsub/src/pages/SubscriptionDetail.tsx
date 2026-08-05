@@ -66,7 +66,7 @@ export function SubscriptionDetail() {
         {/* Hero */}
         <Card className="p-6">
           <div className="flex flex-col items-center text-center">
-            <LogoTile name={sub.name} color={sub.color} size="lg" />
+            <LogoTile name={sub.name} color={sub.color} serviceId={sub.serviceId} size="lg" />
             <h2 className="text-[20px] font-bold text-ink-900 dark:text-ink-50 mt-3">{sub.name}</h2>
             <p className="text-[13px] text-ink-400 font-medium mt-0.5">
               {categoryEmoji(sub.category)} {categoryLabel(sub.category)}

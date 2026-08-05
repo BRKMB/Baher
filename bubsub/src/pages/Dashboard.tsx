@@ -7,7 +7,7 @@ import { daysUntil, effectiveNextRenewal } from '../lib/dates'
 import { upcomingReminders } from '../lib/insights'
 import { CATEGORIES } from '../lib/categories'
 import { SubscriptionCard } from '../components/SubscriptionCard'
-import { Badge, EmptyState, SectionTitle } from '../components/ui'
+import { Badge, Card, EmptyState, LogoTile, SectionTitle } from '../components/ui'
 import { IconBell, IconGear, IconSearch, IconWarning, IconX } from '../components/icons'
 import type { Category, Subscription } from '../lib/types'
 
@@ -26,14 +26,14 @@ function NotificationsSheet({ onClose }: { onClose: () => void }) {
   const reminders = upcomingReminders(subscriptions, settings.currency)
   return (
     <div className="absolute inset-0 z-50 fade-in" role="dialog" aria-label="Notifications">
-      <button className="absolute inset-0 bg-black/40" onClick={onClose} aria-label="Close" />
+      <button className="absolute inset-0 bg-black/30 backdrop-blur-sm" onClick={onClose} aria-label="Close" />
       <div
-        className="absolute bottom-0 left-0 right-0 bg-white dark:bg-ink-900 rounded-t-[28px] sheet-in max-h-[70%] overflow-y-auto no-scrollbar"
+        className="absolute bottom-0 left-0 right-0 glass-strong rounded-t-[32px] sheet-in max-h-[72%] overflow-y-auto no-scrollbar"
         style={{ paddingBottom: 'calc(var(--sab, 0px) + 20px)' }}
       >
-        <div className="sticky top-0 bg-white dark:bg-ink-900 px-6 pt-5 pb-3 flex items-center justify-between">
+        <div className="sticky top-0 px-6 pt-5 pb-3 flex items-center justify-between">
           <h2 className="text-[18px] font-bold text-ink-900 dark:text-ink-50">Reminders</h2>
-          <button onClick={onClose} aria-label="Close" className="p-1.5 rounded-full bg-ink-100 dark:bg-ink-800 text-ink-500 dark:text-ink-300">
+          <button onClick={onClose} aria-label="Close" className="w-8 h-8 rounded-full glass flex items-center justify-center text-ink-500">
             <IconX className="w-4 h-4" strokeWidth={2.2} />
           </button>
         </div>
@@ -46,7 +46,7 @@ function NotificationsSheet({ onClose }: { onClose: () => void }) {
               key={r.subId}
               to={`/subs/${r.subId}`}
               onClick={onClose}
-              className="flex items-center gap-3 p-3.5 rounded-2xl bg-ink-50 dark:bg-ink-850"
+              className="flex items-center gap-3 p-3.5 rounded-[22px] glass-soft"
             >
               <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ background: r.color }} />
               <div className="flex-1 min-w-0">
@@ -68,17 +68,21 @@ function NotificationsSheet({ onClose }: { onClose: () => void }) {
 function TrialBanner({ sub }: { sub: Subscription }) {
   const d = daysUntil(sub.trialEndsAt ?? sub.nextRenewal)
   return (
-    <Link
-      to={`/subs/${sub.id}`}
-      className="flex items-center gap-3 p-4 rounded-3xl bg-amber-50 dark:bg-amber-500/10 border border-amber-200/70 dark:border-amber-500/25"
-    >
-      <IconWarning className="w-6 h-6 text-amber-500 shrink-0" strokeWidth={2} />
-      <div className="flex-1 min-w-0">
-        <p className="text-[14px] font-bold text-amber-800 dark:text-amber-300">
-          {sub.name} trial ends {d === 0 ? 'today' : d === 1 ? 'tomorrow' : `in ${d} days`}
-        </p>
-        <p className="text-[12px] text-amber-700/80 dark:text-amber-400/80">Cancel before then to avoid being charged.</p>
-      </div>
+    <Link to={`/subs/${sub.id}`} className="block">
+      <Card className="p-3.5" variant="soft">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-2xl bg-amber-500/15 flex items-center justify-center shrink-0">
+            <IconWarning className="w-5 h-5 text-amber-500" strokeWidth={2} />
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="text-[13px] font-bold text-ink-900 dark:text-ink-50">
+              {sub.name} trial ends {d === 0 ? 'today' : d === 1 ? 'tomorrow' : `in ${d} days`}
+            </p>
+            <p className="text-[12px] text-ink-500 dark:text-ink-400">Cancel before then to avoid being charged.</p>
+          </div>
+          <LogoTile name={sub.name} color={sub.color} serviceId={sub.serviceId} size="sm" />
+        </div>
+      </Card>
     </Link>
   )
 }
@@ -118,20 +122,23 @@ export function Dashboard() {
 
   return (
     <div className="page-in">
-      <header className="sticky top-0 z-30 bg-ink-50/85 dark:bg-ink-950/85 backdrop-blur-xl" style={{ paddingTop: 'var(--sat, 0px)' }}>
-        <div className="flex items-center justify-between px-5 h-[52px]">
-          <h1 className="text-[24px] font-extrabold tracking-tight text-ink-900 dark:text-ink-50">
-            BUB <span className="text-mint-500">SUB</span>
-          </h1>
-          <div className="flex items-center gap-1">
+      <header className="sticky top-0 z-30" style={{ paddingTop: 'var(--sat, 0px)' }}>
+        <div className="flex items-center justify-between px-5 h-[56px]">
+          <div>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-ink-400">Subscription OS</p>
+            <h1 className="text-[26px] font-extrabold tracking-tight text-ink-900 dark:text-ink-50 leading-none">
+              BUB <span className="text-mint-500">SUB</span>
+            </h1>
+          </div>
+          <div className="flex items-center gap-2">
             <button
               onClick={() => setShowBell(true)}
               aria-label={`Notifications${reminders.length ? ` (${reminders.length})` : ''}`}
-              className="relative p-2 rounded-full text-ink-600 dark:text-ink-300 active:bg-ink-100 dark:active:bg-ink-800"
+              className="relative w-10 h-10 rounded-full glass flex items-center justify-center text-ink-700 dark:text-ink-200"
             >
-              <IconBell className="w-[22px] h-[22px]" />
+              <IconBell className="w-[20px] h-[20px]" />
               {reminders.length > 0 && (
-                <span className="absolute top-1 right-1 w-[16px] h-[16px] rounded-full bg-red-500 text-white text-[10px] font-bold flex items-center justify-center">
+                <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] px-1 rounded-full bg-red-500 text-white text-[10px] font-bold flex items-center justify-center ring-2 ring-white/70 dark:ring-ink-900">
                   {reminders.length}
                 </span>
               )}
@@ -139,75 +146,75 @@ export function Dashboard() {
             <button
               onClick={() => navigate('/settings')}
               aria-label="Settings"
-              className="p-2 rounded-full text-ink-600 dark:text-ink-300 active:bg-ink-100 dark:active:bg-ink-800"
+              className="w-10 h-10 rounded-full glass flex items-center justify-center text-ink-700 dark:text-ink-200"
             >
-              <IconGear className="w-[22px] h-[22px]" />
+              <IconGear className="w-[20px] h-[20px]" />
             </button>
           </div>
         </div>
       </header>
 
-      <div className="px-5" style={{ paddingBottom: 'calc(var(--sab, 0px) + 96px)' }}>
-        {/* Spending hero */}
-        <div className="rounded-[28px] p-6 text-white bg-gradient-to-br from-ink-900 via-ink-850 to-ink-800 dark:from-ink-850 dark:via-ink-900 dark:to-black shadow-float relative overflow-hidden">
-          <div className="absolute -top-16 -right-16 w-48 h-48 rounded-full bg-mint-500/15 blur-2xl" aria-hidden />
-          <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-ink-300">Monthly spend</p>
-          <p className="text-[40px] font-extrabold tracking-tight tabular-nums mt-1 leading-none">
-            {formatMoney(monthly, settings.currency)}
-          </p>
-          <div className="flex items-center gap-5 mt-5">
-            <div>
-              <p className="text-[11px] font-medium text-ink-400">Per year</p>
-              <p className="text-[15px] font-bold tabular-nums">{formatMoney(yearly, settings.currency, { compact: true })}</p>
+      <div className="px-5" style={{ paddingBottom: 'calc(var(--sab, 0px) + 110px)' }}>
+        {/* Hero spend — full-bleed glass plane, not a boxed card cluster */}
+        <div className="relative overflow-hidden rounded-[32px] glass-dark specular p-6 text-white">
+          <div className="orb absolute -top-16 -right-10 w-44 h-44 rounded-full bg-mint-400/25 blur-2xl" aria-hidden />
+          <div className="absolute -bottom-20 -left-10 w-40 h-40 rounded-full bg-sky-400/20 blur-2xl" aria-hidden />
+          <div className="relative z-[1]">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-white/55">Monthly spend</p>
+            <p className="text-[44px] font-extrabold tracking-tight tabular-nums mt-1 leading-none">
+              {formatMoney(monthly, settings.currency)}
+            </p>
+            <div className="flex items-end gap-5 mt-6">
+              <div>
+                <p className="text-[10px] font-semibold uppercase tracking-wider text-white/45">Yearly</p>
+                <p className="text-[15px] font-bold tabular-nums">{formatMoney(yearly, settings.currency, { compact: true })}</p>
+              </div>
+              <div className="w-px h-8 bg-white/15" aria-hidden />
+              <div>
+                <p className="text-[10px] font-semibold uppercase tracking-wider text-white/45">Active</p>
+                <p className="text-[15px] font-bold tabular-nums">{subscriptions.filter(isCounted).length}</p>
+              </div>
+              {savings > 0 && (
+                <>
+                  <div className="w-px h-8 bg-white/15" aria-hidden />
+                  <div>
+                    <p className="text-[10px] font-semibold uppercase tracking-wider text-mint-300/90">Saved / yr</p>
+                    <p className="text-[15px] font-bold tabular-nums text-mint-300">
+                      {formatMoney(savings, settings.currency, { compact: true })}
+                    </p>
+                  </div>
+                </>
+              )}
             </div>
-            <div className="w-px h-8 bg-white/10" aria-hidden />
-            <div>
-              <p className="text-[11px] font-medium text-ink-400">Active</p>
-              <p className="text-[15px] font-bold tabular-nums">{subscriptions.filter(isCounted).length}</p>
-            </div>
-            {savings > 0 && (
-              <>
-                <div className="w-px h-8 bg-white/10" aria-hidden />
-                <div>
-                  <p className="text-[11px] font-medium text-mint-300">Saved / yr</p>
-                  <p className="text-[15px] font-bold tabular-nums text-mint-300">
-                    {formatMoney(savings, settings.currency, { compact: true })}
-                  </p>
-                </div>
-              </>
-            )}
           </div>
         </div>
 
-        {/* Trial warnings */}
         {endingTrials.length > 0 && (
-          <div className="mt-4 space-y-2.5">
+          <div className="mt-3 space-y-2.5">
             {endingTrials.map((s) => (
               <TrialBanner key={s.id} sub={s} />
             ))}
           </div>
         )}
 
-        {/* Search */}
         <div className="relative mt-5">
-          <IconSearch className="w-[18px] h-[18px] absolute left-4 top-1/2 -translate-y-1/2 text-ink-400" />
+          <IconSearch className="w-[18px] h-[18px] absolute left-4 top-1/2 -translate-y-1/2 text-ink-400 z-[1]" />
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search subscriptions"
             aria-label="Search subscriptions"
-            className="w-full h-[44px] pl-11 pr-4 rounded-2xl bg-white dark:bg-ink-900 border border-ink-100/60 dark:border-ink-800/60 text-[15px] text-ink-900 dark:text-ink-50 placeholder:text-ink-400 shadow-card dark:shadow-card-dark"
+            className="w-full h-[48px] pl-11 pr-4 rounded-[20px] glass-strong text-[15px] text-ink-900 dark:text-ink-50 placeholder:text-ink-400"
           />
         </div>
 
-        {/* Category chips */}
         <div className="flex gap-2 overflow-x-auto no-scrollbar -mx-5 px-5 mt-3.5 pb-1">
           <button
             onClick={() => setCategory('all')}
-            className={`shrink-0 px-3.5 h-[32px] rounded-full text-[13px] font-semibold transition-colors ${
+            className={`shrink-0 px-3.5 h-[34px] rounded-full text-[13px] font-semibold transition-all ${
               category === 'all'
-                ? 'bg-ink-900 text-white dark:bg-ink-50 dark:text-ink-900'
-                : 'bg-white dark:bg-ink-900 text-ink-600 dark:text-ink-300 border border-ink-100/80 dark:border-ink-800'
+                ? 'bg-ink-900 text-white dark:bg-white dark:text-ink-900 shadow-sm'
+                : 'glass-soft text-ink-600 dark:text-ink-300'
             }`}
           >
             All
@@ -216,13 +223,13 @@ export function Dashboard() {
             <button
               key={c.id}
               onClick={() => setCategory(category === c.id ? 'all' : c.id)}
-              className={`shrink-0 px-3.5 h-[32px] rounded-full text-[13px] font-semibold transition-colors ${
+              className={`shrink-0 px-3.5 h-[34px] rounded-full text-[13px] font-semibold transition-all ${
                 category === c.id
-                  ? 'bg-ink-900 text-white dark:bg-ink-50 dark:text-ink-900'
-                  : 'bg-white dark:bg-ink-900 text-ink-600 dark:text-ink-300 border border-ink-100/80 dark:border-ink-800'
+                  ? 'bg-ink-900 text-white dark:bg-white dark:text-ink-900 shadow-sm'
+                  : 'glass-soft text-ink-600 dark:text-ink-300'
               }`}
             >
-              {c.emoji} {c.label}
+              {c.label}
             </button>
           ))}
         </div>

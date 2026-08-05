@@ -11,6 +11,7 @@ import { IconChevronLeft, IconChevronRight } from '../components/icons'
 interface CalEvent {
   date: string
   subId: string
+  serviceId?: string
   name: string
   color: string
   amountText: string
@@ -42,6 +43,7 @@ export function Calendar() {
           out.push({
             date,
             subId: s.id,
+            serviceId: s.serviceId,
             name: s.name,
             color: s.color,
             amountText: formatMoney(monthlyCost(s, settings.currency), settings.currency),
@@ -55,6 +57,7 @@ export function Calendar() {
         out.push({
           date: s.trialEndsAt,
           subId: s.id,
+          serviceId: s.serviceId,
           name: s.name,
           color: s.color,
           amountText: 'Trial ends',
@@ -184,7 +187,7 @@ export function Calendar() {
                         {parseISO(e.date).toLocaleDateString('en-US', { month: 'short' })}
                       </p>
                     </div>
-                    <LogoTile name={e.name} color={e.color} size="sm" />
+                    <LogoTile name={e.name} color={e.color} serviceId={e.serviceId} size="sm" />
                     <div className="flex-1 min-w-0">
                       <p className="text-[14px] font-semibold text-ink-900 dark:text-ink-50 truncate">{e.name}</p>
                       <p className="text-[12px] text-ink-400">
