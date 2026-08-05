@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="14" fill="#0A0A0A"/>
+  <!-- card peeks -->
+  <rect x="16" y="5" width="9" height="4" rx="1" fill="#C8FF00"/>
+  <rect x="28" y="4" width="9" height="5" rx="1" fill="#2F6BFF"/>
+  <rect x="40" y="5" width="9" height="4" rx="1" fill="#FF2D8A"/>
+  <g fill="#C8FF00" transform="translate(10,12) scale(0.61)">
+    <path d="M4 4h20v10H12v4h12v10H4V4zm10 6h6V8h-6v2zm0 10h6v-2h-6v2z"/>
+    <path d="M4 38h20v8H12v3h12v11H4v-8h12v-3H4V38z"/>
+    <path d="M30 4h8v48c0 3 1.5 5 4 5s4-2 4-5V4h8v50c0 8-4.5 12-12 12s-12-4-12-12V4z"/>
+    <path d="M48 4h20v10H56v4h12v10H48V4zm10 6h6V8h-6v2zm0 10h6v-2h-6v2z"/>
+    <path d="M48 38h20v10H56v4h12v10H48V38zm10 6h6v-2h-6v2zm0 10h6v-2h-6v2z"/>
+  </g>
+</svg>

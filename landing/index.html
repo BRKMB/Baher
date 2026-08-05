@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BUB SUB — Cancel subscriptions without the dark patterns</title>
+  <meta name="description" content="BUB SUB is the free native app that helps you track, understand, and cancel subscriptions. Available for iOS and Android." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet" />
+  <style>
+    :root { --lime:#C8FF00; --pink:#FF2D8A; --blue:#2F6BFF; --ink:#0A0A0A; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; font-family: Outfit, system-ui, sans-serif; color: white;
+      min-height: 100vh;
+      background:
+        radial-gradient(900px 500px at 10% 0%, rgba(200,255,0,.25), transparent 55%),
+        radial-gradient(700px 400px at 90% 10%, rgba(255,45,138,.2), transparent 50%),
+        radial-gradient(600px 400px at 50% 100%, rgba(47,107,255,.2), transparent 50%),
+        #0A0A0A;
+    }
+    main { max-width: 920px; margin: 0 auto; padding: 72px 24px 96px; }
+    .mark {
+      display: inline-flex; align-items: center; gap: 12px; margin-bottom: 28px;
+    }
+    .icon {
+      width: 56px; height: 56px; border-radius: 16px; background: #111;
+      border: 1px solid rgba(200,255,0,.35); display:grid; place-items:center;
+      font-weight: 900; color: var(--lime); line-height: 1.05; font-size: 12px;
+      position: relative;
+    }
+    .cards { position: absolute; top: -6px; left: 50%; transform: translateX(-50%); display:flex; gap:3px; align-items:flex-end; }
+    .cards i { display:block; width:7px; border-radius:2px; }
+    h1 { font-size: clamp(40px, 8vw, 72px); line-height: .95; margin: 0 0 18px; letter-spacing: -1.5px; }
+    h1 span { color: var(--lime); }
+    p { font-size: 18px; line-height: 1.5; color: rgba(255,255,255,.72); max-width: 34ch; }
+    .cta { display:flex; flex-wrap:wrap; gap:12px; margin-top: 32px; }
+    a.btn {
+      display:inline-flex; align-items:center; justify-content:center;
+      min-height: 48px; padding: 0 20px; border-radius: 999px; font-weight: 700; text-decoration:none;
+    }
+    .primary { background: var(--lime); color: var(--ink); }
+    .ghost { border: 1px solid rgba(255,255,255,.2); color: white; }
+    .note { margin-top: 40px; font-size: 13px; color: rgba(255,255,255,.45); max-width: 52ch; }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="mark">
+      <div class="icon">
+        <div class="cards">
+          <i style="height:11px;background:var(--lime)"></i>
+          <i style="height:13px;background:var(--blue)"></i>
+          <i style="height:9px;background:var(--pink)"></i>
+        </div>
+        BUB<br/>SUB
+      </div>
+    </div>
+    <h1>Track it.<br/>Cancel it.<br/><span>Keep the money.</span></h1>
+    <p>BUB SUB is the free native iOS &amp; Android app for subscription tracking, trial countdowns, and community-verified cancellation guides — no dark patterns, no bank login required.</p>
+    <div class="cta">
+      <a class="btn primary" href="#">App Store</a>
+      <a class="btn ghost" href="#">Google Play</a>
+    </div>
+    <p class="note">This is a marketing page only. Dashboard, guides, OCR, and reminders live exclusively in the native mobile app. Zero paid APIs. Local-first privacy.</p>
+  </main>
+</body>
+</html>
