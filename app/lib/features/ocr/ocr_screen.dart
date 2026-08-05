@@ -62,7 +62,7 @@ class _OcrScreenState extends ConsumerState<OcrScreen> {
             const SizedBox(height: 20),
             Text(t.t('confirmExtracted'), style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w800)),
             const SizedBox(height: 8),
-            if (pickedLabel != null) Text(pickedLabel!, style: TextStyle(color: Colors.grey.shade600)),
+            if (pickedLabel != null) Text(pickedLabel!, style: TextStyle(color: bubMuted(context))),
             const SizedBox(height: 12),
             TextField(controller: nameCtrl, decoration: InputDecoration(labelText: t.t('name'), border: const OutlineInputBorder())),
             const SizedBox(height: 12),

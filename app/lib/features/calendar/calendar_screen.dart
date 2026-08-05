@@ -47,7 +47,7 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
         padding: const EdgeInsets.fromLTRB(20, 12, 20, 120),
         children: [
           Text(t.t('calendarTitle'), style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w800)),
-          Text(t.t('calendarSubtitle'), style: TextStyle(color: Colors.grey.shade600)),
+          Text(t.t('calendarSubtitle'), style: TextStyle(color: bubMuted(context))),
           const SizedBox(height: 14),
           Glass(
             padding: const EdgeInsets.all(14),
@@ -62,7 +62,7 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
                 ),
                 Row(
                   children: ['S', 'M', 'T', 'W', 'T', 'F', 'S']
-                      .map((d) => Expanded(child: Center(child: Text(d, style: TextStyle(fontWeight: FontWeight.w700, color: Colors.grey.shade500, fontSize: 11)))))
+                      .map((d) => Expanded(child: Center(child: Text(d, style: TextStyle(fontWeight: FontWeight.w700, color: bubMuted(context), fontSize: 11)))))
                       .toList(),
                 ),
                 const SizedBox(height: 6),
@@ -80,12 +80,20 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
                     return Container(
                       margin: const EdgeInsets.all(2),
                       decoration: BoxDecoration(
-                        color: isToday ? const Color(0xFFC8FF00).withValues(alpha: 0.25) : null,
+                        color: isToday ? BubColors.lime : null,
                         borderRadius: BorderRadius.circular(14),
                       ),
                       child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                        Text('$day', style: TextStyle(fontWeight: FontWeight.w700, color: isToday ? const Color(0xFF5F8000) : null)),
-                        if (has) Container(width: 5, height: 5, decoration: BoxDecoration(color: bubAccentOn(context), shape: BoxShape.circle)),
+                        Text('$day',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w800,
+                              color: isToday ? BubColors.ink : null,
+                            )),
+                        if (has)
+                          Container(
+                              width: 5,
+                              height: 5,
+                              decoration: BoxDecoration(color: isToday ? BubColors.ink : bubAccentOn(context), shape: BoxShape.circle)),
                       ]),
                     );
                   },
@@ -94,7 +102,7 @@ class _CalendarScreenState extends ConsumerState<CalendarScreen> {
             ),
           ),
           const SizedBox(height: 16),
-          Text(t.t('thisMonth').toUpperCase(), style: TextStyle(fontWeight: FontWeight.w700, color: Colors.grey.shade600)),
+          Text(t.t('thisMonth').toUpperCase(), style: bubSectionTitle(context)),
           const SizedBox(height: 8),
           if (monthEvents.isEmpty) Text(t.t('nothingHere')),
           ...monthEvents.expand((e) => e.value.map((item) => Padding(

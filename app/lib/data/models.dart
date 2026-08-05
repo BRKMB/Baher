@@ -215,7 +215,7 @@ class Subscription {
 class AppSettings {
   AppSettings({
     this.locale = 'en',
-    this.themeMode = 'system',
+    this.themeMode = 'dark',
     this.currency = 'USD',
     this.guideVotes = const {},
     this.reputationPoints = 0,
@@ -257,7 +257,7 @@ class AppSettings {
 
   factory AppSettings.fromJson(Map<String, dynamic> j) => AppSettings(
         locale: j['locale'] as String? ?? 'en',
-        themeMode: j['themeMode'] as String? ?? 'system',
+        themeMode: j['themeMode'] as String? ?? 'dark',
         currency: j['currency'] as String? ?? 'USD',
         guideVotes: (j['guideVotes'] as Map?)?.map((k, v) => MapEntry('$k', '$v')) ?? {},
         reputationPoints: j['reputationPoints'] as int? ?? 0,

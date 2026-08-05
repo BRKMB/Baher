@@ -44,21 +44,21 @@ class DetailScreen extends ConsumerWidget {
               const SizedBox(height: 12),
               Text(sub.name, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w800)),
               Text(formatMoney(sub.price, sub.currency), style: const TextStyle(fontSize: 34, fontWeight: FontWeight.w800)),
-              Text('${formatMoney(monthlyCost(sub, currency), currency)} / mo', style: TextStyle(color: Colors.grey.shade700)),
+              Text('${formatMoney(monthlyCost(sub, currency), currency)} / mo', style: TextStyle(color: bubMuted(context))),
             ]),
           ),
           const SizedBox(height: 12),
           Glass(
             padding: const EdgeInsets.all(16),
             child: Column(children: [
-              _row(t.t('nextRenewal'), '$renewal (${relativeLabel(renewal)})'),
-              _row(t.t('billingCycle'), sub.cycle.name),
-              _row(t.t('category'), sub.category),
-              _row(t.t('autoRenew'), sub.autoRenew ? 'On' : 'Off'),
+              _row(context, t.t('nextRenewal'), '$renewal (${relativeLabel(renewal)})'),
+              _row(context, t.t('billingCycle'), sub.cycle.name),
+              _row(context, t.t('category'), sub.category),
+              _row(context, t.t('autoRenew'), sub.autoRenew ? 'On' : 'Off'),
             ]),
           ),
           const SizedBox(height: 12),
-          Text(t.t('reminders').toUpperCase(), style: TextStyle(fontWeight: FontWeight.w700, color: Colors.grey.shade700, letterSpacing: 0.8)),
+          Text(t.t('reminders').toUpperCase(), style: bubSectionTitle(context)),
           const SizedBox(height: 8),
           Glass(
             padding: const EdgeInsets.all(14),
@@ -125,10 +125,10 @@ class DetailScreen extends ConsumerWidget {
     );
   }
 
-  Widget _row(String k, String v) => Padding(
+  Widget _row(BuildContext context, String k, String v) => Padding(
         padding: const EdgeInsets.symmetric(vertical: 8),
         child: Row(children: [
-          Expanded(child: Text(k, style: TextStyle(color: Colors.grey.shade700))),
+          Expanded(child: Text(k, style: TextStyle(color: bubMuted(context)))),
           Text(v, style: const TextStyle(fontWeight: FontWeight.w700)),
         ]),
       );

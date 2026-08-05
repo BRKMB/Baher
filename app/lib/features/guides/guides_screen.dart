@@ -50,7 +50,7 @@ class _GuidesScreenState extends ConsumerState<GuidesScreen> {
         padding: const EdgeInsets.fromLTRB(20, 12, 20, 120),
         children: [
           Text(t.t('cancelAnything'), style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w800)),
-          Text(t.t('cancelSubtitle'), style: TextStyle(color: Colors.grey.shade700)),
+          Text(t.t('cancelSubtitle'), style: TextStyle(color: bubMuted(context))),
           const SizedBox(height: 12),
           Glass(
             padding: const EdgeInsets.all(14),
@@ -90,7 +90,7 @@ class _GuidesScreenState extends ConsumerState<GuidesScreen> {
             ),
           ),
           const SizedBox(height: 8),
-          Text('${list.length} guides', style: TextStyle(color: Colors.grey.shade600, fontWeight: FontWeight.w600)),
+          Text('${list.length} guides', style: TextStyle(color: bubMuted(context), fontWeight: FontWeight.w600)),
           const SizedBox(height: 8),
           ...list.map((g) => Padding(
                 padding: const EdgeInsets.only(bottom: 10),
@@ -117,17 +117,17 @@ class _GuidesScreenState extends ConsumerState<GuidesScreen> {
                               ],
                             ]),
                             Text('${labels[g.difficulty]} · ~${g.estMinutes} min · 👍 ${g.votesWorks}',
-                                style: TextStyle(color: Colors.grey.shade600, fontSize: 12)),
+                                style: TextStyle(color: bubMuted(context), fontSize: 12)),
                           ],
                         ),
                       ),
-                      const Icon(Icons.chevron_right_rounded, color: Colors.grey),
+                      Icon(Icons.chevron_right_rounded, color: bubMuted(context)),
                     ],
                   ),
                 ),
               )),
           const SizedBox(height: 8),
-          Text(t.t('legalDisclaimer'), textAlign: TextAlign.center, style: TextStyle(fontSize: 11, color: Colors.grey.shade500)),
+          Text(t.t('legalDisclaimer'), textAlign: TextAlign.center, style: TextStyle(fontSize: 11, color: bubMuted(context))),
         ],
       ),
     );

@@ -1,17 +1,19 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../data/logos.dart';
 import '../theme/brand.dart';
 
+/// Elevated panel card — crisp surface, hairline border, deep shadow.
+/// (Replaces the old washed-out "glass" look.)
 class Glass extends StatelessWidget {
   const Glass({
     super.key,
     required this.child,
     this.padding,
-    this.borderRadius = 26,
+    this.borderRadius = 22,
     this.tint,
     this.onTap,
+    this.glow,
   });
 
   final Widget child;
@@ -20,40 +22,29 @@ class Glass extends StatelessWidget {
   final Color? tint;
   final VoidCallback? onTap;
 
+  /// Optional neon glow color behind the card.
+  final Color? glow;
+
   @override
   Widget build(BuildContext context) {
     final dark = Theme.of(context).brightness == Brightness.dark;
-    final body = ClipRRect(
-      borderRadius: BorderRadius.circular(borderRadius),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
-        child: Container(
-          padding: padding,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(borderRadius),
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: tint != null
-                  ? [tint!.withValues(alpha: 0.94), tint!.withValues(alpha: 0.86)]
-                  : dark
-                      ? [Colors.white.withValues(alpha: 0.14), Colors.white.withValues(alpha: 0.07)]
-                      : [Colors.white.withValues(alpha: 0.96), Colors.white.withValues(alpha: 0.88)],
-            ),
-            border: Border.all(
-              color: dark ? Colors.white.withValues(alpha: 0.16) : const Color(0xFFD0D4E0),
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: dark ? 0.4 : 0.1),
-                blurRadius: 18,
-                offset: const Offset(0, 8),
-              ),
-            ],
+    final body = Container(
+      padding: padding,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(borderRadius),
+        color: tint ?? bubSurface(context),
+        border: Border.all(color: tint != null ? Colors.white.withValues(alpha: 0.08) : bubBorder(context)),
+        boxShadow: [
+          if (glow != null)
+            BoxShadow(color: glow!.withValues(alpha: 0.35), blurRadius: 40, spreadRadius: -6, offset: const Offset(0, 10)),
+          BoxShadow(
+            color: Colors.black.withValues(alpha: dark ? 0.5 : 0.08),
+            blurRadius: 18,
+            offset: const Offset(0, 8),
           ),
-          child: child,
-        ),
+        ],
       ),
+      child: child,
     );
     if (onTap == null) return body;
     return Material(
@@ -78,7 +69,10 @@ class BrandHeaderMark extends StatelessWidget {
             decoration: BoxDecoration(
               color: BubColors.ink,
               borderRadius: BorderRadius.circular(15),
-              border: Border.all(color: BubColors.lime.withValues(alpha: 0.45)),
+              border: Border.all(color: BubColors.lime.withValues(alpha: 0.55)),
+              boxShadow: [
+                BoxShadow(color: BubColors.lime.withValues(alpha: 0.25), blurRadius: 18, spreadRadius: -4),
+              ],
             ),
             alignment: Alignment.center,
             child: const Text(
@@ -139,7 +133,7 @@ class LogoTile extends StatelessWidget {
     final spec = logoFor(serviceId) ?? logoFor(name);
     final fallbackBg = _parseColor(color);
     final bg = spec?.bg ?? fallbackBg;
-    final radius = BorderRadius.circular(size * 0.22);
+    final radius = BorderRadius.circular(size * 0.24);
 
     return Container(
       width: size,
@@ -147,8 +141,8 @@ class LogoTile extends StatelessWidget {
       decoration: BoxDecoration(
         color: bg,
         borderRadius: radius,
-        border: Border.all(color: Colors.black.withValues(alpha: 0.06)),
-        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.12), blurRadius: 8, offset: const Offset(0, 3))],
+        border: Border.all(color: Colors.white.withValues(alpha: 0.10)),
+        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.25), blurRadius: 10, offset: const Offset(0, 4))],
       ),
       clipBehavior: Clip.antiAlias,
       child: spec == null
@@ -169,7 +163,7 @@ class LogoTile extends StatelessWidget {
                       child: SvgPicture.asset(spec.asset, fit: BoxFit.contain),
                     )
                   : Padding(
-                      // Full-bleed brand tiles (Netflix/Spotify color blocks) need less inset.
+                      // Full-bleed brand tiles need less inset than photo tiles.
                       padding: EdgeInsets.all(spec.bg.toARGB32() == const Color(0xFFF4F5F8).toARGB32() ? size * 0.14 : size * 0.06),
                       child: Image.asset(
                         spec.asset,

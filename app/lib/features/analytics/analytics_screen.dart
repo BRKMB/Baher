@@ -37,7 +37,7 @@ class AnalyticsScreen extends ConsumerWidget {
         padding: const EdgeInsets.fromLTRB(20, 12, 20, 120),
         children: [
           Text(t.t('spending'), style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w800)),
-          Text(t.t('spendingSubtitle'), style: TextStyle(color: Colors.grey.shade600)),
+          Text(t.t('spendingSubtitle'), style: TextStyle(color: bubMuted(context))),
           const SizedBox(height: 14),
           Row(children: [
             Expanded(child: Glass(padding: const EdgeInsets.all(16), child: _Mini(label: t.t('monthlySpend'), value: formatMoney(monthly, currency)))),
@@ -45,7 +45,7 @@ class AnalyticsScreen extends ConsumerWidget {
             Expanded(child: Glass(padding: const EdgeInsets.all(16), child: _Mini(label: t.t('yearly'), value: formatMoney(monthly * 12, currency)))),
           ]),
           const SizedBox(height: 16),
-          Text(t.t('insights').toUpperCase(), style: TextStyle(fontWeight: FontWeight.w700, color: Colors.grey.shade600)),
+          Text(t.t('insights').toUpperCase(), style: bubSectionTitle(context)),
           const SizedBox(height: 8),
           Glass(
             padding: const EdgeInsets.all(14),
@@ -62,7 +62,7 @@ class AnalyticsScreen extends ConsumerWidget {
             ),
           ],
           const SizedBox(height: 16),
-          Text(t.t('byCategory').toUpperCase(), style: TextStyle(fontWeight: FontWeight.w700, color: Colors.grey.shade600)),
+          Text(t.t('byCategory').toUpperCase(), style: bubSectionTitle(context)),
           const SizedBox(height: 8),
           Glass(
             padding: const EdgeInsets.all(16),
@@ -84,7 +84,7 @@ class AnalyticsScreen extends ConsumerWidget {
                           value: cats.first.value == 0 ? 0 : e.value / cats.first.value,
                           minHeight: 8,
                           color: BubColors.lime,
-                          backgroundColor: Colors.black12,
+                          backgroundColor: bubBorder(context),
                         ),
                       ),
                     ]),
@@ -93,7 +93,7 @@ class AnalyticsScreen extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 16),
-          Text(t.t('mostExpensive').toUpperCase(), style: TextStyle(fontWeight: FontWeight.w700, color: Colors.grey.shade600)),
+          Text(t.t('mostExpensive').toUpperCase(), style: bubSectionTitle(context)),
           const SizedBox(height: 8),
           ...top.take(5).map((s) => Padding(
                 padding: const EdgeInsets.only(bottom: 8),
@@ -108,7 +108,7 @@ class AnalyticsScreen extends ConsumerWidget {
                 ),
               )),
           const SizedBox(height: 16),
-          Text(t.t('upcomingCharges').toUpperCase(), style: TextStyle(fontWeight: FontWeight.w700, color: Colors.grey.shade600)),
+          Text(t.t('upcomingCharges').toUpperCase(), style: bubSectionTitle(context)),
           const SizedBox(height: 8),
           ...upcoming.map((e) => Padding(
                 padding: const EdgeInsets.only(bottom: 8),
@@ -133,7 +133,7 @@ class _Mini extends StatelessWidget {
   final String value;
   @override
   Widget build(BuildContext context) => Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Text(label.toUpperCase(), style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: Colors.grey.shade600)),
+        Text(label.toUpperCase(), style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: bubMuted(context))),
         Text(value, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w800)),
       ]);
 }

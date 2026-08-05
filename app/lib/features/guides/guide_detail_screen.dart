@@ -29,7 +29,7 @@ class GuideDetailScreen extends ConsumerWidget {
       appBar: AppBar(
         title: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text(g.name),
-          Text(g.domain, style: TextStyle(fontSize: 12, color: Colors.grey.shade600, fontWeight: FontWeight.w500)),
+          Text(g.domain, style: TextStyle(fontSize: 12, color: bubMuted(context), fontWeight: FontWeight.w500)),
         ]),
       ),
       body: ListView(
@@ -51,14 +51,14 @@ class GuideDetailScreen extends ConsumerWidget {
                 ]),
                 const SizedBox(height: 14),
                 Row(children: [
-                  Text(t.t('communityTrust'), style: TextStyle(color: Colors.grey.shade700, fontWeight: FontWeight.w600)),
+                  Text(t.t('communityTrust'), style: TextStyle(color: bubMuted(context), fontWeight: FontWeight.w600)),
                   const Spacer(),
                   Text('$trust% ${t.t('works').toLowerCase()}', style: TextStyle(fontWeight: FontWeight.w800, color: bubAccentOn(context))),
                 ]),
                 const SizedBox(height: 6),
                 ClipRRect(
                   borderRadius: BorderRadius.circular(99),
-                  child: LinearProgressIndicator(value: trust / 100, minHeight: 7, color: BubColors.lime, backgroundColor: Colors.black12),
+                  child: LinearProgressIndicator(value: trust / 100, minHeight: 7, color: BubColors.lime, backgroundColor: bubBorder(context)),
                 ),
                 const SizedBox(height: 14),
                 SizedBox(
@@ -74,7 +74,7 @@ class GuideDetailScreen extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 16),
-          Text(t.t('stepByStep').toUpperCase(), style: TextStyle(fontWeight: FontWeight.w700, color: Colors.grey.shade600, letterSpacing: 0.8)),
+          Text(t.t('stepByStep').toUpperCase(), style: bubSectionTitle(context)),
           const SizedBox(height: 8),
           Glass(
             padding: const EdgeInsets.all(16),
@@ -94,7 +94,7 @@ class GuideDetailScreen extends ConsumerWidget {
           ),
           if (g.issues.isNotEmpty) ...[
             const SizedBox(height: 16),
-            Text(t.t('darkPatterns').toUpperCase(), style: TextStyle(fontWeight: FontWeight.w700, color: Colors.grey.shade600)),
+            Text(t.t('darkPatterns').toUpperCase(), style: bubSectionTitle(context)),
             const SizedBox(height: 8),
             ...g.issues.map((issue) => Padding(
                   padding: const EdgeInsets.only(bottom: 8),
@@ -110,7 +110,7 @@ class GuideDetailScreen extends ConsumerWidget {
           ],
           if (g.altMethods.isNotEmpty) ...[
             const SizedBox(height: 16),
-            Text(t.t('altMethods').toUpperCase(), style: TextStyle(fontWeight: FontWeight.w700, color: Colors.grey.shade700)),
+            Text(t.t('altMethods').toUpperCase(), style: bubSectionTitle(context)),
             const SizedBox(height: 8),
             ...g.altMethods.map((m) => Padding(
                   padding: const EdgeInsets.only(bottom: 8),
@@ -126,7 +126,7 @@ class GuideDetailScreen extends ConsumerWidget {
           ],
           if (g.alternatives.isNotEmpty) ...[
             const SizedBox(height: 16),
-            Text(t.t('cheaperAlternatives').toUpperCase(), style: TextStyle(fontWeight: FontWeight.w700, color: Colors.grey.shade700)),
+            Text(t.t('cheaperAlternatives').toUpperCase(), style: bubSectionTitle(context)),
             const SizedBox(height: 8),
             Glass(
               padding: const EdgeInsets.all(14),
@@ -139,7 +139,7 @@ class GuideDetailScreen extends ConsumerWidget {
           ],
           if (g.countryNotes.isNotEmpty) ...[
             const SizedBox(height: 16),
-            Text(t.t('countryNotes').toUpperCase(), style: TextStyle(fontWeight: FontWeight.w700, color: Colors.grey.shade700)),
+            Text(t.t('countryNotes').toUpperCase(), style: bubSectionTitle(context)),
             const SizedBox(height: 8),
             ...g.countryNotes.map((n) => Padding(
                   padding: const EdgeInsets.only(bottom: 8),
@@ -155,7 +155,7 @@ class GuideDetailScreen extends ConsumerWidget {
           ],
           if (g.cancellationScripts.isNotEmpty) ...[
             const SizedBox(height: 16),
-            Text(t.t('copyScript').toUpperCase(), style: TextStyle(fontWeight: FontWeight.w700, color: Colors.grey.shade700)),
+            Text(t.t('copyScript').toUpperCase(), style: bubSectionTitle(context)),
             const SizedBox(height: 8),
             ...g.cancellationScripts.map((script) => Padding(
                   padding: const EdgeInsets.only(bottom: 8),
@@ -204,7 +204,7 @@ class GuideDetailScreen extends ConsumerWidget {
             ),
           ]),
           const SizedBox(height: 16),
-          Text(t.t('legalDisclaimer'), textAlign: TextAlign.center, style: TextStyle(fontSize: 11, color: Colors.grey.shade500)),
+          Text(t.t('legalDisclaimer'), textAlign: TextAlign.center, style: TextStyle(fontSize: 11, color: bubMuted(context))),
         ],
       ),
     );

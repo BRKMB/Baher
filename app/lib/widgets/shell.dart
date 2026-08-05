@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../data/i18n.dart';
 import '../theme/brand.dart';
-import 'glass.dart';
 
 class AppShell extends StatelessWidget {
   const AppShell({super.key, required this.navigationShell});
@@ -11,16 +10,28 @@ class AppShell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.i18n;
+    final dark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
       extendBody: true,
       body: navigationShell,
       bottomNavigationBar: SafeArea(
-        minimum: const EdgeInsets.fromLTRB(16, 0, 16, 10),
-        child: Glass(
-          borderRadius: 28,
+        minimum: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+        child: Container(
+          decoration: BoxDecoration(
+            color: dark ? BubColors.surfaceDarkHi : Colors.white,
+            borderRadius: BorderRadius.circular(28),
+            border: Border.all(color: bubBorder(context)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: dark ? 0.55 : 0.12),
+                blurRadius: 24,
+                offset: const Offset(0, 10),
+              ),
+            ],
+          ),
           padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
           child: SizedBox(
-            height: 58,
+            height: 60,
             child: Row(
               children: [
                 _Tab(icon: Icons.home_rounded, label: t.t('home'), index: 0, shell: navigationShell),
@@ -28,11 +39,20 @@ class AppShell extends StatelessWidget {
                 Expanded(
                   child: Center(
                     child: Transform.translate(
-                      offset: const Offset(0, -16),
-                      child: FloatingActionButton(
-                        heroTag: 'add',
-                        onPressed: () => context.push('/add'),
-                        child: const Icon(Icons.add_rounded, size: 30),
+                      offset: const Offset(0, -18),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(color: BubColors.lime.withValues(alpha: 0.45), blurRadius: 24, spreadRadius: -2),
+                          ],
+                        ),
+                        child: FloatingActionButton(
+                          heroTag: 'add',
+                          onPressed: () => context.push('/add'),
+                          shape: const CircleBorder(),
+                          child: const Icon(Icons.add_rounded, size: 30),
+                        ),
                       ),
                     ),
                   ),
@@ -58,6 +78,8 @@ class _Tab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final active = shell.currentIndex == index;
+    final activeColor = bubAccentOn(context);
+    final idleColor = bubMuted(context);
     return Expanded(
       child: InkWell(
         borderRadius: BorderRadius.circular(18),
@@ -65,10 +87,16 @@ class _Tab extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            if (active) Container(width: 28, height: 3, decoration: BoxDecoration(color: BubColors.lime, borderRadius: BorderRadius.circular(99))),
-            Icon(icon, color: active ? bubAccentOn(context) : Colors.grey.shade600, size: 22),
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
+              width: active ? 28 : 0,
+              height: 3,
+              margin: const EdgeInsets.only(bottom: 3),
+              decoration: BoxDecoration(color: BubColors.lime, borderRadius: BorderRadius.circular(99)),
+            ),
+            Icon(icon, color: active ? activeColor : idleColor, size: 22),
             const SizedBox(height: 2),
-            Text(label, style: TextStyle(fontSize: 10, fontWeight: FontWeight.w700, color: active ? bubAccentOn(context) : Colors.grey.shade600)),
+            Text(label, style: TextStyle(fontSize: 10, fontWeight: FontWeight.w800, color: active ? activeColor : idleColor)),
           ],
         ),
       ),

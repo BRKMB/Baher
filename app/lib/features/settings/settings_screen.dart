@@ -24,7 +24,7 @@ class SettingsScreen extends ConsumerWidget {
       body: ListView(
         padding: const EdgeInsets.fromLTRB(20, 8, 20, 40),
         children: [
-          Text(t.t('language').toUpperCase(), style: TextStyle(fontWeight: FontWeight.w700, color: Colors.grey.shade700)),
+          Text(t.t('language').toUpperCase(), style: bubSectionTitle(context)),
           const SizedBox(height: 8),
           Glass(
             padding: const EdgeInsets.all(8),
@@ -44,7 +44,7 @@ class SettingsScreen extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 16),
-          Text(t.t('appearance').toUpperCase(), style: TextStyle(fontWeight: FontWeight.w700, color: Colors.grey.shade700)),
+          Text(t.t('appearance').toUpperCase(), style: bubSectionTitle(context)),
           const SizedBox(height: 8),
           Glass(
             padding: const EdgeInsets.all(8),
@@ -64,7 +64,7 @@ class SettingsScreen extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 16),
-          Text(t.t('displayCurrency').toUpperCase(), style: TextStyle(fontWeight: FontWeight.w700, color: Colors.grey.shade700)),
+          Text(t.t('displayCurrency').toUpperCase(), style: bubSectionTitle(context)),
           const SizedBox(height: 8),
           Glass(
             padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -78,7 +78,7 @@ class SettingsScreen extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 16),
-          Text(t.t('yourData').toUpperCase(), style: TextStyle(fontWeight: FontWeight.w700, color: Colors.grey.shade700)),
+          Text(t.t('yourData').toUpperCase(), style: bubSectionTitle(context)),
           const SizedBox(height: 8),
           Glass(
             padding: const EdgeInsets.all(4),
@@ -131,13 +131,13 @@ class SettingsScreen extends ConsumerWidget {
             ]),
           ),
           const SizedBox(height: 16),
-          Text(t.t('reputation').toUpperCase(), style: TextStyle(fontWeight: FontWeight.w700, color: Colors.grey.shade700)),
+          Text(t.t('reputation').toUpperCase(), style: bubSectionTitle(context)),
           const SizedBox(height: 8),
           Glass(
             padding: const EdgeInsets.all(16),
             child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Text('${state.settings.reputationPoints} pts', style: const TextStyle(fontSize: 28, fontWeight: FontWeight.w800)),
-              Text(t.t('topVerifiers'), style: TextStyle(color: Colors.grey.shade700, fontWeight: FontWeight.w600)),
+              Text(t.t('topVerifiers'), style: TextStyle(color: bubMuted(context), fontWeight: FontWeight.w600)),
               const SizedBox(height: 8),
               const Text('1. You  ·  verified votes & price alerts', style: TextStyle(fontWeight: FontWeight.w600)),
               const Text('2. Community seed team', style: TextStyle(fontWeight: FontWeight.w600)),
