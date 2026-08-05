@@ -1,0 +1,237 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "Outfit", -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+
+  --color-ink-50: #f4f5f7;
+  --color-ink-100: #e8eaef;
+  --color-ink-200: #d4d7e0;
+  --color-ink-300: #b0b5c3;
+  --color-ink-400: #858b9c;
+  --color-ink-500: #656b7c;
+  --color-ink-600: #4a5060;
+  --color-ink-700: #353a48;
+  --color-ink-800: #222633;
+  --color-ink-850: #171b26;
+  --color-ink-900: #0f121a;
+  --color-ink-950: #080a10;
+
+  /* Brand lime (from BUB SUB app icons) — kept as mint-* so existing classes pick it up */
+  --color-mint-50: #f4ffe0;
+  --color-mint-100: #e6ffad;
+  --color-mint-200: #d4ff66;
+  --color-mint-300: #c8ff00;
+  --color-mint-400: #b8f000;
+  --color-mint-500: #a3d900;
+  --color-mint-600: #7eab00;
+  --color-mint-700: #5f8000;
+
+  /* Brand accents from the leather card icons */
+  --color-brand-lime: #c8ff00;
+  --color-brand-pink: #ff2d8a;
+  --color-brand-blue: #2f6bff;
+
+  --radius-2xl: 1.35rem;
+  --radius-3xl: 1.85rem;
+
+  --shadow-glass: 0 8px 32px -12px rgb(15 18 26 / 0.18), 0 1px 0 rgb(255 255 255 / 0.35) inset;
+  --shadow-glass-dark: 0 12px 40px -16px rgb(0 0 0 / 0.55), 0 1px 0 rgb(255 255 255 / 0.08) inset;
+  --shadow-float: 0 14px 40px -12px rgb(15 18 26 / 0.28);
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  background:
+    radial-gradient(1100px 650px at 8% -8%, #d9ff8a 0%, transparent 52%),
+    radial-gradient(900px 560px at 96% 8%, #ffb3d6 0%, transparent 48%),
+    radial-gradient(800px 500px at 50% 105%, #a8c4ff 0%, transparent 46%),
+    #e8e9ef;
+  overscroll-behavior: none;
+}
+
+.dark body {
+  background:
+    radial-gradient(1000px 600px at 12% -6%, #3d4f00 0%, transparent 55%),
+    radial-gradient(800px 500px at 100% 0%, #4a1030 0%, transparent 50%),
+    radial-gradient(700px 450px at 40% 100%, #102050 0%, transparent 45%),
+    #07090e;
+}
+
+.liquid-screen {
+  background:
+    radial-gradient(ellipse 80% 50% at 18% 0%, rgb(200 255 0 / 0.22), transparent 55%),
+    radial-gradient(ellipse 70% 45% at 92% 12%, rgb(255 45 138 / 0.16), transparent 50%),
+    radial-gradient(ellipse 60% 40% at 50% 100%, rgb(47 107 255 / 0.14), transparent 50%),
+    linear-gradient(180deg, #eef1f6 0%, #e4e8f0 100%);
+}
+
+.dark .liquid-screen {
+  background:
+    radial-gradient(ellipse 80% 50% at 18% 0%, rgb(200 255 0 / 0.14), transparent 55%),
+    radial-gradient(ellipse 70% 45% at 92% 12%, rgb(255 45 138 / 0.14), transparent 50%),
+    radial-gradient(ellipse 60% 40% at 50% 100%, rgb(47 107 255 / 0.16), transparent 50%),
+    linear-gradient(180deg, #0c1018 0%, #080a10 100%);
+}
+
+.glass {
+  background: linear-gradient(165deg, rgb(255 255 255 / 0.72) 0%, rgb(255 255 255 / 0.48) 100%);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  border: 1px solid rgb(255 255 255 / 0.55);
+  box-shadow: var(--shadow-glass);
+}
+
+.dark .glass {
+  background: linear-gradient(165deg, rgb(255 255 255 / 0.1) 0%, rgb(255 255 255 / 0.04) 100%);
+  border: 1px solid rgb(255 255 255 / 0.12);
+  box-shadow: var(--shadow-glass-dark);
+}
+
+.glass-soft {
+  background: rgb(255 255 255 / 0.42);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid rgb(255 255 255 / 0.4);
+}
+
+.dark .glass-soft {
+  background: rgb(255 255 255 / 0.06);
+  border: 1px solid rgb(255 255 255 / 0.08);
+}
+
+.glass-strong {
+  background: linear-gradient(160deg, rgb(255 255 255 / 0.82) 0%, rgb(255 255 255 / 0.58) 100%);
+  backdrop-filter: blur(40px) saturate(200%);
+  -webkit-backdrop-filter: blur(40px) saturate(200%);
+  border: 1px solid rgb(255 255 255 / 0.65);
+  box-shadow: var(--shadow-glass);
+}
+
+.dark .glass-strong {
+  background: linear-gradient(160deg, rgb(255 255 255 / 0.14) 0%, rgb(255 255 255 / 0.05) 100%);
+  border: 1px solid rgb(255 255 255 / 0.14);
+  box-shadow: var(--shadow-glass-dark);
+}
+
+.glass-dark {
+  background: linear-gradient(155deg, rgb(14 14 16 / 0.94) 0%, rgb(10 12 18 / 0.9) 55%, rgb(28 36 8 / 0.92) 100%);
+  backdrop-filter: blur(40px) saturate(170%);
+  -webkit-backdrop-filter: blur(40px) saturate(170%);
+  border: 1px solid rgb(200 255 0 / 0.18);
+  box-shadow: 0 18px 50px -16px rgb(0 0 0 / 0.4), 0 1px 0 rgb(200 255 0 / 0.12) inset;
+}
+
+.dark .glass-dark {
+  background: linear-gradient(155deg, rgb(20 20 24 / 0.88) 0%, rgb(12 14 20 / 0.85) 55%, rgb(30 40 8 / 0.88) 100%);
+  border: 1px solid rgb(200 255 0 / 0.16);
+}
+
+.glass-tab {
+  background: linear-gradient(180deg, rgb(255 255 255 / 0.78) 0%, rgb(255 255 255 / 0.55) 100%);
+  backdrop-filter: blur(36px) saturate(200%);
+  -webkit-backdrop-filter: blur(36px) saturate(200%);
+  border: 1px solid rgb(255 255 255 / 0.7);
+  box-shadow:
+    0 10px 40px -10px rgb(15 18 26 / 0.22),
+    0 1px 0 rgb(255 255 255 / 0.8) inset,
+    0 -1px 0 rgb(0 0 0 / 0.04) inset;
+}
+
+.dark .glass-tab {
+  background: linear-gradient(180deg, rgb(255 255 255 / 0.14) 0%, rgb(255 255 255 / 0.06) 100%);
+  border: 1px solid rgb(255 255 255 / 0.14);
+  box-shadow:
+    0 12px 40px -10px rgb(0 0 0 / 0.55),
+    0 1px 0 rgb(255 255 255 / 0.12) inset;
+}
+
+.specular {
+  position: relative;
+  overflow: hidden;
+}
+.specular::before {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(180deg, rgb(255 255 255 / 0.4) 0%, rgb(255 255 255 / 0) 42%);
+  opacity: 0.55;
+  z-index: 0;
+}
+.dark .specular::before {
+  opacity: 0.22;
+}
+
+.squircle {
+  border-radius: 22%;
+}
+
+.brand-mark {
+  color: #0a0a0a;
+}
+.dark .brand-mark {
+  color: #c8ff00;
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+@keyframes page-in {
+  from { opacity: 0; transform: translateY(10px) scale(0.985); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.page-in {
+  animation: page-in 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes sheet-in {
+  from { opacity: 0; transform: translateY(28px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.sheet-in {
+  animation: sheet-in 0.36s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.fade-in {
+  animation: fade-in 0.22s ease-out;
+}
+
+@keyframes float-orb {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(0, -10px, 0) scale(1.04); }
+}
+.orb {
+  animation: float-orb 10s ease-in-out infinite;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 0.5;
+}
+.dark input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  opacity: 0.5;
+}
+
+:focus-visible {
+  outline: 2px solid #c8ff00;
+  outline-offset: 2px;
+  border-radius: 8px;
+}

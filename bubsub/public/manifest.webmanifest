@@ -1,0 +1,17 @@
+{
+  "name": "BUB SUB — Subscription Manager",
+  "short_name": "BUB SUB",
+  "description": "Track, understand and cancel your subscriptions with zero friction.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#c8ff00",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
