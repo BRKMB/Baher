@@ -8,11 +8,11 @@ function Tab({ to, label, icon }: { to: string; label: string; icon: ReactNode }
       {({ isActive }) => (
         <span
           className={`relative flex flex-col items-center justify-center gap-0.5 h-full transition-all duration-200 ${
-            isActive ? 'text-mint-600 dark:text-mint-300' : 'text-ink-400 dark:text-ink-500'
+            isActive ? 'text-[#7eab00] dark:text-[#c8ff00]' : 'text-ink-400 dark:text-ink-500'
           }`}
         >
           {isActive && (
-            <span className="absolute top-1.5 w-7 h-[3px] rounded-full bg-mint-500 dark:bg-mint-400" />
+            <span className="absolute top-1.5 w-7 h-[3px] rounded-full bg-[#c8ff00]" />
           )}
           {icon}
           <span className="text-[10px] font-semibold tracking-wide">{label}</span>
@@ -37,9 +37,9 @@ export function TabBar() {
           <button
             onClick={() => navigate('/add')}
             aria-label="Add subscription"
-            className="w-[52px] h-[52px] -mt-7 rounded-[20px] bg-gradient-to-br from-mint-400 to-mint-600 text-white flex items-center justify-center shadow-float active:scale-95 transition-transform ring-4 ring-white/55 dark:ring-ink-950/40"
+            className="w-[52px] h-[52px] -mt-7 rounded-[20px] bg-[#c8ff00] text-ink-950 flex items-center justify-center shadow-float active:scale-95 transition-transform ring-4 ring-white/55 dark:ring-ink-950/40"
           >
-            <IconPlus className="w-6 h-6" strokeWidth={2.4} />
+            <IconPlus className="w-6 h-6" strokeWidth={2.6} />
           </button>
         </div>
         <Tab to="/cancel" label="Guides" icon={<IconScissors className="w-[22px] h-[22px]" />} />

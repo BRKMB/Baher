@@ -4,8 +4,8 @@
   "description": "Track, understand and cancel your subscriptions with zero friction.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0c0e12",
-  "theme_color": "#0c0e12",
+  "background_color": "#0a0a0a",
+  "theme_color": "#c8ff00",
   "icons": [
     {
       "src": "/favicon.svg",

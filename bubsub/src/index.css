@@ -18,14 +18,20 @@
   --color-ink-900: #0f121a;
   --color-ink-950: #080a10;
 
-  --color-mint-50: #eefbf5;
-  --color-mint-100: #d5f6e6;
-  --color-mint-200: #aef0d0;
-  --color-mint-300: #74e4b2;
-  --color-mint-400: #3dd492;
-  --color-mint-500: #1bb978;
-  --color-mint-600: #0f965f;
-  --color-mint-700: #0d764c;
+  /* Brand lime (from BUB SUB app icons) — kept as mint-* so existing classes pick it up */
+  --color-mint-50: #f4ffe0;
+  --color-mint-100: #e6ffad;
+  --color-mint-200: #d4ff66;
+  --color-mint-300: #c8ff00;
+  --color-mint-400: #b8f000;
+  --color-mint-500: #a3d900;
+  --color-mint-600: #7eab00;
+  --color-mint-700: #5f8000;
+
+  /* Brand accents from the leather card icons */
+  --color-brand-lime: #c8ff00;
+  --color-brand-pink: #ff2d8a;
+  --color-brand-blue: #2f6bff;
 
   --radius-2xl: 1.35rem;
   --radius-3xl: 1.85rem;
@@ -44,34 +50,34 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   background:
-    radial-gradient(1200px 700px at 10% -10%, #c8dde8 0%, transparent 55%),
-    radial-gradient(900px 600px at 95% 10%, #d4ebe0 0%, transparent 50%),
-    radial-gradient(800px 500px at 50% 100%, #e2d8ef 0%, transparent 45%),
-    #e6e9ef;
+    radial-gradient(1100px 650px at 8% -8%, #d9ff8a 0%, transparent 52%),
+    radial-gradient(900px 560px at 96% 8%, #ffb3d6 0%, transparent 48%),
+    radial-gradient(800px 500px at 50% 105%, #a8c4ff 0%, transparent 46%),
+    #e8e9ef;
   overscroll-behavior: none;
 }
 
 .dark body {
   background:
-    radial-gradient(1000px 600px at 15% -5%, #163047 0%, transparent 55%),
-    radial-gradient(800px 500px at 100% 0%, #0f2f28 0%, transparent 50%),
-    radial-gradient(700px 450px at 40% 100%, #251a38 0%, transparent 45%),
+    radial-gradient(1000px 600px at 12% -6%, #3d4f00 0%, transparent 55%),
+    radial-gradient(800px 500px at 100% 0%, #4a1030 0%, transparent 50%),
+    radial-gradient(700px 450px at 40% 100%, #102050 0%, transparent 45%),
     #07090e;
 }
 
 .liquid-screen {
   background:
-    radial-gradient(ellipse 80% 50% at 20% 0%, rgb(120 180 220 / 0.35), transparent 55%),
-    radial-gradient(ellipse 70% 45% at 90% 15%, rgb(120 210 170 / 0.28), transparent 50%),
-    radial-gradient(ellipse 60% 40% at 50% 100%, rgb(180 150 220 / 0.22), transparent 50%),
+    radial-gradient(ellipse 80% 50% at 18% 0%, rgb(200 255 0 / 0.22), transparent 55%),
+    radial-gradient(ellipse 70% 45% at 92% 12%, rgb(255 45 138 / 0.16), transparent 50%),
+    radial-gradient(ellipse 60% 40% at 50% 100%, rgb(47 107 255 / 0.14), transparent 50%),
     linear-gradient(180deg, #eef1f6 0%, #e4e8f0 100%);
 }
 
 .dark .liquid-screen {
   background:
-    radial-gradient(ellipse 80% 50% at 20% 0%, rgb(40 90 140 / 0.45), transparent 55%),
-    radial-gradient(ellipse 70% 45% at 90% 15%, rgb(30 100 80 / 0.35), transparent 50%),
-    radial-gradient(ellipse 60% 40% at 50% 100%, rgb(70 40 110 / 0.3), transparent 50%),
+    radial-gradient(ellipse 80% 50% at 18% 0%, rgb(200 255 0 / 0.14), transparent 55%),
+    radial-gradient(ellipse 70% 45% at 92% 12%, rgb(255 45 138 / 0.14), transparent 50%),
+    radial-gradient(ellipse 60% 40% at 50% 100%, rgb(47 107 255 / 0.16), transparent 50%),
     linear-gradient(180deg, #0c1018 0%, #080a10 100%);
 }
 
@@ -116,16 +122,16 @@ body {
 }
 
 .glass-dark {
-  background: linear-gradient(155deg, rgb(22 26 38 / 0.92) 0%, rgb(10 13 22 / 0.88) 55%, rgb(16 40 36 / 0.9) 100%);
+  background: linear-gradient(155deg, rgb(14 14 16 / 0.94) 0%, rgb(10 12 18 / 0.9) 55%, rgb(28 36 8 / 0.92) 100%);
   backdrop-filter: blur(40px) saturate(170%);
   -webkit-backdrop-filter: blur(40px) saturate(170%);
-  border: 1px solid rgb(255 255 255 / 0.14);
-  box-shadow: 0 18px 50px -16px rgb(0 0 0 / 0.4), 0 1px 0 rgb(255 255 255 / 0.16) inset;
+  border: 1px solid rgb(200 255 0 / 0.18);
+  box-shadow: 0 18px 50px -16px rgb(0 0 0 / 0.4), 0 1px 0 rgb(200 255 0 / 0.12) inset;
 }
 
 .dark .glass-dark {
-  background: linear-gradient(155deg, rgb(36 42 58 / 0.85) 0%, rgb(14 18 28 / 0.82) 55%, rgb(14 36 32 / 0.85) 100%);
-  border: 1px solid rgb(255 255 255 / 0.12);
+  background: linear-gradient(155deg, rgb(20 20 24 / 0.88) 0%, rgb(12 14 20 / 0.85) 55%, rgb(30 40 8 / 0.88) 100%);
+  border: 1px solid rgb(200 255 0 / 0.16);
 }
 
 .glass-tab {
@@ -167,6 +173,13 @@ body {
 
 .squircle {
   border-radius: 22%;
+}
+
+.brand-mark {
+  color: #0a0a0a;
+}
+.dark .brand-mark {
+  color: #c8ff00;
 }
 
 .no-scrollbar {
@@ -218,7 +231,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-mint-500);
+  outline: 2px solid #c8ff00;
   outline-offset: 2px;
   border-radius: 8px;
 }

@@ -8,6 +8,7 @@ import { upcomingReminders } from '../lib/insights'
 import { CATEGORIES } from '../lib/categories'
 import { SubscriptionCard } from '../components/SubscriptionCard'
 import { Badge, Card, EmptyState, LogoTile, SectionTitle } from '../components/ui'
+import { BrandCards, BrandMark } from '../components/BrandMark'
 import { IconBell, IconGear, IconSearch, IconWarning, IconX } from '../components/icons'
 import type { Category, Subscription } from '../lib/types'
 
@@ -124,11 +125,19 @@ export function Dashboard() {
     <div className="page-in">
       <header className="sticky top-0 z-30" style={{ paddingTop: 'var(--sat, 0px)' }}>
         <div className="flex items-center justify-between px-5 h-[56px]">
-          <div>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-ink-400">Subscription OS</p>
-            <h1 className="text-[26px] font-extrabold tracking-tight text-ink-900 dark:text-ink-50 leading-none">
-              BUB <span className="text-mint-500">SUB</span>
-            </h1>
+          <div className="flex items-center gap-3 min-w-0">
+            <div className="relative w-12 h-12 rounded-[15px] bg-ink-950 flex items-center justify-center shrink-0 shadow-sm ring-1 ring-[#c8ff00]/30">
+              <BrandMark className="w-[28px] h-[28px] text-[#c8ff00]" />
+              <div className="absolute -top-[5px] left-1/2 -translate-x-1/2">
+                <BrandCards />
+              </div>
+            </div>
+            <div className="min-w-0">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-ink-400">Subscription OS</p>
+              <h1 className="text-[24px] font-extrabold tracking-tight text-ink-900 dark:text-ink-50 leading-none">
+                BUB <span className="text-[#7eab00] dark:text-[#c8ff00]">SUB</span>
+              </h1>
+            </div>
           </div>
           <div className="flex items-center gap-2">
             <button
@@ -157,8 +166,9 @@ export function Dashboard() {
       <div className="px-5" style={{ paddingBottom: 'calc(var(--sab, 0px) + 110px)' }}>
         {/* Hero spend — full-bleed glass plane, not a boxed card cluster */}
         <div className="relative overflow-hidden rounded-[32px] glass-dark specular p-6 text-white">
-          <div className="orb absolute -top-16 -right-10 w-44 h-44 rounded-full bg-mint-400/25 blur-2xl" aria-hidden />
-          <div className="absolute -bottom-20 -left-10 w-40 h-40 rounded-full bg-sky-400/20 blur-2xl" aria-hidden />
+          <div className="orb absolute -top-16 -right-10 w-44 h-44 rounded-full bg-[#c8ff00]/25 blur-2xl" aria-hidden />
+          <div className="absolute -bottom-16 left-8 w-32 h-32 rounded-full bg-[#ff2d8a]/20 blur-2xl" aria-hidden />
+          <div className="absolute -bottom-20 -left-10 w-40 h-40 rounded-full bg-[#2f6bff]/20 blur-2xl" aria-hidden />
           <div className="relative z-[1]">
             <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-white/55">Monthly spend</p>
             <p className="text-[44px] font-extrabold tracking-tight tabular-nums mt-1 leading-none">
@@ -178,8 +188,8 @@ export function Dashboard() {
                 <>
                   <div className="w-px h-8 bg-white/15" aria-hidden />
                   <div>
-                    <p className="text-[10px] font-semibold uppercase tracking-wider text-mint-300/90">Saved / yr</p>
-                    <p className="text-[15px] font-bold tabular-nums text-mint-300">
+                    <p className="text-[10px] font-semibold uppercase tracking-wider text-[#c8ff00]/90">Saved / yr</p>
+                    <p className="text-[15px] font-bold tabular-nums text-[#c8ff00]">
                       {formatMoney(savings, settings.currency, { compact: true })}
                     </p>
                   </div>
