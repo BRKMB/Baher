@@ -37,38 +37,6 @@ if (launchClock) {
   window.setInterval(updateCountdown, 1_000);
 }
 
-const menuToggle = document.querySelector(".menu-toggle");
-const siteMenu = document.querySelector(".site-menu");
-const menuClose = document.querySelector(".menu-close");
-
-if (menuToggle && siteMenu && menuClose) {
-  const setMenuOpen = (open) => {
-    siteMenu.classList.toggle("is-open", open);
-    menuToggle.setAttribute("aria-expanded", String(open));
-    menuToggle.setAttribute("aria-label", open ? "Close navigation" : "Open navigation");
-    document.body.style.overflow = open ? "hidden" : "";
-
-    if (open) {
-      menuClose.focus();
-    } else if (document.activeElement === menuClose) {
-      menuToggle.focus();
-    }
-  };
-
-  menuToggle.addEventListener("click", () => {
-    setMenuOpen(!siteMenu.classList.contains("is-open"));
-  });
-  menuClose.addEventListener("click", () => setMenuOpen(false));
-  siteMenu.querySelectorAll("a").forEach((link) => {
-    link.addEventListener("click", () => setMenuOpen(false));
-  });
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && siteMenu.classList.contains("is-open")) {
-      setMenuOpen(false);
-    }
-  });
-}
-
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 const lightningBolts = [...document.querySelectorAll(".lightning")];
 let lightningTimer;
