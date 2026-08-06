@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="PURKR — an extraordinary burger experience is landing soon."
+    />
+    <meta name="theme-color" content="#040506" />
+    <meta property="og:title" content="PURKR — Burgers From Another Planet" />
+    <meta
+      property="og:description"
+      content="Something extraordinary is landing. Join the launch list."
+    />
+    <title>PURKR — Coming Soon</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/styles.css" />
+    <script src="/app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+
+    <div class="space" aria-hidden="true">
+      <div class="stars stars--near"></div>
+      <div class="planet planet--north"></div>
+      <div class="planet-glow"></div>
+      <svg class="lightning lightning--left" viewBox="0 0 280 620">
+        <path d="M264 12 166 174l39-6-83 135 43-13-113 206 36-157-40 15 75-155-39 8L184 27Z" />
+      </svg>
+      <svg class="lightning lightning--right" viewBox="0 0 280 620">
+        <path d="m31 45 96 143-37-4 74 128-38-9 99 191-29-146 35 12-64-146 34 6L108 58Z" />
+      </svg>
+    </div>
+
+    <header class="site-header">
+      <a class="brand-rail" href="#main-content" aria-label="PURKR home">
+        <span class="brand-rail__dot"></span>
+        <span>P</span><span>U</span><span>R</span><span>K</span><span>R</span>
+      </a>
+
+      <button
+        class="menu-toggle"
+        type="button"
+        aria-label="Open navigation"
+        aria-controls="site-menu"
+        aria-expanded="false"
+      >
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav class="site-menu" id="site-menu" aria-label="Primary navigation">
+        <button class="menu-close" type="button" aria-label="Close navigation">×</button>
+        <span class="eyebrow">Mission control</span>
+        <a href="#story">Our signal <span>01</span></a>
+        <a href="#countdown">Launch clock <span>02</span></a>
+        <a href="#notify">Join the list <span>03</span></a>
+      </nav>
+    </header>
+
+    <main id="main-content">
+      <section class="hero" id="story" aria-labelledby="brand-name">
+        <div class="identity">
+          <div class="orbit-mark" aria-hidden="true">
+            <span class="orbit-mark__planet"></span>
+            <span class="orbit-mark__ring"></span>
+          </div>
+
+          <div class="wordmark-wrap">
+            <h1 class="wordmark" id="brand-name">PURKR</h1>
+            <sup class="trademark" aria-label="trademark">™</sup>
+          </div>
+          <p class="tagline">Burgers from another planet</p>
+        </div>
+
+        <div class="hero-scene" aria-hidden="true">
+          <div class="halo">
+            <span class="halo__flare"></span>
+          </div>
+
+          <div class="burger">
+            <div class="burger__bun burger__bun--top">
+              <i></i><i></i><i></i><i></i><i></i>
+            </div>
+            <div class="burger__sauce"></div>
+            <div class="burger__lettuce"></div>
+            <div class="burger__cheese"></div>
+            <div class="burger__patty"></div>
+            <div class="burger__cheese burger__cheese--lower"></div>
+            <div class="burger__patty burger__patty--lower"></div>
+            <div class="burger__bun burger__bun--bottom"></div>
+          </div>
+          <div class="burger-shadow"></div>
+        </div>
+
+        <div class="launch-panel" id="countdown">
+          <p class="eyebrow">Something extraordinary is landing</p>
+          <h2>Coming soon</h2>
+
+          <div
+            class="countdown"
+            role="timer"
+            aria-label="Time remaining until launch"
+            data-launch-date="2028-08-06T10:00:00Z"
+          >
+            <div><strong data-unit="days">731</strong><span>Days</span></div>
+            <b aria-hidden="true">:</b>
+            <div><strong data-unit="hours">00</strong><span>Hours</span></div>
+            <b aria-hidden="true">:</b>
+            <div><strong data-unit="minutes">00</strong><span>Minutes</span></div>
+            <b aria-hidden="true">:</b>
+            <div><strong data-unit="seconds">00</strong><span>Seconds</span></div>
+          </div>
+
+          <div class="launch-date">
+            <span></span>
+            <time datetime="2028-08-06T10:00:00Z">06 Aug 2028 · 10:00 UTC</time>
+            <span></span>
+          </div>
+
+          <form class="notify-form" id="notify" novalidate>
+            <div class="field">
+              <label for="email">Get the first transmission</label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                inputmode="email"
+                autocomplete="email"
+                maxlength="254"
+                placeholder="Enter your email"
+                required
+              />
+            </div>
+            <div class="trap" aria-hidden="true">
+              <label for="company">Company</label>
+              <input id="company" name="company" type="text" tabindex="-1" autocomplete="off" />
+            </div>
+            <button type="submit">
+              <span>Notify me</span>
+              <svg viewBox="0 0 20 20" aria-hidden="true">
+                <path d="M3 10h13M11 5l5 5-5 5" />
+              </svg>
+            </button>
+          </form>
+          <p class="form-status" id="form-status" role="status" aria-live="polite">
+            Be the first to know. No spam, only launch signals.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p><span>PURKR</span><i></i>Born on planet K</p>
+    </footer>
+  </body>
+</html>

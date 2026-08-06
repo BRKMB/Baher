@@ -1,0 +1,21 @@
+{
+  "name": "purkr-landing",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy --minify",
+    "check": "wrangler types --check && tsc --noEmit",
+    "types": "wrangler types"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.2",
+    "typescript": "^7.0.2",
+    "undici": "7.29.0",
+    "wrangler": "^4.119.0"
+  },
+  "overrides": {
+    "undici": "7.29.0"
+  }
+}
