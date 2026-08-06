@@ -140,7 +140,7 @@ async function subscribe(request: Request, env: Env): Promise<Response> {
         email,
         locale,
         createdAt: new Date().toISOString(),
-        source: "purkir-coming-soon",
+        source: "purkr-coming-soon",
       }),
     );
   }
