@@ -72,11 +72,11 @@ export const SEED_LISTINGS: Listing[] = [
     criteria: {
       oven: "yes",
       dishwasher: "yes",
-      bed: "unknown",
-      spacious: "unknown",
-      garage: "unknown",
+      bed: "no",
+      spacious: "yes",
+      garage: "yes",
       max3: "yes",
-      desk: "unknown",
+      desk: "yes",
       modern: "yes",
       elevator: "unknown",
       availableAug: "yes",
@@ -118,68 +118,19 @@ export const SEED_LISTINGS: Listing[] = [
       "https://ireland.apollo.olxcdn.com/v1/files/taow2tj13bnl1-PL/image;s=1200x900"
     ],
     criteria: {
-      oven: "unknown",
+      oven: "yes",
       dishwasher: "unknown",
-      bed: "unknown",
+      bed: "no",
       spacious: "yes",
       garage: "unknown",
       max3: "yes",
-      desk: "unknown",
+      desk: "no",
       modern: "yes",
-      elevator: "unknown",
+      elevator: "yes",
       availableAug: "no",
       noCommission: "yes"
     },
     createdAt: 2
-  },
-  {
-    id: "olx-1ab49t",
-    propertyType: "studio",
-    title: {
-      ar: "ستوديو مجدد — حدود أوخوتا/ووخي، Al. Krakowska",
-      en: "Renovated studio — Ochota/Włochy border, Al. Krakowska"
-    },
-    district: "Włochy",
-    address: "Al. Krakowska, granica Ochota/Włochy, Warszawa",
-    url: "https://www.olx.pl/d/oferta/do-wynajecia-studio-na-granicy-ochoty-wloch-al-krakowska-CID3-ID1aB49T.html",
-    rent: 2800,
-    bills: 600,
-    garageCost: 200,
-    areaSqm: null,
-    deposit: 2800,
-    commuteMin: 18,
-    availableFrom: "od zaraz",
-    contact: {
-      ar: "Marcin — OLX",
-      en: "Marcin — OLX"
-    },
-    notes: {
-      ar: "قريب جدًا من الشغل (~١٨ دقيقة) ✅ بس الإجمالي غالي: ٢٨٠٠+٦٠٠=٣٤٠٠ والجراج +٢٠٠. فيه مكتب.",
-      en: "Very close to work (~18 min) ✅ but expensive: 2800+600=3400, garage +200. Has a desk."
-    },
-    photos: [
-      "https://ireland.apollo.olxcdn.com/v1/files/ebf4wmuwsrw3-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/nmqsk42e5xpe1-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/zl37m7yw9go8-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/fxz1gx4kpmx43-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/omh1tzcl7wyj3-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/sn6am3p2vv7t-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/nbldyer9h8o82-PL/image;s=1200x900"
-    ],
-    criteria: {
-      oven: "unknown",
-      dishwasher: "unknown",
-      bed: "no",
-      spacious: "unknown",
-      garage: "no",
-      max3: "yes",
-      desk: "yes",
-      modern: "yes",
-      elevator: "yes",
-      availableAug: "yes",
-      noCommission: "yes"
-    },
-    createdAt: 3
   },
   {
     id: "olx-1brwpe",
@@ -215,16 +166,16 @@ export const SEED_LISTINGS: Listing[] = [
       oven: "yes",
       dishwasher: "yes",
       bed: "no",
-      spacious: "unknown",
-      garage: "unknown",
+      spacious: "no",
+      garage: "yes",
       max3: "yes",
       desk: "yes",
       modern: "yes",
-      elevator: "unknown",
+      elevator: "yes",
       availableAug: "yes",
       noCommission: "yes"
     },
-    createdAt: 4
+    createdAt: 3
   },
   {
     id: "olx-1bhpyk",
@@ -239,7 +190,7 @@ export const SEED_LISTINGS: Listing[] = [
     rent: 2300,
     bills: 200,
     garageCost: null,
-    areaSqm: 18.0,
+    areaSqm: 18,
     deposit: 3000,
     commuteMin: 45,
     availableFrom: "01/09/2026",
@@ -268,63 +219,13 @@ export const SEED_LISTINGS: Listing[] = [
       spacious: "yes",
       garage: "yes",
       max3: "yes",
-      desk: "unknown",
-      modern: "unknown",
-      elevator: "unknown",
+      desk: "no",
+      modern: "yes",
+      elevator: "yes",
       availableAug: "no",
       noCommission: "yes"
     },
-    createdAt: 5
-  },
-  {
-    id: "olx-1bgdui",
-    propertyType: "studio",
-    title: {
-      ar: "تنازل عن إيجار ستوديو ١٨م² شامل الكل — Giserska 21",
-      en: "Lease takeover 18m² studio all-in — Giserska 21"
-    },
-    district: "Ursus",
-    address: "ul. Giserska 21, Warszawa",
-    url: "https://www.olx.pl/d/oferta/odstapie-najem-kawalerki-warszawa-ul-giserska-21-CID3-ID1bGDui.html",
-    rent: 3000,
-    bills: 0,
-    garageCost: null,
-    areaSqm: 18,
-    deposit: 3000,
-    commuteMin: 45,
-    availableFrom: "od zaraz",
-    contact: {
-      ar: "Maksym — OLX",
-      en: "Maksym — OLX"
-    },
-    notes: {
-      ar: "٣٠٠٠ شامل كل حاجة ✅ ديش واشر+فرن، متاح دلوقتي. تنازل عن عقد — اسأل عن شروط التنازل. بعيد نسبيًا عن الشغل.",
-      en: "3000 all-inclusive ✅ dishwasher+oven, available now. Lease takeover — ask about transfer terms. Relatively far from work."
-    },
-    photos: [
-      "https://ireland.apollo.olxcdn.com/v1/files/islhd2t24r46-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/dwjmvg4wdlof1-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/walogcazjvdv3-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/qsu8zk0ou8ry2-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/ij92k7anpu7f3-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/x4787eeakpls3-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/c89bubkbetu43-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/cbn2n30cdy4l-PL/image;s=1200x900"
-    ],
-    criteria: {
-      oven: "yes",
-      dishwasher: "yes",
-      bed: "unknown",
-      spacious: "yes",
-      garage: "unknown",
-      max3: "yes",
-      desk: "unknown",
-      modern: "yes",
-      elevator: "unknown",
-      availableAug: "yes",
-      noCommission: "yes"
-    },
-    createdAt: 6
+    createdAt: 4
   },
   {
     id: "olx-1bdt8k",
@@ -361,18 +262,18 @@ export const SEED_LISTINGS: Listing[] = [
       "https://ireland.apollo.olxcdn.com/v1/files/zchp0f7tm7y61-PL/image;s=1200x900"
     ],
     criteria: {
-      oven: "unknown",
+      oven: "yes",
       dishwasher: "unknown",
-      bed: "unknown",
+      bed: "no",
       spacious: "yes",
       garage: "no",
       max3: "yes",
-      desk: "unknown",
+      desk: "no",
       modern: "yes",
       elevator: "yes",
       availableAug: "unknown",
       noCommission: "yes"
     },
-    createdAt: 7
+    createdAt: 5
   }
 ];

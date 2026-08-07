@@ -12,9 +12,10 @@
     "run_worker_first": true
   },
 
-  // الباسورد بتاع الموقع (تقدر تغيّره هنا أو تعمله override بسيكرت بنفس الاسم)
+  // الباسورد بتاع الموقع + باسورد استرجاع البيانات الأصلية
   "vars": {
-    "SITE_PASSWORD": "777"
+    "SITE_PASSWORD": "777",
+    "RESTORE_PASSWORD": "333"
   },
 
   // تخزين البيانات — Durable Object مش محتاج أي provisioning يدوي

@@ -241,6 +241,12 @@ async function handleApi(request: Request, env: Env, pathname: string): Promise<
   }
 
   if (pathname === "/api/reset" && request.method === "POST") {
+    const body = (await request.json().catch(() => null)) as { password?: string } | null;
+    const given = normalizePassword(body?.password ?? "");
+    const expected = normalizePassword(env.RESTORE_PASSWORD || "333");
+    if (!timingSafeEqual(given, expected)) {
+      return json({ error: "wrong_restore_password" }, { status: 403 });
+    }
     return json(await store(env).reset());
   }
 

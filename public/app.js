@@ -116,6 +116,8 @@ const I18N = {
     edited: "✓ Saved",
     added: "✓ Added — now mark its filters",
     confirmReset: "This will restore the original data and erase all your edits. Sure?",
+    resetPasswordPrompt: "Enter the restore password:",
+    resetWrongPassword: "Wrong restore password",
     resetDone: "↩ Original data restored",
     apiError: "⚠️ Something went wrong, try again",
     noMatch: "No place matches these filters — remove one or two",
@@ -214,6 +216,8 @@ const I18N = {
     edited: "✓ اتعدلت",
     added: "✓ اتضافت — علّم على الفلاتر بتاعتها",
     confirmReset: "دا هيرجّع البيانات الأصلية ويمسح أي تعديلات عملتها. متأكد؟",
+    resetPasswordPrompt: "اكتب باسورد الاسترجاع:",
+    resetWrongPassword: "باسورد الاسترجاع غلط",
     resetDone: "↩ رجعنا للبيانات الأصلية",
     apiError: "⚠️ حصلت مشكلة، جرّب تاني",
     noMatch: "مفيش مكان مطابق للفلاتر دي — شيل فلتر أو اتنين",
@@ -1047,7 +1051,23 @@ document.addEventListener("keydown", (e) => {
 
 $("#reset-btn").addEventListener("click", async () => {
   if (!confirm(t("confirmReset"))) return;
-  listings = await api("/api/reset", { method: "POST" });
+  const password = prompt(t("resetPasswordPrompt"));
+  if (password == null) return;
+  const res = await fetch("/api/reset", {
+    method: "POST",
+    credentials: "same-origin",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ password: normalizePassword(password) })
+  });
+  if (res.status === 403) {
+    toast(t("resetWrongPassword"));
+    return;
+  }
+  if (!res.ok) {
+    toast(t("apiError"));
+    return;
+  }
+  listings = await res.json();
   render();
   toast(t("resetDone"));
 });
