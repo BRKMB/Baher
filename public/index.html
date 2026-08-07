@@ -149,8 +149,28 @@
     </form>
   </dialog>
 
+  <!-- استرجاع البيانات — لازم باسورد -->
+  <dialog id="restore-dialog">
+    <form id="restore-form" method="dialog">
+      <h2 data-i18n="resetBtn">Restore original data</h2>
+      <p id="restore-warning" class="restore-warning" data-i18n="confirmReset">
+        This will restore the original data and erase all your edits.
+      </p>
+      <label>
+        <span data-i18n="resetPasswordPrompt">Restore password</span>
+        <input id="restore-password" type="password" inputmode="numeric" autocomplete="off"
+               data-i18n-ph="resetPasswordPlaceholder" placeholder="Enter password" required />
+      </label>
+      <p id="restore-error" class="restore-error" data-i18n="resetWrongPassword" hidden>Wrong restore password</p>
+      <div class="dialog-actions">
+        <button type="button" id="restore-cancel" class="btn btn-ghost" data-i18n="cancel">Cancel</button>
+        <button type="submit" class="btn btn-primary" data-i18n="resetConfirmBtn">Restore</button>
+      </div>
+    </form>
+  </dialog>
+
   <div id="toast" hidden></div>
 
-  <script src="/app.js?v=11"></script>
+  <script src="/app.js?v=12"></script>
 </body>
 </html>

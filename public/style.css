@@ -877,6 +877,37 @@ dialog::backdrop { background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px); }
   margin-top: 20px;
 }
 
+#restore-dialog {
+  width: min(420px, calc(100vw - 32px));
+}
+#restore-form h2 { margin: 0 0 10px; font-size: 20px; font-weight: 900; }
+.restore-warning {
+  margin: 0 0 16px;
+  color: var(--muted);
+  line-height: 1.45;
+}
+#restore-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--muted);
+}
+#restore-password {
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  background: var(--input-bg);
+  color: var(--text);
+  padding: 12px 14px;
+  font-size: 16px;
+}
+#restore-password:focus { outline: none; border-color: var(--accent); }
+.restore-error {
+  margin: 10px 0 0;
+  color: var(--red);
+  font-size: 13.5px;
+}
+
 /* ===== توست ===== */
 #toast {
   position: fixed;

@@ -116,8 +116,10 @@ const I18N = {
     deleted: "🗑 Deleted",
     edited: "✓ Saved",
     added: "✓ Added — now mark its filters",
-    confirmReset: "This will restore the original data and erase all your edits. Sure?",
-    resetPasswordPrompt: "Enter the restore password:",
+    confirmReset: "This will restore the original data and erase all your edits.",
+    resetPasswordPrompt: "Restore password",
+    resetPasswordPlaceholder: "Enter password",
+    resetConfirmBtn: "Restore",
     resetWrongPassword: "Wrong restore password",
     resetDone: "↩ Original data restored",
     apiError: "⚠️ Something went wrong, try again",
@@ -216,8 +218,10 @@ const I18N = {
     deleted: "🗑 اتحذفت",
     edited: "✓ اتعدلت",
     added: "✓ اتضافت — علّم على الفلاتر بتاعتها",
-    confirmReset: "دا هيرجّع البيانات الأصلية ويمسح أي تعديلات عملتها. متأكد؟",
-    resetPasswordPrompt: "اكتب باسورد الاسترجاع:",
+    confirmReset: "دا هيرجّع البيانات الأصلية ويمسح أي تعديلات عملتها.",
+    resetPasswordPrompt: "باسورد الاسترجاع",
+    resetPasswordPlaceholder: "اكتب الباسورد",
+    resetConfirmBtn: "استرجاع",
     resetWrongPassword: "باسورد الاسترجاع غلط",
     resetDone: "↩ رجعنا للبيانات الأصلية",
     apiError: "⚠️ حصلت مشكلة، جرّب تاني",
@@ -1050,25 +1054,48 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
-$("#reset-btn").addEventListener("click", async () => {
-  if (!confirm(t("confirmReset"))) return;
-  const password = prompt(t("resetPasswordPrompt"));
-  if (password == null) return;
+$("#reset-btn").addEventListener("click", () => {
+  const dialog = $("#restore-dialog");
+  const input = $("#restore-password");
+  const err = $("#restore-error");
+  err.hidden = true;
+  input.value = "";
+  dialog.showModal();
+  input.focus();
+});
+
+$("#restore-cancel").addEventListener("click", () => {
+  $("#restore-dialog").close();
+});
+
+$("#restore-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const input = $("#restore-password");
+  const err = $("#restore-error");
+  const password = normalizePassword(input.value);
+  if (!password) {
+    err.hidden = false;
+    return;
+  }
   const res = await fetch("/api/reset", {
     method: "POST",
     credentials: "same-origin",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ password: normalizePassword(password) })
+    body: JSON.stringify({ password })
   });
   if (res.status === 403) {
-    toast(t("resetWrongPassword"));
+    err.hidden = false;
+    input.value = "";
+    input.focus();
     return;
   }
   if (!res.ok) {
+    $("#restore-dialog").close();
     toast(t("apiError"));
     return;
   }
   listings = await res.json();
+  $("#restore-dialog").close();
   render();
   toast(t("resetDone"));
 });
