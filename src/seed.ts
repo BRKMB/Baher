@@ -35,44 +35,48 @@ export interface Listing {
 // البيانات دي متجمّعة من إعلانات OLX يوم 23 يوليو 2026 — عدّل أي حاجة من الموقع نفسه
 export const SEED_LISTINGS: Listing[] = [
   {
-    id: "ochota-korotynskiego",
+    id: "olx-1bf57p",
+    propertyType: "studio",
     title: {
-      ar: "أوضة في شقة 3 أوض — أوچوتا القديمة (بتكييف)",
-      en: "Room in a 3-room flat — Stara Ochota (A/C)"
+      ar: "ستوديو 32م² مفروش — أورسينوف، مترو Stokłosy (دقيقتين)",
+      en: "Furnished 32m² studio — Ursynów, 2 min to Stokłosy metro"
     },
-    district: "Ochota",
-    address: "ul. Korotyńskiego 42, Warszawa",
-    url: "https://www.olx.pl/d/oferta/pokoje-w-3-osobowym-mieszkaniu-dla-studentow-stara-ochota-korotynskiego-klima-CID3-ID1bkBes.html",
-    rent: 1600,
-    bills: 450,
+    district: "Ursynów",
+    address: "ul. Herbsta 4, Warszawa",
+    url: "https://www.olx.pl/d/oferta/do-wynajecia-kawalerka-32-3-mkw-w-pelni-umeblowana-i-wyposazona-2-minuty-od-metra-stoklosy-CID3-ID1bF57p.html",
+    rent: 2700,
+    bills: 350,
     garageCost: null,
-    areaSqm: 9,
-    deposit: 2000,
-    commuteMin: 25,
-    availableFrom: { ar: "متاحة دلوقتي", en: "Available now" },
-    contact: { ar: "Igor — شات OLX", en: "Igor — OLX chat" },
+    areaSqm: 32.3,
+    deposit: 2700,
+    commuteMin: 35,
+    availableFrom: "od zaraz",
+    contact: {
+      ar: "Wiolka — OLX",
+      en: "Wiolka — OLX"
+    },
     notes: {
-      ar: "الأوضة المتاحة 13م² (في أوضة أكبر بـ1800 بس من أكتوبر). من الصور: مكتب ركنة كبير عليه شاشة وكرسي جيمينج 👌. تكييف في كل أوضة + غسالة أطباق + إير فراير. الإعلان موجّه للطلبة وعقد سنة — اسأل لو بيقبلوا موظفين. من أقرب الأماكن للشغل.",
-      en: "The available room is 13m² (a bigger one for 1800 only from October). From the photos: big corner desk with a monitor and a gaming chair 👌. A/C in every room + dishwasher + air fryer. Ad targets students with a 1-year contract — ask if they accept working people. One of the closest to work."
+      ar: "ستوديو كامل التجهيز (ديش واشر بوش + فرن سامسونج). متاح دلوقتي، إيجار مباشر. المصاريف مية وكهربا تقريبًا. قريب من المترو؛ للشغل ~٣٥ دقيقة.",
+      en: "Fully equipped (Bosch dishwasher + Samsung oven). Available now, direct rental. Utilities approx water+electricity. Near metro; ~35 min to work."
     },
     photos: [
-      "https://ireland.apollo.olxcdn.com/v1/files/vpshx2jmn9ul1-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/f1p0t61y0nbp-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/6uc0howyrprp-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/sbblwxv7t0z43-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/o5jca9pofj7l1-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/6x8ak558ojz21-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/ji9yxlbjv3gl3-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/h5628b5ce05g-PL/image;s=1200x900"
+      "https://ireland.apollo.olxcdn.com/v1/files/v2w3n7qnzsxi-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/na4e0inm5yby2-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/u67g3frxlu0k2-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/n9s0y26sm5en2-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/fq76i00lurud3-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/f1i6gkq94fhw1-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/jswo74sc2xqf-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/ijir4s3pri0d3-PL/image;s=1200x900"
     ],
     criteria: {
       oven: "yes",
       dishwasher: "yes",
       bed: "unknown",
-      spacious: "no",
+      spacious: "unknown",
       garage: "unknown",
       max3: "yes",
-      desk: "yes",
+      desk: "unknown",
       modern: "yes",
       elevator: "unknown",
       availableAug: "yes",
@@ -81,224 +85,241 @@ export const SEED_LISTINGS: Listing[] = [
     createdAt: 1
   },
   {
-    id: "wola-redutowa",
+    id: "olx-19oyyg",
+    propertyType: "studio",
     title: {
-      ar: "أوضة كبيرة ببلكونة — ڤولا، مترو Księcia Janusza",
-      en: "Big room with balcony — Wola, Księcia Janusza metro"
+      ar: "ستوديو 20م² ببلكونة — أورسوس (من سبتمبر)",
+      en: "20m² studio with balcony — Ursus (from September)"
     },
-    district: "Wola",
-    address: "ul. Redutowa 52, Warszawa",
-    url: "https://www.olx.pl/d/oferta/duzy-pokoj-z-balkonem-wola-metro-ksiecia-janusza-wolny-od-01-08-2026-CID3-ID1bq7tt.html",
-    rent: 1800,
-    bills: 350,
+    district: "Ursus",
+    address: "Ursus, Warszawa",
+    url: "https://www.olx.pl/d/oferta/kawalerka-do-wynajecia-CID3-ID19oYYG.html",
+    rent: 2500,
+    bills: 300,
     garageCost: null,
-    areaSqm: null,
-    deposit: 2150,
-    commuteMin: 35,
-    availableFrom: "01/08/2026",
+    areaSqm: 20,
+    deposit: 2500,
+    commuteMin: 48,
+    availableFrom: "09/2026",
     contact: {
-      ar: "Aleksander — واتساب ‎+41 779 703 705",
-      en: "Aleksander — WhatsApp +41 779 703 705"
+      ar: "Anita — OLX",
+      en: "Anita — OLX"
     },
     notes: {
-      ar: "⚠️ الإعلان بيقول \"يفضَّل بنات\" — اتأكد الأول إن مفيش مشكلة. من الصور: الفرن باين في المطبخ ✓ بس المكتب مش باين رغم إن الإعلان ذكره — اسأل عليه. عمارة جديدة في كمبوند مقفول وسرير كبير مريح. 6 دقايق مشي للمترو. عقد سنة على الأقل.",
-      en: "⚠️ The ad says \"women preferred\" — double-check first. From the photos: oven visible in the kitchen ✓ but no desk visible even though the ad mentions one — ask about it. New building in a gated estate, big comfy bed. 6 min walk to the metro. Min 1-year contract."
+      ar: "⚠️ متاح من سبتمبر مش أغسطس. عمارة جديدة ومفروش، بس بعيد عن الشغل (~٤٨ دقيقة).",
+      en: "⚠️ Available from September, not August. New building, furnished, but far from work (~48 min)."
     },
     photos: [
-      "https://ireland.apollo.olxcdn.com/v1/files/oljchcebzlzn3-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/b0cuxnofhij6-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/d2yz1axoe3dh2-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/5n63idvq2y22-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/kgx69l1vge4s1-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/ocv7mj1sxahu3-PL/image;s=1200x900"
+      "https://ireland.apollo.olxcdn.com/v1/files/4vod5qm9rqhp-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/h70xxqml01xk1-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/wcm4hi29nf701-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/4xpoctgf9sqm1-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/gdwcrhjizgcs2-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/taow2tj13bnl1-PL/image;s=1200x900"
     ],
     criteria: {
-      oven: "yes",
+      oven: "unknown",
       dishwasher: "unknown",
-      bed: "yes",
+      bed: "unknown",
       spacious: "yes",
       garage: "unknown",
       max3: "yes",
       desk: "unknown",
       modern: "yes",
       elevator: "unknown",
-      availableAug: "yes",
+      availableAug: "no",
       noCommission: "yes"
     },
     createdAt: 2
   },
   {
-    id: "praga-polnoc-wilenska",
+    id: "olx-1ab49t",
+    propertyType: "studio",
     title: {
-      ar: "أوضة كبيرة جدًا ببلكونة — پراجا الشمالية، مترو Wileńska",
-      en: "Very big room with balcony — Praga Północ, Wileńska metro"
+      ar: "ستوديو مجدد — حدود أوخوتا/ووخي، Al. Krakowska",
+      en: "Renovated studio — Ochota/Włochy border, Al. Krakowska"
     },
-    district: "Praga-Północ",
-    address: "Praga-Północ (near Galeria Wileńska), Warszawa",
-    url: "https://www.olx.pl/d/oferta/bardzo-duzy-pokoj-z-balkonem-praga-polnoc-metro-wilenska-CID3-ID1bwsVX.html",
-    rent: 1790,
-    bills: 300,
-    garageCost: null,
-    areaSqm: 17,
-    deposit: 2090,
-    commuteMin: 50,
-    availableFrom: "01/08/2026",
-    contact: { ar: "Wojciech — واتساب 695 266 951", en: "Wojciech — WhatsApp 695 266 951" },
+    district: "Włochy",
+    address: "Al. Krakowska, granica Ochota/Włochy, Warszawa",
+    url: "https://www.olx.pl/d/oferta/do-wynajecia-studio-na-granicy-ochoty-wloch-al-krakowska-CID3-ID1aB49T.html",
+    rent: 2800,
+    bills: 600,
+    garageCost: 200,
+    areaSqm: null,
+    deposit: 2800,
+    commuteMin: 18,
+    availableFrom: "od zaraz",
+    contact: {
+      ar: "Marcin — OLX",
+      en: "Marcin — OLX"
+    },
     notes: {
-      ar: "⚠️ بيدوروا على بنت 18-30 سنة — غالبًا مش هتنفع. أوضة 17م² + بلكونة 4م²، سرير 130سم بمرتبة عالية الجودة، مكتب 120سم بكرسي جلد. الشقة 5 أوض (6 سكان). السعر شامل كل حاجة + تنضيف أسبوعي.",
-      en: "⚠️ They're looking for a female tenant aged 18-30 — probably won't work. 17m² room + 4m² balcony, 130cm bed with a high-quality mattress, 120cm desk with a leather chair. The flat has 5 rooms (6 tenants). All-inclusive price + weekly cleaning."
+      ar: "قريب جدًا من الشغل (~١٨ دقيقة) ✅ بس الإجمالي غالي: ٢٨٠٠+٦٠٠=٣٤٠٠ والجراج +٢٠٠. فيه مكتب.",
+      en: "Very close to work (~18 min) ✅ but expensive: 2800+600=3400, garage +200. Has a desk."
     },
     photos: [
-      "https://ireland.apollo.olxcdn.com/v1/files/fwpu5gutx0ct-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/ycd2o2pjrfn91-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/7jgewp18ofzk3-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/fwjmcvepxazl-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/kqynvmmqhnc91-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/igt8pwqicmok-PL/image;s=1200x900"
+      "https://ireland.apollo.olxcdn.com/v1/files/ebf4wmuwsrw3-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/nmqsk42e5xpe1-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/zl37m7yw9go8-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/fxz1gx4kpmx43-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/omh1tzcl7wyj3-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/sn6am3p2vv7t-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/nbldyer9h8o82-PL/image;s=1200x900"
     ],
     criteria: {
-      oven: "yes",
+      oven: "unknown",
       dishwasher: "unknown",
-      bed: "yes",
-      spacious: "yes",
-      garage: "unknown",
-      max3: "no",
+      bed: "no",
+      spacious: "unknown",
+      garage: "no",
+      max3: "yes",
       desk: "yes",
       modern: "yes",
-      elevator: "unknown",
+      elevator: "yes",
       availableAug: "yes",
       noCommission: "yes"
     },
     createdAt: 3
   },
   {
-    id: "ursynow-hawajska",
+    id: "olx-1brwpe",
+    propertyType: "studio",
     title: {
-      ar: "أوضة 18م² ببلكونة — أورسينوف، مترو Imielin على 200 متر",
-      en: "18m² room with balcony — Ursynów, 200m to Imielin metro"
+      ar: "ستوديو جديد من ١ أغسطس — Instalatorów (ووخى/أوخوتا)",
+      en: "New studio from Aug 1 — Instalatorów (Włochy/Ochota)"
     },
-    district: "Ursynów",
-    address: "ul. Hawajska 2, Warszawa",
-    url: "https://www.olx.pl/d/oferta/ursynow-pokoj-dla-jednej-lub-dwoch-osob-18m2-balkon-metro-200m-CID3-ID1bdXM4.html",
-    rent: 1600,
-    bills: 400,
-    garageCost: null,
-    areaSqm: 18,
-    deposit: 2000,
-    commuteMin: 50,
-    availableFrom: "15/09/2026 ⚠️",
-    contact: { ar: "Roman — شات OLX", en: "Roman — OLX chat" },
-    notes: {
-      ar: "⚠️ مش متاحة غير من 15 سبتمبر — مش مناسبة لو محتاج أول أغسطس. من الصور: مكتب أبيض كويس جنب الشباك ✓ والحمام متجدد حلو، بس باقي الشقة كلاسيك. أوضة 18م² بسرير عرض 160سم وبلكونة. الشقة 4 أوض (4-5 سكان). دقيقتين مشي للمترو.",
-      en: "⚠️ Only available from Sept 15 — no good if you need Aug 1. From the photos: nice white desk by the window ✓ and a freshly renovated bathroom, but the rest of the flat is classic. 18m² room with a 160cm-wide bed and a balcony. 4-room flat (4-5 tenants). 2 min walk to the metro."
-    },
-    photos: [
-      "https://ireland.apollo.olxcdn.com/v1/files/qvl9zx2e77sj-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/vjzkptxnau6y1-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/uz9wmbysvowr3-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/badnt0tysnv43-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/2u6xhmscxscs3-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/atxoc5h8whh7-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/t13199zx20923-PL/image;s=1200x900"
-    ],
-    criteria: {
-      oven: "unknown",
-      dishwasher: "unknown",
-      bed: "yes",
-      spacious: "yes",
-      garage: "unknown",
-      max3: "no",
-      desk: "yes",
-      modern: "unknown",
-      elevator: "unknown",
-      availableAug: "no",
-      noCommission: "yes"
-    },
-    createdAt: 4
-  },
-  {
-    id: "ursynow-warchalowskiego",
-    title: {
-      ar: "أوضة فردية هادية — أورسينوف، مترو Imielin (الأرخص)",
-      en: "Quiet single room — Ursynów, Imielin metro (cheapest)"
-    },
-    district: "Ursynów",
-    address: "ul. Warchałowskiego 3, Warszawa",
-    url: "https://www.olx.pl/d/oferta/pokoj-1-os-blisko-metro-imielin-zielen-wi-fi-ul-warchalowskiego-3-CID3-ID1btZbt.html",
-    rent: 1250,
-    bills: 300,
+    district: "Włochy",
+    address: "ul. Instalatorów 9, Warszawa",
+    url: "https://www.olx.pl/d/oferta/bezposr-nowa-kawalerka-studio-od-01-08-CID3-ID1brWpe.html",
+    rent: 2600,
+    bills: 600,
     garageCost: null,
     areaSqm: null,
-    deposit: 1500,
-    commuteMin: 50,
-    availableFrom: { ar: "متاحة دلوقتي", en: "Available now" },
-    contact: { ar: "Marek — شات OLX", en: "Marek — OLX chat" },
+    deposit: 2600,
+    commuteMin: 18,
+    availableFrom: "01/08/2026",
+    contact: {
+      ar: "Michał — OLX",
+      en: "Michał — OLX"
+    },
     notes: {
-      ar: "أرخص واحدة (1550 إجمالي). ⚠️ من الصور: الأوضة في العِلّية والسقف مايل، ومفيش فرن باين في المطبخ (بوتاجاز مسطح + ميكروويف بس). المكتب الأبيض حجمه كويس ✓. شقة متجددة بتصميم مصممة ديكور، الأوض بتتقفل بمفتاح، ومفيش صاحب البيت ساكن معاك. فيه بدروم لتخزين العجلة/الشنط. العقد لحد 15/09/2027.",
-      en: "Cheapest one (1550 total). ⚠️ From the photos: attic room with sloped ceilings, and no oven visible in the kitchen (just a hob + microwave). The white desk is a decent size ✓. Renovated flat styled by an interior designer, lockable rooms, no live-in landlord. Basement storage for a bike/suitcases. Contract until 15/09/2027."
+      ar: "قريب من الشغل وPKP Rakowiec (~١٨ دقيقة) ✅ ديش واشر+فرن+مكتب، من غير كوميشن، متاح ١ أغسطس. الإجمالي ٢٦٠٠+٦٠٠=٣٢٠٠.",
+      en: "Close to work & PKP Rakowiec (~18 min) ✅ dishwasher+oven+desk, no commission, Aug 1. Total 2600+600=3200."
     },
     photos: [
-      "https://ireland.apollo.olxcdn.com/v1/files/g469guvqg3jj1-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/q1he2yb31olj2-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/8k9h6uzqujcw-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/7j6em5spvais-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/nns2bxf0g70t-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/6vqg84fd7iwv2-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/jrt9re694odk1-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/p9ak6xlhmqqu2-PL/image;s=1200x900"
+      "https://ireland.apollo.olxcdn.com/v1/files/4masije2k58u1-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/e7ngr5imresy2-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/z1y1550f1vui-PL/image;s=1200x900"
     ],
     criteria: {
-      oven: "no",
-      dishwasher: "unknown",
-      bed: "unknown",
-      spacious: "yes",
+      oven: "yes",
+      dishwasher: "yes",
+      bed: "no",
+      spacious: "unknown",
       garage: "unknown",
-      max3: "unknown",
+      max3: "yes",
       desk: "yes",
       modern: "yes",
       elevator: "unknown",
       availableAug: "yes",
       noCommission: "yes"
     },
-    createdAt: 5
+    createdAt: 4
   },
   {
-    id: "praga-szwedzka",
+    id: "olx-1bhpyk",
+    propertyType: "flat",
     title: {
-      ar: "أوضة واسعة في شقة أوضتين بس — 3 دقايق من مترو Szwedzka",
-      en: "Spacious room in a 2-room flat — 3 min to Szwedzka metro"
+      ar: "شقة بتكييف وتراس ١٨م² — أورسوس (من ١ سبتمبر)",
+      en: "Flat with A/C and 18m² terrace — Ursus (from Sept 1)"
     },
-    district: "Praga-Północ",
-    address: "near Szwedzka metro (M2), Warszawa",
-    url: "https://www.olx.pl/d/oferta/przestronny-pokoj-w-2-pokojowym-mieszkaniu-3-min-od-metra-szwedzka-m2-CID3-ID1bxCuc.html",
-    rent: 1750,
-    bills: 75,
+    district: "Ursus",
+    address: "Ursus, Warszawa",
+    url: "https://www.olx.pl/d/oferta/do-wynajecia-mieszkanie-CID3-ID1bHpyk.html",
+    rent: 2300,
+    bills: 200,
     garageCost: null,
-    areaSqm: null,
-    deposit: null,
-    commuteMin: 50,
-    availableFrom: "02/08/2026",
-    contact: { ar: "Maksymilian — شات OLX", en: "Maksymilian — OLX chat" },
+    areaSqm: 18.0,
+    deposit: 3000,
+    commuteMin: 45,
+    availableFrom: "01/09/2026",
+    contact: {
+      ar: "Marzena — OLX",
+      en: "Marzena — OLX"
+    },
     notes: {
-      ar: "هتسكن مع شخص واحد بس (اللي معلن) — أهدى اختيار. من الصور: سرير دوبل كبير ✓ ومكتب جيمينج كبير بشاشة وكرسي مريح ✓، بس المطبخ والحمام على الطراز القديم (مش مودرن). السعر شامل الإدارة والمية والتدفئة والنت، وبتدفع بس كهربا وغاز (~150 زلوتي كل شهرين). فيها فرن غاز. متاحة من 2 أغسطس.",
-      en: "You'd live with just one flatmate (the poster) — the calmest option. From the photos: big double bed ✓ and a large gaming desk with a monitor and comfy chair ✓, but the kitchen and bathroom are old-style (not modern). Price includes admin fees, water, heating and internet; you only pay electricity + gas (~150 zł every 2 months). Gas oven. Available from Aug 2."
+      ar: "⚠️ من سبتمبر. أرخص إيجار (٢٣٠٠) + ديش واشر وفرن وركنة وتراس وتكييف. النوم على ناروجنيك مش سرير؛ بعيد عن الشغل.",
+      en: "⚠️ From September. Cheapest rent (2300) + dishwasher, oven, parking, terrace, A/C. Sofa bed not a real bed; far from work."
     },
     photos: [
-      "https://ireland.apollo.olxcdn.com/v1/files/pz9c08py3xej1-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/evmkk2agr9r71-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/mavgztlng1ai-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/x682qmgeuwmn-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/fduwrjxqoytn3-PL/image;s=1200x900"
+      "https://ireland.apollo.olxcdn.com/v1/files/9oa6jiuhdtyh3-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/pkq58xrihlo03-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/uxyfnjgkrgfd1-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/wkqzzacnga262-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/wm1bgyug355c3-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/s1ode2qch0061-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/2r4r4dqttj2g1-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/xl8gxy27qtnu1-PL/image;s=1200x900"
     ],
     criteria: {
       oven: "yes",
-      dishwasher: "unknown",
-      bed: "yes",
+      dishwasher: "yes",
+      bed: "no",
+      spacious: "yes",
+      garage: "yes",
+      max3: "yes",
+      desk: "unknown",
+      modern: "unknown",
+      elevator: "unknown",
+      availableAug: "no",
+      noCommission: "yes"
+    },
+    createdAt: 5
+  },
+  {
+    id: "olx-1bgdui",
+    propertyType: "studio",
+    title: {
+      ar: "تنازل عن إيجار ستوديو ١٨م² شامل الكل — Giserska 21",
+      en: "Lease takeover 18m² studio all-in — Giserska 21"
+    },
+    district: "Ursus",
+    address: "ul. Giserska 21, Warszawa",
+    url: "https://www.olx.pl/d/oferta/odstapie-najem-kawalerki-warszawa-ul-giserska-21-CID3-ID1bGDui.html",
+    rent: 3000,
+    bills: 0,
+    garageCost: null,
+    areaSqm: 18,
+    deposit: 3000,
+    commuteMin: 45,
+    availableFrom: "od zaraz",
+    contact: {
+      ar: "Maksym — OLX",
+      en: "Maksym — OLX"
+    },
+    notes: {
+      ar: "٣٠٠٠ شامل كل حاجة ✅ ديش واشر+فرن، متاح دلوقتي. تنازل عن عقد — اسأل عن شروط التنازل. بعيد نسبيًا عن الشغل.",
+      en: "3000 all-inclusive ✅ dishwasher+oven, available now. Lease takeover — ask about transfer terms. Relatively far from work."
+    },
+    photos: [
+      "https://ireland.apollo.olxcdn.com/v1/files/islhd2t24r46-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/dwjmvg4wdlof1-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/walogcazjvdv3-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/qsu8zk0ou8ry2-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/ij92k7anpu7f3-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/x4787eeakpls3-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/c89bubkbetu43-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/cbn2n30cdy4l-PL/image;s=1200x900"
+    ],
+    criteria: {
+      oven: "yes",
+      dishwasher: "yes",
+      bed: "unknown",
       spacious: "yes",
       garage: "unknown",
       max3: "yes",
-      desk: "yes",
-      modern: "no",
+      desk: "unknown",
+      modern: "yes",
       elevator: "unknown",
       availableAug: "yes",
       noCommission: "yes"
@@ -306,139 +327,52 @@ export const SEED_LISTINGS: Listing[] = [
     createdAt: 6
   },
   {
-    id: "praga-poludnie-tatarkiewicza",
+    id: "olx-1bdt8k",
+    propertyType: "studio",
     title: {
-      ar: "أوضة مريحة — پراجا الجنوبية، 20 دقيقة للسنتر",
-      en: "Comfortable room — Praga Południe, 20 min to center"
+      ar: "ستوديو ٣٢م² دور ٨ بأسانسير — Pieskowa Skała / Kłobucka",
+      en: "32m² studio 8th floor with elevator — Pieskowa Skała / Kłobucka"
     },
-    district: "Praga-Południe",
-    address: "ul. Tatarkiewicza 10, Warszawa",
-    url: "https://www.olx.pl/d/oferta/komfortowy-pokoj-praga-poludnie-20min-do-centrum-CID3-ID1bxh6O.html",
-    rent: 1590,
-    bills: 300,
+    district: "Ursynów",
+    address: "ul. Pieskowa Skała / Kłobucka, Warszawa",
+    url: "https://www.olx.pl/d/oferta/kawalerka-do-wynajecia-warszawa-ul-klobucka-32-m-m-postojowe-nowy-budynek-idealne-dla-pary-CID3-ID1bDT8K.html",
+    rent: 2660,
+    bills: 640,
     garageCost: null,
-    areaSqm: 10,
-    deposit: 1890,
-    commuteMin: 55,
-    availableFrom: "01/08/2026",
-    contact: { ar: "Wojciech — واتساب 695 266 951", en: "Wojciech — WhatsApp 695 266 951" },
+    areaSqm: 32.5,
+    deposit: 2660,
+    commuteMin: 38,
+    availableFrom: "",
+    contact: {
+      ar: "Jacek — OLX",
+      en: "Jacek — OLX"
+    },
     notes: {
-      ar: "⚠️ نفس شبكة sPokój — بيدوروا على بنت 18-30 سنة، غالبًا مش هتنفع. الأوضة 10م² بس (صغيرة). سرير 130سم بمرتبة كويسة ومكتب 120سم. الشقة 5 أوض و3 حمامات. السعر شامل كل حاجة.",
-      en: "⚠️ Same sPokój network — looking for a female tenant aged 18-30, probably won't work. The room is only 10m² (small). 130cm bed with a good mattress and a 120cm desk. The flat has 5 rooms and 3 bathrooms. All-inclusive price."
+      ar: "مساحة كويسة وأسانسير ✅ بس غالي: ٢٦٦٠+٦٤٠=٣٣٠٠ + ركنة مدفوعة. تفاصيل المطبخ/السرير ناقصة.",
+      en: "Good size + elevator ✅ but pricey: 2660+640=3300 + paid parking. Kitchen/bed details unclear."
     },
     photos: [
-      "https://ireland.apollo.olxcdn.com/v1/files/1d5pb4ww0dlz1-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/ax8jpp95y70j1-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/0bsgpsqmy7gj1-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/9xclpy8n07j61-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/b40e1yw7bd643-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/dlb7uxbfikhf3-PL/image;s=1200x900"
+      "https://ireland.apollo.olxcdn.com/v1/files/2wabvksedory2-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/uc0omz00bjv42-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/lpb6igvz2hak-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/3igadh5g73x1-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/zs22spe0kgxf3-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/r9koqcn7loag2-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/zchp0f7tm7y61-PL/image;s=1200x900"
     ],
     criteria: {
-      oven: "yes",
+      oven: "unknown",
       dishwasher: "unknown",
-      bed: "yes",
-      spacious: "no",
-      garage: "unknown",
-      max3: "no",
-      desk: "yes",
+      bed: "unknown",
+      spacious: "yes",
+      garage: "no",
+      max3: "yes",
+      desk: "unknown",
       modern: "yes",
-      elevator: "unknown",
-      availableAug: "yes",
+      elevator: "yes",
+      availableAug: "unknown",
       noCommission: "yes"
     },
     createdAt: 7
-  },
-  {
-    id: "ursynow-puszczyka",
-    title: {
-      ar: "أوضة حلوة — أورسينوف، جنب مترو Ursynów",
-      en: "Nice room — Ursynów, next to Ursynów metro"
-    },
-    district: "Ursynów",
-    address: "ul. Puszczyka, Warszawa",
-    url: "https://www.olx.pl/d/oferta/puszczyka-bardzo-ladny-pokoj-ursynow-obok-metra-ursynow-ul-puszczyka-CID3-ID18oGA6.html",
-    rent: 1400,
-    bills: null,
-    garageCost: null,
-    areaSqm: null,
-    deposit: null,
-    commuteMin: 45,
-    availableFrom: { ar: "متاحة دلوقتي", en: "Available now" },
-    contact: { ar: "mmm — شات OLX", en: "mmm — OLX chat" },
-    notes: {
-      ar: "⚠️ إعلان من شركة (Firmowe) — اسأل لو فيه كوميشن! السعر قابل للتفاوض والمصاريف مش مذكورة. من الصور: التجديد فعلًا فخم — حمام رخام جديد بالبانيو ✓ بس مفيش مكتب باين في الأوض (قالوا ممكن يضيفوا مكتب أبيض). فيه أماكن ركنة جنب العمارة. 5 دقايق مشي للمترو.",
-      en: "⚠️ Company listing (Firmowe) — ask about commission! Price negotiable and utilities not stated. From the photos: the renovation really is fancy — brand-new marble bathroom with a tub ✓ but no desk visible in the rooms (they said a white desk can be added). Parking spots next to the building. 5 min walk to the metro."
-    },
-    photos: [
-      "https://ireland.apollo.olxcdn.com/v1/files/wydwitnp9wa42-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/cjk0x2kq4ht73-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/y9hbbqbkoxje3-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/nje11h5omedl2-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/hag2jo4tid9s1-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/lqksi1qisp8y-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/u0rm0n5a76x51-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/hi591cobuhjb2-PL/image;s=1200x900"
-    ],
-    criteria: {
-      oven: "yes",
-      dishwasher: "unknown",
-      bed: "unknown",
-      spacious: "unknown",
-      garage: "yes",
-      max3: "unknown",
-      desk: "unknown",
-      modern: "yes",
-      elevator: "unknown",
-      availableAug: "yes",
-      noCommission: "unknown"
-    },
-    createdAt: 8
-  },
-  {
-    id: "mokotow-komputerowa",
-    title: {
-      ar: "أوضة فردية 15م² — الموردور، شارع Komputerowa",
-      en: "Single room 15m² — Mordor, Komputerowa st."
-    },
-    district: "Mokotów (Służewiec)",
-    address: "ul. Komputerowa 7a, Warszawa",
-    url: "https://www.olx.pl/d/oferta/pokoj-jednosobowy-mordor-ul-komputerowa-CID3-ID1bxPNp.html",
-    rent: 1900,
-    bills: 300,
-    garageCost: null,
-    areaSqm: 15,
-    deposit: 1900,
-    commuteMin: 25,
-    availableFrom: "01/08/2026",
-    contact: { ar: "Michał — شات OLX", en: "Michał — OLX chat" },
-    notes: {
-      ar: "⚠️ مفيش سرير حقيقي — كنبة ركنة بتتفرش (narożnik). من الصور: مكتب بشاشة وكرسي مكتب مريح ✓، الشقة مودرن وعمارة جديدة ✓، وفيه بلكونة كبيرة بقعدة كاملة 👌. أوضة 15م² في شقة 66م² لـ3 أشخاص بس. فرن + إندكشن + غسالة أطباق + تلاجة كبيرة بكوستكارة. قريبة جدًا من الشغل. السعر قابل للتفاوض، عقد سنة.",
-      en: "⚠️ No real bed — a corner sofa bed (narożnik). From the photos: desk with a monitor and comfy office chair ✓, modern flat in a new building ✓, and a big balcony with a full seating set 👌. 15m² room in a 66m² flat with only 3 people. Oven + induction + dishwasher + big fridge with an ice maker. Very close to work. Price negotiable, 1-year contract."
-    },
-    photos: [
-      "https://ireland.apollo.olxcdn.com/v1/files/h9ki4q5788lq1-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/dwrnil7gy56w-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/pnvhfyr0w0c9-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/wbaj4g1q00eu-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/6owiwr4q6fe43-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/dsumjbq999rs1-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/srlw1vn224rw1-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/eigglybp3j1j3-PL/image;s=1200x900"
-    ],
-    criteria: {
-      oven: "yes",
-      dishwasher: "yes",
-      bed: "no",
-      spacious: "yes",
-      garage: "unknown",
-      max3: "yes",
-      desk: "yes",
-      modern: "yes",
-      elevator: "unknown",
-      availableAug: "yes",
-      noCommission: "yes"
-    },
-    createdAt: 9
   }
 ];
