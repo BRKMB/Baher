@@ -56,8 +56,8 @@ export const SEED_LISTINGS: Listing[] = [
       en: "Wiolka — OLX"
     },
     notes: {
-      ar: "ستوديو كامل التجهيز (ديش واشر بوش + فرن سامسونج). متاح دلوقتي، إيجار مباشر. المصاريف مية وكهربا تقريبًا. قريب من المترو؛ للشغل ~٣٥ دقيقة.\n✅ ديش واشر Bosch مذكور صراحة في الإعلان.",
-      en: "Fully equipped (Bosch dishwasher + Samsung oven). Available now, direct rental. Utilities approx water+electricity. Near metro; ~35 min to work.\n✅ Bosch dishwasher explicitly listed in the ad."
+      ar: "ستوديو كامل التجهيز (ديش واشر بوش + فرن سامسونج). متاح دلوقتي، إيجار مباشر. المصاريف مية وكهربا تقريبًا. قريب من المترو؛ للشغل ~٣٥ دقيقة.\n✅ ديش واشر Bosch مذكور صراحة في الإعلان.\n⚠️ طالب عقد najem okazjonalny (عند نوتر).",
+      en: "Fully equipped (Bosch dishwasher + Samsung oven). Available now, direct rental. Utilities approx water+electricity. Near metro; ~35 min to work.\n✅ Bosch dishwasher explicitly listed in the ad.\n⚠️ Requires najem okazjonalny (notary occasional lease)."
     },
     photos: [
       "https://ireland.apollo.olxcdn.com/v1/files/v2w3n7qnzsxi-PL/image;s=1200x900",
@@ -80,7 +80,8 @@ export const SEED_LISTINGS: Listing[] = [
       modern: "yes",
       elevator: "unknown",
       availableAug: "yes",
-      noCommission: "yes"
+      noCommission: "yes",
+      noOccasional: "no"
     },
     createdAt: 1
   },
@@ -106,8 +107,8 @@ export const SEED_LISTINGS: Listing[] = [
       en: "Anita — OLX"
     },
     notes: {
-      ar: "⚠️ متاح من سبتمبر مش أغسطس. عمارة جديدة ومفروش، بس بعيد عن الشغل (~٤٨ دقيقة).\n❓ الإعلان مش بيذكر ديش واشر — مكتوب مفروش بس من غير قائمة أجهزة المطبخ. اسأل المعلن.",
-      en: "⚠️ Available from September, not August. New building, furnished, but far from work (~48 min).\n❓ Ad does not mention a dishwasher — says furnished but no kitchen appliance list. Ask the landlord."
+      ar: "⚠️ متاح من سبتمبر مش أغسطس. عمارة جديدة ومفروش، بس بعيد عن الشغل (~٤٨ دقيقة).\n❓ الإعلان مش بيذكر ديش واشر — مكتوب مفروش بس من غير قائمة أجهزة المطبخ. اسأل المعلن.\n❓ نوع العقد مش مذكور (okazjonalny؟).",
+      en: "⚠️ Available from September, not August. New building, furnished, but far from work (~48 min).\n❓ Ad does not mention a dishwasher — says furnished but no kitchen appliance list. Ask the landlord.\n❓ Contract type not stated (occasional lease?)."
     },
     photos: [
       "https://ireland.apollo.olxcdn.com/v1/files/4vod5qm9rqhp-PL/image;s=1200x900",
@@ -128,7 +129,8 @@ export const SEED_LISTINGS: Listing[] = [
       modern: "yes",
       elevator: "yes",
       availableAug: "no",
-      noCommission: "yes"
+      noCommission: "yes",
+      noOccasional: "unknown"
     },
     createdAt: 2
   },
@@ -154,8 +156,8 @@ export const SEED_LISTINGS: Listing[] = [
       en: "Michał — OLX"
     },
     notes: {
-      ar: "قريب من الشغل وPKP Rakowiec (~١٨ دقيقة) ✅ ديش واشر+فرن+مكتب، من غير كوميشن، متاح ١ أغسطس. الإجمالي ٢٦٠٠+٦٠٠=٣٢٠٠.\n✅ ديش واشر مذكور صراحة في تجهيز المطبخ.",
-      en: "Close to work & PKP Rakowiec (~18 min) ✅ dishwasher+oven+desk, no commission, Aug 1. Total 2600+600=3200.\n✅ Dishwasher explicitly listed in the kitchen equipment."
+      ar: "قريب من الشغل وPKP Rakowiec (~١٨ دقيقة) ✅ ديش واشر+فرن+مكتب، من غير كوميشن، متاح ١ أغسطس. الإجمالي ٢٦٠٠+٦٠٠=٣٢٠٠.\n✅ ديش واشر مذكور صراحة في تجهيز المطبخ.\n✅ عقد إيجار عادي — مفيش okazjonalny.",
+      en: "Close to work & PKP Rakowiec (~18 min) ✅ dishwasher+oven+desk, no commission, Aug 1. Total 2600+600=3200.\n✅ Dishwasher explicitly listed in the kitchen equipment.\n✅ Regular lease — no okazjonalny mentioned."
     },
     photos: [
       "https://ireland.apollo.olxcdn.com/v1/files/4masije2k58u1-PL/image;s=1200x900",
@@ -173,7 +175,8 @@ export const SEED_LISTINGS: Listing[] = [
       modern: "yes",
       elevator: "yes",
       availableAug: "yes",
-      noCommission: "yes"
+      noCommission: "yes",
+      noOccasional: "yes"
     },
     createdAt: 3
   },
@@ -199,8 +202,8 @@ export const SEED_LISTINGS: Listing[] = [
       en: "Marzena — OLX"
     },
     notes: {
-      ar: "⚠️ من سبتمبر. أرخص إيجار (٢٣٠٠) + ديش واشر وفرن وركنة وتراس وتكييف. النوم على ناروجنيك مش سرير؛ بعيد عن الشغل.\n✅ ديش واشر مذكور صراحة مع تجهيز المطبخ.",
-      en: "⚠️ From September. Cheapest rent (2300) + dishwasher, oven, parking, terrace, A/C. Sofa bed not a real bed; far from work.\n✅ Dishwasher explicitly listed with the kitchen equipment."
+      ar: "⚠️ من سبتمبر. أرخص إيجار (٢٣٠٠) + ديش واشر وفرن وركنة وتراس وتكييف. النوم على ناروجنيك مش سرير؛ بعيد عن الشغل.\n✅ ديش واشر مذكور صراحة مع تجهيز المطبخ.\n❓ نوع العقد مش مذكور (okazjonalny؟).",
+      en: "⚠️ From September. Cheapest rent (2300) + dishwasher, oven, parking, terrace, A/C. Sofa bed not a real bed; far from work.\n✅ Dishwasher explicitly listed with the kitchen equipment.\n❓ Contract type not stated (occasional lease?)."
     },
     photos: [
       "https://ireland.apollo.olxcdn.com/v1/files/9oa6jiuhdtyh3-PL/image;s=1200x900",
@@ -223,7 +226,8 @@ export const SEED_LISTINGS: Listing[] = [
       modern: "yes",
       elevator: "yes",
       availableAug: "no",
-      noCommission: "yes"
+      noCommission: "yes",
+      noOccasional: "unknown"
     },
     createdAt: 4
   },
@@ -249,8 +253,8 @@ export const SEED_LISTINGS: Listing[] = [
       en: "Jacek — OLX"
     },
     notes: {
-      ar: "مساحة كويسة وأسانسير ✅ بس غالي: ٢٦٦٠+٦٤٠=٣٣٠٠ + ركنة مدفوعة. تفاصيل المطبخ/السرير ناقصة.\n❓ فيه أنكس مطبخ بس الإعلان مفيش فيه ذكر لديش واشر. اسأل المكتب/المعلن.",
-      en: "Good size + elevator ✅ but pricey: 2660+640=3300 + paid parking. Kitchen/bed details unclear.\n❓ Has a kitchenette, but the ad never mentions a dishwasher. Ask the agency/landlord."
+      ar: "مساحة كويسة وأسانسير ✅ بس غالي: ٢٦٦٠+٦٤٠=٣٣٠٠ + ركنة مدفوعة. تفاصيل المطبخ/السرير ناقصة.\n❓ فيه أنكس مطبخ بس الإعلان مفيش فيه ذكر لديش واشر. اسأل المكتب/المعلن.\n❓ نوع العقد مش مذكور (okazjonalny؟).",
+      en: "Good size + elevator ✅ but pricey: 2660+640=3300 + paid parking. Kitchen/bed details unclear.\n❓ Has a kitchenette, but the ad never mentions a dishwasher. Ask the agency/landlord.\n❓ Contract type not stated (occasional lease?)."
     },
     photos: [
       "https://ireland.apollo.olxcdn.com/v1/files/2wabvksedory2-PL/image;s=1200x900",
@@ -272,7 +276,8 @@ export const SEED_LISTINGS: Listing[] = [
       modern: "yes",
       elevator: "yes",
       availableAug: "unknown",
-      noCommission: "yes"
+      noCommission: "yes",
+      noOccasional: "unknown"
     },
     createdAt: 5
   }

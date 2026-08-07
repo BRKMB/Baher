@@ -320,7 +320,8 @@ function analyzeDescription(text: string, opts: { isBusiness?: boolean; rooms?: 
     modern: "unknown",
     elevator: "unknown",
     availableAug: "unknown",
-    noCommission: "unknown"
+    noCommission: "unknown",
+    noOccasional: "unknown"
   };
 
   if (/piekarnik/.test(t)) criteria.oven = "yes";
@@ -392,6 +393,13 @@ function analyzeDescription(text: string, opts: { isBusiness?: boolean; rooms?: 
   if (/bez prowizji|0% prowizji/.test(t)) criteria.noCommission = "yes";
   else if (/prowizj/.test(t)) criteria.noCommission = "no";
   else if (opts.isBusiness === false) criteria.noCommission = "yes";
+
+  // najem okazjonalny = عقد occasional (غالبًا تقيل على الأجانب)
+  if (/najem\s+okazjonaln|umow\w*\s+.*okazjonaln|okazjonaln\w*/.test(t)) {
+    criteria.noOccasional = "no";
+  } else if (/umow\w*\s+najmu(?!\s+okazjonaln)|legaln\w*\s+umow\w*\s+najmu/.test(t)) {
+    criteria.noOccasional = "yes";
+  }
 
   // المصاريف والديبوزيت
   let bills: number | null = null;
