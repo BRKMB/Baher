@@ -7,6 +7,7 @@ const WORK_DEST = "Lionbridge Poland, Łopuszańska 95, 02-457 Warszawa";
 // الفلاتر بتاعتك — الوزن يعني أهمية الحاجة في السكور
 const CRITERIA = [
   { key: "oven", icon: "🍞", weight: 2, ar: "فرن", en: "Oven" },
+  { key: "dishwasher", icon: "🍽️", weight: 2, ar: "ديش واشر", en: "Dishwasher" },
   { key: "bed", icon: "🛏️", weight: 3, ar: "سرير مريح بمرتبة كويسة", en: "Comfy bed, good mattress" },
   { key: "spacious", icon: "📐", weight: 2, ar: "مساحة واسعة", en: "Spacious place" },
   { key: "garage", icon: "🚗", weight: 1, ar: "جراج / ركنة مجانية", en: "Free garage / parking" },

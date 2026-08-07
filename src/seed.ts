@@ -67,6 +67,7 @@ export const SEED_LISTINGS: Listing[] = [
     ],
     criteria: {
       oven: "yes",
+      dishwasher: "yes",
       bed: "unknown",
       spacious: "no",
       garage: "unknown",
@@ -113,6 +114,7 @@ export const SEED_LISTINGS: Listing[] = [
     ],
     criteria: {
       oven: "yes",
+      dishwasher: "unknown",
       bed: "yes",
       spacious: "yes",
       garage: "unknown",
@@ -156,6 +158,7 @@ export const SEED_LISTINGS: Listing[] = [
     ],
     criteria: {
       oven: "yes",
+      dishwasher: "unknown",
       bed: "yes",
       spacious: "yes",
       garage: "unknown",
@@ -200,6 +203,7 @@ export const SEED_LISTINGS: Listing[] = [
     ],
     criteria: {
       oven: "unknown",
+      dishwasher: "unknown",
       bed: "yes",
       spacious: "yes",
       garage: "unknown",
@@ -245,6 +249,7 @@ export const SEED_LISTINGS: Listing[] = [
     ],
     criteria: {
       oven: "no",
+      dishwasher: "unknown",
       bed: "unknown",
       spacious: "yes",
       garage: "unknown",
@@ -287,6 +292,7 @@ export const SEED_LISTINGS: Listing[] = [
     ],
     criteria: {
       oven: "yes",
+      dishwasher: "unknown",
       bed: "yes",
       spacious: "yes",
       garage: "unknown",
@@ -330,6 +336,7 @@ export const SEED_LISTINGS: Listing[] = [
     ],
     criteria: {
       oven: "yes",
+      dishwasher: "unknown",
       bed: "yes",
       spacious: "no",
       garage: "unknown",
@@ -375,6 +382,7 @@ export const SEED_LISTINGS: Listing[] = [
     ],
     criteria: {
       oven: "yes",
+      dishwasher: "unknown",
       bed: "unknown",
       spacious: "unknown",
       garage: "yes",
@@ -420,6 +428,7 @@ export const SEED_LISTINGS: Listing[] = [
     ],
     criteria: {
       oven: "yes",
+      dishwasher: "yes",
       bed: "no",
       spacious: "yes",
       garage: "unknown",
