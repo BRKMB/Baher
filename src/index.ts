@@ -361,7 +361,7 @@ function analyzeDescription(text: string, opts: { isBusiness?: boolean; rooms?: 
   let availableFrom = "";
   const availMatch = t.match(/(?:woln[ye]|dost[ęe]pn\w*)\s*(?:od|:)?\s*(?:od)?\s*:?\s*(\d{1,2}[./]\d{1,2}(?:[./]\d{2,4})?)/);
   if (availMatch) availableFrom = availMatch[1];
-  else if (/od zaraz|dost[ęe]pn\w* od zaraz|woln[ye] od zaraz/.test(t)) availableFrom = "od zaraz";
+  else if (/od zaraz|dost[ęe]pn\w* od zaraz|woln[ye] od zaraz/.test(t)) availableFrom = "Available now";
   else {
     const m = t.match(/od\s+(\d{1,2})[./](\d{1,2})/);
     if (m) availableFrom = `${m[1]}.${m[2]}`;
@@ -372,12 +372,12 @@ function analyzeDescription(text: string, opts: { isBusiness?: boolean; rooms?: 
       const month = Number(am[2]);
       const day = Number(am[1]);
       criteria.availableAug = month < 8 || (month === 8 && day <= 1) ? "yes" : "no";
-    } else if (availableFrom === "od zaraz") {
+    } else if (/^available now$/i.test(availableFrom)) {
       criteria.availableAug = "yes";
     }
   } else if (/od zaraz/.test(t)) {
     criteria.availableAug = "yes";
-    availableFrom = "od zaraz";
+    availableFrom = "Available now";
   } else {
     const monthName = t.match(
       /(?:woln[ye]|dost[ęe]pn\w*)\s*(?:od)?\s*(\d{1,2})?\s*(sierpnia|wrze[śs]nia|pa[źz]dziernika)/
@@ -448,17 +448,28 @@ function draftFromParts(parts: {
   if (propertyType === "studio") {
     analyzed.criteria.max3 = "yes";
   }
+  const area = parts.areaSqm ?? analyzed.areaSqm;
+  const place = parts.district || "Warsaw";
+  const typeEn = { room: "Room", studio: "Studio", flat: "Flat", other: "Place" }[propertyType];
+  const typeAr = { room: "أوضة", studio: "ستوديو", flat: "شقة", other: "مكان" }[propertyType];
+  const areaEn = area != null ? ` ${area}m²` : "";
+  const areaAr = area != null ? ` ${area}م²` : "";
+  // عناوين إنجليزي/عربي — الأسماء المكانية بس اللي ممكن تفضل بولندي
+  const title = {
+    en: `${typeEn}${areaEn} — ${place}`,
+    ar: `${typeAr}${areaAr} — ${place}`
+  };
   return {
     id: `room-${Date.now()}`,
     propertyType,
-    title: parts.title,
+    title,
     district: parts.district,
     address: parts.address,
     url: parts.url,
     rent: parts.rent ?? 0,
     bills: parts.bills ?? analyzed.bills,
     garageCost: null,
-    areaSqm: parts.areaSqm ?? analyzed.areaSqm,
+    areaSqm: area,
     deposit: parts.deposit ?? analyzed.deposit,
     commuteMin: null,
     availableFrom: analyzed.availableFrom,
