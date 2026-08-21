@@ -12,13 +12,14 @@ import {
   ScanBarcode,
   RefreshCw,
   Search,
+  Trash2,
   Users,
 } from 'lucide-react'
 import { Header } from '../components/Header'
 import { Footer } from '../components/Footer'
 import { AdminQrChecker } from '../components/AdminQrChecker'
 import { Seo } from '../components/Seo'
-import { formatGuestName, listBookings, type Booking } from '../lib/booking'
+import { deleteBooking, formatGuestName, listBookings, type Booking } from '../lib/booking'
 
 const KEY_STORAGE = 'salute21-admin-key'
 
@@ -52,6 +53,7 @@ export function AdminBookingsPage() {
   const [query, setQuery] = useState('')
   const [tab, setTab] = useState<'upcoming' | 'past' | 'all'>('upcoming')
   const [view, setView] = useState<'bookings' | 'checker'>('bookings')
+  const [deletingId, setDeletingId] = useState('')
 
   const load = async (adminKey: string) => {
     if (!adminKey.trim()) return
@@ -117,6 +119,25 @@ export function AdminBookingsPage() {
     setBookings([])
     setQuery('')
     setTab('upcoming')
+  }
+
+  const onDelete = async (booking: Booking) => {
+    if (!key) return
+    const guest = formatGuestName(booking)
+    const ok = window.confirm(
+      `Delete booking for ${guest}?\n\n${booking.date} · ${booking.time} · ${booking.id}\n\nThis cannot be undone.`,
+    )
+    if (!ok) return
+    setDeletingId(booking.id)
+    setError('')
+    try {
+      await deleteBooking(key, booking.id)
+      setBookings((prev) => prev.filter((b) => b.id !== booking.id))
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to delete booking')
+    } finally {
+      setDeletingId('')
+    }
   }
 
   return (
@@ -285,10 +306,18 @@ export function AdminBookingsPage() {
                     <span>Party</span>
                     <span>Contact</span>
                     <span>Reference</span>
+                    <span className="admin-list__head-action">Delete</span>
                   </div>
                   <ul>
                     {visible.map((b, i) => (
-                      <BookingRow key={b.id} booking={b} index={i} isToday={b.date === today} />
+                      <BookingRow
+                        key={b.id}
+                        booking={b}
+                        index={i}
+                        isToday={b.date === today}
+                        deleting={deletingId === b.id}
+                        onDelete={() => void onDelete(b)}
+                      />
                     ))}
                   </ul>
                 </div>
@@ -325,10 +354,14 @@ function BookingRow({
   booking: b,
   index,
   isToday,
+  deleting,
+  onDelete,
 }: {
   booking: Booking
   index: number
   isToday: boolean
+  deleting: boolean
+  onDelete: () => void
 }) {
   return (
     <motion.li
@@ -374,6 +407,19 @@ function BookingRow({
 
       <div className="admin-row__ref">
         <code>{b.id}</code>
+      </div>
+
+      <div className="admin-row__actions">
+        <button
+          type="button"
+          className="admin-row__delete"
+          aria-label={`Delete booking ${b.id}`}
+          title="Delete booking"
+          disabled={deleting}
+          onClick={onDelete}
+        >
+          <Trash2 className={`size-4 ${deleting ? 'animate-pulse' : ''}`} strokeWidth={1.75} />
+        </button>
       </div>
     </motion.li>
   )

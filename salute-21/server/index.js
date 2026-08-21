@@ -193,6 +193,32 @@ app.post('/api/bookings', (req, res) => {
   res.status(201).json(booking)
 })
 
+app.get('/api/bookings', (req, res) => {
+  const key = req.get('X-Admin-Key') || String(req.query.key || '')
+  if (key !== String(process.env.ADMIN_KEY || 'baher')) {
+    return res.status(401).json({ error: 'Unauthorized' })
+  }
+  const sorted = [...readBookings()].sort((a, b) => {
+    const da = `${a.date || ''}T${a.time || '00:00'}`
+    const db = `${b.date || ''}T${b.time || '00:00'}`
+    return db.localeCompare(da)
+  })
+  res.json({ bookings: sorted, count: sorted.length })
+})
+
+app.delete('/api/bookings/:id', (req, res) => {
+  const key = req.get('X-Admin-Key') || String(req.query.key || '')
+  if (key !== String(process.env.ADMIN_KEY || 'baher')) {
+    return res.status(401).json({ error: 'Unauthorized' })
+  }
+  const id = String(req.params.id || '')
+  const list = readBookings()
+  const next = list.filter((b) => b.id !== id)
+  if (next.length === list.length) return res.status(404).json({ error: 'Not found' })
+  writeBookings(next)
+  res.json({ ok: true, id })
+})
+
 app.get('/api/bookings/:id', (req, res) => {
   const booking = readBookings().find((b) => b.id === req.params.id)
   if (!booking) return res.status(404).json({ error: 'Not found' })

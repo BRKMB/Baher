@@ -1232,7 +1232,7 @@
   @media (min-width: 900px) {
     .admin-list__head {
       display: grid;
-      grid-template-columns: 11rem minmax(0, 1.2fr) 4.5rem minmax(0, 1.1fr) 9.5rem;
+      grid-template-columns: 11rem minmax(0, 1.2fr) 4.5rem minmax(0, 1.1fr) 9.5rem 2.75rem;
       gap: 1rem;
       padding: 0.75rem 0.25rem;
       font-size: 0.65rem;
@@ -1240,6 +1240,10 @@
       letter-spacing: 0.16em;
       text-transform: uppercase;
       color: var(--color-muted);
+    }
+
+    .admin-list__head-action {
+      text-align: right;
     }
   }
 
@@ -1258,7 +1262,7 @@
 
   @media (min-width: 900px) {
     .admin-row {
-      grid-template-columns: 11rem minmax(0, 1.2fr) 4.5rem minmax(0, 1.1fr) 9.5rem;
+      grid-template-columns: 11rem minmax(0, 1.2fr) 4.5rem minmax(0, 1.1fr) 9.5rem 2.75rem;
       gap: 1rem;
       align-items: start;
       padding: 1.1rem 0.25rem;
@@ -1362,6 +1366,39 @@
     .admin-row__ref {
       text-align: right;
     }
+  }
+
+  .admin-row__actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+  }
+
+  .admin-row__delete {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border: 1px solid color-mix(in srgb, var(--color-line) 90%, transparent);
+    background: transparent;
+    color: color-mix(in srgb, var(--color-ink) 55%, transparent);
+    cursor: pointer;
+    transition:
+      color 0.15s ease,
+      border-color 0.15s ease,
+      background 0.15s ease;
+  }
+
+  .admin-row__delete:hover:not(:disabled) {
+    border-color: color-mix(in srgb, #9b1c1c 35%, var(--color-line));
+    background: color-mix(in srgb, #9b1c1c 8%, transparent);
+    color: #9b1c1c;
+  }
+
+  .admin-row__delete:disabled {
+    opacity: 0.45;
+    cursor: wait;
   }
 
   .admin-qr__grid {

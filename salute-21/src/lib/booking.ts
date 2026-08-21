@@ -269,6 +269,25 @@ export async function listBookings(adminKey: string): Promise<Booking[]> {
   return Array.isArray(data.bookings) ? data.bookings : []
 }
 
+/** Staff-only delete — requires the same admin key as listBookings. */
+export async function deleteBooking(adminKey: string, id: string): Promise<void> {
+  const res = await fetch(`/api/bookings/${encodeURIComponent(id)}`, {
+    method: 'DELETE',
+    headers: {
+      Accept: 'application/json',
+      'X-Admin-Key': adminKey,
+    },
+  })
+  const contentType = res.headers.get('content-type') || ''
+  if (!contentType.includes('application/json')) {
+    throw new Error('API unavailable')
+  }
+  const data = (await res.json().catch(() => ({}))) as { error?: string }
+  if (!res.ok) {
+    throw new Error(data.error || 'Delete failed')
+  }
+}
+
 function readLocal(): Booking[] {
   try {
     return JSON.parse(localStorage.getItem('salute21-bookings') || '[]') as Booking[]

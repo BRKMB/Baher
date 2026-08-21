@@ -562,6 +562,21 @@ async function handleApi(request, env) {
   }
 
   const byId = path.match(/^\/api\/bookings\/([^/]+)$/)
+  if (byId && request.method === 'DELETE') {
+    if (!isAdmin(request, env)) return json({ error: 'Unauthorized' }, 401)
+    const id = decodeURIComponent(byId[1])
+    const list = await readBookings(env)
+    const next = list.filter((b) => b.id !== id)
+    if (next.length === list.length) return json({ error: 'Not found' }, 404)
+    await writeBookings(env, next)
+    try {
+      await env.BOOKINGS.delete(`booking:${id}`)
+    } catch {
+      /* list is source of truth */
+    }
+    return json({ ok: true, id })
+  }
+
   if (byId && request.method === 'GET') {
     const id = decodeURIComponent(byId[1])
     const direct = await env.BOOKINGS.get(`booking:${id}`)
