@@ -25,23 +25,25 @@ const DIET_TAGS: MenuDietTag[] = ['vegan', 'vege', 'spicy']
 
 const catTitle: Record<MenuCategory['id'], TranslationKey> = {
   burgers: 'cat_burgers',
-  pizza: 'cat_pizza',
   sides: 'cat_sides',
   turkish: 'cat_turkish',
+  pizza: 'cat_pizza',
+  breakfast: 'cat_breakfast',
+  lunch: 'cat_lunch',
   hot_coffee: 'cat_hot_coffee',
   cold_coffee: 'cat_cold_coffee',
-  tea: 'cat_tea',
   cold_drinks: 'cat_cold_drinks',
 }
 
 const catSub: Record<MenuCategory['id'], TranslationKey> = {
   burgers: 'cat_burgers_sub',
-  pizza: 'cat_pizza_sub',
   sides: 'cat_sides_sub',
   turkish: 'cat_turkish_sub',
+  pizza: 'cat_pizza_sub',
+  breakfast: 'cat_breakfast_sub',
+  lunch: 'cat_lunch_sub',
   hot_coffee: 'cat_hot_coffee_sub',
   cold_coffee: 'cat_cold_coffee_sub',
-  tea: 'cat_tea_sub',
   cold_drinks: 'cat_cold_drinks_sub',
 }
 
@@ -418,9 +420,11 @@ const CategoryItemsPage = forwardRef<
                         />
                       ))}
                     </div>
-                    <p className="mt-0.5 text-[10px] leading-snug text-muted sm:text-xs">
-                      {item.desc[lang]}
-                    </p>
+                    {item.desc[lang] ? (
+                      <p className="mt-0.5 text-[10px] leading-snug text-muted sm:text-xs">
+                        {item.desc[lang]}
+                      </p>
+                    ) : null}
                   </div>
                   <p className="shrink-0 font-display text-base text-ink italic tabular-nums sm:text-xl">
                     {item.price}

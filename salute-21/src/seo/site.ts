@@ -171,7 +171,7 @@ export function buildBreadcrumbJsonLd(items: Array<{ name: string; path: string 
 export function buildMenuJsonLd(
   categories: Array<{
     name: string
-    items: Array<{ name: string; description: string; price: number }>
+    items: Array<{ name: string; description: string; price: number | string }>
   }>,
 ) {
   return {
@@ -185,17 +185,21 @@ export function buildMenuJsonLd(
     hasMenuSection: categories.map((cat) => ({
       '@type': 'MenuSection',
       name: cat.name,
-      hasMenuItem: cat.items.map((item) => ({
-        '@type': 'MenuItem',
-        name: item.name,
-        description: item.description,
-        offers: {
-          '@type': 'Offer',
-          price: item.price,
-          priceCurrency: 'PLN',
-          availability: 'https://schema.org/InStock',
-        },
-      })),
+      hasMenuItem: cat.items.map((item) => {
+        const raw = String(item.price)
+        const numeric = Number(raw.split('/')[0].trim())
+        return {
+          '@type': 'MenuItem',
+          name: item.name,
+          description: item.description,
+          offers: {
+            '@type': 'Offer',
+            price: Number.isFinite(numeric) ? numeric : raw,
+            priceCurrency: 'PLN',
+            availability: 'https://schema.org/InStock',
+          },
+        }
+      }),
     })),
   }
 }

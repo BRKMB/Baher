@@ -21,20 +21,22 @@ export const MAX_PARTY_SIZE = 12
 export type MenuItem = {
   name: { en: string; pl: string }
   desc: { en: string; pl: string }
-  price: number
-  /** Optional sub-heading within a category (e.g. Hot Coffee) */
+  /** Number, or a printed dual price like "10 / 13" */
+  price: number | string
+  /** Optional sub-heading within a category */
   group?: { en: string; pl: string }
   tags?: Array<'vegan' | 'vege' | 'spicy'>
 }
 
 export type MenuCategoryId =
   | 'burgers'
-  | 'pizza'
   | 'sides'
   | 'turkish'
+  | 'pizza'
+  | 'breakfast'
+  | 'lunch'
   | 'hot_coffee'
   | 'cold_coffee'
-  | 'tea'
   | 'cold_drinks'
 
 export type MenuCategory = {
@@ -44,84 +46,96 @@ export type MenuCategory = {
   items: MenuItem[]
 }
 
-/** Current Salute 21 printed card — prices & items match the physical menu */
+/** Current Salute 21 printed card — PL front / EN back */
 export const menu: MenuCategory[] = [
   {
     id: 'burgers',
     image: '/images/menu-burgers.jpg',
     note: {
-      en: 'All burgers are served with fries · Add a drink to any burger + 8 zł',
-      pl: 'Wszystkie burgery serwowane są z frytkami · Dodaj napój do dowolnego burgera + 8 zł',
+      en: 'Burger add-ons: extra patty +10 zł · fries +8 zł',
+      pl: 'Dodatki do burgera: dodatkowy kotlet +10 zł · frytki +8 zł',
     },
     items: [
       {
-        name: { en: 'Smash Burger', pl: 'Smash Burger' },
+        name: { en: 'Classic 21', pl: 'Classic 21' },
         desc: {
-          en: '2× 80 g beef, brioche bun, caramelized onion, pickle, house sauce',
-          pl: '2× 80 g wołowiny, bułka brioche, karmelizowana cebula, ogórek kiszony, sos autorski',
+          en: 'Classic burger with a single patty',
+          pl: 'Klasyczny burger z pojedynczym kotletem',
         },
-        price: 51,
+        price: 29,
       },
       {
-        name: { en: 'Cheddar Smash Burger', pl: 'Cheddar Smash Burger' },
+        name: { en: 'Double Trouble', pl: 'Double Trouble' },
         desc: {
-          en: '2× 80 g beef, 2× cheddar, brioche bun, pickle, house sauce',
-          pl: '2× 80 g wołowiny, 2× ser cheddar, bułka brioche, ogórek kiszony, sos autorski',
+          en: 'Classic burger with a double patty',
+          pl: 'Klasyczny burger z podwójnym kotletem',
         },
-        price: 56,
+        price: 39,
       },
       {
-        name: { en: 'Chicken Burger', pl: 'Chicken Burger' },
+        name: { en: 'Cheddar Spell', pl: 'Cheddar Spell' },
         desc: {
-          en: '150 g crispy chicken fillet, brioche bun, fresh lettuce, mayonnaise',
-          pl: '150 g chrupiącego fileta z kurczaka, bułka brioche, świeża sałata, majonez',
+          en: 'Burger with a single patty and melted cheddar cheese',
+          pl: 'Burger z pojedynczym kotletem i roztopionym serem cheddar',
         },
-        price: 49,
+        price: 32,
       },
-    ],
-  },
-  {
-    id: 'pizza',
-    image: '/images/menu-pizza.jpg',
-    note: {
-      en: 'All pizzas 32 cm',
-      pl: 'Wszystkie pizze 32 cm',
-    },
-    items: [
       {
-        name: { en: 'Margherita Pizza', pl: 'Pizza Margherita' },
+        name: { en: 'Midas Melt', pl: 'Midas Melt' },
         desc: {
-          en: 'Tomato sauce, mozzarella, fresh basil',
-          pl: 'Sos pomidorowy, mozzarella, świeża bazylia',
+          en: 'Burger with a double patty and extra cheddar cheese',
+          pl: 'Burger z podwójnym kotletem i dodatkowym serem cheddar',
+        },
+        price: 42,
+      },
+      {
+        name: { en: 'Crispy Ritual', pl: 'Crispy Ritual' },
+        desc: {
+          en: 'Burger with a single crispy chicken patty',
+          pl: 'Burger z pojedynczym chrupiącym kotletem z kurczaka',
+        },
+        price: 27,
+      },
+      {
+        name: { en: 'Crispy Chaos', pl: 'Crispy Chaos' },
+        desc: {
+          en: 'Burger with a double crispy chicken patty',
+          pl: 'Burger z podwójnym chrupiącym kotletem z kurczaka',
+        },
+        price: 37,
+      },
+      {
+        name: { en: 'Redline', pl: 'Redline' },
+        desc: {
+          en: 'Burger with a single patty in spicy sauce',
+          pl: 'Burger z pojedynczym kotletem w pikantnym sosie',
+        },
+        price: 33,
+        tags: ['spicy'],
+      },
+      {
+        name: { en: 'Smoke Show', pl: 'Smoke Show' },
+        desc: {
+          en: 'Burger with a single patty in special BBQ sauce',
+          pl: 'Burger z pojedynczym kotletem w specjalnym sosie BBQ',
+        },
+        price: 33,
+      },
+      {
+        name: { en: 'Hallumi Halo', pl: 'Hallumi Halo' },
+        desc: {
+          en: 'Burger with grilled halloumi cheese',
+          pl: 'Burger z grillowanym serem halloumi',
+        },
+        price: 36,
+      },
+      {
+        name: { en: 'Truffle Maker', pl: 'Truffle Maker' },
+        desc: {
+          en: 'Burger with a single patty and truffle mayonnaise',
+          pl: 'Burger z pojedynczym kotletem i majonezem truflowym',
         },
         price: 35,
-      },
-      {
-        name: { en: '4 Cheese Pizza', pl: 'Pizza 4 sery' },
-        desc: {
-          en: 'Mozzarella, gorgonzola, Parmesan, Gouda',
-          pl: 'Mozzarella, gorgonzola, parmezan, gouda',
-        },
-        price: 46,
-      },
-      {
-        name: {
-          en: 'Burrata & Sun-Dried Tomato Pizza',
-          pl: 'Pizza Burrata & suszone pomidory',
-        },
-        desc: {
-          en: 'Margherita base + whole burrata, sun-dried tomatoes, rocket, pesto',
-          pl: 'Baza margherita + cała burrata, suszone pomidory, rukola, pesto',
-        },
-        price: 50,
-      },
-      {
-        name: { en: 'Pizza with Turkish Sausage', pl: 'Pizza z kiełbasą sucuk' },
-        desc: {
-          en: 'Tomato sauce, mozzarella, Turkish sausage, peppers',
-          pl: 'Sos pomidorowy, mozzarella, kiełbasa sucuk, papryka',
-        },
-        price: 44,
       },
     ],
   },
@@ -130,192 +144,245 @@ export const menu: MenuCategory[] = [
     image: '/images/menu-sides.jpg',
     items: [
       {
-        name: { en: 'Crispy Chicken Box', pl: 'Crispy Chicken Box' },
-        desc: {
-          en: 'Crispy chicken pieces + fries + 1 sauce',
-          pl: 'Chrupiące kąski z kurczaka + frytki + 1 sos',
-        },
-        price: 25,
-      },
-      {
-        name: { en: 'Fries', pl: 'Frytki' },
-        desc: {
-          en: '200 g portion — steak (thick) or thin',
-          pl: 'Porcja 200 g — stekowe (grube) lub cienkie',
-        },
+        name: { en: 'Fryday', pl: 'Fryday' },
+        desc: { en: 'Classic fries', pl: 'Klasyczne frytki' },
         price: 12,
       },
       {
-        name: { en: 'Onion Rings', pl: 'Krążki cebulowe' },
+        name: { en: 'Batat Mood', pl: 'Batat Mood' },
         desc: {
-          en: '6 pcs',
-          pl: '6 szt.',
+          en: 'Crispy sweet potato fries',
+          pl: 'Chrupiące frytki z batata',
+        },
+        price: 22,
+      },
+      {
+        name: { en: 'Truffries', pl: 'Truffries' },
+        desc: {
+          en: 'Special fries with truffle oil and parmesan',
+          pl: 'Specjalne frytki z olejem truflowym i parmezanem',
+        },
+        price: 18,
+      },
+      {
+        name: { en: 'Onion Orbit', pl: 'Onion Orbit' },
+        desc: {
+          en: 'Crispy onion rings (6 pcs.)',
+          pl: 'Chrupiące krążki cebulowe (6 szt.)',
         },
         price: 15,
       },
       {
-        name: { en: 'Jalapeño Cheese Balls', pl: 'Kulki serowe jalapeño' },
+        name: { en: 'Mozza Code', pl: 'Mozza Code' },
         desc: {
-          en: '6 pcs',
-          pl: '6 szt.',
+          en: 'Hot mozzarella sticks (6 pcs.)',
+          pl: 'Gorące paluszki mozzarella (6 szt.)',
+        },
+        price: 18,
+      },
+      {
+        name: { en: 'Fire Bites', pl: 'Fire Bites' },
+        desc: {
+          en: 'Cheese balls with jalapeño pepper (6 pcs.)',
+          pl: 'Serowe kulki z papryczką jalapeño (6 szt.)',
         },
         price: 18,
         tags: ['spicy'],
+      },
+      {
+        name: { en: 'Crispy Theory', pl: 'Crispy Theory' },
+        desc: {
+          en: 'Crispy chicken with fries',
+          pl: 'Chrupiący kurczak z frytkami',
+        },
+        price: 25,
+      },
+      {
+        name: { en: 'Nacho Drama', pl: 'Nacho Drama' },
+        desc: {
+          en: 'Nachos, cheese sauce and ground beef',
+          pl: 'Nachosy, sos serowy i mielona wołowina',
+        },
+        price: 22,
       },
     ],
   },
   {
     id: 'turkish',
     image: '/images/menu-turkish.jpg',
+    note: {
+      en: 'All Turkish specials are served with fries',
+      pl: 'Wszystkie specjały tureckie serwowane są z frytkami',
+    },
     items: [
       {
-        name: {
-          en: 'Köfte Ekmek (Meatball Sandwich)',
-          pl: 'Köfte Ekmek (kanapka z klopsikami)',
-        },
+        name: { en: 'Cheese Press', pl: 'Cheese Press' },
         desc: {
-          en: 'Grilled beef meatballs, fresh bread, tomato, sumac onion, parsley',
-          pl: 'Grillowane klopsiki wołowe, świeży chleb, pomidor, cebula z sumakiem, pietruszka',
+          en: 'Hot toast with melted kaşar cheese',
+          pl: 'Gorący tost z roztopionym serem kaszar',
         },
-        price: 24,
+        price: 18,
       },
       {
-        name: {
-          en: 'Toast with Cheese (Kaşarlı Tost)',
-          pl: 'Tost z serem (Kaşarlı Tost)',
-        },
+        name: { en: 'Sucuk Press', pl: 'Sucuk Press' },
         desc: {
-          en: 'Toast bread, kaşar/Gouda cheese, butter, pickle',
-          pl: 'Pieczywo tostowe, ser kaşar/gouda, masło, ogórek kiszony',
+          en: 'Special toast with spicy Turkish sucuk sausage',
+          pl: 'Specjalny tost z pikantną turecką kiełbasą sucuk',
         },
-        price: 25,
+        price: 21,
+        tags: ['spicy'],
       },
       {
-        name: {
-          en: 'Toast with Cheese & Turkish Sausage',
-          pl: 'Tost z serem i kiełbasą sucuk',
-        },
+        name: { en: 'Anatolian Taste', pl: 'Anatolian Taste' },
         desc: {
-          en: 'Toast bread, kaşar cheese, Turkish sausage, butter',
-          pl: 'Pieczywo tostowe, ser kaşar, kiełbasa sucuk, masło',
+          en: 'Delicious meatball sandwich',
+          pl: 'Pyszna kanapka z klopsikami',
         },
         price: 29,
       },
     ],
   },
   {
-    id: 'hot_coffee',
-    image: '/images/menu-hot-coffee.jpg',
+    id: 'pizza',
+    image: '/images/menu-pizza.jpg',
     note: {
-      en: 'Lactose-free milk + 2 zł',
-      pl: 'Mleko bezlaktozowe + 2 zł',
+      en: 'Pizza service from 12:00 · Made by Easy Pizzy',
+      pl: 'Serwis pizzy od godziny 12:00 · Made by Easy Pizzy',
     },
     items: [
       {
-        name: { en: 'Espresso', pl: 'Espresso' },
-        desc: { en: 'Single shot', pl: 'Pojedyncze' },
-        price: 13,
+        name: { en: 'Marga Magic', pl: 'Marga Magic' },
+        desc: { en: 'Margherita', pl: 'Margherita' },
+        price: 38,
       },
       {
-        name: { en: 'Doppio', pl: 'Doppio' },
-        desc: { en: 'Double espresso', pl: 'Podwójne espresso' },
-        price: 15,
+        name: { en: 'Veggie Meggie', pl: 'Veggie Meggie' },
+        desc: { en: 'Vegetarian', pl: 'Wegetariańska' },
+        price: 45,
+        tags: ['vege'],
+      },
+      {
+        name: { en: 'Sucuk Spicy', pl: 'Sucuk Spicy' },
+        desc: { en: 'Sucuk', pl: 'Sucuk' },
+        price: 48,
+        tags: ['spicy'],
+      },
+      {
+        name: { en: 'Chicky Pizy', pl: 'Chicky Pizy' },
+        desc: { en: 'Chicken', pl: 'Kurczak' },
+        price: 52,
+      },
+      {
+        name: { en: 'Cheesy Magic', pl: 'Cheesy Magic' },
+        desc: { en: '4 cheese', pl: '4 sery' },
+        price: 55,
+      },
+    ],
+  },
+  {
+    id: 'breakfast',
+    image: '/images/highlight-brunch.jpg',
+    items: [
+      {
+        name: { en: 'Everything Egg', pl: 'Everything Egg' },
+        desc: {
+          en: 'Toast or bagel with avocado, scrambled eggs, sun-dried tomatoes, flavored olive oil and parmesan',
+          pl: 'Tost lub bajgiel z awokado, jajecznicą, suszonymi pomidorami, aromatyzowaną oliwą i parmezanem',
+        },
+        price: 29,
+      },
+      {
+        name: { en: 'Freshy', pl: 'Freshy' },
+        desc: {
+          en: 'Yogurt, granola and seasonal fruit',
+          pl: 'Jogurt, granola i sezonowe owoce',
+        },
+        price: 22,
+      },
+    ],
+  },
+  {
+    id: 'lunch',
+    image: '/images/menu-burgers.jpg',
+    items: [
+      {
+        name: {
+          en: 'Classic 21 + fries + drink',
+          pl: 'Classic 21 + frytki + napój',
+        },
+        desc: {
+          en: 'Lunch set',
+          pl: 'Zestaw lunchowy',
+        },
+        price: 35,
+      },
+      {
+        name: {
+          en: 'Anatolian Taste + drink',
+          pl: 'Anatolian Taste + napój',
+        },
+        desc: {
+          en: 'Lunch set',
+          pl: 'Zestaw lunchowy',
+        },
+        price: 35,
+      },
+    ],
+  },
+  {
+    id: 'hot_coffee',
+    image: '/images/menu-hot-coffee.jpg',
+    items: [
+      {
+        name: { en: 'Espresso', pl: 'Espresso' },
+        desc: { en: '', pl: '' },
+        price: 9,
       },
       {
         name: { en: 'Americano', pl: 'Americano' },
-        desc: { en: 'Espresso with hot water', pl: 'Espresso z gorącą wodą' },
-        price: 15,
-      },
-      {
-        name: { en: 'Cappuccino', pl: 'Cappuccino' },
-        desc: { en: 'Espresso, steamed milk, foam', pl: 'Espresso, spienione mleko' },
-        price: 17,
+        desc: { en: '', pl: '' },
+        price: 14,
       },
       {
         name: { en: 'Latte', pl: 'Latte' },
-        desc: { en: 'Espresso with silky milk', pl: 'Espresso z aksamitnym mlekiem' },
+        desc: { en: '', pl: '' },
+        price: 17,
+      },
+      {
+        name: { en: 'Cappuccino', pl: 'Cappuccino' },
+        desc: { en: '', pl: '' },
         price: 18,
       },
       {
         name: { en: 'Flat White', pl: 'Flat White' },
-        desc: { en: 'Double espresso, microfoam', pl: 'Podwójne espresso, mikrofoam' },
-        price: 18,
-      },
-      {
-        name: { en: 'Café Mocha', pl: 'Café Mocha' },
-        desc: { en: 'Espresso, chocolate, steamed milk', pl: 'Espresso, czekolada, spienione mleko' },
+        desc: { en: '', pl: '' },
         price: 19,
       },
       {
-        name: { en: 'Macchiato', pl: 'Macchiato' },
-        desc: { en: 'Espresso with a dash of foam', pl: 'Espresso z odrobiną pianki' },
-        price: 15,
+        name: { en: 'Mocha', pl: 'Mocha' },
+        desc: { en: '', pl: '' },
+        price: 19,
+      },
+      {
+        name: { en: 'Tea', pl: 'Herbata' },
+        desc: { en: '', pl: '' },
+        price: 10,
       },
     ],
   },
   {
     id: 'cold_coffee',
     image: '/images/menu-cold-coffee.jpg',
-    note: {
-      en: 'Lactose-free milk + 2 zł',
-      pl: 'Mleko bezlaktozowe + 2 zł',
-    },
     items: [
       {
-        name: { en: 'Ice Americano', pl: 'Ice Americano' },
-        desc: { en: 'Espresso over ice', pl: 'Espresso na lodzie' },
+        name: { en: 'Iced Americano', pl: 'Iced Americano' },
+        desc: { en: '', pl: '' },
         price: 17,
       },
       {
-        name: { en: 'Ice Latte', pl: 'Ice Latte' },
-        desc: { en: 'Espresso, cold milk, ice', pl: 'Espresso, zimne mleko, lód' },
-        price: 19,
-      },
-      {
-        name: { en: 'Ice Mocha', pl: 'Ice Mocha' },
-        desc: { en: 'Iced mocha with chocolate', pl: 'Mrożone mocha z czekoladą' },
+        name: { en: 'Iced Latte / Iced Mocha', pl: 'Iced Latte / Iced Mocha' },
+        desc: { en: '', pl: '' },
         price: 20,
-      },
-      {
-        name: { en: 'Ice Coffee', pl: 'Ice Coffee' },
-        desc: { en: 'Chilled coffee over ice', pl: 'Schłodzona kawa na lodzie' },
-        price: 19,
-      },
-    ],
-  },
-  {
-    id: 'tea',
-    image: '/images/menu-tea.jpg',
-    items: [
-      {
-        name: { en: 'Black Tea', pl: 'Herbata czarna' },
-        desc: { en: 'Classic black tea', pl: 'Klasyczna herbata czarna' },
-        price: 10,
-      },
-      {
-        name: { en: 'Green Tea', pl: 'Herbata zielona' },
-        desc: { en: 'Light green tea', pl: 'Delikatna herbata zielona' },
-        price: 10,
-      },
-      {
-        name: { en: 'Mint', pl: 'Mięta' },
-        desc: { en: 'Mint infusion', pl: 'Napar z mięty' },
-        price: 10,
-      },
-      {
-        name: { en: 'Chamomile', pl: 'Rumianek' },
-        desc: { en: 'Chamomile infusion', pl: 'Napar z rumianku' },
-        price: 10,
-      },
-      {
-        name: { en: 'Ginger with Lemon', pl: 'Imbir z cytryną' },
-        desc: { en: 'Ginger and lemon infusion', pl: 'Napar z imbiru i cytryny' },
-        price: 11,
-      },
-      {
-        name: { en: 'Forest Fruits', pl: 'Owoce leśne' },
-        desc: { en: 'Forest fruit blend', pl: 'Mieszanka owoców leśnych' },
-        price: 11,
       },
     ],
   },
@@ -324,57 +391,31 @@ export const menu: MenuCategory[] = [
     image: '/images/menu-cold-drinks.jpg',
     items: [
       {
-        group: { en: 'Soft drinks (250 ml)', pl: 'Napoje gazowane (250 ml)' },
-        name: { en: 'Cola', pl: 'Cola' },
-        desc: { en: 'Classic cola', pl: 'Klasyczna cola' },
-        price: 10,
+        name: {
+          en: 'Cola / Zero / Fanta / Sprite',
+          pl: 'Cola / Zero / Fanta / Sprite',
+        },
+        desc: { en: '', pl: '' },
+        price: '10 / 13',
       },
       {
-        group: { en: 'Soft drinks (250 ml)', pl: 'Napoje gazowane (250 ml)' },
-        name: { en: 'Cola Zero', pl: 'Cola Zero' },
-        desc: { en: 'Zero sugar', pl: 'Bez cukru' },
-        price: 10,
-      },
-      {
-        group: { en: 'Soft drinks (250 ml)', pl: 'Napoje gazowane (250 ml)' },
-        name: { en: 'Lemon-Lime Soda', pl: 'Napój cytryna-limonka' },
-        desc: { en: 'Sparkling lemon-lime', pl: 'Gazowany cytryna-limonka' },
-        price: 10,
-      },
-      {
-        group: { en: 'Soft drinks (250 ml)', pl: 'Napoje gazowane (250 ml)' },
-        name: { en: 'Orange Soda', pl: 'Napój pomarańczowy' },
-        desc: { en: 'Sparkling orange', pl: 'Gazowany pomarańczowy' },
-        price: 10,
-      },
-      {
-        group: { en: 'Juices / iced teas / lemonade', pl: 'Soki / iced tea / lemoniada' },
-        name: { en: 'Orange Juice', pl: 'Sok pomarańczowy' },
-        desc: { en: 'Chilled orange juice', pl: 'Chłodzony sok pomarańczowy' },
+        name: { en: 'Cappy', pl: 'Cappy' },
+        desc: { en: '', pl: '' },
         price: 11,
       },
       {
-        group: { en: 'Juices / iced teas / lemonade', pl: 'Soki / iced tea / lemoniada' },
-        name: { en: 'Iced Tea', pl: 'Mrożona herbata' },
-        desc: { en: 'House iced tea', pl: 'Domowa mrożona herbata' },
+        name: { en: 'FuseTea', pl: 'FuseTea' },
+        desc: { en: '', pl: '' },
         price: 12,
       },
       {
-        group: { en: 'Juices / iced teas / lemonade', pl: 'Soki / iced tea / lemoniada' },
-        name: { en: 'Classic Lemon Lemonade', pl: 'Klasyczna cytrynowa' },
-        desc: { en: 'Classic lemon lemonade', pl: 'Klasyczna lemoniada cytrynowa' },
+        name: { en: 'Lemonade', pl: 'Lemoniada' },
+        desc: { en: '', pl: '' },
         price: 15,
       },
       {
-        group: { en: 'Non-alcoholic beer', pl: 'Piwo bezalkoholowe' },
-        name: { en: 'Non-Alcoholic Lager', pl: 'Lager bezalkoholowy' },
-        desc: { en: '0.0% lager', pl: 'Lager 0.0%' },
-        price: 15,
-      },
-      {
-        group: { en: 'Non-alcoholic beer', pl: 'Piwo bezalkoholowe' },
-        name: { en: 'Non-Alcoholic Beer', pl: 'Piwo bezalkoholowe' },
-        desc: { en: '0.0% beer', pl: 'Piwo 0.0%' },
+        name: { en: 'Non-alcoholic beer', pl: 'Piwo bezalkoholowe' },
+        desc: { en: '', pl: '' },
         price: 15,
       },
     ],
