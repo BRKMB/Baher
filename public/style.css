@@ -637,6 +637,53 @@ a.chip:hover { color: var(--text); border-color: var(--accent); }
 }
 .price-box.total .pb-value { color: var(--accent2); font-size: 18px; }
 
+.price-box.extras {
+  background: rgba(245, 158, 11, 0.08);
+  border-color: rgba(245, 158, 11, 0.35);
+}
+.price-box.extras .pb-value { color: #d97706; }
+
+.extras-card {
+  margin: 12px 0 4px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  background:
+    linear-gradient(135deg, rgba(245, 158, 11, 0.10), transparent 70%),
+    var(--input-bg);
+}
+.extras-card-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.extras-card-title {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--text);
+}
+.extras-card-amount {
+  font-size: 18px;
+  font-weight: 900;
+  color: #d97706;
+  white-space: nowrap;
+}
+.extras-card-note {
+  margin-top: 8px;
+  white-space: pre-wrap;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--text);
+}
+.extras-card-hint {
+  margin-top: 8px;
+  font-size: 11.5px;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
 /* شبكة المعايير */
 .criteria-grid {
   display: grid;

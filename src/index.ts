@@ -36,6 +36,14 @@ export class ListingsStore extends DurableObject<Env> {
           next.areaSqm = seed.areaSqm;
           changed = true;
         }
+        if (next.extrasEst === undefined) {
+          next.extrasEst = seed.extrasEst ?? null;
+          changed = true;
+        }
+        if (next.extrasNote === undefined) {
+          next.extrasNote = seed.extrasNote ?? "";
+          changed = true;
+        }
         const criteria = { ...next.criteria };
         for (const [key, seedValue] of Object.entries(seed.criteria)) {
           if ((criteria[key] ?? "unknown") === "unknown" && seedValue !== "unknown") {

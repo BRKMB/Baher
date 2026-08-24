@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/style.css?v=11" />
+  <link rel="stylesheet" href="/style.css?v=12" />
 </head>
 <body>
 
@@ -123,6 +123,12 @@
         <label><span data-i18n="fGarage">Garage (zł/month, if any)</span>
           <input name="garageCost" type="number" min="0" data-i18n-ph="phNone" />
         </label>
+        <label><span data-i18n="fExtras">Est. extras beyond admin (zł/month)</span>
+          <input name="extrasEst" type="number" min="0" data-i18n-ph="phEstimate" />
+        </label>
+        <label class="span2"><span data-i18n="fExtrasNote">Extras breakdown (estimate)</span>
+          <textarea name="extrasNote" rows="3" data-i18n-ph="phEstimate"></textarea>
+        </label>
         <label><span data-i18n="fArea">Place area (m²)</span>
           <input name="areaSqm" type="number" min="0" step="0.1" data-i18n-ph="phUnknown" />
         </label>
@@ -172,6 +178,6 @@
 
   <div id="toast" hidden></div>
 
-  <script src="/app.js?v=13"></script>
+  <script src="/app.js?v=14"></script>
 </body>
 </html>

@@ -16,6 +16,10 @@ export interface Listing {
   bills: number | null;
   /** الجراج بالشهر لو فيه — null لو مفيش أو مش معروف */
   garageCost: number | null;
+  /** تقدير المصاريف الإضافية الشهرية (كهربا/موية/تدفئة مش جوه الإدارة) لشخص واحد */
+  extrasEst: number | null;
+  /** شرح مختصر لتقدير الإضافي */
+  extrasNote: LocalizedText;
   /** مساحة الوحدة/الأوضة بالمتر المربع — null لو مش معروفة */
   areaSqm: number | null;
   /** الديبوزيت — null لو مش معروف */
@@ -48,6 +52,11 @@ export const SEED_LISTINGS: Listing[] =
     rent: 2500,
     bills: 700,
     garageCost: 300,
+    extrasEst: 155,
+    extrasNote: {
+      ar: "تقريبي لشخص واحد (متوسط السنة):\n⚡ كهربا حسب العداد ~١٥٥ زلوتي (فيها تكييف صيف).\n✅ إنترنت ضمن السعر. الموية/التدفئة غالبًا جوه الإدارة ٧٠٠.\n📌 مش شامل جراج (+٣٠٠ لو حابب).",
+      en: "Solo estimate (year avg):\n⚡ Electricity by meter ~155 zł (incl. summer AC).\n✅ Wi‑Fi included. Water/heating likely inside admin 700.\n📌 Garage not included (+300 optional)."
+    },
     areaSqm: 42,
     deposit: 3200,
     commuteMin: 36,
@@ -97,6 +106,11 @@ export const SEED_LISTINGS: Listing[] =
     rent: 2000,
     bills: 600,
     garageCost: 300,
+    extrasEst: 200,
+    extrasNote: {
+      ar: "تقريبي لشخص واحد (متوسط السنة):\n⚡ كهربا ~١٥٠ + 💧 موية/صرف ~٥٠ = ~٢٠٠.\nالإعلان بيقول عدّادات كهربا وموية منفصلة عن الإدارة.",
+      en: "Solo estimate (year avg):\n⚡ Electricity ~150 + 💧 water/sewage ~50 = ~200.\nAd bills both electricity and water by meter outside admin."
+    },
     areaSqm: 33,
     deposit: 2600,
     commuteMin: 28,
@@ -146,6 +160,11 @@ export const SEED_LISTINGS: Listing[] =
     rent: 2500,
     bills: 700,
     garageCost: null,
+    extrasEst: 200,
+    extrasNote: {
+      ar: "تقريبي لشخص واحد (متوسط السنة):\n⚡ كهربا ~١٥٠ + 💧 موية/صرف ~٥٠ = ~٢٠٠.\nالإعلان: عدّادات كهربا وموية حسب الاستهلاك.",
+      en: "Solo estimate (year avg):\n⚡ Electricity ~150 + 💧 water/sewage ~50 = ~200.\nAd: electricity & water meters by usage."
+    },
     areaSqm: 46,
     deposit: 3500,
     commuteMin: 18,
@@ -196,6 +215,11 @@ export const SEED_LISTINGS: Listing[] =
     rent: 2500,
     bills: 700,
     garageCost: 300,
+    extrasEst: 215,
+    extrasNote: {
+      ar: "تقريبي لشخص واحد (متوسط السنة):\n⚡ كهربا ~١٦٥ (فيها تكييف صيف) + 💧 موية/صرف ~٥٠ = ~٢١٥.\nالإعلان: عدّادات كهربا وموية حسب الاستهلاك.",
+      en: "Solo estimate (year avg):\n⚡ Electricity ~165 (incl. summer AC) + 💧 water/sewage ~50 = ~215.\nAd: electricity & water meters by usage."
+    },
     areaSqm: 48,
     deposit: 3200,
     commuteMin: 16,
@@ -245,6 +269,11 @@ export const SEED_LISTINGS: Listing[] =
     rent: 2936,
     bills: 264,
     garageCost: null,
+    extrasEst: 315,
+    extrasNote: {
+      ar: "⚠️ الإدارة ٢٦٤ مش شاملة العدادات.\nتقريبي لشخص واحد (متوسط السنة):\n⚡ كهربا ~١٣٠ + 💧 موية سخنة/باردة وصرف ~٥٠ + 🔥 تدفئة ~١١٠ + 🗑️ زبالة ~٢٥ = ~٣١٥.\nده أعلى إضافي لأن كله عدّادات منفصلة.",
+      en: "⚠️ Admin 264 does NOT include meters.\nSolo estimate (year avg):\n⚡ Electricity ~130 + 💧 hot/cold water & sewage ~50 + 🔥 heating ~110 + 🗑️ trash ~25 = ~315.\nHighest extras — almost everything is submetered."
+    },
     areaSqm: 23,
     deposit: null,
     commuteMin: 22,
@@ -295,6 +324,11 @@ export const SEED_LISTINGS: Listing[] =
     rent: 2300,
     bills: 900,
     garageCost: 300,
+    extrasEst: 140,
+    extrasNote: {
+      ar: "تقريبي لشخص واحد (متوسط السنة):\n⚡ كهربا فقط ~١٤٠.\nالإدارة ٩٠٠ غالبًا فيها تدفئة/موية — فالإضافي بس الكهرباء.",
+      en: "Solo estimate (year avg):\n⚡ Electricity only ~140.\nAdmin 900 likely covers heating/water — so extras are mainly power."
+    },
     areaSqm: 35,
     deposit: 3500,
     commuteMin: 42,
@@ -344,6 +378,11 @@ export const SEED_LISTINGS: Listing[] =
     rent: 2700,
     bills: 600,
     garageCost: null,
+    extrasEst: 170,
+    extrasNote: {
+      ar: "تقريبي لشخص واحد (متوسط السنة):\n⚡ كهربا ~١٤٠ + 🔥 غاز حسب الاستهلاك ~٣٠ = ~١٧٠.\nالتعاونية ٦٠٠ فيها مقدم تدفئة+موية+زبالة.",
+      en: "Solo estimate (year avg):\n⚡ Electricity ~140 + 🔥 gas by usage ~30 = ~170.\nCoop 600 already includes heating/water/trash advances."
+    },
     areaSqm: 37,
     deposit: 3000,
     commuteMin: 40,
@@ -393,6 +432,11 @@ export const SEED_LISTINGS: Listing[] =
     rent: 2650,
     bills: 510,
     garageCost: null,
+    extrasEst: 140,
+    extrasNote: {
+      ar: "تقريبي لشخص واحد (متوسط السنة):\n⚡ كهربا فقط ~١٤٠.\nالإدارة ٥١٠ فيها مقدم مرافق (media) — فالإضافي الأساسي الكهرباء.",
+      en: "Solo estimate (year avg):\n⚡ Electricity only ~140.\nAdmin 510 includes media advances — main extra is electricity."
+    },
     areaSqm: 27,
     deposit: 3000,
     commuteMin: 38,
@@ -446,6 +490,11 @@ export const SEED_LISTINGS: Listing[] =
     rent: 2485,
     bills: 315,
     garageCost: null,
+    extrasEst: 125,
+    extrasNote: {
+      ar: "تقريبي لشخص واحد (متوسط السنة):\n⚡ كهربا حسب الاستهلاك ~١٢٥.\nشقة صغيرة ٢٢م²، إدارة ٣١٥ لشخص واحد.",
+      en: "Solo estimate (year avg):\n⚡ Electricity by usage ~125.\nSmall 22m² studio; admin 315 for one person."
+    },
     areaSqm: 22,
     deposit: 2900,
     commuteMin: 28,

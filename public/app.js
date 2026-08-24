@@ -60,6 +60,8 @@ const I18N = {
     fRent: "Rent (zł/month)",
     fBills: "Utilities & fees (zł/month)",
     fGarage: "Garage (zł/month, if any)",
+    fExtras: "Est. extras beyond admin (zł/month)",
+    fExtrasNote: "Extras breakdown (estimate)",
     fArea: "Place area (m²)",
     fDeposit: "Deposit (zł)",
     fCommute: "Commute to work (minutes)",
@@ -89,10 +91,13 @@ const I18N = {
     unknownChip: (n) => `? ${n} to confirm`,
     unknownTitle: "Ask the landlord and update the marks",
     priceRent: "Rent",
-    priceBills: "Utilities & fees",
+    priceBills: "Admin / utilities",
     priceGarage: "Garage",
-    priceTotal: "Total (excl. garage)",
+    priceExtras: "Est. extras",
+    priceTotal: "Est. total (excl. garage)",
     priceDeposit: "Deposit (one-time)",
+    extrasCardTitle: "Expected extras (solo, monthly avg)",
+    extrasCardHint: "Rough estimate for 1 person — electricity / water / heating not already inside admin. Winter can be higher.",
     perMonth: "zł / mo",
     free: "Free",
     dash: "—",
@@ -162,6 +167,8 @@ const I18N = {
     fRent: "الإيجار (زلوتي/شهر)",
     fBills: "المرافق والمصاريف (زلوتي/شهر)",
     fGarage: "الجراج (زلوتي/شهر لو فيه)",
+    fExtras: "تقدير الإضافي فوق الإدارة (زلوتي/شهر)",
+    fExtrasNote: "تفصيل المصاريف الإضافية (تقديري)",
     fArea: "مساحة المكان (م²)",
     fDeposit: "الديبوزيت (زلوتي)",
     fCommute: "وقت المواصلات للشغل (دقايق)",
@@ -191,10 +198,13 @@ const I18N = {
     unknownChip: (n) => `؟ ${n} محتاجة تأكيد`,
     unknownTitle: "اسأل المعلن وحدّث العلامات",
     priceRent: "الإيجار",
-    priceBills: "المرافق والمصاريف",
+    priceBills: "الإدارة / المرافق",
     priceGarage: "الجراج",
-    priceTotal: "الإجمالي (من غير جراج)",
+    priceExtras: "تقدير الإضافي",
+    priceTotal: "تقدير الإجمالي (من غير جراج)",
     priceDeposit: "الديبوزيت (مرة واحدة)",
+    extrasCardTitle: "المصاريف الإضافية المتوقعة (شخص واحد، متوسط شهري)",
+    extrasCardHint: "تقدير تقريبي لشخص لوحده — كهربا/موية/تدفئة اللي مش جوه الإدارة. الشتاء ممكن أعلى.",
     perMonth: "زلوتي / شهر",
     free: "ببلاش",
     dash: "—",
@@ -373,7 +383,14 @@ $("#lang-toggle").addEventListener("click", () => {
 /* ===== السكور ===== */
 
 function totalCost(l) {
-  return l.rent + (l.bills == null ? BILLS_FALLBACK : l.bills);
+  const bills = l.bills == null ? BILLS_FALLBACK : l.bills;
+  const extras = l.extrasEst == null ? 0 : l.extrasEst;
+  return l.rent + bills + extras;
+}
+
+function knownMonthlyTotal(l) {
+  if (l.bills == null) return null;
+  return l.rent + l.bills + (l.extrasEst == null ? 0 : l.extrasEst);
 }
 
 function computeScores(list) {
@@ -678,16 +695,23 @@ function priceBox(label, value, extraClass = "") {
 
 function renderPriceGrid(l) {
   const garage = l.garageCost ?? null;
+  const extras = l.extrasEst ?? null;
+  const knownTotal = knownMonthlyTotal(l);
   const boxes = [
     priceBox(t("priceRent"), `${fmt(l.rent)} zł`),
     priceBox(t("priceBills"), l.bills == null ? t("q") : `${fmt(l.bills)} zł`),
+    priceBox(
+      t("priceExtras"),
+      extras == null ? t("q") : `~${fmt(extras)} zł`,
+      "extras"
+    ),
     priceBox(
       t("priceGarage"),
       garage == null ? t("dash") : garage === 0 ? t("free") : `${fmt(garage)} zł`
     ),
     priceBox(
       t("priceTotal"),
-      l.bills == null ? `${fmt(l.rent)} + ${t("q")}` : `${fmt(l.rent + l.bills)} ${t("perMonth")}`,
+      knownTotal == null ? `${fmt(l.rent)} + ${t("q")}` : `~${fmt(knownTotal)} ${t("perMonth")}`,
       "total"
     )
   ];
@@ -695,6 +719,21 @@ function renderPriceGrid(l) {
     boxes.push(priceBox(t("priceDeposit"), `${fmt(l.deposit)} zł`));
   }
   return el("div", { class: "price-grid" }, boxes);
+}
+
+function renderExtrasCard(l) {
+  const amount =
+    l.extrasEst == null ? t("q") : `~${fmt(l.extrasEst)} ${t("perMonth")}`;
+  const note = loc(l.extrasNote).trim();
+  const children = [
+    el("div", { class: "extras-card-head" }, [
+      el("div", { class: "extras-card-title", text: t("extrasCardTitle") }),
+      el("div", { class: "extras-card-amount", text: amount })
+    ])
+  ];
+  if (note) children.push(el("div", { class: "extras-card-note", text: note }));
+  children.push(el("div", { class: "extras-card-hint", text: t("extrasCardHint") }));
+  return el("div", { class: "extras-card" }, children);
 }
 
 function renderCard(l, rank, score) {
@@ -822,6 +861,7 @@ function renderCard(l, rank, score) {
       el("div", { class: "score-wrap" }, [ring, el("span", { class: "score-label", text: t("scoreLabel") })])
     ]),
     renderPriceGrid(l),
+    renderExtrasCard(l),
     el("div", { class: "criteria-grid" }, critButtons),
     el("div", { class: "notes-wrap" }, [notesArea]),
     el("div", { class: "card-actions" }, [
@@ -882,6 +922,8 @@ function openEdit(l) {
   f.rent.value = l?.rent ?? "";
   f.bills.value = l?.bills ?? "";
   f.garageCost.value = l?.garageCost ?? "";
+  f.extrasEst.value = l?.extrasEst ?? "";
+  f.extrasNote.value = l ? loc(l.extrasNote) : "";
   f.areaSqm.value = l?.areaSqm ?? "";
   f.deposit.value = l?.deposit ?? "";
   f.commuteMin.value = l?.commuteMin ?? "";
@@ -915,6 +957,8 @@ $("#import-btn").addEventListener("click", async () => {
     f.rent.value = draft.rent || "";
     f.bills.value = draft.bills ?? "";
     f.garageCost.value = draft.garageCost ?? "";
+    f.extrasEst.value = draft.extrasEst ?? "";
+    f.extrasNote.value = loc(draft.extrasNote);
     f.areaSqm.value = draft.areaSqm ?? "";
     f.deposit.value = draft.deposit ?? "";
     f.commuteMin.value = draft.commuteMin ?? "";
@@ -950,6 +994,8 @@ editForm.addEventListener("submit", async (e) => {
     rent: Number(f.rent.value),
     bills: num(f.bills),
     garageCost: num(f.garageCost),
+    extrasEst: num(f.extrasEst),
+    extrasNote: setLoc(existing?.extrasNote, f.extrasNote.value.trim()),
     areaSqm: num(f.areaSqm),
     deposit: num(f.deposit),
     commuteMin: num(f.commuteMin),
