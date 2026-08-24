@@ -532,5 +532,63 @@ export const SEED_LISTINGS: Listing[] =
       noOccasional: "unknown"
     },
     createdAt: 9
+  },
+  {
+    id: "oto-4ckbd",
+    propertyType: "studio",
+    title: {
+      ar: "ستوديو ٣٠م² تكييف+واي فاي — Sokołowska، Wola / مترو Młynów",
+      en: "30m² studio with AC + Wi‑Fi — Sokołowska, Wola / metro Młynów"
+    },
+    district: "Wola",
+    address: "ul. Sokołowska, Wola, Warszawa",
+    url: "https://www.otodom.pl/pl/oferta/studio-30-m-wola-ul-sokolowska-metro-mlynow-klima-wifi-ID4CKBd",
+    rent: 2100,
+    bills: 500,
+    garageCost: 300,
+    extrasEst: 210,
+    extrasNote: {
+      ar: "تقريبي لشخص واحد (متوسط السنة):\n⚡ كهربا ~١٦٠ (فيها تكييف صيف) + 💧 موية/صرف ~٥٠ = ~٢١٠.\n✅ واي فاي ضمن الإيجار. الإعلان: عدّادات كهربا وموية حسب الاستهلاك.\n📌 عمولة وكالة مرة واحدة ٤٠٠ زلوتي. جراج اختياري +٣٠٠.",
+      en: "Solo estimate (year avg):\n⚡ Electricity ~160 (incl. summer AC) + 💧 water/sewage ~50 = ~210.\n✅ Wi‑Fi included in rent. Ad: electricity & water meters by usage.\n📌 One-time agency fee 400 zł. Optional garage +300."
+    },
+    areaSqm: 30,
+    deposit: 3000,
+    commuteMin: 32,
+    availableFrom: "Available now",
+    contact: {
+      ar: "Biuro Nieruchomości — Otodom",
+      en: "Biuro Nieruchomości — Otodom"
+    },
+    notes: {
+      ar: "📌 عمولة وكالة مرة واحدة: ٤٠٠ زلوتي (Real Estate Office).\n✅ تكييف + واي فاي ضمن السعر. ديش واشر+فرن. بلكونة، خلية، دور ٤، مبنى ٢٠١٦. مترو Młynów قريب. من غير حيوانات.\n💰 إيجار ٢١٠٠ + إدارة ٥٠٠. كهربا وموية حسب العداد.\n🅿️ جراج اختياري +٣٠٠.\n❓ نوع العقد مش مذكور صراحة.",
+      en: "📌 One-time agency fee: 400 zł (Real Estate Office).\n✅ AC + Wi‑Fi included. Dishwasher+oven. Balcony, storage, floor 4, building 2016. Near metro Młynów. No pets.\n💰 Rent 2100 + admin 500. Electricity & water by meter.\n🅿️ Optional garage +300.\n❓ Contract type not clearly stated."
+    },
+    photos: [
+      "https://ireland.apollo.olxcdn.com/v1/files/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbiI6Inh2N284MjRxZ2RuODEtQVBMIiwidyI6W3siZm4iOiJlbnZmcXFlMWF5NGsxLUFQTCIsInMiOiIxNiIsImEiOiIwIiwicCI6IjEwLC0xMCJ9XX0.j78XmkRemUgjD2CNq8PeAVgEVe5etJjJpx2Unenwrck/image;s=2048x1536;q=80",
+      "https://ireland.apollo.olxcdn.com/v1/files/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbiI6IjR6b2U5aWVyaWkxbS1BUEwiLCJ3IjpbeyJmbiI6ImVudmZxcWUxYXk0azEtQVBMIiwicyI6IjE2IiwiYSI6IjAiLCJwIjoiMTAsLTEwIn1dfQ.j6ku3mERIV8Hy9AEetrtDbJLaHVifVbJ95w5jJ_w0z8/image;s=2048x1536;q=80",
+      "https://ireland.apollo.olxcdn.com/v1/files/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbiI6IjdhajVhdGJ6dmZhbC1BUEwiLCJ3IjpbeyJmbiI6ImVudmZxcWUxYXk0azEtQVBMIiwicyI6IjE2IiwiYSI6IjAiLCJwIjoiMTAsLTEwIn1dfQ.jyUlCHZrPOzyoimlmTy3TIjQPFtibqOCimuUqI8WbfI/image;s=2048x1536;q=80",
+      "https://ireland.apollo.olxcdn.com/v1/files/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbiI6IjJucnY1NmhvN2VvYzEtQVBMIiwidyI6W3siZm4iOiJlbnZmcXFlMWF5NGsxLUFQTCIsInMiOiIxNiIsImEiOiIwIiwicCI6IjEwLC0xMCJ9XX0.q0FkbgXII7Alh0KDnksdgvfFgB0o8juHtymFPKl76zA/image;s=2048x1536;q=80",
+      "https://ireland.apollo.olxcdn.com/v1/files/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbiI6InE0eWQ3a2sxeDhjMjEtQVBMIiwidyI6W3siZm4iOiJlbnZmcXFlMWF5NGsxLUFQTCIsInMiOiIxNiIsImEiOiIwIiwicCI6IjEwLC0xMCJ9XX0.GK6zTbJgViz2FZPRN6Q9betEjvpYplhxpv8HN6jt8Nk/image;s=2048x1536;q=80",
+      "https://ireland.apollo.olxcdn.com/v1/files/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbiI6IngxMWk0YWEwNHJ0YTItQVBMIiwidyI6W3siZm4iOiJlbnZmcXFlMWF5NGsxLUFQTCIsInMiOiIxNiIsImEiOiIwIiwicCI6IjEwLC0xMCJ9XX0.juBhqerQV5eBKUfflj8Xt_BTPjw73bwlB44tdn9mO8E/image;s=2048x1536;q=80",
+      "https://ireland.apollo.olxcdn.com/v1/files/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbiI6IjRpaHRteHF4b2VrczItQVBMIiwidyI6W3siZm4iOiJlbnZmcXFlMWF5NGsxLUFQTCIsInMiOiIxNiIsImEiOiIwIiwicCI6IjEwLC0xMCJ9XX0.eP3Pb-99PL_J_NcG6miAiosZwKbGLKPeQk187k9OtzA/image;s=2048x1536;q=80",
+      "https://ireland.apollo.olxcdn.com/v1/files/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbiI6IjNyMmhqNXR5NHB4eDItQVBMIiwidyI6W3siZm4iOiJlbnZmcXFlMWF5NGsxLUFQTCIsInMiOiIxNiIsImEiOiIwIiwicCI6IjEwLC0xMCJ9XX0.pEuhioA8vrloGMDhO4uwCVpXoNoqypKDOMXyZB4F94I/image;s=2048x1536;q=80",
+      "https://ireland.apollo.olxcdn.com/v1/files/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbiI6IjV6enFqaTBpbXRveS1BUEwiLCJ3IjpbeyJmbiI6ImVudmZxcWUxYXk0azEtQVBMIiwicyI6IjE2IiwiYSI6IjAiLCJwIjoiMTAsLTEwIn1dfQ.E3scgmMuVSmUMTpeeT2mTu39lfpaS5ejvWcXfMeKkSo/image;s=2048x1536;q=80",
+      "https://ireland.apollo.olxcdn.com/v1/files/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbiI6ImI2cWJubmV4NW9pYzEtQVBMIiwidyI6W3siZm4iOiJlbnZmcXFlMWF5NGsxLUFQTCIsInMiOiIxNiIsImEiOiIwIiwicCI6IjEwLC0xMCJ9XX0.MK_h1tZhaUjClLfZSffQm7m3_YjJOy7zqHYCHBuyPxI/image;s=2048x1536;q=80"
+    ],
+    criteria: {
+      oven: "yes",
+      dishwasher: "yes",
+      bed: "unknown",
+      spacious: "yes",
+      garage: "no",
+      max3: "yes",
+      desk: "unknown",
+      modern: "yes",
+      elevator: "unknown",
+      availableAug: "yes",
+      noCommission: "no",
+      noOccasional: "unknown"
+    },
+    createdAt: 10
   }
 ];
