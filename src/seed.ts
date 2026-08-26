@@ -654,5 +654,114 @@ export const SEED_LISTINGS: Listing[] =
       noOccasional: "unknown"
     },
     createdAt: 11
+  },
+  {
+    id: "olx-1ab49t",
+    propertyType: "studio",
+    title: {
+      ar: "ستوديو مجدد — Al. Krakowska، حدود Ochota/Włochy",
+      en: "Renovated studio — Al. Krakowska, Ochota/Włochy border"
+    },
+    district: "Włochy",
+    address: "Al. Krakowska, Włochy/Ochota, Warszawa",
+    url: "https://www.olx.pl/d/oferta/do-wynajecia-studio-na-granicy-ochoty-wloch-al-krakowska-CID3-ID1aB49T.html",
+    rent: 2800,
+    bills: 600,
+    garageCost: 200,
+    extrasEst: 0,
+    extrasNote: {
+      ar: "✅ الإدارة ٦٠٠ شاملة موية+كهربا+تدفئة+زبالة+نت+TV حسب الإعلان — مفيش إضافي متوقع فوق كده.\n🅿️ جراج اختياري +٢٠٠.",
+      en: "✅ Admin 600 covers water+power+heating+trash+net+TV per ad — no expected extras beyond that.\n🅿️ Optional garage +200."
+    },
+    areaSqm: 18,
+    deposit: 2800,
+    commuteMin: 16,
+    availableFrom: "Available now",
+    contact: {
+      ar: "Marcin — OLX",
+      en: "Marcin — OLX"
+    },
+    notes: {
+      ar: "⚠️ نفس بصمة وكالة الـ ٤٠٠ النصابة (Marcin + نفس تليفون الإعلانات القديمة) — خليك حذر جدًا.\nكنبة سرير، مكتب، أسانسير دور ١، واي فاي ضمن الإدارة.\n💰 ٢٨٠٠ + ٦٠٠ شامل مرافق. عقد سنة.",
+      en: "⚠️ Same fingerprint as the 400zł scam agency (Marcin + same phone pattern) — be very careful.\nSofa bed, desk, elevator floor 1, Wi‑Fi in admin.\n💰 2800 + 600 all-in utilities. 1-year lease."
+    },
+    photos: [
+      "https://ireland.apollo.olxcdn.com/v1/files/ebf4wmuwsrw3-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/nmqsk42e5xpe1-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/zl37m7yw9go8-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/fxz1gx4kpmx43-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/omh1tzcl7wyj3-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/sn6am3p2vv7t-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/nbldyer9h8o82-PL/image;s=1200x900"
+    ],
+    criteria: {
+      oven: "no",
+      dishwasher: "unknown",
+      bed: "no",
+      spacious: "yes",
+      garage: "no",
+      max3: "yes",
+      desk: "yes",
+      modern: "yes",
+      elevator: "yes",
+      availableAug: "yes",
+      noCommission: "unknown",
+      noOccasional: "unknown"
+    },
+    createdAt: 12
+  },
+  {
+    id: "olx-19dqpm",
+    propertyType: "studio",
+    title: {
+      ar: "ستوديو مجدد — Geodetów، Ochota",
+      en: "Renovated studio — Geodetów, Ochota"
+    },
+    district: "Ochota",
+    address: "ul. Geodetów 4, Ochota, Warszawa",
+    url: "https://www.olx.pl/d/oferta/do-wynajecia-kawalerka-studio-na-ochocie-ul-geodetow-CID3-ID19DqPm.html",
+    rent: 2500,
+    bills: 500,
+    garageCost: null,
+    extrasEst: 0,
+    extrasNote: {
+      ar: "✅ الإدارة ٥٠٠ شاملة موية+كهربا+تدفئة+زبالة+نت+TV حسب الإعلان — مفيش إضافي متوقع.",
+      en: "✅ Admin 500 covers water+power+heating+trash+net+TV per ad — no expected extras."
+    },
+    areaSqm: 18,
+    deposit: 2500,
+    commuteMin: 20,
+    availableFrom: "Available now",
+    contact: {
+      ar: "Marcin — OLX",
+      en: "Marcin — OLX"
+    },
+    notes: {
+      ar: "⚠️ نفس بصمة وكالة الـ ٤٠٠ النصابة (Marcin + نفس تليفون الإعلانات القديمة) — خليك حذر جدًا.\nكنبة سرير، مكتب، أسانسير دور ٢، واي فاي ضمن الإدارة.\n💰 ٢٥٠٠ + ٥٠٠ شامل مرافق. عقد سنة.",
+      en: "⚠️ Same fingerprint as the 400zł scam agency (Marcin + same phone pattern) — be very careful.\nSofa bed, desk, elevator floor 2, Wi‑Fi in admin.\n💰 2500 + 500 all-in utilities. 1-year lease."
+    },
+    photos: [
+      "https://ireland.apollo.olxcdn.com/v1/files/bdjkyhln4dmf3-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/202qgd4acd013-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/4efzvzxkh8xa-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/75ubsoizn2wa-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/jabwdu0bwsbn3-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/97a0p4fewxta2-PL/image;s=1200x900"
+    ],
+    criteria: {
+      oven: "no",
+      dishwasher: "unknown",
+      bed: "no",
+      spacious: "yes",
+      garage: "unknown",
+      max3: "yes",
+      desk: "yes",
+      modern: "yes",
+      elevator: "yes",
+      availableAug: "yes",
+      noCommission: "unknown",
+      noOccasional: "unknown"
+    },
+    createdAt: 13
   }
 ];
