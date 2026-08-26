@@ -488,8 +488,11 @@ function draftFromParts(parts: {
     },
     photos: parts.photos,
     criteria: analyzed.criteria,
-    createdAt: Date.now()
-  };
+    createdAt: Date.now(),
+    // temporary enrichment helper (ignored by storage validation if not posted)
+    sourceTitle: parts.title,
+    sourceDescription: (parts.description || "").slice(0, 5000)
+  } as Partial<Listing> & { sourceTitle?: string; sourceDescription?: string };
 }
 
 function parseOlx(html: string, url: string): Partial<Listing> | null {

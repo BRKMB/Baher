@@ -36,10 +36,10 @@ export interface Listing {
   createdAt: number;
 }
 
-// البيانات دي متجمّعة من إعلانات Otodom يوم 24 أغسطس 2026 — عدّل أي حاجة من الموقع نفسه
-export const SEED_LISTINGS: Listing[] =
+// البيانات دي متجمّعة من إعلانات Otodom/OLX يوم 26 أغسطس 2026
+export const SEED_LISTINGS: Listing[] = 
 [
-{
+  {
     id: "oto-4cghh",
     propertyType: "studio",
     title: {
@@ -52,11 +52,6 @@ export const SEED_LISTINGS: Listing[] =
     rent: 2936,
     bills: 264,
     garageCost: null,
-    extrasEst: 315,
-    extrasNote: {
-      ar: "⚠️ الإدارة ٢٦٤ مش شاملة العدادات.\nتقريبي لشخص واحد (متوسط السنة):\n⚡ كهربا ~١٣٠ + 💧 موية سخنة/باردة وصرف ~٥٠ + 🔥 تدفئة ~١١٠ + 🗑️ زبالة ~٢٥ = ~٣١٥.\nده أعلى إضافي لأن كله عدّادات منفصلة.",
-      en: "⚠️ Admin 264 does NOT include meters.\nSolo estimate (year avg):\n⚡ Electricity ~130 + 💧 hot/cold water & sewage ~50 + 🔥 heating ~110 + 🗑️ trash ~25 = ~315.\nHighest extras — almost everything is submetered."
-    },
     areaSqm: 23,
     deposit: null,
     commuteMin: 22,
@@ -92,63 +87,14 @@ export const SEED_LISTINGS: Listing[] =
       noCommission: "yes",
       noOccasional: "unknown"
     },
-    createdAt: 1
-  },
-{
-    id: "oto-4cgq3",
-    propertyType: "flat",
-    title: {
-      ar: "شقة ٢ أوضة ٣٥م² بتراس جنب المترو — Tobruku، Bemowo",
-      en: "Cozy 2-room 35m² with terrace near metro — Tobruku, Bemowo"
-    },
-    district: "Bemowo",
-    address: "ul. Obrońców Tobruku, Bemowo, Warszawa",
-    url: "https://www.otodom.pl/pl/oferta/przytulne-2-pokojowe-mieszkanie-z-tarasem-blisko-metra-ID4CGq3",
-    rent: 2300,
-    bills: 900,
-    garageCost: 300,
-    extrasEst: 140,
+    createdAt: 1,
+    extrasEst: 315,
     extrasNote: {
-      ar: "تقريبي لشخص واحد (متوسط السنة):\n⚡ كهربا فقط ~١٤٠.\nالإدارة ٩٠٠ غالبًا فيها تدفئة/موية — فالإضافي بس الكهرباء.",
-      en: "Solo estimate (year avg):\n⚡ Electricity only ~140.\nAdmin 900 likely covers heating/water — so extras are mainly power."
-    },
-    areaSqm: 35,
-    deposit: 3500,
-    commuteMin: 42,
-    availableFrom: "Available now",
-    contact: {
-      ar: "Hanna — Otodom",
-      en: "Hanna — Otodom"
-    },
-    notes: {
-      ar: "✅ مباشر من المالك، من غير رسوم زيادة. تراس واسع، دور أرضي، مجمع محروس جنب Fort Bema.\n💰 إيجار ٢٣٠٠ + إدارة ٩٠٠ + الكهرباء منفصلة.\n🅿️ جراج تحت الأرض +٣٠٠ (مش ضمن السعر).\n❓ أجهزة المطبخ/التكييف مش مذكورة بالتفصيل.",
-      en: "✅ Direct from owner, no extra fees. Large terrace, ground floor, gated estate by Fort Bema.\n💰 Rent 2300 + admin 900 + electricity separate.\n🅿️ Underground garage +300 (not included).\n❓ Kitchen appliances / AC not detailed."
-    },
-    photos: [
-      "https://ireland.apollo.olxcdn.com/v1/files/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbiI6ImZ3bXcxNGpzdDBvZS1BUEwiLCJ3IjpbeyJmbiI6ImVudmZxcWUxYXk0azEtQVBMIiwicyI6IjE2IiwiYSI6IjAiLCJwIjoiMTAsLTEwIn1dfQ.NHllvMzK7jLWrh093A7XBtM5eAjo5qL9IoSrId-QWvk/image;s=2048x1536;q=80",
-      "https://ireland.apollo.olxcdn.com/v1/files/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbiI6Im92eW0wNHVlZzIwcjMtQVBMIiwidyI6W3siZm4iOiJlbnZmcXFlMWF5NGsxLUFQTCIsInMiOiIxNiIsImEiOiIwIiwicCI6IjEwLC0xMCJ9XX0.DOX49_UlGFrzuA9z72THiqpyWmYnzh6uSYD9eK-w-eI/image;s=2048x1536;q=80",
-      "https://ireland.apollo.olxcdn.com/v1/files/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbiI6Iml5bG1yaGwwNDk4NzMtQVBMIiwidyI6W3siZm4iOiJlbnZmcXFlMWF5NGsxLUFQTCIsInMiOiIxNiIsImEiOiIwIiwicCI6IjEwLC0xMCJ9XX0.eVKVuk84eave3za0xRJw1Ll4WV2qPRaVHWx_ze44EKk/image;s=2048x1536;q=80",
-      "https://ireland.apollo.olxcdn.com/v1/files/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbiI6IjJ6dGY0djlyOWNsbTMtQVBMIiwidyI6W3siZm4iOiJlbnZmcXFlMWF5NGsxLUFQTCIsInMiOiIxNiIsImEiOiIwIiwicCI6IjEwLC0xMCJ9XX0.gOCfRyO51ti2N2B6CzQnQ9WIpChXin9_6vc8xCITBTg/image;s=2048x1536;q=80",
-      "https://ireland.apollo.olxcdn.com/v1/files/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbiI6IjVnYXc5cWZjdnd3dDItQVBMIiwidyI6W3siZm4iOiJlbnZmcXFlMWF5NGsxLUFQTCIsInMiOiIxNiIsImEiOiIwIiwicCI6IjEwLC0xMCJ9XX0.eYc4A293FgZb7Yw1HmADrIsTFuLfup2QSsI1Ty5X7Ak/image;s=2048x1536;q=80",
-      "https://ireland.apollo.olxcdn.com/v1/files/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbiI6IjF5YWIwMXJ6aW5jZTMtQVBMIiwidyI6W3siZm4iOiJlbnZmcXFlMWF5NGsxLUFQTCIsInMiOiIxNiIsImEiOiIwIiwicCI6IjEwLC0xMCJ9XX0.xbSmLuQ9Ww4N8IgiE1ERIuUodXprin1YPJ_pZegyjDM/image;s=2048x1536;q=80"
-    ],
-    criteria: {
-      oven: "unknown",
-      dishwasher: "unknown",
-      bed: "unknown",
-      spacious: "yes",
-      garage: "no",
-      max3: "yes",
-      desk: "unknown",
-      modern: "unknown",
-      elevator: "unknown",
-      availableAug: "yes",
-      noCommission: "yes",
-      noOccasional: "unknown"
-    },
-    createdAt: 2
+      ar: "⚠️ الإدارة ٢٦٤ مش شاملة العدادات.\nتقريبي لشخص واحد (متوسط السنة):\n⚡ كهربا ~١٣٠ + 💧 موية سخنة/باردة وصرف ~٥٠ + 🔥 تدفئة ~١١٠ + 🗑️ زبالة ~٢٥ = ~٣١٥.\nده أعلى إضافي لأن كله عدّادات منفصلة.",
+      en: "⚠️ Admin 264 does NOT include meters.\nSolo estimate (year avg):\n⚡ Electricity ~130 + 💧 hot/cold water & sewage ~50 + 🔥 heating ~110 + 🗑️ trash ~25 = ~315.\nHighest extras — almost everything is submetered."
+    }
   },
-{
+  {
     id: "oto-4ckvm",
     propertyType: "flat",
     title: {
@@ -161,11 +107,6 @@ export const SEED_LISTINGS: Listing[] =
     rent: 2700,
     bills: 600,
     garageCost: null,
-    extrasEst: 170,
-    extrasNote: {
-      ar: "تقريبي لشخص واحد (متوسط السنة):\n⚡ كهربا ~١٤٠ + 🔥 غاز حسب الاستهلاك ~٣٠ = ~١٧٠.\nالتعاونية ٦٠٠ فيها مقدم تدفئة+موية+زبالة.",
-      en: "Solo estimate (year avg):\n⚡ Electricity ~140 + 🔥 gas by usage ~30 = ~170.\nCoop 600 already includes heating/water/trash advances."
-    },
     areaSqm: 37,
     deposit: 3000,
     commuteMin: 40,
@@ -187,7 +128,7 @@ export const SEED_LISTINGS: Listing[] =
       "https://ireland.apollo.olxcdn.com/v1/files/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbiI6InY2MzBzbXo3YTV2aTItQVBMIiwidyI6W3siZm4iOiJlbnZmcXFlMWF5NGsxLUFQTCIsInMiOiIxNiIsImEiOiIwIiwicCI6IjEwLC0xMCJ9XX0.B2kNI-bYrJ130av1lUPJP8ZGIK5MPhkQFenQG7FrdAo/image;s=2048x1536;q=80"
     ],
     criteria: {
-      oven: "unknown",
+      oven: "yes",
       dishwasher: "unknown",
       bed: "unknown",
       spacious: "yes",
@@ -200,9 +141,14 @@ export const SEED_LISTINGS: Listing[] =
       noCommission: "yes",
       noOccasional: "unknown"
     },
-    createdAt: 3
+    createdAt: 2,
+    extrasEst: 170,
+    extrasNote: {
+      ar: "تقريبي لشخص واحد (متوسط السنة):\n⚡ كهربا ~١٤٠ + 🔥 غاز حسب الاستهلاك ~٣٠ = ~١٧٠.\nالتعاونية ٦٠٠ فيها مقدم تدفئة+موية+زبالة.",
+      en: "Solo estimate (year avg):\n⚡ Electricity ~140 + 🔥 gas by usage ~30 = ~170.\nCoop 600 already includes heating/water/trash advances."
+    }
   },
-{
+  {
     id: "oto-4ci9q",
     propertyType: "studio",
     title: {
@@ -215,11 +161,6 @@ export const SEED_LISTINGS: Listing[] =
     rent: 2650,
     bills: 510,
     garageCost: null,
-    extrasEst: 140,
-    extrasNote: {
-      ar: "تقريبي لشخص واحد (متوسط السنة):\n⚡ كهربا فقط ~١٤٠.\nالإدارة ٥١٠ فيها مقدم مرافق (media) — فالإضافي الأساسي الكهرباء.",
-      en: "Solo estimate (year avg):\n⚡ Electricity only ~140.\nAdmin 510 includes media advances — main extra is electricity."
-    },
     areaSqm: 27,
     deposit: 3000,
     commuteMin: 38,
@@ -253,52 +194,59 @@ export const SEED_LISTINGS: Listing[] =
       max3: "yes",
       desk: "unknown",
       modern: "yes",
-      elevator: "unknown",
+      elevator: "yes",
       availableAug: "no",
       noCommission: "yes",
       noOccasional: "unknown"
     },
-    createdAt: 4
+    createdAt: 3,
+    extrasEst: 140,
+    extrasNote: {
+      ar: "تقريبي لشخص واحد (متوسط السنة):\n⚡ كهربا فقط ~١٤٠.\nالإدارة ٥١٠ فيها مقدم مرافق (media) — فالإضافي الأساسي الكهرباء.",
+      en: "Solo estimate (year avg):\n⚡ Electricity only ~140.\nAdmin 510 includes media advances — main extra is electricity."
+    }
   },
-{
-    id: "oto-4ckfu",
+  {
+    id: "oto-4cmsc",
     propertyType: "studio",
     title: {
-      ar: "ستوديو ٢٢م² عند Plac Zawiszy — Grójecka / Wola",
-      en: "22m² studio at Plac Zawiszy — Grójecka / Wola"
+      ar: "ستوديو ٣٠.٦م² جنب المترو — Jana Pawła II / Wola",
+      en: "30.6m² studio near metro — Jana Pawła II / Wola"
     },
     district: "Wola",
-    address: "ul. Grójecka 14A, Plac Zawiszy, Wola, Warszawa",
-    url: "https://www.otodom.pl/pl/oferta/kawalerka-plac-zawiszy-metro-tramwaj-ID4CKFU",
-    rent: 2485,
-    bills: 315,
+    address: "Al. Jana Pawła II / Słomińskiego, Wola, Warszawa",
+    url: "https://www.otodom.pl/pl/oferta/od-zaraz-do-wynajecia-wola-centrum-metro-tramwaj-ID4CMsc",
+    rent: 2300,
+    bills: 850,
     garageCost: null,
-    extrasEst: 125,
+    extrasEst: 300,
     extrasNote: {
-      ar: "تقريبي لشخص واحد (متوسط السنة):\n⚡ كهربا حسب الاستهلاك ~١٢٥.\nشقة صغيرة ٢٢م²، إدارة ٣١٥ لشخص واحد.",
-      en: "Solo estimate (year avg):\n⚡ Electricity by usage ~125.\nSmall 22m² studio; admin 315 for one person."
+      ar: "تقريبي لشخص واحد:\n💧 مقدم مرافق ~٣٠٠ (حسب الإعلان) + تسوية حسب الاستهلاك.\nالإدارة ٨٥٠ منفصلة. وكالة PROSPER HOUSE — اسأل عن عمولة.",
+      en: "Solo estimate:\n💧 Media advance ~300 (per ad) + settlement by usage.\nAdmin 850 separate. PROSPER HOUSE agency — ask about commission."
     },
-    areaSqm: 22,
-    deposit: 2900,
-    commuteMin: 28,
-    availableFrom: "01/09/2026",
+    areaSqm: 31,
+    deposit: 2300,
+    commuteMin: 34,
+    availableFrom: "Available now",
     contact: {
-      ar: "Sebastian — Otodom",
-      en: "Sebastian — Otodom"
+      ar: "PROSPER HOUSE — Otodom",
+      en: "PROSPER HOUSE — Otodom"
     },
     notes: {
-      ar: "✅ مباشر. بعد ترميم، أسانسير دور ٤، مراقبة. قريب مترو Rondo Daszyńskiego وترام.\n💰 إيجار ٢٤٨٥ + إدارة ٣١٥ (لشخص واحد) + الكهرباء حسب الاستهلاك.\n❓ فرن/ديش واشر مش مذكورين. كنبة.\nمتاح من ١ سبتمبر.",
-      en: "✅ Direct. Renovated, elevator floor 4, building CCTV. Near metro Rondo Daszyńskiego & tram.\n💰 Rent 2485 + admin 315 (for 1 person) + electricity by usage.\n❓ Oven/dishwasher not listed. Sofa.\nAvailable from Sept 1."
+      ar: "وكالة PROSPER HOUSE (مش وكالة الـ ٤٠٠ النصابة، بس اسأل عن العمولة).\n✅ أسانسير دور ٨، مجمع محروس، مترو Dworzec Gdański / Rondo Radosława، جنب Arkadia. كنبة. من غير بلكونة.\n💰 ٢٣٠٠ + إدارة ~٨٥٠ + مقدم مرافق ٣٠٠ (+ تسوية).\n❓ فرن/ديش واشر مش مذكورين صراحة.",
+      en: "PROSPER HOUSE agency (not the 400zł scam agency, but ask about commission).\n✅ Elevator floor 8, gated, metro Dworzec Gdański / Rondo Radosława, near Arkadia. Sofa. No balcony.\n💰 2300 + admin ~850 + media advance 300 (+ settlement).\n❓ Oven/dishwasher not clearly listed."
     },
     photos: [
-      "https://ireland.apollo.olxcdn.com/v1/files/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbiI6IjV5YWVmeWY5emhxMTItQVBMIiwidyI6W3siZm4iOiJlbnZmcXFlMWF5NGsxLUFQTCIsInMiOiIxNiIsImEiOiIwIiwicCI6IjEwLC0xMCJ9XX0.YXt9AODes8A3GIrvfj60923yskb1Ry40Lv2Re-QxkRs/image;s=2048x1536;q=80",
-      "https://ireland.apollo.olxcdn.com/v1/files/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbiI6Ijl6a2hmcnlhbHV0dTItQVBMIiwidyI6W3siZm4iOiJlbnZmcXFlMWF5NGsxLUFQTCIsInMiOiIxNiIsImEiOiIwIiwicCI6IjEwLC0xMCJ9XX0.gi0wgcyV3-XSd26TlMmnQUSkj-l48hbP0qqmnnZgD4c/image;s=2048x1536;q=80",
-      "https://ireland.apollo.olxcdn.com/v1/files/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbiI6InQ0aTdodmtvbHZvbC1BUEwiLCJ3IjpbeyJmbiI6ImVudmZxcWUxYXk0azEtQVBMIiwicyI6IjE2IiwiYSI6IjAiLCJwIjoiMTAsLTEwIn1dfQ.pFuy1YQPrFXc0Bkl65jXVS7DdiObjDV5G8lKqgrEU7Y/image;s=2048x1536;q=80",
-      "https://ireland.apollo.olxcdn.com/v1/files/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbiI6Ijc0bmw4OXJuOHZpZDItQVBMIiwidyI6W3siZm4iOiJlbnZmcXFlMWF5NGsxLUFQTCIsInMiOiIxNiIsImEiOiIwIiwicCI6IjEwLC0xMCJ9XX0.TVEQEkPzjbVrLpPLiozLR2Ea9sqllcarcGUeLRaf6mY/image;s=2048x1536;q=80",
-      "https://ireland.apollo.olxcdn.com/v1/files/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbiI6Ijkyd3JrYXpuZG9kbDItQVBMIiwidyI6W3siZm4iOiJlbnZmcXFlMWF5NGsxLUFQTCIsInMiOiIxNiIsImEiOiIwIiwicCI6IjEwLC0xMCJ9XX0.TPIApNBUMBe5lqpAoHzYOu8DKHTXf9CvJdR8WkwYQAI/image;s=2048x1536;q=80",
-      "https://ireland.apollo.olxcdn.com/v1/files/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbiI6Ijc0Mm84b3F0d212MDMtQVBMIiwidyI6W3siZm4iOiJlbnZmcXFlMWF5NGsxLUFQTCIsInMiOiIxNiIsImEiOiIwIiwicCI6IjEwLC0xMCJ9XX0.rkpfIWzyVMBi5eNStHU21-PYlklUB5MhvpEbfPaDZ-0/image;s=2048x1536;q=80",
-      "https://ireland.apollo.olxcdn.com/v1/files/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbiI6InA0bWxtd3p1aGlhOTItQVBMIiwidyI6W3siZm4iOiJlbnZmcXFlMWF5NGsxLUFQTCIsInMiOiIxNiIsImEiOiIwIiwicCI6IjEwLC0xMCJ9XX0.qlccwNqvIaEhfXoboBqPGYn_674dBUujEGf69Fmx818/image;s=2048x1536;q=80",
-      "https://ireland.apollo.olxcdn.com/v1/files/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbiI6ImszN2c0azAyeXlrei1BUEwiLCJ3IjpbeyJmbiI6ImVudmZxcWUxYXk0azEtQVBMIiwicyI6IjE2IiwiYSI6IjAiLCJwIjoiMTAsLTEwIn1dfQ.uioKpWNbINtjpksgvVHFuze7PVGgwY2Y65Jomf1OIho/image;s=2048x1536;q=80"
+      "https://ireland.apollo.olxcdn.com/v1/files/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbiI6ImJpbGMzanFlNXMxeDItQVBMIiwidyI6W3siZm4iOiJlbnZmcXFlMWF5NGsxLUFQTCIsInMiOiIxNiIsImEiOiIwIiwicCI6IjEwLC0xMCJ9XX0.O6ZNXEECtqQRXBm8J_Ff54PXbC3VRgirlcoweD2-peY/image;s=2048x1536;q=80",
+      "https://ireland.apollo.olxcdn.com/v1/files/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbiI6InduZ2N0d2h3aGxuODMtQVBMIiwidyI6W3siZm4iOiJlbnZmcXFlMWF5NGsxLUFQTCIsInMiOiIxNiIsImEiOiIwIiwicCI6IjEwLC0xMCJ9XX0.ldFabqB_vjGKIEW15x3TEFyMRZJHzSHOYQ_2KEnskOY/image;s=2048x1536;q=80",
+      "https://ireland.apollo.olxcdn.com/v1/files/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbiI6Im44aHhzbzltdnpxNDMtQVBMIiwidyI6W3siZm4iOiJlbnZmcXFlMWF5NGsxLUFQTCIsInMiOiIxNiIsImEiOiIwIiwicCI6IjEwLC0xMCJ9XX0.8pSzd1UO9JQyqz8PwRnLm7b0ce9l8WziYLD0VneImyE/image;s=2048x1536;q=80",
+      "https://ireland.apollo.olxcdn.com/v1/files/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbiI6IjVsb2J2eGxwNWpncjItQVBMIiwidyI6W3siZm4iOiJlbnZmcXFlMWF5NGsxLUFQTCIsInMiOiIxNiIsImEiOiIwIiwicCI6IjEwLC0xMCJ9XX0.B_VP8oil23ey0A8qJO8LmqSGC4lJuOshEbIZHm58zxU/image;s=2048x1536;q=80",
+      "https://ireland.apollo.olxcdn.com/v1/files/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbiI6IjA1NmNpYjI0OWhlZi1BUEwiLCJ3IjpbeyJmbiI6ImVudmZxcWUxYXk0azEtQVBMIiwicyI6IjE2IiwiYSI6IjAiLCJwIjoiMTAsLTEwIn1dfQ.PyjkPVf8Kw1X7sXcZ8CK1RotI-ZRaCiFGzPX7QTyAvE/image;s=2048x1536;q=80",
+      "https://ireland.apollo.olxcdn.com/v1/files/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbiI6Im9hcG8zc2V0b2owZjEtQVBMIiwidyI6W3siZm4iOiJlbnZmcXFlMWF5NGsxLUFQTCIsInMiOiIxNiIsImEiOiIwIiwicCI6IjEwLC0xMCJ9XX0.k5soxU4qfV4DeOBoSbXP-N1FXfZjqYa-EVQ0rikHQ-0/image;s=2048x1536;q=80",
+      "https://ireland.apollo.olxcdn.com/v1/files/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbiI6IjZjZ2U1c3oxOWdleDEtQVBMIiwidyI6W3siZm4iOiJlbnZmcXFlMWF5NGsxLUFQTCIsInMiOiIxNiIsImEiOiIwIiwicCI6IjEwLC0xMCJ9XX0.LK7pQeLRUYuWqarlE-GzJEAuXqoiy5YLjdHLs1PR-cg/image;s=2048x1536;q=80",
+      "https://ireland.apollo.olxcdn.com/v1/files/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbiI6IjV6aGs5OWx5b3ZwNjEtQVBMIiwidyI6W3siZm4iOiJlbnZmcXFlMWF5NGsxLUFQTCIsInMiOiIxNiIsImEiOiIwIiwicCI6IjEwLC0xMCJ9XX0.I1j24sGl-XzLJ241tF8cDeMwFgEwXO6QwS9U1BeG8WI/image;s=2048x1536;q=80",
+      "https://ireland.apollo.olxcdn.com/v1/files/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbiI6Im04MGtqbnQwYjhvdTMtQVBMIiwidyI6W3siZm4iOiJlbnZmcXFlMWF5NGsxLUFQTCIsInMiOiIxNiIsImEiOiIwIiwicCI6IjEwLC0xMCJ9XX0._WVan0R78dUMLTV-ucEMAN8YXziOD0v1Y9JdCvxFqRk/image;s=2048x1536;q=80",
+      "https://ireland.apollo.olxcdn.com/v1/files/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbiI6IjNhNmExYmszNW9vby1BUEwiLCJ3IjpbeyJmbiI6ImVudmZxcWUxYXk0azEtQVBMIiwicyI6IjE2IiwiYSI6IjAiLCJwIjoiMTAsLTEwIn1dfQ.tj7qrV6a5wHRqy75AWRGhEXzFQDWjJgzofM9BpgQO0Q/image;s=2048x1536;q=80"
     ],
     criteria: {
       oven: "unknown",
@@ -307,13 +255,404 @@ export const SEED_LISTINGS: Listing[] =
       spacious: "yes",
       garage: "unknown",
       max3: "yes",
-      desk: "unknown",
+      desk: "yes",
       modern: "yes",
       elevator: "yes",
-      availableAug: "no",
+      availableAug: "yes",
+      noCommission: "unknown",
+      noOccasional: "unknown"
+    },
+    createdAt: 4
+  },
+  {
+    id: "oto-4cmfc",
+    propertyType: "studio",
+    title: {
+      ar: "شقة/ستوديو ٣٨م² مفروشة — Śródmieście",
+      en: "Furnished 38m² flat/studio — Śródmieście"
+    },
+    district: "Śródmieście",
+    address: "Śródmieście, Warszawa",
+    url: "https://www.otodom.pl/pl/oferta/mieszkanie-38-m-w-srodmiesciu-w-pelni-wyposazone-ID4CMFC",
+    rent: 2490,
+    bills: null,
+    garageCost: null,
+    extrasEst: 250,
+    extrasNote: {
+      ar: "⚠️ الإعلان مش بيوضح الإدارة/المرافق.\nتقدير تقريبي لشخص واحد فوق الإيجار ~٢٥٠ (إدارة+كهربا/موية) — اسأل Freya عن الفاتورة الحقيقية.",
+      en: "⚠️ Ad does not spell out admin/utilities.\nRough solo estimate ~250 on top of rent (admin+power/water) — ask Freya for real bills."
+    },
+    areaSqm: 38,
+    deposit: null,
+    commuteMin: 30,
+    availableFrom: {
+      ar: "اسأل المعلن",
+      en: "Ask landlord"
+    },
+    contact: {
+      ar: "Freya — Otodom",
+      en: "Freya — Otodom"
+    },
+    notes: {
+      ar: "مباشر/فردي. دور ٣، ديش واشر، غسالة، TV، تدفئة مركزية.\n⚠️ الإيجار ٢٤٩٠ بس — الإدارة والمرافق مش مذكورة (الديبوزيت ١١٠ في Otodom غالبًا غلط).\n❓ عقد/occasional مش مذكور.",
+      en: "Private listing. Floor 3, dishwasher, washer, TV, district heating.\n⚠️ Rent 2490 only — admin/utilities not stated (Otodom deposit 110 looks wrong).\n❓ Contract / occasional not stated."
+    },
+    photos: [
+      "https://ireland.apollo.olxcdn.com/v1/files/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbiI6InlqZG03MDdnc2hlZi1BUEwiLCJ3IjpbeyJmbiI6ImVudmZxcWUxYXk0azEtQVBMIiwicyI6IjE2IiwiYSI6IjAiLCJwIjoiMTAsLTEwIn1dfQ.tTvu0hP_f8RcEu_3INFjTpbcVvR9NuCBC5nTSY3pol0/image;s=2048x1536;q=80",
+      "https://ireland.apollo.olxcdn.com/v1/files/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbiI6ImNjMTA5cmVqeGxyYzMtQVBMIiwidyI6W3siZm4iOiJlbnZmcXFlMWF5NGsxLUFQTCIsInMiOiIxNiIsImEiOiIwIiwicCI6IjEwLC0xMCJ9XX0.rmG4WRHBOfCrxbkSsi8E0cISDHv0wxpcXmW1GK4jwzk/image;s=2048x1536;q=80",
+      "https://ireland.apollo.olxcdn.com/v1/files/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbiI6Imw2aDd5MHRlcHE3bTEtQVBMIiwidyI6W3siZm4iOiJlbnZmcXFlMWF5NGsxLUFQTCIsInMiOiIxNiIsImEiOiIwIiwicCI6IjEwLC0xMCJ9XX0.BoC5emyfHFUQFWYcDYgiDiUg17ueYl1NArxH6KCTjoU/image;s=2048x1536;q=80",
+      "https://ireland.apollo.olxcdn.com/v1/files/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbiI6IjdocHJramV3b2g5bzItQVBMIiwidyI6W3siZm4iOiJlbnZmcXFlMWF5NGsxLUFQTCIsInMiOiIxNiIsImEiOiIwIiwicCI6IjEwLC0xMCJ9XX0.MFrVqjh-eSSEouzw0f5DgqNWh04lMNioMjmWZP0EibM/image;s=2048x1536;q=80"
+    ],
+    criteria: {
+      oven: "unknown",
+      dishwasher: "yes",
+      bed: "unknown",
+      spacious: "yes",
+      garage: "unknown",
+      max3: "yes",
+      desk: "unknown",
+      modern: "unknown",
+      elevator: "unknown",
+      availableAug: "unknown",
       noCommission: "yes",
       noOccasional: "unknown"
     },
     createdAt: 5
+  },
+  {
+    id: "olx-1bgjac",
+    propertyType: "studio",
+    title: {
+      ar: "ستوديو جديد ديش واشر+فرن — Jutrzenki / Blue City",
+      en: "New studio with dishwasher+oven — Jutrzenki / Blue City"
+    },
+    district: "Włochy",
+    address: "ul. Jutrzenki 182, Włochy, Warszawa",
+    url: "https://www.olx.pl/d/oferta/eng-skm-blue-city-bezposrednio-nowa-kawalerka-od-31-08-tv-piekarnik-zmywarka-wlochy-CID3-ID1bGJaC.html",
+    rent: 2900,
+    bills: 550,
+    garageCost: null,
+    extrasEst: 0,
+    extrasNote: {
+      ar: "✅ المرافق ٥٥٠ شاملة تقريبًا كل حاجة لشخص واحد (كهربا+موية+زبالة+تدفئة+إنترنت).\nلزوجين ٦٧٠. مفيش إضافي متوقع فوق كده غير لو الاستهلاك عالي.",
+      en: "✅ Media 550 for 1 person covers basically everything (power+water+trash+heating+fiber).\nCouple 670. No expected extras beyond that unless heavy usage."
+    },
+    areaSqm: 22,
+    deposit: 3500,
+    commuteMin: 17,
+    availableFrom: "31/08/2026",
+    contact: {
+      ar: "Konrad — OLX",
+      en: "Konrad — OLX"
+    },
+    notes: {
+      ar: "✅ مباشر. أول إيجار من ٣١ أغسطس. ديش واشر+فرن+TV. كنبة سرير. مجمع محروس. باركنج مجاني في الكمبوند؛ جراج تحت الأرض اختياري.\n💰 ٢٩٠٠ + مرافق ٥٥٠ (شامل). من غير تدخين/حيوانات.",
+      en: "✅ Direct. First rental from Aug 31. Dishwasher+oven+TV. Sofa bed. Gated estate. Free on-site parking; optional underground garage.\n💰 2900 + media 550 (all-in). No smoking/pets."
+    },
+    photos: [
+      "https://ireland.apollo.olxcdn.com/v1/files/m2yt6gvaln133-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/fldcmqz8wgv43-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/xhl0169qrvqt1-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/gkmkasmttdcz-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/4x0nkn9yt5kr2-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/7t7mcjt8k6ak2-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/nwyn15wm8fwj2-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/bj0qcqjd34573-PL/image;s=1200x900"
+    ],
+    criteria: {
+      oven: "yes",
+      dishwasher: "yes",
+      bed: "no",
+      spacious: "yes",
+      garage: "yes",
+      max3: "yes",
+      desk: "yes",
+      modern: "yes",
+      elevator: "unknown",
+      availableAug: "no",
+      noCommission: "yes",
+      noOccasional: "unknown"
+    },
+    createdAt: 6
+  },
+  {
+    id: "olx-1c1p67",
+    propertyType: "flat",
+    title: {
+      ar: "شقة ٢ أوضة ٣٧م² جنب المترو — Rozpylacza، Wola",
+      en: "2-room 37m² flat near metro — Rozpylacza, Wola"
+    },
+    district: "Wola",
+    address: "ul. Antka Rozpylacza, Wola, Warszawa",
+    url: "https://www.olx.pl/d/oferta/mieszkanie-2-pokojowe-na-woli-blisko-metra-37-m-CID3-ID1c1p67.html",
+    rent: 2000,
+    bills: 700,
+    garageCost: 0,
+    extrasEst: 200,
+    extrasNote: {
+      ar: "تقريبي لشخص واحد:\n📺 مقدم مرافق ~٢٠٠ (TV/إنترنت/موية/كهربا/غاز) حسب الإعلان.\nالإدارة ٧٠٠ منفصلة. الإجمالي المعلن ~٢٩٠٠.",
+      en: "Solo estimate:\n📺 Media advance ~200 (TV/internet/water/power/gas) per ad.\nAdmin 700 separate. Ad total ~2900."
+    },
+    areaSqm: 37,
+    deposit: null,
+    commuteMin: 35,
+    availableFrom: "Available now",
+    contact: {
+      ar: "Kamil — OLX",
+      en: "Kamil — OLX"
+    },
+    notes: {
+      ar: "✅ مباشر من المالك. مطبخ منفصل، سرير مزدوج، بلكونة، قبو، ديش واشر+فرن. باركنج شارع مجاني.\n💰 ٢٠٠٠ + إدارة ٧٠٠ + مرافق ~٢٠٠ ≈ ٢٩٠٠.\nالإعلان بيقول وسطاء ممكن يتعاونوا — بس العرض من المالك.",
+      en: "✅ Direct from owner. Separate kitchen, double bed, balcony, cellar, dishwasher+oven. Free street parking.\n💰 2000 + admin 700 + media ~200 ≈ 2900.\nAd allows agent cooperation — listing is from owner."
+    },
+    photos: [
+      "https://ireland.apollo.olxcdn.com/v1/files/r0hotfscqbpk-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/5wcssnxsr7i33-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/m5qje0jv3o9r-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/0bseewuprdjd3-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/onc81aun5p3y2-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/mkgl4gh6ouwo2-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/uv630gewb312-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/lhqpykfw0aq-PL/image;s=1200x900"
+    ],
+    criteria: {
+      oven: "yes",
+      dishwasher: "yes",
+      bed: "yes",
+      spacious: "yes",
+      garage: "yes",
+      max3: "yes",
+      desk: "unknown",
+      modern: "yes",
+      elevator: "unknown",
+      availableAug: "yes",
+      noCommission: "yes",
+      noOccasional: "unknown"
+    },
+    createdAt: 7
+  },
+  {
+    id: "olx-1c0xee",
+    propertyType: "flat",
+    title: {
+      ar: "شقة ٢ أوضة ببلكونة — Zdziechowskiego، Mokotów",
+      en: "2-room flat with balcony — Zdziechowskiego, Mokotów"
+    },
+    district: "Mokotów",
+    address: "ul. Zdziechowskiego, Mokotów, Warszawa",
+    url: "https://www.olx.pl/d/oferta/wynajme-mieszkanie-2-pokojowe-mokotow-ul-zdziechowskiego-CID3-ID1c0XEe.html",
+    rent: 2700,
+    bills: null,
+    garageCost: null,
+    extrasEst: 200,
+    extrasNote: {
+      ar: "⚠️ مبلغ الإدارة (czynsz) مش مكتوب.\nتقدير تقريبي فوق الإيجار: إدارة+مرافق ~٦٠٠–٩٠٠؛ حاطين ~٢٠٠ كحد أدنى للكهربا فقط لحد ما تسأل.",
+      en: "⚠️ Admin (czynsz) amount not stated.\nRough add-on: admin+utilities often ~600–900; using ~200 as electricity-only floor until you ask."
+    },
+    areaSqm: null,
+    deposit: 3000,
+    commuteMin: 22,
+    availableFrom: "Available now",
+    contact: {
+      ar: "Elżbieta — OLX",
+      en: "Elżbieta — OLX"
+    },
+    notes: {
+      ar: "✅ مباشر. عمارة جديدة، دور ٢، أسانسير، بلكونة. مترو Wierzbno ~١٠ دقايق مشي. من غير حيوانات.\n💰 ٢٧٠٠ + إدارة (المبلغ مش مذكور) + ديبوزيت ٣٠٠٠.\n❓ الأجهزة/المساحة مش مفصّلة.",
+      en: "✅ Direct. New building, floor 2, elevator, balcony. Metro Wierzbno ~10 min walk. No pets.\n💰 2700 + admin (amount not stated) + deposit 3000.\n❓ Appliances/area not detailed."
+    },
+    photos: [
+      "https://ireland.apollo.olxcdn.com/v1/files/sg9p2vk8tzx1-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/6gjlu455oix-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/0pbig9xnyao-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/fndd11n09pp32-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/mgngexw2s69t-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/hmi0rdajvlxk1-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/0b2vb1zc15q13-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/cfoldb7agdp13-PL/image;s=1200x900"
+    ],
+    criteria: {
+      oven: "unknown",
+      dishwasher: "unknown",
+      bed: "unknown",
+      spacious: "unknown",
+      garage: "unknown",
+      max3: "yes",
+      desk: "unknown",
+      modern: "yes",
+      elevator: "yes",
+      availableAug: "yes",
+      noCommission: "yes",
+      noOccasional: "unknown"
+    },
+    createdAt: 8
+  },
+  {
+    id: "olx-1c0nae",
+    propertyType: "flat",
+    title: {
+      ar: "شقة ٤١م² تكييف — Elektoralna، Śródmieście",
+      en: "Spacious 41m² with AC — Elektoralna, Śródmieście"
+    },
+    district: "Śródmieście",
+    address: "ul. Elektoralna, Śródmieście, Warszawa",
+    url: "https://www.olx.pl/d/oferta/przestronne-mieszkanie-41-m-elektoralna-bezposrednio-od-wlasciciela-CID3-ID1c0nAE.html",
+    rent: 2000,
+    bills: 900,
+    garageCost: null,
+    extrasEst: 225,
+    extrasNote: {
+      ar: "تقريبي لشخص واحد:\n🌐 إنترنت ٧٥ + ⚡💧 كهربا/موية حسب العداد ~١٥٠ = ~٢٢٥.\nالإدارة/تشغيل ٨٠٠–٩٠٠ (اخدنا ٩٠٠). تكييف هيزوّد كهربا الصيف.",
+      en: "Solo estimate:\n🌐 Internet 75 + ⚡💧 electricity/water by meter ~150 = ~225.\nAdmin/ops 800–900 (using 900). AC will bump summer electricity."
+    },
+    areaSqm: 41,
+    deposit: null,
+    commuteMin: 30,
+    availableFrom: {
+      ar: "اسأل المعلن",
+      en: "Ask landlord"
+    },
+    contact: {
+      ar: "Michał — OLX",
+      en: "Michał — OLX"
+    },
+    notes: {
+      ar: "✅ مباشر من المالك. ✅ تكييف في الأوضة والمطبخ. مطبخ كبير ١٣م² ببلكونة، ديش واشر+فرن، كنبة بمرتبة طبية، دور ٤، بوابة.\n💰 ٢٠٠٠ + تشغيل ٨٠٠–٩٠٠ + نت ٧٥ + كهربا/موية عدّاد.\nعقد ١٢ شهر.",
+      en: "✅ Direct from owner. ✅ AC in room and kitchen. Big 13m² kitchen with balcony, dishwasher+oven, orthopedic sofa bed, floor 4, doorman.\n💰 2000 + ops 800–900 + net 75 + elec/water meters.\n12-month lease."
+    },
+    photos: [
+      "https://ireland.apollo.olxcdn.com/v1/files/z0v33scbem7s2-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/8e077w08to791-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/oo384lpraq9e-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/3klt7z1cst023-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/bcvxzpax8xge-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/o2d07cfv5rmz1-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/y327q669l1d43-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/puz4hv6yeyr61-PL/image;s=1200x900"
+    ],
+    criteria: {
+      oven: "yes",
+      dishwasher: "yes",
+      bed: "no",
+      spacious: "yes",
+      garage: "unknown",
+      max3: "yes",
+      desk: "unknown",
+      modern: "yes",
+      elevator: "unknown",
+      availableAug: "unknown",
+      noCommission: "yes",
+      noOccasional: "unknown"
+    },
+    createdAt: 9
+  },
+  {
+    id: "olx-1c01d8",
+    propertyType: "studio",
+    title: {
+      ar: "ستوديو ٢٩م² ببلكونة — Jana Kazimierza، Wola",
+      en: "29m² studio with balcony — Jana Kazimierza, Wola"
+    },
+    district: "Wola",
+    address: "ul. Jana Kazimierza, Wola, Warszawa",
+    url: "https://www.olx.pl/d/oferta/kawalerka-29m2-bezposrednio-przy-jana-kazimierza-CID3-ID1c01d8.html",
+    rent: 2700,
+    bills: 500,
+    garageCost: null,
+    extrasEst: 140,
+    extrasNote: {
+      ar: "تقريبي لشخص واحد:\n⚡ كهربا حسب الاستهلاك ~١٤٠.\nالإدارة ٥٠٠ فيها مقدم موية+تدفئة+صندوق صيانة.",
+      en: "Solo estimate:\n⚡ Electricity by usage ~140.\nAdmin 500 includes water/heating/renovation-fund advances."
+    },
+    areaSqm: 29,
+    deposit: 2700,
+    commuteMin: 36,
+    availableFrom: "Available now",
+    contact: {
+      ar: "Cezary — OLX",
+      en: "Cezary — OLX"
+    },
+    notes: {
+      ar: "✅ مباشر (مفيش وكالات). بلكونة ٨م²، كنبة سرير، بوتاجاز حثي+ميكروويف. من غير فرن/ديش واشر مذكور.\n💰 ٢٧٠٠ + إدارة ٥٠٠ + كهربا عدّاد.",
+      en: "✅ Direct (no agencies). 8m² balcony, sofa bed, induction+microwave. No oven/dishwasher listed.\n💰 2700 + admin 500 + electricity by meter."
+    },
+    photos: [
+      "https://ireland.apollo.olxcdn.com/v1/files/84egq8h423ul2-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/sfj9a85sdev92-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/5icqfp56yxco-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/xh854tibi5wl2-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/t4qp232yhhqz-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/0p2p1cz4279v2-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/lzdgzb0jawlb3-PL/image;s=1200x900"
+    ],
+    criteria: {
+      oven: "no",
+      dishwasher: "unknown",
+      bed: "no",
+      spacious: "yes",
+      garage: "unknown",
+      max3: "yes",
+      desk: "unknown",
+      modern: "unknown",
+      elevator: "unknown",
+      availableAug: "yes",
+      noCommission: "yes",
+      noOccasional: "unknown"
+    },
+    createdAt: 10
+  },
+  {
+    id: "olx-1bz5sd",
+    propertyType: "studio",
+    title: {
+      ar: "ستوديو عند Żelazna / Chmielna — Śródmieście",
+      en: "Studio at Żelazna / Chmielna — Śródmieście"
+    },
+    district: "Śródmieście",
+    address: "ul. Żelazna 27, Śródmieście, Warszawa",
+    url: "https://www.olx.pl/d/oferta/kawalerka-na-ul-zelaznej-studio-flat-to-rent-in-warsaw-center-CID3-ID1bZ5sd.html",
+    rent: 2300,
+    bills: 550,
+    garageCost: null,
+    extrasEst: 120,
+    extrasNote: {
+      ar: "تقريبي لشخص واحد:\n⚡🔥 كهربا+غاز ~١٢٠ (الإعلان قال ١٥٠–٢٠٠ لشخصين).\nالإدارة ٥٥٠ منفصلة. قبو ضمن العرض.",
+      en: "Solo estimate:\n⚡🔥 Electricity+gas ~120 (ad says 150–200 for two people).\nAdmin 550 separate. Cellar included."
+    },
+    areaSqm: null,
+    deposit: 2300,
+    commuteMin: 28,
+    availableFrom: "29/08/2026",
+    contact: {
+      ar: "Maks — OLX",
+      en: "Maks — OLX"
+    },
+    notes: {
+      ar: "✅ مباشر. فرن+بوتاجاز+غسالة+TV. قبو. هادي على فناء داخلي. قريب Rondo ONZ وCentralna. من غير تدخين. عقد سنة + إثبات دخل.\n💰 ٢٣٠٠ + إدارة ٥٥٠ + عدّادات.\nمتاح من ٢٩ أغسطس.",
+      en: "✅ Direct. Oven+stove+washer+TV. Cellar. Quiet courtyard. Near Rondo ONZ & Centralna. No smoking. 1-year lease + income proof.\n💰 2300 + admin 550 + meters.\nAvailable from Aug 29."
+    },
+    photos: [
+      "https://ireland.apollo.olxcdn.com/v1/files/oq3hyo3k1ldj-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/4ynsxwivc1ys2-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/rjrgieqrle2e1-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/lwegvwp7qez21-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/yjlhi5p1ez673-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/xfkjq0ao8epd1-PL/image;s=1200x900"
+    ],
+    criteria: {
+      oven: "yes",
+      dishwasher: "unknown",
+      bed: "unknown",
+      spacious: "yes",
+      garage: "unknown",
+      max3: "yes",
+      desk: "unknown",
+      modern: "yes",
+      elevator: "unknown",
+      availableAug: "no",
+      noCommission: "yes",
+      noOccasional: "unknown"
+    },
+    createdAt: 11
   }
 ];
