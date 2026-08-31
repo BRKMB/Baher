@@ -15,7 +15,6 @@ const CRITERIA = [
   { key: "desk", icon: "🖥️", weight: 3, ar: "مكتب كبير للشاشات", en: "Big desk for monitors" },
   { key: "modern", icon: "✨", weight: 2, ar: "شقة مودرن", en: "Modern flat" },
   { key: "elevator", icon: "🛗", weight: 1, ar: "أسانسير (لو دور عالي)", en: "Elevator (if high floor)" },
-  { key: "availableAug", icon: "📅", weight: 3, ar: "متاحة من ١ أغسطس", en: "Available from Aug 1" },
   { key: "noCommission", icon: "🧾", weight: 2, ar: "من غير كوميشن", en: "No commission" },
   { key: "noOccasional", icon: "📜", weight: 3, ar: "من غير عقد occasional", en: "No occasional lease" }
 ];
