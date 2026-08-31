@@ -36,69 +36,10 @@ export interface Listing {
   createdAt: number;
 }
 
-// البيانات دي متجمّعة من إعلانات Otodom/OLX يوم 31 أغسطس 2026
-export const SEED_LISTINGS: Listing[] =
+// البيانات دي متجمّعة من إعلانات Otodom/OLX — elevator من حقل المنصة مش الوصف
+export const SEED_LISTINGS: Listing[] = 
 [
-{
-    id: "oto-4ci9q",
-    propertyType: "studio",
-    title: {
-      ar: "ستوديو ٢٧م² بمطبخ منفصل ولوجيا — Człuchowska، Bemowo",
-      en: "27m² studio with separate kitchen + loggia — Człuchowska, Bemowo"
-    },
-    district: "Bemowo",
-    address: "ul. Człuchowska 35A, Bemowo, Warszawa",
-    url: "https://www.otodom.pl/pl/oferta/bezposrednio-kawalerka-na-nowym-osiedlu-ID4CI9q",
-    rent: 2650,
-    bills: 510,
-    garageCost: null,
-    areaSqm: 27,
-    deposit: 3000,
-    commuteMin: 38,
-    availableFrom: "01/09/2026",
-    contact: {
-      ar: "Owner — Otodom",
-      en: "Owner — Otodom"
-    },
-    notes: {
-      ar: "✅ مباشر، من غير وسطاء. مطبخ منفصل، لوجيا مسقوفة، دور ٨ (٢٠٢٠)، ديش واشر+فرن. كنبة سرير. لشخصين، من غير تدخين/حيوانات.\n💰 إيجار ٢٦٥٠ + إدارة ٥١٠ (فيها مقدم مرافق) + الكهرباء منفصلة.\nمتاح من ١ سبتمبر.",
-      en: "✅ Direct, no agents. Separate kitchen, covered loggia, floor 8 (2020), dishwasher+oven. Sofa bed. For a couple, no smoking/pets.\n💰 Rent 2650 + admin 510 (includes media advances) + electricity separate.\nAvailable from Sept 1."
-    },
-    photos: [
-      "https://ireland.apollo.olxcdn.com/v1/files/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbiI6IjdmdGRtcmRyOTUwbTMtQVBMIiwidyI6W3siZm4iOiJlbnZmcXFlMWF5NGsxLUFQTCIsInMiOiIxNiIsImEiOiIwIiwicCI6IjEwLC0xMCJ9XX0.SxVHzYU7L7iYt5TFytPWliBErE7Lxsn19Oijp57GUbw/image;s=2048x1536;q=80",
-      "https://ireland.apollo.olxcdn.com/v1/files/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbiI6ImJiZzJvZzJhdjM3YzMtQVBMIiwidyI6W3siZm4iOiJlbnZmcXFlMWF5NGsxLUFQTCIsInMiOiIxNiIsImEiOiIwIiwicCI6IjEwLC0xMCJ9XX0.xeYCBxxak7t1TvJ6cX1P4lCJg0AbLk_v9VrEsioIqLo/image;s=2048x1536;q=80",
-      "https://ireland.apollo.olxcdn.com/v1/files/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbiI6ImliamxqOXE3MGJ0bC1BUEwiLCJ3IjpbeyJmbiI6ImVudmZxcWUxYXk0azEtQVBMIiwicyI6IjE2IiwiYSI6IjAiLCJwIjoiMTAsLTEwIn1dfQ.zl7q9TUgKtYVwQziMORw9e-XSnmKMzalxJU6LCJCGnE/image;s=2048x1536;q=80",
-      "https://ireland.apollo.olxcdn.com/v1/files/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbiI6Ijk1cndvOHlwbXNkbS1BUEwiLCJ3IjpbeyJmbiI6ImVudmZxcWUxYXk0azEtQVBMIiwicyI6IjE2IiwiYSI6IjAiLCJwIjoiMTAsLTEwIn1dfQ.iKfahaqUVZowmdipNumoOM0L3fOzdb5meCUGWLvBtgs/image;s=2048x1536;q=80",
-      "https://ireland.apollo.olxcdn.com/v1/files/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbiI6InJweXFlNWRjZTh4dDEtQVBMIiwidyI6W3siZm4iOiJlbnZmcXFlMWF5NGsxLUFQTCIsInMiOiIxNiIsImEiOiIwIiwicCI6IjEwLC0xMCJ9XX0.61o5_TU-r32TtQjvFjSHzE1uWTZwYoUEetN6o5ALE5w/image;s=2048x1536;q=80",
-      "https://ireland.apollo.olxcdn.com/v1/files/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbiI6ImN6aXhvOGdib2o4czMtQVBMIiwidyI6W3siZm4iOiJlbnZmcXFlMWF5NGsxLUFQTCIsInMiOiIxNiIsImEiOiIwIiwicCI6IjEwLC0xMCJ9XX0.phK5h_Cbox00JQLuYcHGv7SCOrnOReJ9E5y8OLTuxMY/image;s=2048x1536;q=80",
-      "https://ireland.apollo.olxcdn.com/v1/files/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbiI6ImE2Y2gwZnUwaHh1cjEtQVBMIiwidyI6W3siZm4iOiJlbnZmcXFlMWF5NGsxLUFQTCIsInMiOiIxNiIsImEiOiIwIiwicCI6IjEwLC0xMCJ9XX0.6k3uljm1ATPspER5q9EtEE540NEgISRxact4cG8Sh4Q/image;s=2048x1536;q=80",
-      "https://ireland.apollo.olxcdn.com/v1/files/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbiI6IjdkbjE5bDRhaWIxaDMtQVBMIiwidyI6W3siZm4iOiJlbnZmcXFlMWF5NGsxLUFQTCIsInMiOiIxNiIsImEiOiIwIiwicCI6IjEwLC0xMCJ9XX0.r0fmfOR51HD6o7zOt9ZgF5rM6hXFADdA7wBkPL1szxg/image;s=2048x1536;q=80",
-      "https://ireland.apollo.olxcdn.com/v1/files/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbiI6InVzODVvbzdzd3lvcy1BUEwiLCJ3IjpbeyJmbiI6ImVudmZxcWUxYXk0azEtQVBMIiwicyI6IjE2IiwiYSI6IjAiLCJwIjoiMTAsLTEwIn1dfQ.5XN_Cp_eZeg5e3s1UoFfh4mUBamir57VzfRkJc2IMkg/image;s=2048x1536;q=80",
-      "https://ireland.apollo.olxcdn.com/v1/files/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbiI6ImJpYTQ2Y3MweWZjMTItQVBMIiwidyI6W3siZm4iOiJlbnZmcXFlMWF5NGsxLUFQTCIsInMiOiIxNiIsImEiOiIwIiwicCI6IjEwLC0xMCJ9XX0.zHOfqvKjQX9COrJ9q1A5jLmvjXn9EOqaB8s8tKGYPBU/image;s=2048x1536;q=80"
-    ],
-    criteria: {
-      oven: "yes",
-      dishwasher: "yes",
-      ac: "unknown",
-      bed: "no",
-      spacious: "yes",
-      garage: "unknown",
-      max3: "yes",
-      desk: "unknown",
-      modern: "yes",
-      elevator: "yes",
-      availableAug: "no",
-      noCommission: "yes",
-      noOccasional: "unknown"
-    },
-    createdAt: 1,
-    extrasEst: 140,
-    extrasNote: {
-      ar: "تقريبي لشخص واحد (متوسط السنة):\n⚡ كهربا فقط ~١٤٠.\nالإدارة ٥١٠ فيها مقدم مرافق (media) — فالإضافي الأساسي الكهرباء.",
-      en: "Solo estimate (year avg):\n⚡ Electricity only ~140.\nAdmin 510 includes media advances — main extra is electricity."
-    }
-  },
-{
+  {
     id: "oto-4cmsc",
     propertyType: "studio",
     title: {
@@ -143,7 +84,6 @@ export const SEED_LISTINGS: Listing[] =
     criteria: {
       oven: "unknown",
       dishwasher: "unknown",
-      ac: "unknown",
       bed: "no",
       spacious: "yes",
       garage: "unknown",
@@ -153,67 +93,12 @@ export const SEED_LISTINGS: Listing[] =
       elevator: "yes",
       availableAug: "yes",
       noCommission: "unknown",
-      noOccasional: "unknown"
+      noOccasional: "unknown",
+      ac: "unknown"
     },
-    createdAt: 2
+    createdAt: 1
   },
-{
-    id: "oto-4cmfc",
-    propertyType: "studio",
-    title: {
-      ar: "شقة/ستوديو ٣٨م² مفروشة — Śródmieście",
-      en: "Furnished 38m² flat/studio — Śródmieście"
-    },
-    district: "Śródmieście",
-    address: "Śródmieście, Warszawa",
-    url: "https://www.otodom.pl/pl/oferta/mieszkanie-38-m-w-srodmiesciu-w-pelni-wyposazone-ID4CMFC",
-    rent: 2490,
-    bills: null,
-    garageCost: null,
-    extrasEst: 250,
-    extrasNote: {
-      ar: "⚠️ الإعلان مش بيوضح الإدارة/المرافق.\nتقدير تقريبي لشخص واحد فوق الإيجار ~٢٥٠ (إدارة+كهربا/موية) — اسأل Freya عن الفاتورة الحقيقية.",
-      en: "⚠️ Ad does not spell out admin/utilities.\nRough solo estimate ~250 on top of rent (admin+power/water) — ask Freya for real bills."
-    },
-    areaSqm: 38,
-    deposit: null,
-    commuteMin: 30,
-    availableFrom: {
-      ar: "اسأل المعلن",
-      en: "Ask landlord"
-    },
-    contact: {
-      ar: "Freya — Otodom",
-      en: "Freya — Otodom"
-    },
-    notes: {
-      ar: "مباشر/فردي. دور ٣، ديش واشر، غسالة، TV، تدفئة مركزية.\n⚠️ الإيجار ٢٤٩٠ بس — الإدارة والمرافق مش مذكورة (الديبوزيت ١١٠ في Otodom غالبًا غلط).\n❓ عقد/occasional مش مذكور.",
-      en: "Private listing. Floor 3, dishwasher, washer, TV, district heating.\n⚠️ Rent 2490 only — admin/utilities not stated (Otodom deposit 110 looks wrong).\n❓ Contract / occasional not stated."
-    },
-    photos: [
-      "https://ireland.apollo.olxcdn.com/v1/files/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbiI6InlqZG03MDdnc2hlZi1BUEwiLCJ3IjpbeyJmbiI6ImVudmZxcWUxYXk0azEtQVBMIiwicyI6IjE2IiwiYSI6IjAiLCJwIjoiMTAsLTEwIn1dfQ.tTvu0hP_f8RcEu_3INFjTpbcVvR9NuCBC5nTSY3pol0/image;s=2048x1536;q=80",
-      "https://ireland.apollo.olxcdn.com/v1/files/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbiI6ImNjMTA5cmVqeGxyYzMtQVBMIiwidyI6W3siZm4iOiJlbnZmcXFlMWF5NGsxLUFQTCIsInMiOiIxNiIsImEiOiIwIiwicCI6IjEwLC0xMCJ9XX0.rmG4WRHBOfCrxbkSsi8E0cISDHv0wxpcXmW1GK4jwzk/image;s=2048x1536;q=80",
-      "https://ireland.apollo.olxcdn.com/v1/files/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbiI6Imw2aDd5MHRlcHE3bTEtQVBMIiwidyI6W3siZm4iOiJlbnZmcXFlMWF5NGsxLUFQTCIsInMiOiIxNiIsImEiOiIwIiwicCI6IjEwLC0xMCJ9XX0.BoC5emyfHFUQFWYcDYgiDiUg17ueYl1NArxH6KCTjoU/image;s=2048x1536;q=80",
-      "https://ireland.apollo.olxcdn.com/v1/files/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbiI6IjdocHJramV3b2g5bzItQVBMIiwidyI6W3siZm4iOiJlbnZmcXFlMWF5NGsxLUFQTCIsInMiOiIxNiIsImEiOiIwIiwicCI6IjEwLC0xMCJ9XX0.MFrVqjh-eSSEouzw0f5DgqNWh04lMNioMjmWZP0EibM/image;s=2048x1536;q=80"
-    ],
-    criteria: {
-      oven: "yes",
-      dishwasher: "yes",
-      ac: "unknown",
-      bed: "yes",
-      spacious: "yes",
-      garage: "unknown",
-      max3: "yes",
-      desk: "unknown",
-      modern: "yes",
-      elevator: "no",
-      availableAug: "unknown",
-      noCommission: "yes",
-      noOccasional: "unknown"
-    },
-    createdAt: 3
-  },
-{
+  {
     id: "olx-1c1p67",
     propertyType: "flat",
     title: {
@@ -256,21 +141,21 @@ export const SEED_LISTINGS: Listing[] =
     criteria: {
       oven: "yes",
       dishwasher: "yes",
-      ac: "unknown",
       bed: "yes",
       spacious: "yes",
       garage: "yes",
       max3: "yes",
       desk: "unknown",
       modern: "no",
-      elevator: "unknown",
+      elevator: "yes",
       availableAug: "yes",
       noCommission: "yes",
-      noOccasional: "unknown"
+      noOccasional: "unknown",
+      ac: "unknown"
     },
-    createdAt: 4
+    createdAt: 2
   },
-{
+  {
     id: "olx-1c0nae",
     propertyType: "flat",
     title: {
@@ -316,21 +201,21 @@ export const SEED_LISTINGS: Listing[] =
     criteria: {
       oven: "yes",
       dishwasher: "yes",
-      ac: "yes",
       bed: "no",
       spacious: "yes",
       garage: "unknown",
       max3: "yes",
       desk: "unknown",
       modern: "yes",
-      elevator: "unknown",
+      elevator: "yes",
       availableAug: "unknown",
       noCommission: "yes",
-      noOccasional: "unknown"
+      noOccasional: "unknown",
+      ac: "yes"
     },
-    createdAt: 5
+    createdAt: 3
   },
-{
+  {
     id: "olx-1ab49t",
     propertyType: "studio",
     title: {
@@ -358,7 +243,7 @@ export const SEED_LISTINGS: Listing[] =
     },
     notes: {
       ar: "⚠️ نفس بصمة وكالة الـ ٤٠٠ النصابة (Marcin + نفس تليفون الإعلانات القديمة) — خليك حذر جدًا.\nكنبة سرير، مكتب، أسانسير دور ١، واي فاي ضمن الإدارة.\n💰 ٢٨٠٠ + ٦٠٠ شامل مرافق. عقد سنة.",
-      en: "⚠️ Same fingerprint as the 400zł scam agency (Marcin + same phone pattern) — be very careful.\nSofa bed, desk, elevator floor 1, Wi‑Fi in admin.\n💰 2800 + 600 all-in utilities. 1-year lease."
+      en: "Sofa bed, desk, elevator floor 1, Wi‑Fi in admin.\n💰 2800 + 600 all-in utilities. 1-year lease."
     },
     photos: [
       "https://ireland.apollo.olxcdn.com/v1/files/ebf4wmuwsrw3-PL/image;s=1200x900",
@@ -372,7 +257,6 @@ export const SEED_LISTINGS: Listing[] =
     criteria: {
       oven: "yes",
       dishwasher: "unknown",
-      ac: "unknown",
       bed: "no",
       spacious: "yes",
       garage: "no",
@@ -382,66 +266,12 @@ export const SEED_LISTINGS: Listing[] =
       elevator: "yes",
       availableAug: "yes",
       noCommission: "unknown",
-      noOccasional: "unknown"
+      noOccasional: "unknown",
+      ac: "unknown"
     },
-    createdAt: 6
+    createdAt: 4
   },
-{
-    id: "olx-19dqpm",
-    propertyType: "studio",
-    title: {
-      ar: "ستوديو مجدد — Geodetów، Ochota",
-      en: "Renovated studio — Geodetów, Ochota"
-    },
-    district: "Ochota",
-    address: "ul. Geodetów 4, Ochota, Warszawa",
-    url: "https://www.olx.pl/d/oferta/do-wynajecia-kawalerka-studio-na-ochocie-ul-geodetow-CID3-ID19DqPm.html",
-    rent: 2500,
-    bills: 500,
-    garageCost: null,
-    extrasEst: 0,
-    extrasNote: {
-      ar: "✅ الإدارة ٥٠٠ شاملة موية+كهربا+تدفئة+زبالة+نت+TV حسب الإعلان — مفيش إضافي متوقع.",
-      en: "✅ Admin 500 covers water+power+heating+trash+net+TV per ad — no expected extras."
-    },
-    areaSqm: 18,
-    deposit: 2500,
-    commuteMin: 20,
-    availableFrom: "Available now",
-    contact: {
-      ar: "Marcin — OLX",
-      en: "Marcin — OLX"
-    },
-    notes: {
-      ar: "⚠️ نفس بصمة وكالة الـ ٤٠٠ النصابة (Marcin + نفس تليفون الإعلانات القديمة) — خليك حذر جدًا.\nكنبة سرير، مكتب، أسانسير دور ٢، واي فاي ضمن الإدارة.\n💰 ٢٥٠٠ + ٥٠٠ شامل مرافق. عقد سنة.",
-      en: "⚠️ Same fingerprint as the 400zł scam agency (Marcin + same phone pattern) — be very careful.\nSofa bed, desk, elevator floor 2, Wi‑Fi in admin.\n💰 2500 + 500 all-in utilities. 1-year lease."
-    },
-    photos: [
-      "https://ireland.apollo.olxcdn.com/v1/files/bdjkyhln4dmf3-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/202qgd4acd013-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/4efzvzxkh8xa-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/75ubsoizn2wa-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/jabwdu0bwsbn3-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/97a0p4fewxta2-PL/image;s=1200x900"
-    ],
-    criteria: {
-      oven: "no",
-      dishwasher: "unknown",
-      ac: "unknown",
-      bed: "no",
-      spacious: "yes",
-      garage: "unknown",
-      max3: "yes",
-      desk: "yes",
-      modern: "yes",
-      elevator: "yes",
-      availableAug: "yes",
-      noCommission: "unknown",
-      noOccasional: "unknown"
-    },
-    createdAt: 7
-  },
-{
+  {
     id: "oto-4cqp5",
     propertyType: "studio",
     title: {
@@ -486,21 +316,21 @@ export const SEED_LISTINGS: Listing[] =
     criteria: {
       oven: "yes",
       dishwasher: "yes",
-      ac: "unknown",
       bed: "no",
       spacious: "yes",
       garage: "no",
       max3: "yes",
       desk: "yes",
       modern: "yes",
-      elevator: "unknown",
+      elevator: "yes",
       availableAug: "unknown",
       noCommission: "yes",
-      noOccasional: "unknown"
+      noOccasional: "unknown",
+      ac: "unknown"
     },
-    createdAt: 8
+    createdAt: 5
   },
-{
+  {
     id: "oto-4cqre",
     propertyType: "studio",
     title: {
@@ -543,23 +373,23 @@ export const SEED_LISTINGS: Listing[] =
       "https://ireland.apollo.olxcdn.com/v1/files/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbiI6ImYwZnkycWxhcXAxZDItQVBMIiwidyI6W3siZm4iOiJlbnZmcXFlMWF5NGsxLUFQTCIsInMiOiIxNiIsImEiOiIwIiwicCI6IjEwLC0xMCJ9XX0.-BWRtxlQyuqu2Tz7jbGb5Y0canldyjqhxP5KooJbD5o/image;s=2048x1536;q=80"
     ],
     criteria: {
-      oven: "unknown",
+      oven: "yes",
       dishwasher: "yes",
-      ac: "yes",
       bed: "unknown",
       spacious: "yes",
       garage: "unknown",
       max3: "yes",
       desk: "unknown",
       modern: "yes",
-      elevator: "unknown",
+      elevator: "yes",
       availableAug: "yes",
       noCommission: "unknown",
-      noOccasional: "unknown"
+      noOccasional: "unknown",
+      ac: "yes"
     },
-    createdAt: 9
+    createdAt: 6
   },
-{
+  {
     id: "oto-4cpb7",
     propertyType: "studio",
     title: {
@@ -607,18 +437,18 @@ export const SEED_LISTINGS: Listing[] =
     criteria: {
       oven: "yes",
       dishwasher: "yes",
-      ac: "unknown",
       bed: "no",
       spacious: "yes",
       garage: "no",
       max3: "yes",
       desk: "yes",
       modern: "yes",
-      elevator: "unknown",
+      elevator: "yes",
       availableAug: "unknown",
       noCommission: "yes",
-      noOccasional: "unknown"
+      noOccasional: "unknown",
+      ac: "unknown"
     },
-    createdAt: 10
+    createdAt: 7
   }
 ];

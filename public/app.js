@@ -90,6 +90,8 @@ const I18N = {
     mapsTitle: "Open the route on Google Maps",
     unknownChip: (n) => `? ${n} to confirm`,
     unknownTitle: "Ask the landlord and update the marks",
+    noElevatorChip: "⚠️ No elevator",
+    noElevatorTitle: "Platform field says this building has no elevator",
     priceRent: "Rent",
     priceBills: "Admin / utilities",
     priceGarage: "Garage",
@@ -197,6 +199,8 @@ const I18N = {
     mapsTitle: "افتح الطريق على جوجل مابس",
     unknownChip: (n) => `؟ ${n} محتاجة تأكيد`,
     unknownTitle: "اسأل المعلن وحدّث العلامات",
+    noElevatorChip: "⚠️ مفيش أسانسير",
+    noElevatorTitle: "حقل المنصة بيقول العمارة من غير مصعد",
     priceRent: "الإيجار",
     priceBills: "الإدارة / المرافق",
     priceGarage: "الجراج",
@@ -772,6 +776,15 @@ function renderCard(l, rank, score) {
         class: "chip warn",
         text: t("unknownChip", score.unknownCount),
         title: t("unknownTitle")
+      })
+    );
+  }
+  if ((l.criteria?.elevator || "unknown") === "no") {
+    chips.push(
+      el("span", {
+        class: "chip warn",
+        text: t("noElevatorChip"),
+        title: t("noElevatorTitle")
       })
     );
   }

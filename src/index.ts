@@ -441,11 +441,16 @@ function draftFromParts(parts: {
   areaSqm?: number | null;
   bills?: number | null;
   deposit?: number | null;
+  /** Platform structured field (OLX winda / Otodom lift) — overrides description guess */
+  elevator?: CriterionValue;
 }): Partial<Listing> {
   const analyzed = analyzeDescription(parts.description || "", {
     isBusiness: parts.isBusiness,
     rooms: parts.rooms ?? null
   });
+  if (parts.elevator) {
+    analyzed.criteria.elevator = parts.elevator;
+  }
   const typeText = `${parts.title} ${parts.description}`.toLowerCase();
   const propertyType: NonNullable<Listing["propertyType"]> =
     /kawalerk|studio/.test(typeText)
@@ -512,6 +517,11 @@ function parseOlx(html: string, url: string): Partial<Listing> | null {
     const district = ad.location?.districtName || ad.location?.cityName || "";
     const address = [ad.location?.cityName, ad.location?.districtName].filter(Boolean).join(", ");
     const description = String(ad.description || "").replace(/<[^>]+>/g, " ");
+    const params: { key?: string; value?: string }[] = ad.params || [];
+    const winda = params.find((p) => p.key === "winda")?.value?.toLowerCase() ?? "";
+    let elevator: CriterionValue | undefined;
+    if (/^tak/.test(winda)) elevator = "yes";
+    else if (/^nie/.test(winda)) elevator = "no";
     return draftFromParts({
       url,
       title: ad.title,
@@ -521,7 +531,8 @@ function parseOlx(html: string, url: string): Partial<Listing> | null {
       district,
       address: address || "Warszawa",
       contactName: ad.contact?.name ? `${ad.contact.name} — OLX` : "OLX",
-      isBusiness: ad.isBusiness === true ? true : ad.isBusiness === false ? false : undefined
+      isBusiness: ad.isBusiness === true ? true : ad.isBusiness === false ? false : undefined,
+      elevator
     });
   } catch {
     return null;
@@ -552,6 +563,7 @@ function parseOtodom(html: string, url: string): Partial<Listing> | null {
       .filter(Boolean)
       .join(", ");
     const description = String(ad.description || "").replace(/<[^>]+>/g, " ");
+    const elevator = otodomElevator(ad);
     return draftFromParts({
       url,
       title: ad.title,
@@ -564,11 +576,35 @@ function parseOtodom(html: string, url: string): Partial<Listing> | null {
       rooms: roomsRaw ? Number(roomsRaw) : null,
       areaSqm: areaRaw ? Number(String(areaRaw).replace(",", ".").replace(/[^\d.]/g, "")) : null,
       bills: billsRaw ? Number(String(billsRaw).replace(/[^\d]/g, "")) : null,
-      deposit: depositRaw ? Number(String(depositRaw).replace(/[^\d]/g, "")) : null
+      deposit: depositRaw ? Number(String(depositRaw).replace(/[^\d]/g, "")) : null,
+      elevator
     });
   } catch {
     return null;
   }
+}
+
+/** Read Otodom's forced lift field / extras_types::lift — not description text. */
+function otodomElevator(ad: {
+  additionalInformation?: { label?: string; values?: string[] }[];
+  target?: { Extras_types?: string[]; Lift?: string[] | string };
+}): CriterionValue | undefined {
+  const add = ad.additionalInformation || [];
+  const liftRow = add.find((x) => x.label === "lift");
+  if (liftRow?.values?.length) {
+    const joined = liftRow.values.join(" ").toLowerCase();
+    if (/::y\b|:y\b|\byes\b|\btak\b/.test(joined)) return "yes";
+    if (/::n\b|:n\b|\bno\b|\bnie\b/.test(joined)) return "no";
+  }
+  const extrasRow = add.find((x) => x.label === "extras_types");
+  const extras = [
+    ...(extrasRow?.values || []),
+    ...((ad.target?.Extras_types || []).map((v) => String(v)))
+  ].join(" ").toLowerCase();
+  if (/extras_types::lift|\blift\b/.test(extras)) return "yes";
+  // If extras_types is present but lift is absent, treat as no elevator
+  if (extrasRow?.values?.length && !/lift/.test(extras)) return "no";
+  return undefined;
 }
 
 function parseOtodomMarkdown(markdown: string, url: string): Partial<Listing> | null {
