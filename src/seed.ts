@@ -37,9 +37,9 @@ export interface Listing {
 }
 
 // البيانات دي متجمّعة من إعلانات Otodom/OLX يوم 31 أغسطس 2026
-export const SEED_LISTINGS: Listing[] = 
+export const SEED_LISTINGS: Listing[] =
 [
-  {
+{
     id: "oto-4ci9q",
     propertyType: "studio",
     title: {
@@ -79,6 +79,7 @@ export const SEED_LISTINGS: Listing[] =
     criteria: {
       oven: "yes",
       dishwasher: "yes",
+      ac: "unknown",
       bed: "no",
       spacious: "yes",
       garage: "unknown",
@@ -97,7 +98,7 @@ export const SEED_LISTINGS: Listing[] =
       en: "Solo estimate (year avg):\n⚡ Electricity only ~140.\nAdmin 510 includes media advances — main extra is electricity."
     }
   },
-  {
+{
     id: "oto-4cmsc",
     propertyType: "studio",
     title: {
@@ -142,6 +143,7 @@ export const SEED_LISTINGS: Listing[] =
     criteria: {
       oven: "unknown",
       dishwasher: "unknown",
+      ac: "unknown",
       bed: "no",
       spacious: "yes",
       garage: "unknown",
@@ -155,7 +157,7 @@ export const SEED_LISTINGS: Listing[] =
     },
     createdAt: 2
   },
-  {
+{
     id: "oto-4cmfc",
     propertyType: "studio",
     title: {
@@ -197,6 +199,7 @@ export const SEED_LISTINGS: Listing[] =
     criteria: {
       oven: "yes",
       dishwasher: "yes",
+      ac: "unknown",
       bed: "yes",
       spacious: "yes",
       garage: "unknown",
@@ -210,7 +213,7 @@ export const SEED_LISTINGS: Listing[] =
     },
     createdAt: 3
   },
-  {
+{
     id: "olx-1c1p67",
     propertyType: "flat",
     title: {
@@ -253,6 +256,7 @@ export const SEED_LISTINGS: Listing[] =
     criteria: {
       oven: "yes",
       dishwasher: "yes",
+      ac: "unknown",
       bed: "yes",
       spacious: "yes",
       garage: "yes",
@@ -266,7 +270,7 @@ export const SEED_LISTINGS: Listing[] =
     },
     createdAt: 4
   },
-  {
+{
     id: "olx-1c0nae",
     propertyType: "flat",
     title: {
@@ -312,6 +316,7 @@ export const SEED_LISTINGS: Listing[] =
     criteria: {
       oven: "yes",
       dishwasher: "yes",
+      ac: "yes",
       bed: "no",
       spacious: "yes",
       garage: "unknown",
@@ -325,7 +330,7 @@ export const SEED_LISTINGS: Listing[] =
     },
     createdAt: 5
   },
-  {
+{
     id: "olx-1ab49t",
     propertyType: "studio",
     title: {
@@ -367,6 +372,7 @@ export const SEED_LISTINGS: Listing[] =
     criteria: {
       oven: "yes",
       dishwasher: "unknown",
+      ac: "unknown",
       bed: "no",
       spacious: "yes",
       garage: "no",
@@ -380,7 +386,7 @@ export const SEED_LISTINGS: Listing[] =
     },
     createdAt: 6
   },
-  {
+{
     id: "olx-19dqpm",
     propertyType: "studio",
     title: {
@@ -421,6 +427,7 @@ export const SEED_LISTINGS: Listing[] =
     criteria: {
       oven: "no",
       dishwasher: "unknown",
+      ac: "unknown",
       bed: "no",
       spacious: "yes",
       garage: "unknown",
@@ -434,7 +441,7 @@ export const SEED_LISTINGS: Listing[] =
     },
     createdAt: 7
   },
-  {
+{
     id: "oto-4cqp5",
     propertyType: "studio",
     title: {
@@ -479,6 +486,7 @@ export const SEED_LISTINGS: Listing[] =
     criteria: {
       oven: "yes",
       dishwasher: "yes",
+      ac: "unknown",
       bed: "no",
       spacious: "yes",
       garage: "no",
@@ -492,7 +500,7 @@ export const SEED_LISTINGS: Listing[] =
     },
     createdAt: 8
   },
-  {
+{
     id: "oto-4cqre",
     propertyType: "studio",
     title: {
@@ -537,6 +545,7 @@ export const SEED_LISTINGS: Listing[] =
     criteria: {
       oven: "unknown",
       dishwasher: "yes",
+      ac: "yes",
       bed: "unknown",
       spacious: "yes",
       garage: "unknown",
@@ -550,7 +559,7 @@ export const SEED_LISTINGS: Listing[] =
     },
     createdAt: 9
   },
-  {
+{
     id: "oto-4cpb7",
     propertyType: "studio",
     title: {
@@ -598,6 +607,7 @@ export const SEED_LISTINGS: Listing[] =
     criteria: {
       oven: "yes",
       dishwasher: "yes",
+      ac: "unknown",
       bed: "no",
       spacious: "yes",
       garage: "no",
