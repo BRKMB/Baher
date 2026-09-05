@@ -1,5 +1,31 @@
-const MAX_BODY_BYTES = 2_048;
+const MAX_BODY_BYTES = 12_288;
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/u;
+const PHONE_PATTERN = /^[+0-9()/\s-]{6,24}$/u;
+const TEXT_LIMIT = 500;
+const MESSAGE_LIMIT = 2000;
+
+const ALLOWED_SERVICES = new Set(["sprzatanie", "angielski"]);
+
+const CLEANING_FIELDS = {
+  propertyType: ["mieszkanie", "dom", "placowka", "biuro", "inne"],
+  cleaningType: ["cykliczne", "jednorazowe", "okna", "po-remoncie", "inne"],
+} as const;
+
+const ENGLISH_FIELDS = {
+  format: ["online", "stacjonarnie", "nie-wiem"],
+  lessonMode: ["indywidualne", "nie-wiem"],
+  goal: ["dzieci", "szkolny", "egzamin", "konwersacje", "bariera", "inne"],
+} as const;
+
+const SITE_PATHS = [
+  "/",
+  "/sprzatanie/",
+  "/angielski/",
+  "/o-nas/",
+  "/kontakt/",
+  "/polityka-prywatnosci/",
+  "/cookies/",
+];
 
 const securityHeaders = {
   "Content-Security-Policy":
@@ -12,11 +38,7 @@ const securityHeaders = {
   "X-Frame-Options": "DENY",
 } as const;
 
-type SubscribePayload = {
-  email?: unknown;
-  company?: unknown;
-  locale?: unknown;
-};
+type InquiryPayload = Record<string, unknown>;
 
 function jsonResponse(payload: unknown, status = 200, extraHeaders?: HeadersInit): Response {
   return Response.json(payload, {
@@ -29,7 +51,27 @@ function jsonResponse(payload: unknown, status = 200, extraHeaders?: HeadersInit
   });
 }
 
-async function readSmallJson(request: Request): Promise<SubscribePayload> {
+function textResponse(body: string, type: string, extraHeaders?: HeadersInit): Response {
+  return new Response(body, {
+    headers: {
+      "Content-Type": type,
+      "Cache-Control": "public, max-age=3600",
+      ...securityHeaders,
+      ...extraHeaders,
+    },
+  });
+}
+
+function asTrimmedString(value: unknown, max = TEXT_LIMIT): string {
+  if (typeof value !== "string") return "";
+  return value.trim().slice(0, max);
+}
+
+function isAllowed(value: string, allowed: readonly string[]): boolean {
+  return allowed.includes(value);
+}
+
+async function readSmallJson(request: Request): Promise<InquiryPayload> {
   const contentLength = Number(request.headers.get("content-length") ?? "0");
   if (contentLength > MAX_BODY_BYTES) {
     throw new RangeError("Request body is too large");
@@ -71,7 +113,7 @@ async function readSmallJson(request: Request): Promise<SubscribePayload> {
     return {};
   }
 
-  return parsed as SubscribePayload;
+  return parsed as InquiryPayload;
 }
 
 async function sha256(value: string): Promise<string> {
@@ -79,106 +121,204 @@ async function sha256(value: string): Promise<string> {
   return Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, "0")).join("");
 }
 
-async function subscribe(request: Request, env: Env): Promise<Response> {
+function sitemapXml(origin: string): string {
+  const lastmod = new Date().toISOString().slice(0, 10);
+  const urls = SITE_PATHS.map((path) => {
+    const loc = `${origin}${path === "/" ? "/" : path}`;
+    const priority = path === "/" ? "1.0" : path === "/kontakt/" ? "0.9" : "0.8";
+    return `  <url>\n    <loc>${loc}</loc>\n    <lastmod>${lastmod}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>${priority}</priority>\n  </url>`;
+  });
+
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.join("\n")}\n</urlset>\n`;
+}
+
+function robotsTxt(origin: string): string {
+  return `User-agent: *\nAllow: /\nDisallow: /api/\n\nSitemap: ${origin}/sitemap.xml\n`;
+}
+
+async function handleInquiry(request: Request, env: Env): Promise<Response> {
   if (request.method !== "POST") {
-    return jsonResponse(
-      { ok: false, message: "Method not allowed." },
-      405,
-      { Allow: "POST" },
-    );
+    return jsonResponse({ ok: false, message: "Niedozwolona metoda." }, 405, { Allow: "POST" });
   }
 
   if (!request.headers.get("content-type")?.toLowerCase().startsWith("application/json")) {
-    return jsonResponse({ ok: false, message: "Send a JSON request." }, 415);
+    return jsonResponse({ ok: false, message: "Wyślij zapytanie w formacie JSON." }, 415);
   }
 
-  let payload: SubscribePayload;
+  let payload: InquiryPayload;
   try {
     payload = await readSmallJson(request);
   } catch (error) {
     if (error instanceof RangeError) {
-      return jsonResponse({ ok: false, message: error.message }, 413);
+      return jsonResponse({ ok: false, message: "Wiadomość jest zbyt długa." }, 413);
     }
-    return jsonResponse({ ok: false, message: "Invalid request." }, 400);
+    return jsonResponse({ ok: false, message: "Nie udało się odczytać formularza." }, 400);
   }
 
-  // A hidden field catches basic bots without adding friction for real visitors.
-  if (typeof payload.company === "string" && payload.company.length > 0) {
-    return jsonResponse({ ok: true, message: "You're on the launch list." });
+  if (asTrimmedString(payload.company).length > 0) {
+    return jsonResponse({ ok: true, message: "Dziękujemy. Odezwiemy się tak szybko, jak to możliwe." });
   }
 
-  if (typeof payload.email !== "string") {
-    return jsonResponse({ ok: false, message: "Enter a valid email address." }, 400);
+  const service = asTrimmedString(payload.service, 20);
+  if (!ALLOWED_SERVICES.has(service)) {
+    return jsonResponse({ ok: false, message: "Wybierz usługę: sprzątanie albo angielski." }, 400);
   }
 
-  const email = payload.email.trim().toLowerCase();
-  if (email.length > 254 || !EMAIL_PATTERN.test(email)) {
-    return jsonResponse({ ok: false, message: "Enter a valid email address." }, 400);
+  const name = asTrimmedString(payload.name, 120);
+  if (name.length < 2) {
+    return jsonResponse({ ok: false, message: "Podaj imię i nazwisko albo imię." }, 400);
+  }
+
+  const email = asTrimmedString(payload.email, 254).toLowerCase();
+  if (!EMAIL_PATTERN.test(email)) {
+    return jsonResponse({ ok: false, message: "Podaj poprawny adres e-mail." }, 400);
+  }
+
+  const phone = asTrimmedString(payload.phone, 24);
+  if (phone && !PHONE_PATTERN.test(phone)) {
+    return jsonResponse({ ok: false, message: "Podaj poprawny numer telefonu albo zostaw to pole puste." }, 400);
+  }
+
+  const message = asTrimmedString(payload.message, MESSAGE_LIMIT);
+  const consent = payload.consent === true || payload.consent === "true";
+  if (!consent) {
+    return jsonResponse({ ok: false, message: "Aby wysłać zapytanie, potwierdź zgodę na kontakt." }, 400);
+  }
+
+  const record: Record<string, string> = {
+    service,
+    name,
+    email,
+    phone,
+    message,
+    createdAt: new Date().toISOString(),
+  };
+
+  if (service === "sprzatanie") {
+    const propertyType = asTrimmedString(payload.propertyType, 40);
+    const cleaningType = asTrimmedString(payload.cleaningType, 40);
+    if (propertyType && !isAllowed(propertyType, CLEANING_FIELDS.propertyType)) {
+      return jsonResponse({ ok: false, message: "Wybierz rodzaj nieruchomości z listy." }, 400);
+    }
+    if (cleaningType && !isAllowed(cleaningType, CLEANING_FIELDS.cleaningType)) {
+      return jsonResponse({ ok: false, message: "Wybierz rodzaj sprzątania z listy." }, 400);
+    }
+    record.propertyType = propertyType;
+    record.sizeApprox = asTrimmedString(payload.sizeApprox, 80);
+    record.cleaningType = cleaningType;
+    record.frequency = asTrimmedString(payload.frequency, 80);
+    record.preferredDate = asTrimmedString(payload.preferredDate, 40);
+    record.location = asTrimmedString(payload.location, 160);
+    record.extras = asTrimmedString(payload.extras, 240);
+  }
+
+  if (service === "angielski") {
+    const format = asTrimmedString(payload.format, 40);
+    const lessonMode = asTrimmedString(payload.lessonMode, 40);
+    const goal = asTrimmedString(payload.goal, 40);
+    if (format && !isAllowed(format, ENGLISH_FIELDS.format)) {
+      return jsonResponse({ ok: false, message: "Wybierz formę zajęć z listy." }, 400);
+    }
+    if (lessonMode && !isAllowed(lessonMode, ENGLISH_FIELDS.lessonMode)) {
+      return jsonResponse({ ok: false, message: "Wybierz tryb zajęć z listy." }, 400);
+    }
+    if (goal && !isAllowed(goal, ENGLISH_FIELDS.goal)) {
+      return jsonResponse({ ok: false, message: "Wybierz cel nauki z listy." }, 400);
+    }
+    record.studentLevel = asTrimmedString(payload.studentLevel, 120);
+    record.format = format;
+    record.lessonMode = lessonMode;
+    record.goal = goal;
+    record.preferredDays = asTrimmedString(payload.preferredDays, 120);
+    record.preferredTime = asTrimmedString(payload.preferredTime, 120);
   }
 
   const clientAddress = request.headers.get("cf-connecting-ip");
   if (clientAddress) {
     const rateKey = `rate:${await sha256(clientAddress)}`;
-    if (await env.WAITLIST.get(rateKey)) {
+    if (await env.INQUIRIES.get(rateKey)) {
       return jsonResponse(
-        { ok: false, message: "Please wait a moment before trying again." },
+        { ok: false, message: "Poczekaj chwilę, zanim wyślesz kolejne zapytanie." },
         429,
       );
     }
-    await env.WAITLIST.put(rateKey, "1", { expirationTtl: 60 });
+    await env.INQUIRIES.put(rateKey, "1", { expirationTtl: 60 });
   }
 
-  const emailKey = `email:${await sha256(email)}`;
-  const existingSignup = await env.WAITLIST.get(emailKey);
-  if (!existingSignup) {
-    const locale =
-      typeof payload.locale === "string" ? payload.locale.slice(0, 35) : "unknown";
+  const inquiryId = crypto.randomUUID();
+  await env.INQUIRIES.put(
+    `inquiry:${inquiryId}`,
+    JSON.stringify(record),
+    { expirationTtl: 60 * 60 * 24 * 180 },
+  );
 
-    await env.WAITLIST.put(
-      emailKey,
-      JSON.stringify({
-        email,
-        locale,
-        createdAt: new Date().toISOString(),
-        source: "purkr-coming-soon",
-      }),
-    );
-  }
+  console.info(
+    JSON.stringify({
+      event: "inquiry_received",
+      service,
+      inquiryId,
+    }),
+  );
 
   return jsonResponse({
     ok: true,
-    message: existingSignup
-      ? "You're already on the launch list."
-      : "Transmission received. You're on the launch list.",
+    message: "Dziękujemy. Odezwiemy się tak szybko, jak to możliwe.",
   });
+}
+
+async function withSecurityHeaders(response: Response, origin: string): Promise<Response> {
+  const contentType = response.headers.get("content-type") ?? "";
+  if (contentType.includes("text/html")) {
+    const html = (await response.text()).replaceAll("__ORIGIN__", origin);
+    const headers = new Headers(response.headers);
+    for (const [header, value] of Object.entries(securityHeaders)) {
+      headers.set(header, value);
+    }
+    return new Response(html, {
+      status: response.status,
+      statusText: response.statusText,
+      headers,
+    });
+  }
+
+  const next = new Response(response.body, response);
+  for (const [header, value] of Object.entries(securityHeaders)) {
+    next.headers.set(header, value);
+  }
+  return next;
 }
 
 export default {
   async fetch(request, env): Promise<Response> {
     const url = new URL(request.url);
+    const origin = url.origin;
 
-    if (url.pathname === "/api/subscribe") {
+    if (url.pathname === "/sitemap.xml") {
+      return textResponse(sitemapXml(origin), "application/xml; charset=utf-8");
+    }
+
+    if (url.pathname === "/robots.txt") {
+      return textResponse(robotsTxt(origin), "text/plain; charset=utf-8");
+    }
+
+    if (url.pathname === "/api/inquire") {
       try {
-        return await subscribe(request, env);
+        return await handleInquiry(request, env);
       } catch (error) {
         console.error(
           JSON.stringify({
-            event: "waitlist_signup_failed",
+            event: "inquiry_failed",
             message: error instanceof Error ? error.message : "Unknown error",
           }),
         );
         return jsonResponse(
-          { ok: false, message: "Signal lost. Please try again." },
+          { ok: false, message: "Nie udało się wysłać zapytania. Spróbuj ponownie." },
           500,
         );
       }
     }
 
     const assetResponse = await env.ASSETS.fetch(request);
-    const response = new Response(assetResponse.body, assetResponse);
-    for (const [header, value] of Object.entries(securityHeaders)) {
-      response.headers.set(header, value);
-    }
-    return response;
+    return withSecurityHeaders(assetResponse, origin);
   },
 } satisfies ExportedHandler<Env>;

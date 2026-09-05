@@ -1,31 +1,36 @@
-# PURKR — Coming Soon
+# Clean & Speak
 
-An immersive, responsive restaurant launch page built for Cloudflare Workers.
+Strona marki łączącej profesjonalne sprzątanie i naukę angielskiego.
 
-## Features
+## Zawartość
 
-- Fixed launch countdown to **6 August 2028 at 10:00 UTC**
-- Low-intensity, infrequent lightning with reduced-motion support
-- Functional launch-list signup backed by Workers KV
-- Responsive space scene drawn entirely with HTML and CSS
-- Accessible navigation, form feedback, and keyboard focus states
-- Production security headers and Cloudflare observability
+- Strona główna z rozróżnieniem Clean / Speak
+- Oferta sprzątania i zajęć z angielskiego
+- Formularz, który zmienia pola w zależności od wybranej usługi
+- Polityka prywatności i informacja o cookies — wersje robocze do uzupełnienia
 
-## Development
+## Czego strona świadomie nie zawiera
+
+Nie dopisujemy cen, opinii, adresu, telefonu, godzin otwarcia ani biografii zespołu.
+Potwierdzone dane kontaktowe wpisz w `public/js/site-config.js`.
+
+## Uruchomienie
 
 ```bash
 npm install
 npm run dev
 ```
 
-Run validation with:
+Sprawdzenie typów:
 
 ```bash
 npm run check
 ```
 
-Deploy with:
+Wdrożenie:
 
 ```bash
 npm run deploy
 ```
+
+Zapytania z formularza trafiają do Cloudflare KV (`INQUIRIES`).

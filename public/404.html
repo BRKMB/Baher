@@ -1,23 +1,36 @@
 <!doctype html>
-<html lang="en">
+<html lang="pl">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#050608" />
-    <title>Signal Lost — PURKR</title>
+    <title>Nie znaleziono strony — Clean & Speak</title>
+    <meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#F6F3ED" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="/styles.css" />
+    <script src="/js/site-config.js" defer></script>
+    <script src="/js/app.js" defer></script>
   </head>
   <body>
-    <main class="error-page">
-      <div class="orbit-mark" aria-hidden="true">
-        <span class="orbit-mark__planet"></span>
-        <span class="orbit-mark__ring"></span>
+    <a class="skip-link" href="#tresc">Przejdź do treści</a>
+    <header class="site-header" data-header>
+      <div class="site-header__bar">
+        <a class="logo" href="/" aria-label="Clean & Speak — strona główna">
+          <img class="logo__mark" src="/favicon.svg" alt="" width="30" height="30" />
+          <span class="logo__word">Clean <i>&amp;</i> Speak</span>
+        </a>
+        <a class="btn btn--primary btn--nav" href="/kontakt/">Skontaktuj się</a>
       </div>
-      <p class="eyebrow">404 · Signal lost</p>
-      <h1>Wrong orbit</h1>
-      <p>This coordinate doesn't exist in the PURKR universe.</p>
-      <a href="/">Return to mission control</a>
+    </header>
+    <main id="tresc" class="error-page wrap">
+      <p class="eyebrow">404</p>
+      <h1>Tej strony nie ma.</h1>
+      <p class="lede error-copy">Może została przeniesiona. Zostały dwie pewne drogi: sprzątanie albo angielski.</p>
+      <div class="hero__actions">
+        <a class="btn btn--clean" href="/sprzatanie/">Sprzątanie</a>
+        <a class="btn btn--speak" href="/angielski/">Angielski</a>
+        <a class="btn btn--ghost" href="/">Wróć na stronę główną</a>
+      </div>
     </main>
   </body>
 </html>
