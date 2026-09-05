@@ -213,15 +213,17 @@
       payload.preferredTime = String(data.get("preferredTime") || "");
     }
 
+    const t = window.CNS?.translate || ((value) => value);
+
     if (!payload.consent) {
-      setStatus("Aby wysłać zapytanie, potwierdź zgodę na kontakt.", "error");
+      setStatus(t("Aby wysłać zapytanie, potwierdź zgodę na kontakt."), "error");
       return;
     }
 
     submit.disabled = true;
     const originalLabel = submit.textContent;
-    submit.textContent = "Wysyłanie…";
-    setStatus("Wysyłamy Twoje zapytanie.");
+    submit.textContent = t("Wysyłanie…");
+    setStatus(t("Wysyłamy Twoje zapytanie."));
 
     try {
       const response = await fetch("/api/inquire", {
@@ -231,15 +233,18 @@
       });
       const result = await response.json();
       if (!response.ok || !result.ok) {
-        throw new Error(result.message || "Nie udało się wysłać zapytania.");
+        throw new Error(t(result.message || "Nie udało się wysłać zapytania."));
       }
-      setStatus(result.message, "success");
+      setStatus(t(result.message), "success");
       form.reset();
       setService(service);
       track("form_submit", { service });
-      submit.textContent = "Wysłano";
+      submit.textContent = t("Wysłano");
     } catch (error) {
-      setStatus(error instanceof Error ? error.message : "Nie udało się wysłać zapytania.", "error");
+      setStatus(
+        t(error instanceof Error ? error.message : "Nie udało się wysłać zapytania."),
+        "error",
+      );
       submit.disabled = false;
       submit.textContent = originalLabel;
     }

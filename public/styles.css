@@ -299,6 +299,36 @@ p {
   gap: 0.75rem;
 }
 
+html[data-lang="en"]:not(.i18n-ready) body {
+  visibility: hidden;
+}
+
+.lang-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.55rem;
+  height: 2.55rem;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  cursor: pointer;
+  flex: 0 0 auto;
+}
+
+.lang-toggle:hover {
+  border-color: var(--ink);
+}
+
+.lang-toggle svg {
+  width: 1.55rem;
+  height: 1.05rem;
+  border: 1px solid rgb(28 27 25 / 0.16);
+  border-radius: 2px;
+  box-shadow: 0 1px 0 rgb(28 27 25 / 0.06);
+}
+
 .logo {
   display: inline-flex;
   align-items: center;
