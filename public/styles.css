@@ -761,6 +761,7 @@ p {
   width: 1.15rem;
   height: 1.15rem;
   flex: 0 0 auto;
+  transition: transform 200ms var(--ease);
 }
 
 .faq-item[data-open="true"] button svg {
@@ -853,6 +854,16 @@ p {
   padding-block: var(--space-7) var(--space-6);
   background: #161513;
   color: #ece6db;
+}
+
+@media (max-width: 47.99rem) {
+  .site-footer {
+    padding-block: var(--space-7) var(--space-7);
+  }
+
+  .footer-col ul {
+    gap: 0.7rem;
+  }
 }
 
 .footer-grid {
