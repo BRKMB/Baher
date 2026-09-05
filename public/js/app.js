@@ -133,12 +133,24 @@
 
   const cookieKey = "cns-cookie-ok";
   const cookieBar = document.querySelector("[data-cookie-bar]");
-  if (cookieBar && !window.localStorage.getItem(cookieKey)) {
+  const showCookieBar = () => {
+    if (!cookieBar) return;
+    cookieBar.hidden = false;
     cookieBar.classList.add("is-visible");
+    document.body.classList.add("has-cookie-bar");
+  };
+  const hideCookieBar = () => {
+    if (!cookieBar) return;
+    cookieBar.hidden = true;
+    cookieBar.classList.remove("is-visible");
+    document.body.classList.remove("has-cookie-bar");
+  };
+  if (cookieBar && !window.localStorage.getItem(cookieKey)) {
+    showCookieBar();
   }
   cookieBar?.querySelector("[data-cookie-accept]")?.addEventListener("click", () => {
     window.localStorage.setItem(cookieKey, "1");
-    cookieBar.classList.remove("is-visible");
+    hideCookieBar();
   });
 
   const form = document.querySelector("[data-inquiry-form]");

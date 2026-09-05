@@ -1,7 +1,6 @@
 (() => {
   const STORAGE_KEY = "cns-lang";
-  const FLAG_EN = `<svg viewBox="0 0 60 40" aria-hidden="true"><rect width="60" height="40" fill="#fff"/><rect x="26" width="8" height="40" fill="#c8102e"/><rect y="16" width="60" height="8" fill="#c8102e"/></svg>`;
-  const FLAG_PL = `<svg viewBox="0 0 60 40" aria-hidden="true"><rect width="60" height="20" fill="#fff"/><rect y="20" width="60" height="20" fill="#dc143c"/></svg>`;
+  const attrCache = new WeakMap();
 
   const TEXT = {
     "Przejdź do treści": "Skip to content",
@@ -467,11 +466,16 @@
   const applyAttributes = (lang) => {
     const targets = document.querySelectorAll("[aria-label], [placeholder], [alt], [title]");
     targets.forEach((element) => {
-      ["aria-label", "placeholder", "alt", "title"].forEach((name) => {
-        if (!element.hasAttribute(name)) return;
-        const store = `cnsAttr:${name}`;
-        if (!element.dataset[store]) element.dataset[store] = element.getAttribute(name) || "";
-        const original = element.dataset[store];
+      if (element.closest("[data-lang-toggle]")) return;
+      let cached = attrCache.get(element);
+      if (!cached) {
+        cached = {};
+        ["aria-label", "placeholder", "alt", "title"].forEach((name) => {
+          if (element.hasAttribute(name)) cached[name] = element.getAttribute(name) || "";
+        });
+        attrCache.set(element, cached);
+      }
+      Object.entries(cached).forEach(([name, original]) => {
         element.setAttribute(name, lang === "en" && ATTR[original] ? ATTR[original] : original);
       });
     });
@@ -494,7 +498,10 @@
   const updateToggle = (lang) => {
     const button = document.querySelector("[data-lang-toggle]");
     if (!button) return;
-    button.innerHTML = lang === "en" ? FLAG_PL : FLAG_EN;
+    const flag = button.querySelector(".flag");
+    if (flag) {
+      flag.className = lang === "en" ? "flag flag--pl" : "flag flag--gb";
+    }
     button.setAttribute(
       "aria-label",
       lang === "en" ? "Switch the website to Polish" : "Switch the website to English",
@@ -505,22 +512,24 @@
   const applyLang = (lang) => {
     document.documentElement.lang = lang;
     document.documentElement.dataset.lang = lang;
-    applyText(lang);
-    applyAttributes(lang);
-    applyTitle(lang);
-    updateToggle(lang);
-    document.documentElement.classList.add("i18n-ready");
+    try {
+      applyText(lang);
+      applyAttributes(lang);
+      applyTitle(lang);
+      updateToggle(lang);
+    } finally {
+      document.documentElement.classList.add("i18n-ready");
+    }
     document.dispatchEvent(new CustomEvent("cns:langchange", { detail: { lang } }));
   };
 
-  const injectToggle = () => {
-    const bar = document.querySelector(".site-header__bar");
-    if (!bar || bar.querySelector("[data-lang-toggle]")) return;
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = "lang-toggle";
-    button.dataset.langToggle = "true";
-    button.addEventListener("click", () => {
+  const bindToggle = () => {
+    const button = document.querySelector("[data-lang-toggle]");
+    if (!button || button.dataset.bound === "1") return;
+    button.dataset.bound = "1";
+    button.addEventListener("click", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
       const next = getLang() === "en" ? "pl" : "en";
       try {
         window.localStorage.setItem(STORAGE_KEY, next);
@@ -529,7 +538,6 @@
       }
       applyLang(next);
     });
-    bar.prepend(button);
   };
 
   window.CNS = window.CNS || {};
@@ -538,7 +546,7 @@
   window.CNS.applyLang = applyLang;
 
   const start = () => {
-    injectToggle();
+    bindToggle();
     applyLang(getLang());
   };
 

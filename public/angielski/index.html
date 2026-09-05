@@ -51,10 +51,15 @@
           <a href="/o-nas/">O nas</a>
           <a href="/kontakt/">Kontakt</a>
         </nav>
-        <a class="btn btn--primary btn--nav" href="/kontakt/?usluga=angielski" data-track="nav_cta">Zapytaj o zajęcia</a>
-        <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="menu-mobilne" aria-label="Otwórz menu">
-          <span class="nav-toggle__bars"></span>
-        </button>
+        <div class="site-header__tools">
+          <a class="btn btn--primary btn--nav" href="/kontakt/?usluga=angielski" data-track="nav_cta">Zapytaj o zajęcia</a>
+          <button class="lang-toggle" type="button" data-lang-toggle aria-label="Switch the website to English" title="English">
+            <span class="flag flag--gb" aria-hidden="true"></span>
+          </button>
+          <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="menu-mobilne" aria-label="Otwórz menu">
+            <span class="nav-toggle__bars"></span>
+          </button>
+        </div>
       </div>
       <nav id="menu-mobilne" class="nav-mobile" data-nav-mobile aria-label="Menu mobilne">
         <a href="/">Home</a>
@@ -316,9 +321,12 @@
         <a href="/cookies/">Cookies</a>
       </div>
     </footer>
-    <div class="cookie-bar" data-cookie-bar role="dialog" aria-label="Informacja o cookies">
+    <aside class="cookie-bar" data-cookie-bar hidden>
       <p>Strona używa niezbędnych plików cookies, żeby działać poprawnie.</p>
-      <button class="btn btn--light" type="button" data-cookie-accept>Rozumiem</button>
-    </div>
+      <div class="cookie-bar__row">
+        <a href="/cookies/">Cookies</a>
+        <button class="cookie-bar__ok" type="button" data-cookie-accept>Rozumiem</button>
+      </div>
+    </aside>
   </body>
 </html>
