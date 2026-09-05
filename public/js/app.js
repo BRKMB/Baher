@@ -137,13 +137,11 @@
     if (!cookieBar) return;
     cookieBar.hidden = false;
     cookieBar.classList.add("is-visible");
-    document.body.classList.add("has-cookie-bar");
   };
   const hideCookieBar = () => {
     if (!cookieBar) return;
     cookieBar.hidden = true;
     cookieBar.classList.remove("is-visible");
-    document.body.classList.remove("has-cookie-bar");
   };
   if (cookieBar && !window.localStorage.getItem(cookieKey)) {
     showCookieBar();

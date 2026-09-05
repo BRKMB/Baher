@@ -498,9 +498,9 @@
   const updateToggle = (lang) => {
     const button = document.querySelector("[data-lang-toggle]");
     if (!button) return;
-    const flag = button.querySelector(".flag");
+    const flag = button.querySelector("[data-lang-flag]");
     if (flag) {
-      flag.className = lang === "en" ? "flag flag--pl" : "flag flag--gb";
+      flag.src = lang === "en" ? "/images/flag-pl.svg" : "/images/flag-gb.svg";
     }
     button.setAttribute(
       "aria-label",
