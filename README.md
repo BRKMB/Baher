@@ -27,10 +27,18 @@ Sprawdzenie typów:
 npm run check
 ```
 
-Wdrożenie:
+Wdrożenie — pełna instrukcja w [DEPLOY.md](./DEPLOY.md):
 
 ```bash
+npm install
+npx wrangler login
 npm run deploy
+```
+
+Pakiet ZIP na Cloudflare Pages albo Wrangler:
+
+```bash
+bash scripts/pack-cloudflare.sh
 ```
 
 Zapytania z formularza trafiają do Cloudflare KV (`INQUIRIES`).
