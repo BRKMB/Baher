@@ -24,8 +24,13 @@ const SITE_PATHS = [
   "/o-nas/",
   "/kontakt/",
   "/polityka-prywatnosci/",
+  "/regulamin/",
   "/cookies/",
 ];
+
+const NOINDEX_PATHS = new Set(["/polityka-prywatnosci/", "/regulamin/", "/cookies/"]);
+
+const EVENT_NAME_PATTERN = /^[a-z0-9_-]{1,40}$/u;
 
 const securityHeaders = {
   "Content-Security-Policy":
@@ -123,7 +128,7 @@ async function sha256(value: string): Promise<string> {
 
 function sitemapXml(origin: string): string {
   const lastmod = new Date().toISOString().slice(0, 10);
-  const urls = SITE_PATHS.map((path) => {
+  const urls = SITE_PATHS.filter((path) => !NOINDEX_PATHS.has(path)).map((path) => {
     const loc = `${origin}${path === "/" ? "/" : path}`;
     const priority = path === "/" ? "1.0" : path === "/kontakt/" ? "0.9" : "0.8";
     return `  <url>\n    <loc>${loc}</loc>\n    <lastmod>${lastmod}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>${priority}</priority>\n  </url>`;
@@ -133,7 +138,43 @@ function sitemapXml(origin: string): string {
 }
 
 function robotsTxt(origin: string): string {
-  return `User-agent: *\nAllow: /\nDisallow: /api/\n\nSitemap: ${origin}/sitemap.xml\n`;
+  const disallowed = ["/api/", "/dziekujemy/", ...NOINDEX_PATHS]
+    .map((path) => `Disallow: ${path}`)
+    .join("\n");
+  return `User-agent: *\nAllow: /\n${disallowed}\n\nSitemap: ${origin}/sitemap.xml\n`;
+}
+
+/**
+ * Cookieless page and interaction counts. Nothing that identifies a visitor is
+ * stored: no cookie, no client id, no IP, no full referrer URL.
+ */
+async function handleEvent(request: Request): Promise<Response> {
+  if (request.method !== "POST") {
+    return new Response(null, { status: 405, headers: { Allow: "POST", ...securityHeaders } });
+  }
+
+  try {
+    const payload = await readSmallJson(request);
+    const name = asTrimmedString(payload.name, 40);
+    if (!EVENT_NAME_PATTERN.test(name)) {
+      return new Response(null, { status: 204, headers: securityHeaders });
+    }
+
+    console.info(
+      JSON.stringify({
+        event: "site_event",
+        name,
+        path: asTrimmedString(payload.path, 120),
+        href: asTrimmedString(payload.href, 200),
+        referrer: asTrimmedString(payload.referrer, 120),
+        country: request.headers.get("cf-ipcountry") ?? "",
+      }),
+    );
+  } catch {
+    /* measurement must never surface an error to the visitor */
+  }
+
+  return new Response(null, { status: 204, headers: securityHeaders });
 }
 
 async function handleInquiry(request: Request, env: Env): Promise<Response> {
@@ -299,6 +340,10 @@ export default {
 
     if (url.pathname === "/robots.txt") {
       return textResponse(robotsTxt(origin), "text/plain; charset=utf-8");
+    }
+
+    if (url.pathname === "/api/event") {
+      return handleEvent(request);
     }
 
     if (url.pathname === "/api/inquire") {
