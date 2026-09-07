@@ -15,8 +15,14 @@
     <meta property="og:title" content="O nas — Clean & Speak" />
     <meta property="og:description" content="Dlaczego sprzątanie i angielski są pod jedną marką." />
     <meta property="og:url" content="__ORIGIN__/o-nas/" />
-    <meta property="og:image" content="__ORIGIN__/images/fresh-space.webp" />
+    <meta property="og:image" content="__ORIGIN__/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Clean & Speak — czysty dom, lepszy angielski" />
+    <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <link rel="preload" href="/fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/source-sans-latin.woff2" as="font" type="font/woff2" crossorigin />
@@ -128,13 +134,19 @@
       </section>
 
       <section class="section section--tight wrap">
-        <div class="note-box reveal">
-          <strong>Do uzupełnienia przez firmę</strong>
-          <p>
-            Tu powinno stanąć prawdziwe zdjęcie osoby albo osób prowadzących Clean &amp; Speak
-            oraz kilka zdań o tym, kto stoi za marką. Nie wstawiamy zdjęć stockowych
-            udających zespół i nie dopisujemy biografii.
-          </p>
+        <div class="trust-grid">
+          <article class="trust-card reveal">
+            <h3>Zakres zamiast obietnic</h3>
+            <p>Zanim ruszymy, wiadomo, co dokładnie zostanie zrobione i w jakim czasie.</p>
+          </article>
+          <article class="trust-card reveal">
+            <h3>Kontakt z jedną osobą</h3>
+            <p>Odpowiada Ci ta sama osoba, która ustala zakres sprzątania albo prowadzi zajęcia.</p>
+          </article>
+          <article class="trust-card reveal">
+            <h3>Bez ukrytych dopłat</h3>
+            <p>Wycena obejmuje ustalony zakres. Zmiany omawiamy wcześniej, nie po fakcie.</p>
+          </article>
         </div>
       </section>
 
@@ -157,6 +169,12 @@
             <span class="logo__word">Clean <i>&amp;</i> Speak</span>
           </a>
           <p>Zadbamy o Twój dom i Twój angielski.</p>
+          <ul class="footer-contact" data-footer-contact hidden>
+            <li data-contact="phone" hidden><a href="#" data-track="footer_phone"></a></li>
+            <li data-contact="email" hidden><a href="#" data-track="footer_email"></a></li>
+            <li data-contact="address" hidden><span data-contact-value></span></li>
+            <li data-contact="serviceArea" hidden><span data-contact-value></span></li>
+          </ul>
         </div>
         <div class="footer-col">
           <h2>Nawigacja</h2>
@@ -184,8 +202,13 @@
       <div class="wrap footer-bottom">
         <p>© Clean &amp; Speak</p>
         <a href="/polityka-prywatnosci/">Polityka prywatności</a>
+        <a href="/regulamin/">Regulamin</a>
         <a href="/cookies/">Cookies</a>
       </div>
     </footer>
+
+    <div class="mobile-cta">
+      <a class="btn btn--primary" href="/kontakt/" data-track="sticky_contact">Skontaktuj się</a>
+    </div>
   </body>
 </html>

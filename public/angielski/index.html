@@ -15,8 +15,14 @@
     <meta property="og:title" content="Angielski — Clean & Speak" />
     <meta property="og:description" content="Angielski, który służy do mówienia. Dla dzieci, młodzieży i dorosłych." />
     <meta property="og:url" content="__ORIGIN__/angielski/" />
-    <meta property="og:image" content="__ORIGIN__/images/learning.webp" />
+    <meta property="og:image" content="__ORIGIN__/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Clean & Speak — czysty dom, lepszy angielski" />
+    <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <link rel="preload" href="/fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/source-sans-latin.woff2" as="font" type="font/woff2" crossorigin />
@@ -219,31 +225,33 @@
               <h3>Mówienie ma miejsce</h3>
               <p>Gramatyka nie znika. Ale nie zastępuje głosu. Szczególnie u osób, które już „umieją, tylko nie mówią”.</p>
             </article>
-            <article class="note-box reveal">
-              <strong>Do uzupełnienia przez firmę</strong>
-              <p>Miejsce na potwierdzone informacje o prowadzącej osobie, kwalifikacjach i sposobie pracy. Nie dopisujemy ich za Ciebie.</p>
+            <article class="trust-card reveal">
+              <h3>Tempo ucznia</h3>
+              <p>Materiał dobieramy do poziomu i terminu, a nie do gotowego programu kursu.</p>
             </article>
           </div>
         </div>
       </section>
 
-      <section class="section wrap" aria-labelledby="opinie-en">
+      <section class="section wrap" aria-labelledby="pierwsze-zajecia">
         <div class="section-head reveal">
-          <p class="eyebrow">Opinie</p>
-          <h2 id="opinie-en">Głosy uczniów i rodziców</h2>
+          <p class="eyebrow">Pierwsze zajęcia</p>
+          <h2 id="pierwsze-zajecia">Jak zaczynamy naukę</h2>
         </div>
-        <div class="card-grid">
-          <blockquote class="quote-card note-box reveal">
-            <div class="stars" aria-hidden="true">★★★★★</div>
-            <strong>Opinia — rodzic / uczeń</strong>
-            <p>Miejsce na prawdziwą opinię. Pojawi się tutaj po przekazaniu treści przez firmę.</p>
-          </blockquote>
-          <blockquote class="quote-card note-box reveal">
-            <div class="stars" aria-hidden="true">★★★★★</div>
-            <strong>Opinia — dorosły</strong>
-            <p>Miejsce na cytat osoby, która wróciła do angielskiego albo przełamała barierę mówienia.</p>
-          </blockquote>
-        </div>
+        <ol class="steps steps--3">
+          <li class="step reveal">
+            <h3>Rozmowa o celu</h3>
+            <p>Wiek albo poziom ucznia, powód nauki i termin, który ma znaczenie — na przykład egzamin.</p>
+          </li>
+          <li class="step reveal">
+            <h3>Ustalenie formy</h3>
+            <p>Online albo stacjonarnie, częstotliwość i godziny, które da się utrzymać w kalendarzu.</p>
+          </li>
+          <li class="step reveal">
+            <h3>Start zajęć</h3>
+            <p>Pierwsza lekcja pokazuje punkt wyjścia. Po niej doprecyzowujemy plan pracy.</p>
+          </li>
+        </ol>
       </section>
 
       <section class="section section--deep wrap" aria-labelledby="faq-en">
@@ -298,6 +306,12 @@
             <span class="logo__word">Clean <i>&amp;</i> Speak</span>
           </a>
           <p>Zadbamy o Twój dom i Twój angielski.</p>
+          <ul class="footer-contact" data-footer-contact hidden>
+            <li data-contact="phone" hidden><a href="#" data-track="footer_phone"></a></li>
+            <li data-contact="email" hidden><a href="#" data-track="footer_email"></a></li>
+            <li data-contact="address" hidden><span data-contact-value></span></li>
+            <li data-contact="serviceArea" hidden><span data-contact-value></span></li>
+          </ul>
         </div>
         <div class="footer-col">
           <h2>Nawigacja</h2>
@@ -325,8 +339,13 @@
       <div class="wrap footer-bottom">
         <p>© Clean &amp; Speak</p>
         <a href="/polityka-prywatnosci/">Polityka prywatności</a>
+        <a href="/regulamin/">Regulamin</a>
         <a href="/cookies/">Cookies</a>
       </div>
     </footer>
+
+    <div class="mobile-cta">
+      <a class="btn btn--speak" href="/kontakt/?usluga=angielski" data-track="sticky_english">Zapytaj o zajęcia</a>
+    </div>
   </body>
 </html>

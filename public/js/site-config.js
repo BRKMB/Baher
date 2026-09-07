@@ -1,6 +1,7 @@
 /**
  * Clean & Speak — public contact configuration.
- * Fill in confirmed business details. Empty values stay hidden.
+ * Fill in confirmed business details. Empty values stay hidden on the site.
+ * `address` should be the real, verifiable address; it also feeds the LocalBusiness data.
  */
 window.CLEAN_AND_SPEAK = {
   phone: "",
@@ -8,5 +9,6 @@ window.CLEAN_AND_SPEAK = {
   whatsapp: "",
   instagram: "",
   facebook: "",
+  address: "",
   serviceArea: "",
 };

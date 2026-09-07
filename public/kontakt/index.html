@@ -15,8 +15,14 @@
     <meta property="og:title" content="Kontakt — Clean & Speak" />
     <meta property="og:description" content="Napisz, czy chodzi o sprzątanie, czy o angielski." />
     <meta property="og:url" content="__ORIGIN__/kontakt/" />
-    <meta property="og:image" content="__ORIGIN__/images/interior-light.webp" />
+    <meta property="og:image" content="__ORIGIN__/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Clean & Speak — czysty dom, lepszy angielski" />
+    <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <link rel="preload" href="/fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/source-sans-latin.woff2" as="font" type="font/woff2" crossorigin />
@@ -220,7 +226,7 @@
           <aside>
             <div class="info-card">
               <h2>Inne sposoby kontaktu</h2>
-              <p class="muted">Pojawią się tutaj, gdy firma potwierdzi telefon, e-mail albo komunikator.</p>
+              <p class="muted" data-contact-empty>Formularz obok jest na razie najszybszą drogą. Telefon i e-mail pojawią się tutaj, gdy tylko zostaną potwierdzone.</p>
               <div class="contact-methods" data-contact-methods>
                 <div class="contact-method" data-contact="phone" hidden>
                   <svg aria-hidden="true"><use href="/icons.svg#i-phone"></use></svg>
@@ -255,11 +261,25 @@
                     <p><a href="#" data-keep-label data-track="facebook_click">Profil na Facebooku</a></p>
                   </div>
                 </div>
+                <div class="contact-method" data-contact="address" hidden>
+                  <svg aria-hidden="true"><use href="/icons.svg#i-pin"></use></svg>
+                  <div>
+                    <strong>Adres</strong>
+                    <p><span data-contact-value></span></p>
+                  </div>
+                </div>
+                <div class="contact-method" data-contact="serviceArea" hidden>
+                  <svg aria-hidden="true"><use href="/icons.svg#i-pin"></use></svg>
+                  <div>
+                    <strong>Obszar działania</strong>
+                    <p><span data-contact-value></span></p>
+                  </div>
+                </div>
               </div>
-              <p class="note-box mt-6">
-                <strong>Obszar działania</strong>
-                <span data-service-area>Do uzupełnienia: miasto, dzielnice albo zasięg dojazdów.</span>
-              </p>
+              <div class="info-list mt-6">
+                <p><strong>Odpowiadamy e-mailem</strong> na adres podany w formularzu.</p>
+                <p class="muted">Zapytania o sprzątanie i o zajęcia trafiają do tej samej skrzynki.</p>
+              </div>
             </div>
           </aside>
         </div>
@@ -274,6 +294,12 @@
             <span class="logo__word">Clean <i>&amp;</i> Speak</span>
           </a>
           <p>Zadbamy o Twój dom i Twój angielski.</p>
+          <ul class="footer-contact" data-footer-contact hidden>
+            <li data-contact="phone" hidden><a href="#" data-track="footer_phone"></a></li>
+            <li data-contact="email" hidden><a href="#" data-track="footer_email"></a></li>
+            <li data-contact="address" hidden><span data-contact-value></span></li>
+            <li data-contact="serviceArea" hidden><span data-contact-value></span></li>
+          </ul>
         </div>
         <div class="footer-col">
           <h2>Nawigacja</h2>
@@ -301,6 +327,7 @@
       <div class="wrap footer-bottom">
         <p>© Clean &amp; Speak</p>
         <a href="/polityka-prywatnosci/">Polityka prywatności</a>
+        <a href="/regulamin/">Regulamin</a>
         <a href="/cookies/">Cookies</a>
       </div>
     </footer>

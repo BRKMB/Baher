@@ -5,6 +5,36 @@
     document.dispatchEvent(new CustomEvent("cns:track", { detail: { name, ...detail } }));
   };
 
+  // Cookieless, first-party measurement: no identifiers are stored or sent.
+  const sendEvent = (name, detail = {}) => {
+    const body = JSON.stringify({
+      name,
+      path: window.location.pathname,
+      referrer: document.referrer ? new URL(document.referrer).host : "",
+      ...detail,
+    });
+    try {
+      if (navigator.sendBeacon) {
+        navigator.sendBeacon("/api/event", new Blob([body], { type: "application/json" }));
+        return;
+      }
+      void fetch("/api/event", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body,
+        keepalive: true,
+      });
+    } catch {
+      /* measurement must never break the page */
+    }
+  };
+
+  document.addEventListener("cns:track", (event) => {
+    sendEvent(event.detail?.name || "click", { href: event.detail?.href || "" });
+  });
+
+  sendEvent("pageview");
+
   document.querySelectorAll("[data-track]").forEach((element) => {
     element.addEventListener("click", () => {
       track(element.getAttribute("data-track") || "click", {
@@ -12,6 +42,10 @@
       });
     });
   });
+
+  if (document.querySelector(".mobile-cta")) {
+    document.body.classList.add("has-mobile-cta");
+  }
 
   const header = document.querySelector("[data-header]");
   const toggle = document.querySelector("[data-nav-toggle]");
@@ -89,46 +123,71 @@
   const config = window.CLEAN_AND_SPEAK || {};
   const methods = document.querySelector("[data-contact-methods]");
 
-  const bindMethod = (key, selector, buildHref) => {
-    const node = document.querySelector(selector);
+  const bindMethod = (key, buildHref) => {
+    const nodes = document.querySelectorAll(`[data-contact="${key}"]`);
+    if (!nodes.length) return false;
+
     const value = typeof config[key] === "string" ? config[key].trim() : "";
-    if (!node || !value) {
-      node?.setAttribute("hidden", "");
+    if (!value) {
+      nodes.forEach((node) => node.setAttribute("hidden", ""));
       return false;
     }
-    const link = node.querySelector("a");
-    if (link) {
-      link.href = buildHref(value);
-      if (!link.dataset.keepLabel) {
-        link.textContent = value;
+
+    nodes.forEach((node) => {
+      const link = node.querySelector("a");
+      if (link && buildHref) {
+        link.href = buildHref(value);
+        if (!link.dataset.keepLabel) {
+          link.textContent = value;
+        }
       }
-    }
-    node.removeAttribute("hidden");
+      const text = node.querySelector("[data-contact-value]");
+      if (text) text.textContent = value;
+      node.removeAttribute("hidden");
+    });
     return true;
   };
 
-  const hasPhone = bindMethod("phone", "[data-contact='phone']", (value) => `tel:${value.replace(/\s+/g, "")}`);
-  const hasEmail = bindMethod("email", "[data-contact='email']", (value) => `mailto:${value}`);
-  const hasWhatsapp = bindMethod(
-    "whatsapp",
-    "[data-contact='whatsapp']",
-    (value) => `https://wa.me/${value.replace(/\D/g, "")}`,
-  );
-  const hasInstagram = bindMethod("instagram", "[data-contact='instagram']", (value) => value);
-  const hasFacebook = bindMethod("facebook", "[data-contact='facebook']", (value) => value);
+  const contactFlags = [
+    bindMethod("phone", (value) => `tel:${value.replace(/[^\d+]/g, "")}`),
+    bindMethod("email", (value) => `mailto:${value}`),
+    bindMethod("whatsapp", (value) => `https://wa.me/${value.replace(/\D/g, "")}`),
+    bindMethod("instagram", (value) => value),
+    bindMethod("facebook", (value) => value),
+    bindMethod("address", null),
+    bindMethod("serviceArea", null),
+  ];
 
-  const areaNodes = document.querySelectorAll("[data-service-area]");
-  if (config.serviceArea) {
-    areaNodes.forEach((node) => {
-      node.textContent = config.serviceArea;
-      node.removeAttribute("hidden");
-    });
-  } else {
-    areaNodes.forEach((node) => node.setAttribute("hidden", ""));
+  const hasAnyContact = contactFlags.some(Boolean);
+
+  if (methods && !hasAnyContact) {
+    methods.setAttribute("hidden", "");
   }
 
-  if (methods && !hasPhone && !hasEmail && !hasWhatsapp && !hasInstagram && !hasFacebook) {
-    methods.setAttribute("hidden", "");
+  document.querySelectorAll("[data-contact-empty]").forEach((node) => {
+    node.hidden = hasAnyContact;
+  });
+
+  document.querySelectorAll("[data-footer-contact]").forEach((node) => {
+    node.hidden = !hasAnyContact;
+  });
+
+  if (config.address || config.phone || config.email) {
+    const business = {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      name: "Clean & Speak",
+      url: window.location.origin,
+    };
+    if (config.phone) business.telephone = config.phone;
+    if (config.email) business.email = config.email;
+    if (config.address) business.address = { "@type": "PostalAddress", streetAddress: config.address };
+    if (config.serviceArea) business.areaServed = config.serviceArea;
+
+    const script = document.createElement("script");
+    script.type = "application/ld+json";
+    script.textContent = JSON.stringify(business);
+    document.head.appendChild(script);
   }
 
   const cookieKey = "cns-cookie-ok";
@@ -137,11 +196,13 @@
     if (!cookieBar) return;
     cookieBar.hidden = false;
     cookieBar.classList.add("is-visible");
+    document.body.classList.add("has-cookie-notice");
   };
   const hideCookieBar = () => {
     if (!cookieBar) return;
     cookieBar.hidden = true;
     cookieBar.classList.remove("is-visible");
+    document.body.classList.remove("has-cookie-notice");
   };
   if (cookieBar && !window.localStorage.getItem(cookieKey)) {
     showCookieBar();
@@ -190,6 +251,66 @@
     status.className = `form-status${kind ? ` is-${kind}` : ""}`;
   };
 
+  const t = () => window.CNS?.translate || ((value) => value);
+
+  const clearFieldError = (field) => {
+    field.removeAttribute("aria-invalid");
+    const wrapper = field.closest(".field, .check");
+    wrapper?.classList.remove("is-invalid");
+    wrapper?.querySelector("[data-field-error]")?.remove();
+  };
+
+  const setFieldError = (field, message) => {
+    const wrapper = field.closest(".field, .check");
+    if (!wrapper) return;
+    clearFieldError(field);
+    field.setAttribute("aria-invalid", "true");
+    wrapper.classList.add("is-invalid");
+
+    const errorId = `${field.id || field.name}-error`;
+    const note = document.createElement("p");
+    note.className = "field-error";
+    note.id = errorId;
+    note.dataset.fieldError = "";
+    note.textContent = t()(message);
+    wrapper.append(note);
+    field.setAttribute("aria-describedby", errorId);
+  };
+
+  const validate = () => {
+    const problems = [];
+    const name = form.querySelector("#name");
+    const email = form.querySelector("#email");
+    const phone = form.querySelector("#phone");
+    const consent = form.querySelector("#consent");
+
+    [name, email, phone, consent].forEach((field) => field && clearFieldError(field));
+
+    if (name && name.value.trim().length < 2) {
+      problems.push([name, "Podaj imię i nazwisko albo imię."]);
+    }
+    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/u.test(email.value.trim())) {
+      problems.push([email, "Podaj poprawny adres e-mail."]);
+    }
+    if (phone && phone.value.trim() && !/^[+0-9()/\s-]{6,24}$/u.test(phone.value.trim())) {
+      problems.push([phone, "Podaj poprawny numer telefonu albo zostaw to pole puste."]);
+    }
+    if (consent && !consent.checked) {
+      problems.push([consent, "Aby wysłać zapytanie, potwierdź zgodę na kontakt."]);
+    }
+
+    problems.forEach(([field, message]) => setFieldError(field, message));
+    if (problems.length) {
+      problems[0][0].focus();
+    }
+    return problems.length === 0;
+  };
+
+  form.querySelectorAll("#name, #email, #phone, #consent").forEach((field) => {
+    field.addEventListener("input", () => clearFieldError(field));
+    field.addEventListener("change", () => clearFieldError(field));
+  });
+
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
     const data = new FormData(form);
@@ -223,17 +344,18 @@
       payload.preferredTime = String(data.get("preferredTime") || "");
     }
 
-    const t = window.CNS?.translate || ((value) => value);
+    const translate = t();
 
-    if (!payload.consent) {
-      setStatus(t("Aby wysłać zapytanie, potwierdź zgodę na kontakt."), "error");
+    if (!validate()) {
+      setStatus(translate("Popraw zaznaczone pola i wyślij ponownie."), "error");
       return;
     }
 
     submit.disabled = true;
+    form.setAttribute("aria-busy", "true");
     const originalLabel = submit.textContent;
-    submit.textContent = t("Wysyłanie…");
-    setStatus(t("Wysyłamy Twoje zapytanie."));
+    submit.textContent = translate("Wysyłanie…");
+    setStatus(translate("Wysyłamy Twoje zapytanie."), "pending");
 
     try {
       const response = await fetch("/api/inquire", {
@@ -243,20 +365,23 @@
       });
       const result = await response.json();
       if (!response.ok || !result.ok) {
-        throw new Error(t(result.message || "Nie udało się wysłać zapytania."));
+        throw new Error(translate(result.message || "Nie udało się wysłać zapytania."));
       }
-      setStatus(t(result.message), "success");
+      setStatus(translate(result.message), "success");
       form.reset();
       setService(service);
       track("form_submit", { service });
-      submit.textContent = t("Wysłano");
+      submit.textContent = translate("Wysłano");
+      form.removeAttribute("aria-busy");
+      window.location.assign(`/dziekujemy/?usluga=${encodeURIComponent(service)}`);
     } catch (error) {
       setStatus(
-        t(error instanceof Error ? error.message : "Nie udało się wysłać zapytania."),
+        translate(error instanceof Error ? error.message : "Nie udało się wysłać zapytania."),
         "error",
       );
       submit.disabled = false;
       submit.textContent = originalLabel;
+      form.removeAttribute("aria-busy");
     }
   });
 })();
