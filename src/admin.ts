@@ -159,6 +159,12 @@ async function passwordMatches(input: string): Promise<boolean> {
   return left === right;
 }
 
+function langToggle(): string {
+  return `<button class="lang-toggle" type="button" data-lang-toggle aria-label="Switch the website to English" title="English">
+        <img src="/images/flag-gb.svg" alt="" width="22" height="15" data-lang-flag />
+      </button>`;
+}
+
 function layout(title: string, body: string): string {
   return `<!doctype html>
 <html lang="pl">
@@ -169,6 +175,8 @@ function layout(title: string, body: string): string {
     <title>${escapeHtml(title)}</title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="/styles.css" />
+    <script src="/js/i18n-boot.js"></script>
+    <script src="/js/i18n.js" defer></script>
     <script src="/js/admin.js" defer></script>
   </head>
   <body>
@@ -188,9 +196,14 @@ function loginPage(error = ""): string {
   const message = error ? `<p class="form-status is-error" role="alert">${escapeHtml(error)}</p>` : "";
   return layout(
     "Panel zapytań — Clean & Speak",
-    `<p class="eyebrow">Panel</p>
-      <h1>Zapytania z formularza</h1>
-      <p class="lede">Wejście tylko dla osoby prowadzącej stronę.</p>
+    `<div class="admin-top">
+        <div>
+          <p class="eyebrow">Panel</p>
+          <h1>Zapytania z formularza</h1>
+          <p class="lede">Wejście tylko dla osoby prowadzącej stronę.</p>
+        </div>
+        ${langToggle()}
+      </div>
       <form class="admin-login" method="post" action="/admin/">
         <div class="field">
           <label for="password">Hasło</label>
@@ -346,7 +359,7 @@ function inquiryCard(
 
   return `<article class="${cardClass}">
       <header class="admin-card__top">
-        <div class="admin-card__who">
+        <div class="admin-card__who" data-no-i18n>
           <h2>${escapeHtml(displayName)}</h2>
           <p class="admin-card__when">
             <time datetime="${escapeHtml(created)}" title="${escapeHtml(fullDate)}">${escapeHtml(clock || fullDate)}</time>
@@ -359,14 +372,14 @@ function inquiryCard(
             <input type="hidden" name="id" value="${escapeHtml(id)}" />
             <input type="hidden" name="csrf" value="${escapeHtml(csrf)}" />
             <input type="hidden" name="tab" value="${escapeHtml(tab)}" />
-            <button class="admin-delete-btn" type="submit" aria-label="Usuń zapytanie od ${escapeHtml(displayName)}">
+            <button class="admin-delete-btn" type="submit" data-no-i18n aria-label="Usuń zapytanie od ${escapeHtml(displayName)}">
               ${trashIcon()}
             </button>
           </form>
         </div>
       </header>
-      ${contact ? `<div class="admin-contact">${contact}</div>` : ""}
-      ${message ? `<blockquote class="admin-message"><p>${escapeHtml(message)}</p></blockquote>` : ""}
+      ${contact ? `<div class="admin-contact" data-no-i18n>${contact}</div>` : ""}
+      ${message ? `<blockquote class="admin-message" data-no-i18n><p>${escapeHtml(message)}</p></blockquote>` : ""}
       ${facts ? `<dl class="admin-facts">${facts}</dl>` : ""}
     </article>`;
 }
@@ -397,7 +410,9 @@ function groupedCards(
 
   const parts: string[] = [];
   for (const [ymd, items] of groups) {
-    parts.push(`<h2 class="admin-day">${escapeHtml(dayHeading(ymd === "none" ? "" : ymd, todayYmd))}</h2>`);
+    parts.push(
+      `<h2 class="admin-day" data-ymd="${escapeHtml(ymd === "none" ? "" : ymd)}" data-no-i18n>${escapeHtml(dayHeading(ymd === "none" ? "" : ymd, todayYmd))}</h2>`,
+    );
     parts.push(`<div class="admin-day-list">${items.map((item) => inquiryCard(item.id, item.record, csrf, tab)).join("")}</div>`);
   }
   return `<div class="admin-feed">${parts.join("")}</div>`;
@@ -431,12 +446,15 @@ function dashboardPage(
         <div>
           <p class="eyebrow">Panel</p>
           <h1>Zapytania</h1>
-          <p class="admin-count">${polishCount(all.length, "zapytanie", "zapytania", "zapytań")} łącznie</p>
+          <p class="admin-count" data-admin-count="${all.length}" data-no-i18n>${polishCount(all.length, "zapytanie", "zapytania", "zapytań")} łącznie</p>
         </div>
-        <form method="post" action="/admin/">
-          <input type="hidden" name="intent" value="logout" />
-          <button class="btn btn--ghost" type="submit">Wyloguj</button>
-        </form>
+        <div class="admin-actions">
+          ${langToggle()}
+          <form method="post" action="/admin/">
+            <input type="hidden" name="intent" value="logout" />
+            <button class="btn btn--ghost" type="submit">Wyloguj</button>
+          </form>
+        </div>
       </div>
       <nav class="admin-tabs" aria-label="Filtr zapytań">
         ${tabBtn("all", "Wszystkie", all.length)}

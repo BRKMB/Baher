@@ -1541,6 +1541,21 @@ a.contact-method--link:focus-visible p {
   margin-bottom: 1.5rem;
 }
 
+.admin-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  --tool-size: 2.45rem;
+}
+
+.admin-page .lang-toggle {
+  background: var(--surface);
+}
+
+.admin-top > .lang-toggle {
+  --tool-size: 2.45rem;
+}
+
 .admin-count {
   color: var(--muted);
   margin: 0.35rem 0 0;

@@ -475,6 +475,47 @@
       "We set no advertising or statistics cookies. Visit statistics are collected without cookies and without identifiers — we count page views and clicks, not individual people.",
     "Ta strona nie istnieje. Przejdź do oferty sprzątania, zajęć z angielskiego albo do kontaktu.":
       "This page does not exist. Go to the cleaning offer, the English lessons or the contact page.",
+    Panel: "Panel",
+    Zapytania: "Enquiries",
+    "Zapytania z formularza": "Form enquiries",
+    "Wejście tylko dla osoby prowadzącej stronę.": "Entry only for the person who runs the site.",
+    Hasło: "Password",
+    Wejdź: "Sign in",
+    Wyloguj: "Log out",
+    Wszystkie: "All",
+    "Zapytanie zostało usunięte.": "The enquiry has been deleted.",
+    "Nie udało się usunąć zapytania. Odśwież stronę i spróbuj ponownie.":
+      "The enquiry could not be deleted. Refresh the page and try again.",
+    "Brak zapytań o sprzątanie.": "There are no cleaning enquiries.",
+    "Brak zapytań o zajęcia angielskiego.": "There are no English lesson enquiries.",
+    "Nie ma jeszcze żadnego zapytania. Gdy ktoś wyśle formularz, pojawi się tutaj.":
+      "There are no enquiries yet. When someone sends the form, it will show up here.",
+    Dzisiaj: "Today",
+    Wczoraj: "Yesterday",
+    "Bez daty": "No date",
+    Nieruchomość: "Property",
+    Metraż: "Size",
+    "Poziom / wiek": "Level / age",
+    "Forma zajęć": "Lesson format",
+    Cel: "Goal",
+    Dni: "Days",
+    Godziny: "Hours",
+    Termin: "Date",
+    Dodatki: "Extras",
+    Placówka: "Institution",
+    Biuro: "Office",
+    Okna: "Windows",
+    Stacjonarnie: "In person",
+    "Nie wiem": "I don’t know",
+    Dzieci: "Children",
+    Szkoła: "School",
+    Egzamin: "Exam",
+    Konwersacje: "Conversation",
+    "Bariera mówienia": "Speaking barrier",
+    "Wyślij hasło przez formularz.": "Send the password through the form.",
+    "Nieprawidłowe hasło.": "Incorrect password.",
+    "Za dużo prób. Poczekaj chwilę i spróbuj ponownie.": "Too many attempts. Wait a moment and try again.",
+    "Niedozwolona metoda.": "Method not allowed.",
   };
 
   const TITLES = {
@@ -487,6 +528,7 @@
     "/regulamin/": "Terms — Clean & Speak",
     "/cookies/": "Cookies — Clean & Speak",
     "/dziekujemy/": "Thank you for your enquiry — Clean & Speak",
+    "/admin/": "Enquiries — Clean & Speak",
   };
 
   const TITLE_TEXT = {
@@ -500,6 +542,8 @@
     "Cookies — Clean & Speak": "Cookies — Clean & Speak",
     "Dziękujemy za zapytanie — Clean & Speak": "Thank you for your enquiry — Clean & Speak",
     "Nie znaleziono strony — Clean & Speak": "Page not found — Clean & Speak",
+    "Panel zapytań — Clean & Speak": "Enquiry panel — Clean & Speak",
+    "Zapytania — Clean & Speak": "Enquiries — Clean & Speak",
   };
 
   const ATTR = {
@@ -529,6 +573,7 @@
     "np. po 17:00": "e.g. after 17:00",
     "Napisz to, czego nie da się wybrać z listy.": "Write anything that does not fit the list.",
     "Zadzwoń 534 346 436": "Call 534 346 436",
+    "Filtr zapytań": "Enquiry filter",
   };
 
   const normalize = (value) => value.replace(/\s+/g, " ").trim();
@@ -553,7 +598,7 @@
       const parent = walker.currentNode.parentElement;
       if (!parent) continue;
       if (["SCRIPT", "STYLE", "NOSCRIPT", "TEXTAREA"].includes(parent.tagName)) continue;
-      if (parent.closest("[data-lang-toggle], .footer-credit")) continue;
+      if (parent.closest("[data-lang-toggle], .footer-credit, [data-no-i18n]")) continue;
       nodes.push(walker.currentNode);
     }
     return nodes;
@@ -578,7 +623,7 @@
   const applyAttributes = (lang) => {
     const targets = document.querySelectorAll("[aria-label], [placeholder], [alt], [title]");
     targets.forEach((element) => {
-      if (element.closest("[data-lang-toggle]")) return;
+      if (element.closest("[data-lang-toggle], [data-no-i18n]")) return;
       let cached = attrCache.get(element);
       if (!cached) {
         cached = {};
