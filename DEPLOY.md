@@ -8,7 +8,11 @@ The stable URL after a successful deploy is:
 
 ## A. Fastest: upload in the dashboard (no terminal)
 
-Use the `pages-upload` folder from `clean-and-speak-cloudflare.zip`.
+The packed zip is in the repo:
+
+`releases/clean-and-speak-cloudflare.zip`
+
+Use the `pages-upload` folder from that zip.
 
 1. Open [Workers & Pages](https://dash.cloudflare.com/?to=/:account/workers-and-pages).
 2. **Create** → **Pages** → **Upload assets**.
