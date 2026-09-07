@@ -994,12 +994,20 @@ html[data-lang="en"]:not(.i18n-ready) body {
 .footer-bottom {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem 1.25rem;
+  align-items: center;
+  gap: 0.35rem 1.15rem;
   margin-top: 2.5rem;
   padding-top: 1.25rem;
   border-top: 1px solid #2c2924;
   color: #9c9589;
   font-size: 0.9rem;
+}
+
+.footer-bottom p,
+.footer-bottom a {
+  display: inline-flex;
+  align-items: center;
+  margin: 0;
 }
 
 .footer-credit {
@@ -1804,6 +1812,7 @@ a.contact-method--link:focus-visible p {
 
   .text-link,
   .footer-col ul a,
+  .footer-bottom p,
   .footer-bottom a,
   .footer-contact a,
   .cookie-bar__row a {
