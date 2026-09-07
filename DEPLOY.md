@@ -8,17 +8,16 @@ The stable URL after a successful deploy is:
 
 ## A. Fastest: upload in the dashboard (no terminal)
 
-The packed zip is in the repo:
+The dashboard upload zip is only website files (no Wrangler config):
 
-`releases/clean-and-speak-cloudflare.zip`
-
-Use the `pages-upload` folder from that zip.
+`releases/clean-and-speak-pages.zip`
 
 1. Open [Workers & Pages](https://dash.cloudflare.com/?to=/:account/workers-and-pages).
 2. **Create** → **Pages** → **Upload assets**.
 3. Project name: `clean-and-speak`.
-4. Drop the contents of `pages-upload` (the folder that already contains `index.html`).
-5. Deploy.
+4. Upload `clean-and-speak-pages.zip`, or unzip it and drop the folder that contains `index.html`.
+5. Do not upload `wrangler.jsonc`, `package.json`, or the `workers-project` folder. Cloudflare Pages rejects those.
+6. Deploy.
 
 The public URL stays the same on every later upload:
 

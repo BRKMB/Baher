@@ -48,7 +48,10 @@ mkdir -p "$OUT_DIR"
 (
   cd "$STAGE"
   zip -r -q "$OUT_DIR/$NAME.zip" "$NAME"
+  cd "$BUNDLE/pages-upload"
+  zip -r -q "$OUT_DIR/clean-and-speak-pages.zip" .
 )
 
 echo "Wrote $OUT_DIR/$NAME.zip"
-unzip -l "$OUT_DIR/$NAME.zip" | tail -n 20
+echo "Wrote $OUT_DIR/clean-and-speak-pages.zip"
+unzip -l "$OUT_DIR/clean-and-speak-pages.zip" | head -n 25
