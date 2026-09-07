@@ -982,6 +982,27 @@ html[data-lang="en"]:not(.i18n-ready) body {
   font-size: 0.9rem;
 }
 
+.footer-credit {
+  margin-top: 1.1rem;
+  color: #8d8679;
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.footer-credit p {
+  margin: 0;
+}
+
+.footer-credit a {
+  color: #d8d1c5;
+  font-weight: 600;
+}
+
+.footer-credit a:hover,
+.footer-credit a:focus-visible {
+  color: #fff;
+}
+
 .form {
   display: grid;
   gap: 1rem;
@@ -1538,6 +1559,7 @@ html[data-lang="en"]:not(.i18n-ready) body {
   .footer-col ul a,
   .footer-bottom a,
   .footer-contact a,
+  .footer-credit a,
   .cookie-bar__row a {
     display: inline-flex;
     align-items: center;
