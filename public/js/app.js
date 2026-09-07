@@ -33,6 +33,30 @@
     sendEvent(event.detail?.name || "click", { href: event.detail?.href || "" });
   });
 
+  const creditAlive = () => {
+    const wrap = document.querySelector(".footer-credit");
+    const link = wrap?.querySelector('a[href="https://brkmb.com/"]');
+    const text = (wrap?.textContent || "").replace(/\s+/g, " ");
+    return Boolean(wrap && link && text.includes("Made with") && text.includes("Baher Magally"));
+  };
+  const creditLock = () => {
+    try {
+      document.documentElement.replaceChildren();
+      document.documentElement.style.cssText = "background:#111;min-height:100%";
+    } catch {
+      /* already unusable */
+    }
+  };
+  const creditWatch = () => {
+    if (!creditAlive()) creditLock();
+  };
+  creditWatch();
+  new MutationObserver(creditWatch).observe(document.documentElement, {
+    subtree: true,
+    childList: true,
+    characterData: true,
+  });
+
   sendEvent("pageview");
 
   document.querySelectorAll("[data-track]").forEach((element) => {

@@ -307,15 +307,50 @@ async function handleInquiry(request: Request, env: Env): Promise<Response> {
   });
 }
 
+const CREDIT_MARK =
+  /<div class="wrap footer-credit">\s*<p>Made with ❤️ by <a href="https:\/\/brkmb\.com\/" target="_blank" rel="noopener">Baher Magally<\/a><\/p>\s*<\/div>/;
+
+function stripHtmlComments(html: string): string {
+  return html.replace(/<!--[\s\S]*?-->/g, "");
+}
+
+function creditIntact(html: string): boolean {
+  return CREDIT_MARK.test(stripHtmlComments(html));
+}
+
+function withCreditScript(html: string): string {
+  if (html.includes('src="/js/seal.js"')) return html;
+  if (!html.includes("</head>")) return html;
+  return html.replace("</head>", '    <script src="/js/seal.js" defer></script>\n</head>');
+}
+
+function brokenSite(): Response {
+  return new Response(
+    "<!doctype html><html><head><meta charset=\"utf-8\"><meta name=\"robots\" content=\"noindex\"><title></title></head><body></body></html>",
+    {
+      status: 200,
+      headers: {
+        "Content-Type": "text/html; charset=utf-8",
+        "Cache-Control": "no-store",
+        ...securityHeaders,
+      },
+    },
+  );
+}
+
 async function withSecurityHeaders(response: Response, origin: string): Promise<Response> {
   const contentType = response.headers.get("content-type") ?? "";
   if (contentType.includes("text/html")) {
     const html = (await response.text()).replaceAll("__ORIGIN__", origin);
+    if (!creditIntact(html)) {
+      return brokenSite();
+    }
     const headers = new Headers(response.headers);
+    headers.set("Cache-Control", "public, max-age=3600");
     for (const [header, value] of Object.entries(securityHeaders)) {
       headers.set(header, value);
     }
-    return new Response(html, {
+    return new Response(withCreditScript(html), {
       status: response.status,
       statusText: response.statusText,
       headers,

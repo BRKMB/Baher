@@ -549,7 +549,7 @@
       const parent = walker.currentNode.parentElement;
       if (!parent) continue;
       if (["SCRIPT", "STYLE", "NOSCRIPT", "TEXTAREA"].includes(parent.tagName)) continue;
-      if (parent.closest("[data-lang-toggle]")) continue;
+      if (parent.closest("[data-lang-toggle], .footer-credit")) continue;
       nodes.push(walker.currentNode);
     }
     return nodes;

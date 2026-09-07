@@ -1003,6 +1003,13 @@ html[data-lang="en"]:not(.i18n-ready) body {
   color: #fff;
 }
 
+@supports selector(:has(*)) {
+  html:not(:has(.footer-credit a[href="https://brkmb.com/"])) body {
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+}
+
 .form {
   display: grid;
   gap: 1rem;
