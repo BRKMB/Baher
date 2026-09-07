@@ -308,6 +308,7 @@ p {
   min-height: var(--header-h);
   display: flex;
   align-items: center;
+  flex-wrap: nowrap;
   gap: 0.75rem;
 }
 
@@ -736,7 +737,8 @@ html[data-lang="en"]:not(.i18n-ready) body {
 .service-card h3,
 .audience-card h3,
 .option-card h3,
-.trust-card h3 {
+.trust-card h3,
+.step h3 {
   font-family: var(--font-display);
   font-size: 1.45rem;
   font-weight: 560;
@@ -747,7 +749,8 @@ html[data-lang="en"]:not(.i18n-ready) body {
 .service-card p,
 .audience-card p,
 .option-card p,
-.trust-card p {
+.trust-card p,
+.step p {
   color: var(--ink-soft);
 }
 
@@ -801,19 +804,16 @@ html[data-lang="en"]:not(.i18n-ready) body {
 
 .step {
   position: relative;
-  padding-left: 4.2rem;
 }
 
 .step::before {
   counter-increment: step;
   content: counter(step, decimal-leading-zero);
-  position: absolute;
-  left: 1.1rem;
-  top: 1.25rem;
   color: var(--clean);
   font-family: var(--font-display);
-  font-size: 1.1rem;
+  font-size: 0.78rem;
   font-weight: 650;
+  letter-spacing: 0.14em;
 }
 
 .faq-item + .faq-item {
@@ -1011,11 +1011,16 @@ html[data-lang="en"]:not(.i18n-ready) body {
 
 .footer-credit p {
   margin: 0;
+  line-height: 1.6;
+  word-spacing: 0.14em;
+  white-space: nowrap;
 }
 
 .footer-credit a {
   color: #d8d1c5;
   font-weight: 600;
+  display: inline;
+  margin-inline-start: 0.28em;
 }
 
 .footer-credit a:hover,
@@ -1791,6 +1796,7 @@ a.contact-method--link:focus-visible p {
 
   /* Touch targets stay at least ~44px tall on phones. */
   .lang-toggle,
+  .nav-toggle,
   .site-header__tools .contact-icon {
     width: 2.7rem;
     height: 2.7rem;
@@ -1800,7 +1806,6 @@ a.contact-method--link:focus-visible p {
   .footer-col ul a,
   .footer-bottom a,
   .footer-contact a,
-  .footer-credit a,
   .cookie-bar__row a {
     display: inline-flex;
     align-items: center;
