@@ -169,6 +169,7 @@ function layout(title: string, body: string): string {
     <title>${escapeHtml(title)}</title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="/styles.css" />
+    <script src="/js/admin.js" defer></script>
   </head>
   <body>
     <main class="admin-page wrap">
@@ -201,6 +202,91 @@ function loginPage(error = ""): string {
   );
 }
 
+const INQUIRY_ID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+type TabFilter = "all" | "sprzatanie" | "angielski";
+
+function parseTab(value: string | null): TabFilter {
+  if (value === "sprzatanie" || value === "angielski") return value;
+  return "all";
+}
+
+function tabHref(tab: TabFilter, extra?: Record<string, string>): string {
+  const params = new URLSearchParams();
+  if (tab !== "all") params.set("tab", tab);
+  if (extra) {
+    for (const [key, item] of Object.entries(extra)) params.set(key, item);
+  }
+  const query = params.toString();
+  return query ? `/admin/?${query}` : "/admin/";
+}
+
+async function csrfToken(session: string): Promise<string> {
+  return sha256Hex(`csrf:${session}`);
+}
+
+async function csrfMatches(session: string, provided: string): Promise<boolean> {
+  if (!provided) return false;
+  const expected = await csrfToken(session);
+  const [left, right] = await Promise.all([sha256Hex(`c:${expected}`), sha256Hex(`c:${provided}`)]);
+  return left === right;
+}
+
+function warsawYmd(iso: string): string {
+  const date = new Date(iso);
+  if (Number.isNaN(date.getTime())) return "";
+  return new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Warsaw" }).format(date);
+}
+
+function parseYmd(ymd: string): [number, number, number] {
+  const [year = 1970, month = 1, day = 1] = ymd.split("-").map(Number);
+  return [year, month, day];
+}
+
+function shiftYmd(ymd: string, days: number): string {
+  const [year, month, day] = parseYmd(ymd);
+  const shifted = new Date(Date.UTC(year, month - 1, day + days));
+  return shifted.toISOString().slice(0, 10);
+}
+
+function dayHeading(ymd: string, todayYmd: string): string {
+  if (!ymd) return "Bez daty";
+  if (ymd === todayYmd) return "Dzisiaj";
+  if (ymd === shiftYmd(todayYmd, -1)) return "Wczoraj";
+  const [year, month, day] = parseYmd(ymd);
+  const noon = new Date(Date.UTC(year, month - 1, day, 12));
+  const label = new Intl.DateTimeFormat("pl-PL", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    timeZone: "UTC",
+  }).format(noon);
+  return label.charAt(0).toUpperCase() + label.slice(1);
+}
+
+function formatClock(iso: string): string {
+  const date = new Date(iso);
+  if (Number.isNaN(date.getTime())) return "";
+  return new Intl.DateTimeFormat("pl-PL", {
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: "Europe/Warsaw",
+  }).format(date);
+}
+
+function formatFullDate(iso: string): string {
+  const date = new Date(iso);
+  if (Number.isNaN(date.getTime())) return iso;
+  return new Intl.DateTimeFormat("pl-PL", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    timeZone: "Europe/Warsaw",
+  }).format(date);
+}
+
 function polishCount(n: number, one: string, few: string, many: string): string {
   const mod10 = n % 10;
   const mod100 = n % 100;
@@ -209,68 +295,156 @@ function polishCount(n: number, one: string, few: string, many: string): string 
   return `${n} ${many}`;
 }
 
-function formatWhen(iso: string): string {
-  const date = new Date(iso);
-  if (Number.isNaN(date.getTime())) return iso;
-  return new Intl.DateTimeFormat("pl-PL", {
-    dateStyle: "short",
-    timeStyle: "short",
-    timeZone: "Europe/Warsaw",
-  }).format(date);
-}
-
 function prettyValue(key: string, value: string): string {
   if (key === "service") return SERVICE_LABELS[value] ?? value;
   return VALUE_LABELS[value] ?? value;
 }
 
-function inquiryCard(id: string, record: InquiryRecord): string {
+function trashIcon(): string {
+  return `<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 7h14"/><path d="M10 7V5h4v2"/><path d="M8 7v12h8V7"/><path d="M10 11v5M14 11v5"/></svg>`;
+}
+
+function inquiryCard(
+  id: string,
+  record: InquiryRecord,
+  csrf: string,
+  tab: TabFilter,
+): string {
   const service = record.service ?? "";
-  const flagClass = service === "angielski" ? "admin-flag admin-flag--speak" : "admin-flag";
-  const rows = Object.entries(FIELD_LABELS)
+  const speak = service === "angielski";
+  const flagClass = speak ? "admin-flag admin-flag--speak" : "admin-flag";
+  const cardClass = speak ? "admin-card admin-card--speak" : "admin-card";
+  const created = record.createdAt || "";
+  const clock = formatClock(created);
+  const fullDate = formatFullDate(created);
+  const displayName = record.name || "Bez imienia";
+
+  const email = record.email?.trim() ?? "";
+  const phone = record.phone?.trim() ?? "";
+  const message = record.message?.trim() ?? "";
+
+  const contact = [
+    email
+      ? `<a class="admin-chip" href="mailto:${escapeHtml(email)}"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="/icons.svg#i-mail"/></svg>${escapeHtml(email)}</a>`
+      : "",
+    phone
+      ? `<a class="admin-chip" href="tel:${escapeHtml(phone.replace(/[^\d+]/g, ""))}"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="/icons.svg#i-phone"/></svg>${escapeHtml(phone)}</a>`
+      : "",
+  ]
+    .filter(Boolean)
+    .join("");
+
+  const facts = Object.entries(FIELD_LABELS)
+    .filter(([key]) => key !== "name" && key !== "email" && key !== "phone" && key !== "message")
     .map(([key, label]) => {
       const raw = record[key]?.trim() ?? "";
       if (!raw) return "";
-      const shown = prettyValue(key, raw);
-      const body =
-        key === "email"
-          ? `<a href="mailto:${escapeHtml(raw)}">${escapeHtml(raw)}</a>`
-          : key === "phone"
-            ? `<a href="tel:${escapeHtml(raw.replace(/[^\d+]/g, ""))}">${escapeHtml(raw)}</a>`
-            : escapeHtml(shown);
-      return `<div><dt>${escapeHtml(label)}</dt><dd>${body}</dd></div>`;
+      return `<div><dt>${escapeHtml(label)}</dt><dd>${escapeHtml(prettyValue(key, raw))}</dd></div>`;
     })
     .filter(Boolean)
     .join("");
 
-  return `<article class="admin-card">
-      <header>
-        <h2>${escapeHtml(record.name || "Bez imienia")}</h2>
-        <span class="${flagClass}">${escapeHtml(prettyValue("service", service) || "Zapytanie")}</span>
+  return `<article class="${cardClass}">
+      <header class="admin-card__top">
+        <div class="admin-card__who">
+          <h2>${escapeHtml(displayName)}</h2>
+          <p class="admin-card__when">
+            <time datetime="${escapeHtml(created)}" title="${escapeHtml(fullDate)}">${escapeHtml(clock || fullDate)}</time>
+          </p>
+        </div>
+        <div class="admin-card__tools">
+          <span class="${flagClass}">${escapeHtml(prettyValue("service", service) || "Zapytanie")}</span>
+          <form class="admin-delete" method="post" action="/admin/" data-delete-form data-name="${escapeHtml(displayName)}">
+            <input type="hidden" name="intent" value="delete" />
+            <input type="hidden" name="id" value="${escapeHtml(id)}" />
+            <input type="hidden" name="csrf" value="${escapeHtml(csrf)}" />
+            <input type="hidden" name="tab" value="${escapeHtml(tab)}" />
+            <button class="admin-delete-btn" type="submit" aria-label="Usuń zapytanie od ${escapeHtml(displayName)}">
+              ${trashIcon()}
+            </button>
+          </form>
+        </div>
       </header>
-      <p class="muted">${escapeHtml(formatWhen(record.createdAt || ""))} · ${escapeHtml(id.slice(0, 8))}</p>
-      <dl class="admin-dl">${rows}</dl>
+      ${contact ? `<div class="admin-contact">${contact}</div>` : ""}
+      ${message ? `<blockquote class="admin-message"><p>${escapeHtml(message)}</p></blockquote>` : ""}
+      ${facts ? `<dl class="admin-facts">${facts}</dl>` : ""}
     </article>`;
 }
 
-function dashboardPage(inquiries: { id: string; record: InquiryRecord }[]): string {
-  const cards =
-    inquiries.length === 0
-      ? `<p class="admin-empty">Nie ma jeszcze żadnego zapytania. Gdy ktoś wyśle formularz, pojawi się tutaj.</p>`
-      : inquiries.map((item) => inquiryCard(item.id, item.record)).join("");
+function groupedCards(
+  inquiries: { id: string; record: InquiryRecord }[],
+  csrf: string,
+  tab: TabFilter,
+): string {
+  if (inquiries.length === 0) {
+    const empty =
+      tab === "sprzatanie"
+        ? "Brak zapytań o sprzątanie."
+        : tab === "angielski"
+          ? "Brak zapytań o zajęcia angielskiego."
+          : "Nie ma jeszcze żadnego zapytania. Gdy ktoś wyśle formularz, pojawi się tutaj.";
+    return `<p class="admin-empty">${empty}</p>`;
+  }
+
+  const todayYmd = warsawYmd(new Date().toISOString());
+  const groups = new Map<string, { id: string; record: InquiryRecord }[]>();
+  for (const item of inquiries) {
+    const key = warsawYmd(item.record.createdAt || "") || "none";
+    const list = groups.get(key) ?? [];
+    list.push(item);
+    groups.set(key, list);
+  }
+
+  const parts: string[] = [];
+  for (const [ymd, items] of groups) {
+    parts.push(`<h2 class="admin-day">${escapeHtml(dayHeading(ymd === "none" ? "" : ymd, todayYmd))}</h2>`);
+    parts.push(`<div class="admin-day-list">${items.map((item) => inquiryCard(item.id, item.record, csrf, tab)).join("")}</div>`);
+  }
+  return `<div class="admin-feed">${parts.join("")}</div>`;
+}
+
+function dashboardPage(
+  all: { id: string; record: InquiryRecord }[],
+  tab: TabFilter,
+  csrf: string,
+  notice: string,
+): string {
+  const cleaning = all.filter((item) => item.record.service === "sprzatanie");
+  const english = all.filter((item) => item.record.service === "angielski");
+  const visible = tab === "sprzatanie" ? cleaning : tab === "angielski" ? english : all;
+
+  const banner =
+    notice === "deleted"
+      ? `<p class="admin-banner" role="status">Zapytanie zostało usunięte.</p>`
+      : notice === "delete-error"
+        ? `<p class="admin-banner admin-banner--error" role="alert">Nie udało się usunąć zapytania. Odśwież stronę i spróbuj ponownie.</p>`
+        : "";
+
+  const tabBtn = (id: TabFilter, label: string, count: number) => {
+    const current = tab === id;
+    return `<a class="admin-tab${current ? " is-active" : ""}" href="${tabHref(id)}"${current ? ' aria-current="page"' : ""}>${escapeHtml(label)} <span>${count}</span></a>`;
+  };
 
   return layout(
     "Zapytania — Clean & Speak",
-    `<p class="eyebrow">Panel</p>
-      <h1>Osoby, które napisały</h1>
-      <div class="admin-toolbar">
-        <p class="admin-count">${polishCount(inquiries.length, "zapytanie", "zapytania", "zapytań")}</p>
+    `<div class="admin-top">
+        <div>
+          <p class="eyebrow">Panel</p>
+          <h1>Zapytania</h1>
+          <p class="admin-count">${polishCount(all.length, "zapytanie", "zapytania", "zapytań")} łącznie</p>
+        </div>
         <form method="post" action="/admin/">
           <input type="hidden" name="intent" value="logout" />
           <button class="btn btn--ghost" type="submit">Wyloguj</button>
         </form>
       </div>
-      ${cards}`,
+      <nav class="admin-tabs" aria-label="Filtr zapytań">
+        ${tabBtn("all", "Wszystkie", all.length)}
+        ${tabBtn("sprzatanie", "Sprzątanie", cleaning.length)}
+        ${tabBtn("angielski", "Angielski", english.length)}
+      </nav>
+      ${banner}
+      ${groupedCards(visible, csrf, tab)}`,
   );
 }
 
@@ -352,6 +526,17 @@ export async function handleAdmin(request: Request, env: Env): Promise<Response>
     }
 
     if (await isAuthed(request)) {
+      if (form.get("intent") === "delete") {
+        const tab = parseTab(form.get("tab"));
+        const session = readCookie(request, COOKIE_NAME);
+        const id = form.get("id") ?? "";
+        if (!(await csrfMatches(session, form.get("csrf") ?? "")) || !INQUIRY_ID_PATTERN.test(id)) {
+          return redirect(tabHref(tab, { error: "delete" }));
+        }
+        await env.INQUIRIES.delete(`inquiry:${id}`);
+        console.info(JSON.stringify({ event: "inquiry_deleted", inquiryId: id }));
+        return redirect(tabHref(tab, { notice: "deleted" }));
+      }
       return redirect("/admin/");
     }
 
@@ -378,8 +563,16 @@ export async function handleAdmin(request: Request, env: Env): Promise<Response>
     return htmlResponse(loginPage());
   }
 
+  const tab = parseTab(url.searchParams.get("tab"));
+  const notice =
+    url.searchParams.get("notice") === "deleted"
+      ? "deleted"
+      : url.searchParams.get("error") === "delete"
+        ? "delete-error"
+        : "";
+  const csrf = await csrfToken(readCookie(request, COOKIE_NAME));
   const inquiries = await loadInquiries(env);
-  return htmlResponse(dashboardPage(inquiries));
+  return htmlResponse(dashboardPage(inquiries, tab, csrf, notice));
 }
 
 export function isAdminPath(pathname: string): boolean {

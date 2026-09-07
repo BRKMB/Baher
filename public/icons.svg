@@ -71,4 +71,7 @@
   <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
     <path d="m5 12 5 5 9-10"/>
   </symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 7h14"/><path d="M10 7V5h4v2"/><path d="M8 7v12h8V7"/><path d="M10 11v5M14 11v5"/>
+  </symbol>
 </svg>

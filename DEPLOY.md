@@ -65,3 +65,5 @@ The worker serves a private inquiries list at `/admin/`.
 Password: `brkmb.com`
 
 Open `https://clean-and-speak.<your-subdomain>.workers.dev/admin/` and sign in. This only works on the Worker deploy (method B), because inquiries live in KV.
+
+The panel splits cleaning and English enquiries into tabs, groups them by date, and lets you delete a record with the red trash button.
