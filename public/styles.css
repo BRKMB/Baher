@@ -994,8 +994,9 @@ html[data-lang="en"]:not(.i18n-ready) body {
 .footer-bottom {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
-  gap: 0.35rem 1.15rem;
+  align-items: baseline;
+  column-gap: 0.9rem;
+  row-gap: 0.2rem;
   margin-top: 2.5rem;
   padding-top: 1.25rem;
   border-top: 1px solid #2c2924;
@@ -1005,9 +1006,14 @@ html[data-lang="en"]:not(.i18n-ready) body {
 
 .footer-bottom p,
 .footer-bottom a {
-  display: inline-flex;
-  align-items: center;
+  display: block;
+  flex: 0 0 auto;
+  align-self: baseline;
   margin: 0;
+  padding: 0;
+  min-height: 0;
+  line-height: 1.3;
+  white-space: nowrap;
 }
 
 .footer-credit {
@@ -1812,13 +1818,30 @@ a.contact-method--link:focus-visible p {
 
   .text-link,
   .footer-col ul a,
-  .footer-bottom p,
-  .footer-bottom a,
   .footer-contact a,
   .cookie-bar__row a {
     display: inline-flex;
     align-items: center;
     min-height: 2.75rem;
+  }
+
+  .footer-bottom {
+    font-size: clamp(0.7rem, 3.2vw, 0.84rem);
+    column-gap: clamp(0.4rem, 1.7vw, 0.75rem);
+    row-gap: 0.15rem;
+  }
+
+  .footer-bottom p,
+  .footer-bottom a {
+    display: block;
+    min-height: 0;
+    height: auto;
+    padding-block: 0.4rem;
+    padding-inline: 0;
+    line-height: 1.3;
+    white-space: nowrap;
+    flex: 0 0 auto;
+    align-self: baseline;
   }
 
   .footer-contact .contact-icon {
