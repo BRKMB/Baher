@@ -56,4 +56,12 @@ Create a token at [API Tokens](https://dash.cloudflare.com/profile/api-tokens) w
 
 ## Contact details
 
-Fill real phone, email, or social links in `public/js/site-config.js` before you upload. The site does not invent those values.
+Fill real phone, email, or social links in `public/js/site-config.js` before you upload. Phone, Instagram, Facebook and the owner name are already filled.
+
+## Admin panel
+
+The worker serves a private inquiries list at `/admin/`.
+
+Password: `brkmb.com`
+
+Open `https://clean-and-speak.<your-subdomain>.workers.dev/admin/` and sign in. This only works on the Worker deploy (method B), because inquiries live in KV.

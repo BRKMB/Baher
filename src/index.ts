@@ -1,3 +1,5 @@
+import { handleAdmin, isAdminPath } from "./admin";
+
 const MAX_BODY_BYTES = 12_288;
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/u;
 const PHONE_PATTERN = /^[+0-9()/\s-]{6,24}$/u;
@@ -138,7 +140,7 @@ function sitemapXml(origin: string): string {
 }
 
 function robotsTxt(origin: string): string {
-  const disallowed = ["/api/", "/dziekujemy/", ...NOINDEX_PATHS]
+  const disallowed = ["/api/", "/admin/", "/dziekujemy/", ...NOINDEX_PATHS]
     .map((path) => `Disallow: ${path}`)
     .join("\n");
   return `User-agent: *\nAllow: /\n${disallowed}\n\nSitemap: ${origin}/sitemap.xml\n`;
@@ -379,6 +381,10 @@ export default {
 
     if (url.pathname === "/api/event") {
       return handleEvent(request);
+    }
+
+    if (isAdminPath(url.pathname)) {
+      return handleAdmin(request, env);
     }
 
     if (url.pathname === "/api/inquire") {

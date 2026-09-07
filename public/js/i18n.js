@@ -408,8 +408,11 @@
     "Zanim ruszymy, wiadomo, co dokładnie zostanie zrobione i w jakim czasie.":
       "Before we start, it is clear what will be done and in what time.",
     "Kontakt z jedną osobą": "One person to talk to",
-    "Odpowiada Ci ta sama osoba, która ustala zakres sprzątania albo prowadzi zajęcia.":
-      "You are answered by the same person who sets the cleaning scope or teaches the lessons.",
+    "Odpowiada Ci Daria Thorsen — ta sama osoba, która ustala zakres sprzątania albo prowadzi zajęcia.":
+      "Daria Thorsen answers you — the same person who sets the cleaning scope or teaches the lessons.",
+    "Prowadzi Daria Thorsen. Czysta przestrzeń. Pewny angielski.":
+      "Run by Daria Thorsen. A clean space. Confident English.",
+    Prowadzi: "Run by",
     "Bez ukrytych dopłat": "No hidden extras",
     "Wycena obejmuje ustalony zakres. Zmiany omawiamy wcześniej, nie po fakcie.":
       "The quote covers the agreed scope. Changes are discussed beforehand, not afterwards.",

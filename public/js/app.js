@@ -161,6 +161,10 @@
       const link = node.querySelector("a");
       if (link && buildHref) {
         link.href = buildHref(value);
+        if (/^https?:/i.test(link.href)) {
+          link.target = "_blank";
+          link.rel = "noopener noreferrer";
+        }
         if (!link.dataset.keepLabel) {
           link.textContent = value;
         }
@@ -172,8 +176,16 @@
     return true;
   };
 
+  const phoneHref = (value) => {
+    const digits = value.replace(/[^\d+]/g, "");
+    if (digits.startsWith("+")) return `tel:${digits}`;
+    if (/^\d{9}$/.test(digits)) return `tel:+48${digits}`;
+    return `tel:${digits}`;
+  };
+
   const contactFlags = [
-    bindMethod("phone", (value) => `tel:${value.replace(/[^\d+]/g, "")}`),
+    bindMethod("owner", null),
+    bindMethod("phone", phoneHref),
     bindMethod("email", (value) => `mailto:${value}`),
     bindMethod("whatsapp", (value) => `https://wa.me/${value.replace(/\D/g, "")}`),
     bindMethod("instagram", (value) => value),
@@ -196,17 +208,23 @@
     node.hidden = !hasAnyContact;
   });
 
-  if (config.address || config.phone || config.email) {
+  if (config.address || config.phone || config.email || config.owner) {
     const business = {
       "@context": "https://schema.org",
       "@type": "LocalBusiness",
       name: "Clean & Speak",
       url: window.location.origin,
     };
-    if (config.phone) business.telephone = config.phone;
+    if (config.owner) business.founder = { "@type": "Person", name: config.owner };
+    if (config.phone) {
+      const digits = String(config.phone).replace(/[^\d+]/g, "");
+      business.telephone = digits.startsWith("+") ? digits : /^\d{9}$/.test(digits) ? `+48${digits}` : config.phone;
+    }
     if (config.email) business.email = config.email;
     if (config.address) business.address = { "@type": "PostalAddress", streetAddress: config.address };
     if (config.serviceArea) business.areaServed = config.serviceArea;
+    const profiles = [config.instagram, config.facebook].filter((value) => typeof value === "string" && value.trim());
+    if (profiles.length) business.sameAs = profiles;
 
     const script = document.createElement("script");
     script.type = "application/ld+json";

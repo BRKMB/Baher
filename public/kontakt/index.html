@@ -229,6 +229,12 @@
               <h2>Inne sposoby kontaktu</h2>
               <p class="muted" data-contact-empty>Formularz obok jest na razie najszybszą drogą. Telefon i e-mail pojawią się tutaj, gdy tylko zostaną potwierdzone.</p>
               <div class="contact-methods" data-contact-methods>
+                <div class="contact-method" data-contact="owner" hidden>
+                  <div>
+                    <strong>Prowadzi</strong>
+                    <p><span data-contact-value></span></p>
+                  </div>
+                </div>
                 <div class="contact-method" data-contact="phone" hidden>
                   <svg aria-hidden="true"><use href="/icons.svg#i-phone"></use></svg>
                   <div>
@@ -251,15 +257,17 @@
                   </div>
                 </div>
                 <div class="contact-method" data-contact="instagram" hidden>
+                  <svg aria-hidden="true"><use href="/icons.svg#i-instagram"></use></svg>
                   <div>
                     <strong>Instagram</strong>
-                    <p><a href="#" data-keep-label data-track="instagram_click">Profil na Instagramie</a></p>
+                    <p><a href="#" data-keep-label data-track="instagram_click">@clean_and_language</a></p>
                   </div>
                 </div>
                 <div class="contact-method" data-contact="facebook" hidden>
+                  <svg aria-hidden="true"><use href="/icons.svg#i-facebook"></use></svg>
                   <div>
                     <strong>Facebook</strong>
-                    <p><a href="#" data-keep-label data-track="facebook_click">Profil na Facebooku</a></p>
+                    <p><a href="#" data-keep-label data-track="facebook_click">Clean and Language</a></p>
                   </div>
                 </div>
                 <div class="contact-method" data-contact="address" hidden>
@@ -296,8 +304,11 @@
           </a>
           <p>Zadbamy o Twój dom i Twój angielski.</p>
           <ul class="footer-contact" data-footer-contact hidden>
+            <li data-contact="owner" hidden><span data-contact-value></span></li>
             <li data-contact="phone" hidden><a href="#" data-track="footer_phone"></a></li>
             <li data-contact="email" hidden><a href="#" data-track="footer_email"></a></li>
+            <li data-contact="instagram" hidden><a href="#" data-keep-label data-track="footer_instagram">Instagram</a></li>
+            <li data-contact="facebook" hidden><a href="#" data-keep-label data-track="footer_facebook">Facebook</a></li>
             <li data-contact="address" hidden><span data-contact-value></span></li>
             <li data-contact="serviceArea" hidden><span data-contact-value></span></li>
           </ul>
