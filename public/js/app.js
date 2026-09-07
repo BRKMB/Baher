@@ -165,7 +165,7 @@
           link.target = "_blank";
           link.rel = "noopener noreferrer";
         }
-        if (!link.dataset.keepLabel) {
+        if (!link.hasAttribute("data-keep-label")) {
           link.textContent = value;
         }
       }

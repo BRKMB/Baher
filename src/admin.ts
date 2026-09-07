@@ -174,6 +174,11 @@ function layout(title: string, body: string): string {
     <main class="admin-page wrap">
       ${body}
     </main>
+    <footer class="site-footer">
+      <div class="wrap footer-credit">
+        <p>Made with ❤️ by <a href="https://brkmb.com/" target="_blank" rel="noopener">Baher Magally</a></p>
+      </div>
+    </footer>
   </body>
 </html>`;
 }
@@ -194,6 +199,14 @@ function loginPage(error = ""): string {
         <button class="btn btn--primary" type="submit">Wejdź</button>
       </form>`,
   );
+}
+
+function polishCount(n: number, one: string, few: string, many: string): string {
+  const mod10 = n % 10;
+  const mod100 = n % 100;
+  if (n === 1) return `1 ${one}`;
+  if (mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) return `${n} ${few}`;
+  return `${n} ${many}`;
 }
 
 function formatWhen(iso: string): string {
@@ -251,7 +264,7 @@ function dashboardPage(inquiries: { id: string; record: InquiryRecord }[]): stri
     `<p class="eyebrow">Panel</p>
       <h1>Osoby, które napisały</h1>
       <div class="admin-toolbar">
-        <p class="admin-count">${inquiries.length === 1 ? "1 zapytanie" : `${inquiries.length} zapytań`}</p>
+        <p class="admin-count">${polishCount(inquiries.length, "zapytanie", "zapytania", "zapytań")}</p>
         <form method="post" action="/admin/">
           <input type="hidden" name="intent" value="logout" />
           <button class="btn btn--ghost" type="submit">Wyloguj</button>
