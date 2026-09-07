@@ -528,6 +528,7 @@
     "np. wtorki i czwartki": "e.g. Tuesdays and Thursdays",
     "np. po 17:00": "e.g. after 17:00",
     "Napisz to, czego nie da się wybrać z listy.": "Write anything that does not fit the list.",
+    "Zadzwoń 534 346 436": "Call 534 346 436",
   };
 
   const normalize = (value) => value.replace(/\s+/g, " ").trim();

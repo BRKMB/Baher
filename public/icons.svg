@@ -62,6 +62,9 @@
   <symbol id="i-facebook" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
     <path d="M14 9h2.5V6h-2.5A3.5 3.5 0 0 0 10.5 9.5V12H8v3h2.5v7h3v-7H16l.5-3h-3v-2A1 1 0 0 1 14 9z"/>
   </symbol>
+  <symbol id="i-person" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="8" r="3"/><path d="M5.5 19.5v-1.2C5.5 15.4 8.4 13.2 12 13.2s6.5 2.2 6.5 5.1v1.2"/>
+  </symbol>
   <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
     <path d="M12 6v12M6 12h12"/>
   </symbol>

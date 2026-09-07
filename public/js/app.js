@@ -158,14 +158,16 @@
     }
 
     nodes.forEach((node) => {
-      const link = node.querySelector("a");
+      const link = node.tagName === "A" ? node : node.querySelector("a");
       if (link && buildHref) {
-        link.href = buildHref(value);
-        if (/^https?:/i.test(link.href)) {
+        const href = buildHref(value);
+        link.href = href;
+        if (/^https?:/i.test(href)) {
           link.target = "_blank";
           link.rel = "noopener noreferrer";
         }
-        if (!link.hasAttribute("data-keep-label")) {
+        const keep = link.hasAttribute("data-keep-label") || Boolean(link.querySelector("svg"));
+        if (!keep) {
           link.textContent = value;
         }
       }
