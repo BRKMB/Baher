@@ -15,13 +15,20 @@
     <meta property="og:title" content="O nas — Clean & Speak" />
     <meta property="og:description" content="Dlaczego sprzątanie i angielski są pod jedną marką." />
     <meta property="og:url" content="__ORIGIN__/o-nas/" />
-    <meta property="og:image" content="__ORIGIN__/images/fresh-space.webp" />
+    <meta property="og:image" content="__ORIGIN__/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Clean & Speak — czysty dom, lepszy angielski" />
+    <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <link rel="preload" href="/fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/source-sans-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="/styles.css" />
     <script src="/js/i18n-boot.js"></script>
+    <script src="/js/seal.js" defer></script>
     <script src="/js/site-config.js" defer></script>
     <script src="/js/i18n.js" defer></script>
     <script src="/js/app.js" defer></script>
@@ -42,7 +49,10 @@
           <a href="/kontakt/">Kontakt</a>
         </nav>
         <div class="site-header__tools">
-          <a class="btn btn--primary btn--nav" href="/kontakt/" data-track="nav_cta">Skontaktuj się</a>
+          <a class="contact-icon" data-contact="phone" href="tel:+48534346436" data-keep-label data-track="header_phone" aria-label="Zadzwoń 534 346 436">
+            <svg aria-hidden="true"><use href="/icons.svg#i-phone"></use></svg>
+          </a>
+          <a class="btn btn--primary btn--nav" href="/kontakt/" data-track="nav_cta"><svg aria-hidden="true"><use href="/icons.svg#i-chat"></use></svg> Skontaktuj się</a>
           <button class="lang-toggle" type="button" data-lang-toggle aria-label="Switch the website to English" title="English">
             <img src="/images/flag-gb.svg" alt="" width="22" height="15" data-lang-flag />
           </button>
@@ -76,6 +86,7 @@
           i pewność w języku to dwa rodzaje codziennego komfortu.
           Dlatego są obok siebie — a nie schowane w dwóch osobnych firmach.
         </p>
+        <p class="lede">Prowadzi Daria Thorsen. Czysta przestrzeń. Pewny angielski.</p>
       </section>
 
       <section class="section section--tight wrap">
@@ -128,13 +139,19 @@
       </section>
 
       <section class="section section--tight wrap">
-        <div class="note-box reveal">
-          <strong>Do uzupełnienia przez firmę</strong>
-          <p>
-            Tu powinno stanąć prawdziwe zdjęcie osoby albo osób prowadzących Clean &amp; Speak
-            oraz kilka zdań o tym, kto stoi za marką. Nie wstawiamy zdjęć stockowych
-            udających zespół i nie dopisujemy biografii.
-          </p>
+        <div class="trust-grid">
+          <article class="trust-card reveal">
+            <h3>Zakres zamiast obietnic</h3>
+            <p>Zanim ruszymy, wiadomo, co dokładnie zostanie zrobione i w jakim czasie.</p>
+          </article>
+          <article class="trust-card reveal">
+            <h3>Kontakt z jedną osobą</h3>
+            <p>Odpowiada Ci Daria Thorsen — ta sama osoba, która ustala zakres sprzątania albo prowadzi zajęcia.</p>
+          </article>
+          <article class="trust-card reveal">
+            <h3>Bez ukrytych dopłat</h3>
+            <p>Wycena obejmuje ustalony zakres. Zmiany omawiamy wcześniej, nie po fakcie.</p>
+          </article>
         </div>
       </section>
 
@@ -157,6 +174,31 @@
             <span class="logo__word">Clean <i>&amp;</i> Speak</span>
           </a>
           <p>Zadbamy o Twój dom i Twój angielski.</p>
+          <ul class="footer-contact" data-footer-contact>
+            <li data-contact="owner">
+              <span class="footer-owner">
+                <svg aria-hidden="true"><use href="/icons.svg#i-person"></use></svg>
+                <span data-contact-value>Daria Thorsen</span>
+              </span>
+            </li>
+            <li data-contact="phone">
+              <a class="footer-phone" href="tel:+48534346436" data-keep-label data-track="footer_phone" aria-label="Zadzwoń 534 346 436">
+                <svg aria-hidden="true"><use href="/icons.svg#i-phone"></use></svg>
+                <span data-contact-value>534 346 436</span>
+              </a>
+            </li>
+            <li class="footer-socials">
+              <a class="contact-icon" data-contact="instagram" href="https://www.instagram.com/clean_and_language/" data-keep-label data-track="footer_instagram" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                <svg aria-hidden="true"><use href="/icons.svg#i-instagram"></use></svg>
+              </a>
+              <a class="contact-icon" data-contact="facebook" href="https://www.facebook.com/people/Clean-and-Language/61592022129712/" data-keep-label data-track="footer_facebook" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                <svg aria-hidden="true"><use href="/icons.svg#i-facebook"></use></svg>
+              </a>
+            </li>
+            <li data-contact="email" hidden><a href="#" data-track="footer_email"></a></li>
+            <li data-contact="address" hidden><span data-contact-value></span></li>
+            <li data-contact="serviceArea" hidden><span data-contact-value></span></li>
+          </ul>
         </div>
         <div class="footer-col">
           <h2>Nawigacja</h2>
@@ -184,8 +226,16 @@
       <div class="wrap footer-bottom">
         <p>© Clean &amp; Speak</p>
         <a href="/polityka-prywatnosci/">Polityka prywatności</a>
+        <a href="/regulamin/">Regulamin</a>
         <a href="/cookies/">Cookies</a>
       </div>
+      <div class="wrap footer-credit">
+        <p>Made with ❤️ by <a href="https://brkmb.com/" target="_blank" rel="noopener">Baher Magally</a></p>
+      </div>
     </footer>
+
+    <div class="mobile-cta">
+      <a class="btn btn--primary" href="/kontakt/" data-track="sticky_contact">Skontaktuj się</a>
+    </div>
   </body>
 </html>

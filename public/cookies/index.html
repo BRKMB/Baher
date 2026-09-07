@@ -9,8 +9,12 @@
     <meta name="robots" content="noindex" />
     <meta name="theme-color" content="#F6F3ED" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     <link rel="stylesheet" href="/styles.css" />
     <script src="/js/i18n-boot.js"></script>
+    <script src="/js/seal.js" defer></script>
     <script src="/js/site-config.js" defer></script>
     <script src="/js/i18n.js" defer></script>
     <script src="/js/app.js" defer></script>
@@ -31,7 +35,10 @@
           <a href="/kontakt/">Kontakt</a>
         </nav>
         <div class="site-header__tools">
-          <a class="btn btn--primary btn--nav" href="/kontakt/">Skontaktuj się</a>
+          <a class="contact-icon" data-contact="phone" href="tel:+48534346436" data-keep-label data-track="header_phone" aria-label="Zadzwoń 534 346 436">
+            <svg aria-hidden="true"><use href="/icons.svg#i-phone"></use></svg>
+          </a>
+          <a class="btn btn--primary btn--nav" href="/kontakt/"><svg aria-hidden="true"><use href="/icons.svg#i-chat"></use></svg> Skontaktuj się</a>
           <button class="lang-toggle" type="button" data-lang-toggle aria-label="Switch the website to English" title="English">
             <img src="/images/flag-gb.svg" alt="" width="22" height="15" data-lang-flag />
           </button>
@@ -53,7 +60,7 @@
       <h1 class="display legal-title">Cookies</h1>
       <div class="legal-copy mt-5">
         <p>Ta strona zapisuje w przeglądarce tylko informację o tym, że zamknięto pasek z komunikatem o cookies. Służy to temu, żeby komunikat nie wracał przy każdej wizycie.</p>
-        <p>Nie ustawiamy cookies reklamowych ani statystycznych, dopóki firma nie wdroży osobnego narzędzia i nie zbierze odpowiednich zgód.</p>
+        <p>Nie ustawiamy cookies reklamowych ani statystycznych. Statystyki odwiedzin zbieramy bez cookies i bez identyfikatorów — liczymy odsłony podstron i kliknięcia, nie pojedyncze osoby.</p>
         <p>Przeglądarka pozwala usuwać zapisane dane w ustawieniach prywatności.</p>
         <p>Więcej o danych z formularza: <a href="/polityka-prywatnosci/">polityka prywatności</a>.</p>
       </div>
@@ -62,7 +69,11 @@
       <div class="wrap footer-bottom">
         <p>© Clean &amp; Speak</p>
         <a href="/polityka-prywatnosci/">Polityka prywatności</a>
+        <a href="/regulamin/">Regulamin</a>
         <a href="/cookies/">Cookies</a>
+      </div>
+      <div class="wrap footer-credit">
+        <p>Made with ❤️ by <a href="https://brkmb.com/" target="_blank" rel="noopener">Baher Magally</a></p>
       </div>
     </footer>
   </body>

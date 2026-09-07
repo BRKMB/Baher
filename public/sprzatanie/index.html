@@ -15,8 +15,14 @@
     <meta property="og:title" content="Sprzątanie — Clean & Speak" />
     <meta property="og:description" content="Profesjonalne sprzątanie dopasowane do Twoich potrzeb." />
     <meta property="og:url" content="__ORIGIN__/sprzatanie/" />
-    <meta property="og:image" content="__ORIGIN__/images/home-kitchen.webp" />
+    <meta property="og:image" content="__ORIGIN__/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Clean & Speak — czysty dom, lepszy angielski" />
+    <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <link rel="preload" href="/fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/source-sans-latin.woff2" as="font" type="font/woff2" crossorigin />
@@ -32,6 +38,7 @@
       }
     </script>
     <script src="/js/i18n-boot.js"></script>
+    <script src="/js/seal.js" defer></script>
     <script src="/js/site-config.js" defer></script>
     <script src="/js/i18n.js" defer></script>
     <script src="/js/app.js" defer></script>
@@ -52,7 +59,10 @@
           <a href="/kontakt/">Kontakt</a>
         </nav>
         <div class="site-header__tools">
-          <a class="btn btn--primary btn--nav" href="/kontakt/?usluga=sprzatanie" data-track="nav_cta">Zapytaj o wycenę</a>
+          <a class="contact-icon" data-contact="phone" href="tel:+48534346436" data-keep-label data-track="header_phone" aria-label="Zadzwoń 534 346 436">
+            <svg aria-hidden="true"><use href="/icons.svg#i-phone"></use></svg>
+          </a>
+          <a class="btn btn--primary btn--nav" href="/kontakt/?usluga=sprzatanie" data-track="nav_cta"><svg aria-hidden="true"><use href="/icons.svg#i-chat"></use></svg> Zapytaj o wycenę</a>
           <button class="lang-toggle" type="button" data-lang-toggle aria-label="Switch the website to English" title="English">
             <img src="/images/flag-gb.svg" alt="" width="22" height="15" data-lang-flag />
           </button>
@@ -97,7 +107,7 @@
             <img src="/images/apartment.webp" alt="Jasne wnętrze mieszkania gotowe do codziennego użytku" width="900" height="700" loading="lazy" decoding="async" />
           </figure>
           <div class="reveal">
-            <p class="eyebrow eyebrow--clean">A</p>
+            <p class="eyebrow eyebrow--clean">Przestrzeń prywatna</p>
             <h2 id="svc-home">Mieszkania i domy</h2>
             <p class="lede">Porządek w przestrzeni prywatnej — regularnie albo wtedy, gdy po prostu nie starcza dnia.</p>
             <a class="text-link" href="/kontakt/?usluga=sprzatanie">Zapytaj o wycenę <svg><use href="/icons.svg#i-arrow"></use></svg></a>
@@ -108,7 +118,7 @@
       <section class="section section--clean" id="placowki" aria-labelledby="svc-school">
         <div class="wrap media-block">
           <div class="reveal">
-            <p class="eyebrow eyebrow--clean">B</p>
+            <p class="eyebrow eyebrow--clean">Placówki</p>
             <h2 id="svc-school">Przedszkola, żłobki i szkoły</h2>
             <p class="lede">Czystość w miejscach, gdzie przebywają dzieci. Zakres ustalamy pod konkretną placówkę.</p>
             <a class="text-link" href="/kontakt/?usluga=sprzatanie">Zapytaj o wycenę <svg><use href="/icons.svg#i-arrow"></use></svg></a>
@@ -125,7 +135,7 @@
             <img src="/images/office.webp" alt="Jasne biuro z miejscami do pracy" width="900" height="700" loading="lazy" decoding="async" />
           </figure>
           <div class="reveal">
-            <p class="eyebrow eyebrow--clean">C</p>
+            <p class="eyebrow eyebrow--clean">Miejsca pracy</p>
             <h2 id="svc-office">Biura i lokale usługowe</h2>
             <p class="lede">Porządek w miejscu, które ma wyglądać spokojnie i działać bez chaosu po zamknięciu drzwi.</p>
             <a class="text-link" href="/kontakt/?usluga=sprzatanie">Zapytaj o wycenę <svg><use href="/icons.svg#i-arrow"></use></svg></a>
@@ -142,8 +152,8 @@
           <div class="card-grid">
             <article class="service-card reveal" id="cykliczne">
               <div class="service-card__meta">
-                <span>D</span>
-                <svg class="icon"><use href="/icons.svg#i-cycle"></use></svg>
+                <span>Stały rytm</span>
+                <svg class="icon" aria-hidden="true"><use href="/icons.svg#i-cycle"></use></svg>
               </div>
               <h3>Sprzątanie cykliczne</h3>
               <p>Stały termin i powtarzalny zakres. Dobry wybór, gdy porządek ma się utrzymywać, a nie wracać od wielkiego dzwonu.</p>
@@ -151,8 +161,8 @@
             </article>
             <article class="service-card reveal" id="jednorazowe">
               <div class="service-card__meta">
-                <span>E</span>
-                <svg class="icon"><use href="/icons.svg#i-once"></use></svg>
+                <span>Jeden termin</span>
+                <svg class="icon" aria-hidden="true"><use href="/icons.svg#i-once"></use></svg>
               </div>
               <h3>Sprzątanie jednorazowe</h3>
               <p>Gdy potrzebujesz jednej, konkretnej interwencji: przed gośćmi, po wyprowadzce, po dłuższej nieobecności.</p>
@@ -168,7 +178,7 @@
             <img src="/images/windows.webp" alt="Duże okna wpuszczające światło do wnętrza" width="900" height="700" loading="lazy" decoding="async" />
           </figure>
           <div class="reveal">
-            <p class="eyebrow eyebrow--clean">F</p>
+            <p class="eyebrow eyebrow--clean">Osobna usługa</p>
             <h2 id="svc-windows">Mycie okien</h2>
             <p class="lede">Możemy umyć okna jako osobną usługę albo dołączyć je do szerszego sprzątania.</p>
             <a class="text-link" href="/kontakt/?usluga=sprzatanie">Zapytaj o wycenę <svg><use href="/icons.svg#i-arrow"></use></svg></a>
@@ -179,7 +189,7 @@
       <section class="section section--clean" id="remont" aria-labelledby="svc-reno">
         <div class="wrap media-block">
           <div class="reveal">
-            <p class="eyebrow eyebrow--clean">G</p>
+            <p class="eyebrow eyebrow--clean">Po pracach</p>
             <h2 id="svc-reno">Sprzątanie po remoncie</h2>
             <p class="lede">Po pyłach, foliach i śladach ekipy. Żeby dało się wejść i mieszkać, a nie tylko „jakoś odkurzyć”.</p>
             <a class="text-link" href="/kontakt/?usluga=sprzatanie">Zapytaj o wycenę <svg><use href="/icons.svg#i-arrow"></use></svg></a>
@@ -197,18 +207,34 @@
         </div>
         <ol class="steps">
           <li class="step reveal">
+            <div class="service-card__meta">
+              <span>01</span>
+              <svg class="icon" aria-hidden="true"><use href="/icons.svg#i-chat"></use></svg>
+            </div>
             <h3>Kontaktujesz się z nami</h3>
             <p>Formularz wystarczy. Napisz, jaki lokal i jakiego sprzątania potrzebujesz.</p>
           </li>
           <li class="step reveal">
+            <div class="service-card__meta">
+              <span>02</span>
+              <svg class="icon" aria-hidden="true"><use href="/icons.svg#i-home"></use></svg>
+            </div>
             <h3>Ustalamy zakres</h3>
             <p>Doprecyzowujemy pomieszczenia, częstotliwość i dodatkowe rzeczy, na przykład okna.</p>
           </li>
           <li class="step reveal">
+            <div class="service-card__meta">
+              <span>03</span>
+              <svg class="icon" aria-hidden="true"><use href="/icons.svg#i-check"></use></svg>
+            </div>
             <h3>Dostajesz wycenę</h3>
             <p>Cena powstaje po rozmowie o zakresie. Nie publikujemy stawek w ciemno.</p>
           </li>
           <li class="step reveal">
+            <div class="service-card__meta">
+              <span>04</span>
+              <svg class="icon" aria-hidden="true"><use href="/icons.svg#i-cycle"></use></svg>
+            </div>
             <h3>Realizujemy usługę</h3>
             <p>W umówionym terminie przychodzimy zrobić to, co zostało ustalone.</p>
           </li>
@@ -267,6 +293,31 @@
             <span class="logo__word">Clean <i>&amp;</i> Speak</span>
           </a>
           <p>Zadbamy o Twój dom i Twój angielski.</p>
+          <ul class="footer-contact" data-footer-contact>
+            <li data-contact="owner">
+              <span class="footer-owner">
+                <svg aria-hidden="true"><use href="/icons.svg#i-person"></use></svg>
+                <span data-contact-value>Daria Thorsen</span>
+              </span>
+            </li>
+            <li data-contact="phone">
+              <a class="footer-phone" href="tel:+48534346436" data-keep-label data-track="footer_phone" aria-label="Zadzwoń 534 346 436">
+                <svg aria-hidden="true"><use href="/icons.svg#i-phone"></use></svg>
+                <span data-contact-value>534 346 436</span>
+              </a>
+            </li>
+            <li class="footer-socials">
+              <a class="contact-icon" data-contact="instagram" href="https://www.instagram.com/clean_and_language/" data-keep-label data-track="footer_instagram" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                <svg aria-hidden="true"><use href="/icons.svg#i-instagram"></use></svg>
+              </a>
+              <a class="contact-icon" data-contact="facebook" href="https://www.facebook.com/people/Clean-and-Language/61592022129712/" data-keep-label data-track="footer_facebook" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                <svg aria-hidden="true"><use href="/icons.svg#i-facebook"></use></svg>
+              </a>
+            </li>
+            <li data-contact="email" hidden><a href="#" data-track="footer_email"></a></li>
+            <li data-contact="address" hidden><span data-contact-value></span></li>
+            <li data-contact="serviceArea" hidden><span data-contact-value></span></li>
+          </ul>
         </div>
         <div class="footer-col">
           <h2>Nawigacja</h2>
@@ -294,8 +345,16 @@
       <div class="wrap footer-bottom">
         <p>© Clean &amp; Speak</p>
         <a href="/polityka-prywatnosci/">Polityka prywatności</a>
+        <a href="/regulamin/">Regulamin</a>
         <a href="/cookies/">Cookies</a>
       </div>
+      <div class="wrap footer-credit">
+        <p>Made with ❤️ by <a href="https://brkmb.com/" target="_blank" rel="noopener">Baher Magally</a></p>
+      </div>
     </footer>
+
+    <div class="mobile-cta">
+      <a class="btn btn--clean" href="/kontakt/?usluga=sprzatanie" data-track="sticky_cleaning">Zapytaj o wycenę</a>
+    </div>
   </body>
 </html>

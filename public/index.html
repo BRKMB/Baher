@@ -18,9 +18,14 @@
       content="Czysty dom. Lepszy angielski. Jedna marka, dwa konkretne światy."
     />
     <meta property="og:url" content="__ORIGIN__/" />
-    <meta property="og:image" content="__ORIGIN__/images/interior-light.webp" />
+    <meta property="og:image" content="__ORIGIN__/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Clean & Speak — czysty dom, lepszy angielski" />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <link rel="preload" href="/fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/source-sans-latin.woff2" as="font" type="font/woff2" crossorigin />
@@ -34,7 +39,16 @@
             "name": "Clean & Speak",
             "url": "__ORIGIN__/",
             "description": "Profesjonalne sprzątanie oraz nauka języka angielskiego.",
-            "slogan": "Zadbamy o Twój dom i Twój angielski."
+            "slogan": "Zadbamy o Twój dom i Twój angielski.",
+            "telephone": "+48534346436",
+            "founder": {
+              "@type": "Person",
+              "name": "Daria Thorsen"
+            },
+            "sameAs": [
+              "https://www.instagram.com/clean_and_language/",
+              "https://www.facebook.com/people/Clean-and-Language/61592022129712/"
+            ]
           },
           {
             "@type": "WebSite",
@@ -83,6 +97,7 @@
       }
     </script>
     <script src="/js/i18n-boot.js"></script>
+    <script src="/js/seal.js" defer></script>
     <script src="/js/site-config.js" defer></script>
     <script src="/js/i18n.js" defer></script>
     <script src="/js/app.js" defer></script>
@@ -103,7 +118,10 @@
           <a href="/kontakt/">Kontakt</a>
         </nav>
         <div class="site-header__tools">
-          <a class="btn btn--primary btn--nav" href="/kontakt/" data-track="nav_cta">Skontaktuj się</a>
+          <a class="contact-icon" data-contact="phone" href="tel:+48534346436" data-keep-label data-track="header_phone" aria-label="Zadzwoń 534 346 436">
+            <svg aria-hidden="true"><use href="/icons.svg#i-phone"></use></svg>
+          </a>
+          <a class="btn btn--primary btn--nav" href="/kontakt/" data-track="nav_cta"><svg aria-hidden="true"><use href="/icons.svg#i-chat"></use></svg> Skontaktuj się</a>
           <button class="lang-toggle" type="button" data-lang-toggle aria-label="Switch the website to English" title="English">
             <img src="/images/flag-gb.svg" alt="" width="22" height="15" data-lang-flag />
           </button>
@@ -145,13 +163,13 @@
             <a class="btn btn--speak" href="/kontakt/?usluga=angielski" data-track="hero_english">Zapytaj o zajęcia</a>
           </div>
         </div>
-        <div class="hero-visual" aria-hidden="true">
+        <div class="hero-visual">
           <figure>
-            <img src="/images/interior-light.webp" alt="" width="700" height="900" fetchpriority="high" />
+            <img src="/images/interior-light.webp" alt="Uprzątnięty, jasny salon z naturalnym światłem" width="700" height="900" fetchpriority="high" />
             <figcaption>Clean</figcaption>
           </figure>
           <figure>
-            <img src="/images/learning.webp" alt="" width="700" height="900" fetchpriority="high" />
+            <img src="/images/learning.webp" alt="Uśmiechnięta osoba ucząca się angielskiego przy laptopie" width="700" height="900" fetchpriority="high" />
             <figcaption>Speak</figcaption>
           </figure>
         </div>
@@ -300,34 +318,46 @@
             <h3>Dwa serwisy, jeden standard</h3>
             <p>Porządek i język wymagają uwagi. W obu przypadkach pracujemy z konkretną osobą, nie z szablonem.</p>
           </article>
-          <article class="note-box reveal">
-            <strong>Do uzupełnienia przez firmę</strong>
-            <p>Miejsce na potwierdzone informacje: obszar działania, sposób pracy, zdjęcie osoby prowadzącej, realne opinie.</p>
+          <article class="trust-card reveal">
+            <h3>Odpowiedź na konkret</h3>
+            <p>Piszesz, czego potrzebujesz. Wracamy z wyceną sprzątania albo propozycją zajęć — bez cennika w ciemno.</p>
           </article>
         </div>
       </section>
 
-      <section class="section section--deep" aria-labelledby="opinie">
+      <section class="section section--deep" aria-labelledby="jak-zaczac">
         <div class="wrap">
           <div class="section-head reveal">
-            <p class="eyebrow">Opinie</p>
-            <h2 id="opinie">Głosy klientów</h2>
-            <p class="lede">Prawdziwe recenzje pojawią się tutaj, gdy firma je przekaże. Nie tworzymy ich na potrzeby strony.</p>
+            <p class="eyebrow">Jak zacząć</p>
+            <h2 id="jak-zaczac">Trzy kroki do pierwszej odpowiedzi</h2>
+            <p class="lede">Bez rejestracji i bez rozmowy telefonicznej na start. Wystarczy formularz.</p>
           </div>
-          <div class="card-grid">
-            <blockquote class="quote-card note-box reveal">
-              <div class="stars" aria-hidden="true">★★★★★</div>
-              <strong>Opinia — sprzątanie</strong>
-              <p>Miejsce na cytat klienta korzystającego z usług sprzątających.</p>
-              <footer class="muted">— Imię, usługa</footer>
-            </blockquote>
-            <blockquote class="quote-card note-box reveal">
-              <div class="stars" aria-hidden="true">★★★★★</div>
-              <strong>Opinia — angielski</strong>
-              <p>Miejsce na cytat rodzica albo osoby, która uczy się angielskiego.</p>
-              <footer class="muted">— Imię, zajęcia</footer>
-            </blockquote>
-          </div>
+          <ol class="steps steps--3">
+            <li class="step reveal">
+              <div class="service-card__meta">
+                <span>01</span>
+                <svg class="icon" aria-hidden="true"><use href="/icons.svg#i-check"></use></svg>
+              </div>
+              <h3>Wybierasz usługę</h3>
+              <p>Sprzątanie albo angielski. Formularz sam dopasuje pytania do wyboru.</p>
+            </li>
+            <li class="step reveal">
+              <div class="service-card__meta">
+                <span>02</span>
+                <svg class="icon" aria-hidden="true"><use href="/icons.svg#i-chat"></use></svg>
+              </div>
+              <h3>Opisujesz potrzebę</h3>
+              <p>Metraż i rodzaj sprzątania albo wiek ucznia i cel zajęć. Kilka zdań wystarczy.</p>
+            </li>
+            <li class="step reveal">
+              <div class="service-card__meta">
+                <span>03</span>
+                <svg class="icon" aria-hidden="true"><use href="/icons.svg#i-mail"></use></svg>
+              </div>
+              <h3>Dostajesz odpowiedź</h3>
+              <p>Odpisujemy na podany e-mail z wyceną albo propozycją terminu zajęć.</p>
+            </li>
+          </ol>
         </div>
       </section>
 
@@ -385,7 +415,31 @@
             <span class="logo__word">Clean <i>&amp;</i> Speak</span>
           </a>
           <p>Zadbamy o Twój dom i Twój angielski. Profesjonalne sprzątanie oraz nauka języka pod jedną marką.</p>
-          <p data-service-area hidden></p>
+          <ul class="footer-contact" data-footer-contact>
+            <li data-contact="owner">
+              <span class="footer-owner">
+                <svg aria-hidden="true"><use href="/icons.svg#i-person"></use></svg>
+                <span data-contact-value>Daria Thorsen</span>
+              </span>
+            </li>
+            <li data-contact="phone">
+              <a class="footer-phone" href="tel:+48534346436" data-keep-label data-track="footer_phone" aria-label="Zadzwoń 534 346 436">
+                <svg aria-hidden="true"><use href="/icons.svg#i-phone"></use></svg>
+                <span data-contact-value>534 346 436</span>
+              </a>
+            </li>
+            <li class="footer-socials">
+              <a class="contact-icon" data-contact="instagram" href="https://www.instagram.com/clean_and_language/" data-keep-label data-track="footer_instagram" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                <svg aria-hidden="true"><use href="/icons.svg#i-instagram"></use></svg>
+              </a>
+              <a class="contact-icon" data-contact="facebook" href="https://www.facebook.com/people/Clean-and-Language/61592022129712/" data-keep-label data-track="footer_facebook" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                <svg aria-hidden="true"><use href="/icons.svg#i-facebook"></use></svg>
+              </a>
+            </li>
+            <li data-contact="email" hidden><a href="#" data-track="footer_email"></a></li>
+            <li data-contact="address" hidden><span data-contact-value></span></li>
+            <li data-contact="serviceArea" hidden><span data-contact-value></span></li>
+          </ul>
         </div>
         <div class="footer-col">
           <h2>Nawigacja</h2>
@@ -413,9 +467,17 @@
       <div class="wrap footer-bottom">
         <p>© Clean &amp; Speak</p>
         <a href="/polityka-prywatnosci/">Polityka prywatności</a>
+        <a href="/regulamin/">Regulamin</a>
         <a href="/cookies/">Cookies</a>
+      </div>
+      <div class="wrap footer-credit">
+        <p>Made with ❤️ by <a href="https://brkmb.com/" target="_blank" rel="noopener">Baher Magally</a></p>
       </div>
     </footer>
 
+    <div class="mobile-cta">
+      <a class="btn btn--clean" href="/kontakt/?usluga=sprzatanie" data-track="sticky_cleaning">Sprzątanie</a>
+      <a class="btn btn--speak" href="/kontakt/?usluga=angielski" data-track="sticky_english">Angielski</a>
+    </div>
   </body>
 </html>

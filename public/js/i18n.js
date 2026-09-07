@@ -371,6 +371,151 @@
     "Podaj imię i nazwisko albo imię.": "Enter a name.",
     "Podaj poprawny adres e-mail.": "Enter a valid email address.",
     "Wybierz usługę: sprzątanie albo angielski.": "Choose a service: cleaning or English.",
+    "Podaj poprawny numer telefonu albo zostaw to pole puste.":
+      "Enter a valid phone number or leave this field empty.",
+    "Popraw zaznaczone pola i wyślij ponownie.": "Fix the highlighted fields and send again.",
+    "Odpowiedź na konkret": "An answer to the specifics",
+    "Piszesz, czego potrzebujesz. Wracamy z wyceną sprzątania albo propozycją zajęć — bez cennika w ciemno.":
+      "You write what you need. We come back with a cleaning quote or a lesson proposal — no blind price list.",
+    "Jak zacząć": "How to start",
+    "Trzy kroki do pierwszej odpowiedzi": "Three steps to the first reply",
+    "Bez rejestracji i bez rozmowy telefonicznej na start. Wystarczy formularz.":
+      "No sign-up and no phone call to begin with. The form is enough.",
+    "Wybierasz usługę": "You pick the service",
+    "Sprzątanie albo angielski. Formularz sam dopasuje pytania do wyboru.":
+      "Cleaning or English. The form adjusts its questions to your choice.",
+    "Opisujesz potrzebę": "You describe the need",
+    "Metraż i rodzaj sprzątania albo wiek ucznia i cel zajęć. Kilka zdań wystarczy.":
+      "The size and type of cleaning, or the student’s age and lesson goal. A few sentences are enough.",
+    "Dostajesz odpowiedź": "You get a reply",
+    "Odpisujemy na podany e-mail z wyceną albo propozycją terminu zajęć.":
+      "We reply to the email you gave, with a quote or a proposed lesson time.",
+    "Tempo ucznia": "The student’s pace",
+    "Materiał dobieramy do poziomu i terminu, a nie do gotowego programu kursu.":
+      "We match the material to the level and the deadline, not to a ready-made course programme.",
+    "Pierwsze zajęcia": "First lessons",
+    "Jak zaczynamy naukę": "How we start learning",
+    "Rozmowa o celu": "A conversation about the goal",
+    "Wiek albo poziom ucznia, powód nauki i termin, który ma znaczenie — na przykład egzamin.":
+      "The student’s age or level, the reason for learning, and any date that matters — an exam, for example.",
+    "Ustalenie formy": "Setting the format",
+    "Online albo stacjonarnie, częstotliwość i godziny, które da się utrzymać w kalendarzu.":
+      "Online or in person, the frequency and the hours that can stay in the calendar.",
+    "Start zajęć": "Lessons begin",
+    "Pierwsza lekcja pokazuje punkt wyjścia. Po niej doprecyzowujemy plan pracy.":
+      "The first lesson shows the starting point. After it we sharpen the plan.",
+    "Zakres zamiast obietnic": "Scope instead of promises",
+    "Zanim ruszymy, wiadomo, co dokładnie zostanie zrobione i w jakim czasie.":
+      "Before we start, it is clear what will be done and in what time.",
+    "Kontakt z jedną osobą": "One person to talk to",
+    "Odpowiada Ci Daria Thorsen — ta sama osoba, która ustala zakres sprzątania albo prowadzi zajęcia.":
+      "Daria Thorsen answers you — the same person who sets the cleaning scope or teaches the lessons.",
+    "Prowadzi Daria Thorsen. Czysta przestrzeń. Pewny angielski.":
+      "Run by Daria Thorsen. A clean space. Confident English.",
+    Prowadzi: "Run by",
+    "Bez ukrytych dopłat": "No hidden extras",
+    "Wycena obejmuje ustalony zakres. Zmiany omawiamy wcześniej, nie po fakcie.":
+      "The quote covers the agreed scope. Changes are discussed beforehand, not afterwards.",
+    "Przestrzeń prywatna": "Private space",
+    Placówki: "Institutions",
+    "Miejsca pracy": "Workplaces",
+    "Stały rytm": "Steady rhythm",
+    "Jeden termin": "A single date",
+    "Osobna usługa": "A separate service",
+    "Po pracach": "After the works",
+    "Formularz obok jest na razie najszybszą drogą. Telefon i e-mail pojawią się tutaj, gdy tylko zostaną potwierdzone.":
+      "For now the form next to this is the fastest route. A phone number and email will appear here once they are confirmed.",
+    Adres: "Address",
+    "Odpowiadamy e-mailem": "We reply by email",
+    "na adres podany w formularzu.": "to the address given in the form.",
+    "Zapytania o sprzątanie i o zajęcia trafiają do tej samej skrzynki.":
+      "Cleaning and lesson enquiries go to the same inbox.",
+    Regulamin: "Terms",
+    "Zapytanie wysłane": "Enquiry sent",
+    "Dziękujemy. Mamy Twoje zapytanie.": "Thank you. We have your enquiry.",
+    "Odpowiadamy e-mailem na adres podany w formularzu. Jeśli zapytanie dotyczyło sprzątania, wracamy z wyceną po ustaleniu zakresu. Przy zajęciach z angielskiego proponujemy termin pierwszej lekcji.":
+      "We reply by email to the address given in the form. For cleaning, we come back with a quote once the scope is set. For English, we propose a time for the first lesson.",
+    "Co dalej": "What happens next",
+    "Czytamy zapytania w kolejności zgłoszeń i odpisujemy na podany adres e-mail.":
+      "We read enquiries in the order they arrive and reply to the email address given.",
+    "Nie ma odpowiedzi?": "No reply?",
+    "Sprawdź folder ze spamem. Możesz też wysłać zapytanie ponownie z innego adresu.":
+      "Check your spam folder. You can also send the enquiry again from another address.",
+    "Chcesz coś dodać": "Want to add something",
+    "Napisz kolejne zapytanie z uzupełnieniem — dopiszemy je do sprawy.":
+      "Send another enquiry with the extra details — we will add it to the case.",
+    "To nie jest gotowy dokument prawny. Dane firmy, warunki płatności i tryb reklamacji trzeba uzupełnić przed publikacją.":
+      "This is not a finished legal document. Company details, payment terms and the complaints procedure must be completed before publication.",
+    Zakres: "Scope",
+    "Regulamin dotyczy korzystania ze strony Clean & Speak oraz zapytań wysyłanych przez formularz kontaktowy. Nie zastępuje umowy zawieranej na konkretną usługę.":
+      "These terms cover the use of the Clean & Speak website and enquiries sent through the contact form. They do not replace the agreement made for a specific service.",
+    "Zapytania i wycena": "Enquiries and quotes",
+    "Wysłanie formularza nie jest rezerwacją terminu ani zawarciem umowy. Jest zapytaniem, na które odpowiadamy e-mailem.":
+      "Sending the form is not a booking or a contract. It is an enquiry that we answer by email.",
+    "Cena sprzątania oraz warunki zajęć z angielskiego ustalane są indywidualnie, po określeniu zakresu. Strona nie zawiera cennika.":
+      "Cleaning prices and English lesson terms are set individually, once the scope is known. The site has no price list.",
+    "Realizacja usługi": "Delivering the service",
+    "Zakres pracy, termin i cena są potwierdzane przed rozpoczęciem usługi. Zmiany zakresu wymagają wcześniejszego ustalenia.":
+      "The scope, date and price are confirmed before the service starts. Changes to the scope must be agreed in advance.",
+    "Termin można odwołać albo przesunąć, kontaktując się tą samą drogą, którą zostało wysłane zapytanie.":
+      "A date can be cancelled or moved by getting in touch the same way the enquiry was sent.",
+    Reklamacje: "Complaints",
+    "Uwagi do wykonanej usługi przyjmujemy e-mailem. Odpowiadamy na nie i ustalamy sposób rozwiązania sprawy.":
+      "We accept comments about completed work by email. We answer them and agree how to resolve the matter.",
+    "Dane osobowe": "Personal data",
+    "Zasady przetwarzania danych z formularza opisuje": "How form data is processed is described in the",
+    "Zmiany regulaminu": "Changes to the terms",
+    "Regulamin może być aktualizowany. Obowiązuje wersja opublikowana na stronie w chwili wysłania zapytania.":
+      "These terms may be updated. The version published on the site when the enquiry is sent applies.",
+    "Do uzupełnienia: pełna nazwa firmy, forma prawna, NIP, adres oraz e-mail do korespondencji.":
+      "To be completed: full company name, legal form, tax number, address and an email for correspondence.",
+    "Strona liczy odsłony i kliknięcia we własnym zakresie, bez cookies i bez identyfikatorów użytkownika. Zapisujemy tylko adres podstrony, nazwę zdarzenia, domenę źródła wejścia i kraj. Nie korzystamy z zewnętrznych narzędzi reklamowych.":
+      "The site counts page views and clicks on its own, without cookies and without user identifiers. We store only the page path, the event name, the referring domain and the country. We do not use third-party advertising tools.",
+    "Nie ustawiamy cookies reklamowych ani statystycznych. Statystyki odwiedzin zbieramy bez cookies i bez identyfikatorów — liczymy odsłony podstron i kliknięcia, nie pojedyncze osoby.":
+      "We set no advertising or statistics cookies. Visit statistics are collected without cookies and without identifiers — we count page views and clicks, not individual people.",
+    "Ta strona nie istnieje. Przejdź do oferty sprzątania, zajęć z angielskiego albo do kontaktu.":
+      "This page does not exist. Go to the cleaning offer, the English lessons or the contact page.",
+    Panel: "Panel",
+    Zapytania: "Enquiries",
+    "Zapytania z formularza": "Form enquiries",
+    "Wejście tylko dla osoby prowadzącej stronę.": "Entry only for the person who runs the site.",
+    Hasło: "Password",
+    Wejdź: "Sign in",
+    Wyloguj: "Log out",
+    Wszystkie: "All",
+    "Zapytanie zostało usunięte.": "The enquiry has been deleted.",
+    "Nie udało się usunąć zapytania. Odśwież stronę i spróbuj ponownie.":
+      "The enquiry could not be deleted. Refresh the page and try again.",
+    "Brak zapytań o sprzątanie.": "There are no cleaning enquiries.",
+    "Brak zapytań o zajęcia angielskiego.": "There are no English lesson enquiries.",
+    "Nie ma jeszcze żadnego zapytania. Gdy ktoś wyśle formularz, pojawi się tutaj.":
+      "There are no enquiries yet. When someone sends the form, it will show up here.",
+    Dzisiaj: "Today",
+    Wczoraj: "Yesterday",
+    "Bez daty": "No date",
+    Nieruchomość: "Property",
+    Metraż: "Size",
+    "Poziom / wiek": "Level / age",
+    "Forma zajęć": "Lesson format",
+    Cel: "Goal",
+    Dni: "Days",
+    Godziny: "Hours",
+    Termin: "Date",
+    Dodatki: "Extras",
+    Placówka: "Institution",
+    Biuro: "Office",
+    Okna: "Windows",
+    Stacjonarnie: "In person",
+    "Nie wiem": "I don’t know",
+    Dzieci: "Children",
+    Szkoła: "School",
+    Egzamin: "Exam",
+    Konwersacje: "Conversation",
+    "Bariera mówienia": "Speaking barrier",
+    "Wyślij hasło przez formularz.": "Send the password through the form.",
+    "Nieprawidłowe hasło.": "Incorrect password.",
+    "Za dużo prób. Poczekaj chwilę i spróbuj ponownie.": "Too many attempts. Wait a moment and try again.",
+    "Niedozwolona metoda.": "Method not allowed.",
   };
 
   const TITLES = {
@@ -380,7 +525,10 @@
     "/o-nas/": "About — Clean & Speak",
     "/kontakt/": "Contact — Clean & Speak",
     "/polityka-prywatnosci/": "Privacy policy — Clean & Speak",
+    "/regulamin/": "Terms — Clean & Speak",
     "/cookies/": "Cookies — Clean & Speak",
+    "/dziekujemy/": "Thank you for your enquiry — Clean & Speak",
+    "/admin/": "Enquiries — Clean & Speak",
   };
 
   const TITLE_TEXT = {
@@ -390,8 +538,12 @@
     "O nas — Clean & Speak": "About — Clean & Speak",
     "Kontakt — Clean & Speak": "Contact — Clean & Speak",
     "Polityka prywatności — Clean & Speak": "Privacy policy — Clean & Speak",
+    "Regulamin — Clean & Speak": "Terms — Clean & Speak",
     "Cookies — Clean & Speak": "Cookies — Clean & Speak",
+    "Dziękujemy za zapytanie — Clean & Speak": "Thank you for your enquiry — Clean & Speak",
     "Nie znaleziono strony — Clean & Speak": "Page not found — Clean & Speak",
+    "Panel zapytań — Clean & Speak": "Enquiry panel — Clean & Speak",
+    "Zapytania — Clean & Speak": "Enquiries — Clean & Speak",
   };
 
   const ATTR = {
@@ -408,6 +560,9 @@
     "Notatki i materiały do nauki języka": "Notes and language-learning materials",
     "Rozmowa dwóch osób przy stole": "Two people talking at a table",
     "Spokojne, uporządkowane wnętrze z naturalnym światłem": "A calm, orderly interior with natural light",
+    "Uprzątnięty, jasny salon z naturalnym światłem": "A tidy, bright living room with natural light",
+    "Uśmiechnięta osoba ucząca się angielskiego przy laptopie":
+      "A smiling person learning English at a laptop",
     "np. 48 m² albo 3 pokoje": "e.g. 48 m² or 3 rooms",
     "np. co tydzień, co dwa tygodnie": "e.g. every week, every two weeks",
     "np. przyszły tydzień": "e.g. next week",
@@ -417,6 +572,8 @@
     "np. wtorki i czwartki": "e.g. Tuesdays and Thursdays",
     "np. po 17:00": "e.g. after 17:00",
     "Napisz to, czego nie da się wybrać z listy.": "Write anything that does not fit the list.",
+    "Zadzwoń 534 346 436": "Call 534 346 436",
+    "Filtr zapytań": "Enquiry filter",
   };
 
   const normalize = (value) => value.replace(/\s+/g, " ").trim();
@@ -441,7 +598,7 @@
       const parent = walker.currentNode.parentElement;
       if (!parent) continue;
       if (["SCRIPT", "STYLE", "NOSCRIPT", "TEXTAREA"].includes(parent.tagName)) continue;
-      if (parent.closest("[data-lang-toggle]")) continue;
+      if (parent.closest("[data-lang-toggle], .footer-credit, [data-no-i18n]")) continue;
       nodes.push(walker.currentNode);
     }
     return nodes;
@@ -466,7 +623,7 @@
   const applyAttributes = (lang) => {
     const targets = document.querySelectorAll("[aria-label], [placeholder], [alt], [title]");
     targets.forEach((element) => {
-      if (element.closest("[data-lang-toggle]")) return;
+      if (element.closest("[data-lang-toggle], [data-no-i18n]")) return;
       let cached = attrCache.get(element);
       if (!cached) {
         cached = {};

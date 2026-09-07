@@ -15,13 +15,20 @@
     <meta property="og:title" content="Kontakt — Clean & Speak" />
     <meta property="og:description" content="Napisz, czy chodzi o sprzątanie, czy o angielski." />
     <meta property="og:url" content="__ORIGIN__/kontakt/" />
-    <meta property="og:image" content="__ORIGIN__/images/interior-light.webp" />
+    <meta property="og:image" content="__ORIGIN__/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Clean & Speak — czysty dom, lepszy angielski" />
+    <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <link rel="preload" href="/fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/source-sans-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="/styles.css" />
     <script src="/js/i18n-boot.js"></script>
+    <script src="/js/seal.js" defer></script>
     <script src="/js/site-config.js" defer></script>
     <script src="/js/i18n.js" defer></script>
     <script src="/js/app.js" defer></script>
@@ -42,7 +49,10 @@
           <a href="/kontakt/" aria-current="page">Kontakt</a>
         </nav>
         <div class="site-header__tools">
-          <a class="btn btn--primary btn--nav" href="#formularz" data-track="nav_cta">Napisz</a>
+          <a class="contact-icon" data-contact="phone" href="tel:+48534346436" data-keep-label data-track="header_phone" aria-label="Zadzwoń 534 346 436">
+            <svg aria-hidden="true"><use href="/icons.svg#i-phone"></use></svg>
+          </a>
+          <a class="btn btn--primary btn--nav" href="#formularz" data-track="nav_cta"><svg aria-hidden="true"><use href="/icons.svg#i-chat"></use></svg> Napisz</a>
           <button class="lang-toggle" type="button" data-lang-toggle aria-label="Switch the website to English" title="English">
             <img src="/images/flag-gb.svg" alt="" width="22" height="15" data-lang-flag />
           </button>
@@ -220,15 +230,22 @@
           <aside>
             <div class="info-card">
               <h2>Inne sposoby kontaktu</h2>
-              <p class="muted">Pojawią się tutaj, gdy firma potwierdzi telefon, e-mail albo komunikator.</p>
+              <p class="muted" data-contact-empty>Formularz obok jest na razie najszybszą drogą. Telefon i e-mail pojawią się tutaj, gdy tylko zostaną potwierdzone.</p>
               <div class="contact-methods" data-contact-methods>
-                <div class="contact-method" data-contact="phone" hidden>
+                <div class="contact-method" data-contact="owner">
+                  <svg aria-hidden="true"><use href="/icons.svg#i-person"></use></svg>
+                  <div>
+                    <strong>Prowadzi</strong>
+                    <p><span data-contact-value>Daria Thorsen</span></p>
+                  </div>
+                </div>
+                <a class="contact-method contact-method--link" data-contact="phone" href="tel:+48534346436" data-keep-label data-track="phone_click" aria-label="Zadzwoń 534 346 436">
                   <svg aria-hidden="true"><use href="/icons.svg#i-phone"></use></svg>
                   <div>
                     <strong>Telefon</strong>
-                    <p><a href="#" data-track="phone_click"></a></p>
+                    <p data-contact-value>534 346 436</p>
                   </div>
-                </div>
+                </a>
                 <div class="contact-method" data-contact="email" hidden>
                   <svg aria-hidden="true"><use href="/icons.svg#i-mail"></use></svg>
                   <div>
@@ -243,23 +260,33 @@
                     <p><a href="#" data-keep-label data-track="whatsapp_click">Napisz na WhatsApp</a></p>
                   </div>
                 </div>
-                <div class="contact-method" data-contact="instagram" hidden>
+                <div class="contact-icon-row">
+                  <a class="contact-icon contact-icon--lg" data-contact="instagram" href="https://www.instagram.com/clean_and_language/" data-keep-label data-track="instagram_click" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                    <svg aria-hidden="true"><use href="/icons.svg#i-instagram"></use></svg>
+                  </a>
+                  <a class="contact-icon contact-icon--lg" data-contact="facebook" href="https://www.facebook.com/people/Clean-and-Language/61592022129712/" data-keep-label data-track="facebook_click" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                    <svg aria-hidden="true"><use href="/icons.svg#i-facebook"></use></svg>
+                  </a>
+                </div>
+                <div class="contact-method" data-contact="address" hidden>
+                  <svg aria-hidden="true"><use href="/icons.svg#i-pin"></use></svg>
                   <div>
-                    <strong>Instagram</strong>
-                    <p><a href="#" data-keep-label data-track="instagram_click">Profil na Instagramie</a></p>
+                    <strong>Adres</strong>
+                    <p><span data-contact-value></span></p>
                   </div>
                 </div>
-                <div class="contact-method" data-contact="facebook" hidden>
+                <div class="contact-method" data-contact="serviceArea" hidden>
+                  <svg aria-hidden="true"><use href="/icons.svg#i-pin"></use></svg>
                   <div>
-                    <strong>Facebook</strong>
-                    <p><a href="#" data-keep-label data-track="facebook_click">Profil na Facebooku</a></p>
+                    <strong>Obszar działania</strong>
+                    <p><span data-contact-value></span></p>
                   </div>
                 </div>
               </div>
-              <p class="note-box mt-6">
-                <strong>Obszar działania</strong>
-                <span data-service-area>Do uzupełnienia: miasto, dzielnice albo zasięg dojazdów.</span>
-              </p>
+              <div class="info-list mt-6">
+                <p><strong>Odpowiadamy e-mailem</strong> na adres podany w formularzu.</p>
+                <p class="muted">Zapytania o sprzątanie i o zajęcia trafiają do tej samej skrzynki.</p>
+              </div>
             </div>
           </aside>
         </div>
@@ -274,6 +301,31 @@
             <span class="logo__word">Clean <i>&amp;</i> Speak</span>
           </a>
           <p>Zadbamy o Twój dom i Twój angielski.</p>
+          <ul class="footer-contact" data-footer-contact>
+            <li data-contact="owner">
+              <span class="footer-owner">
+                <svg aria-hidden="true"><use href="/icons.svg#i-person"></use></svg>
+                <span data-contact-value>Daria Thorsen</span>
+              </span>
+            </li>
+            <li data-contact="phone">
+              <a class="footer-phone" href="tel:+48534346436" data-keep-label data-track="footer_phone" aria-label="Zadzwoń 534 346 436">
+                <svg aria-hidden="true"><use href="/icons.svg#i-phone"></use></svg>
+                <span data-contact-value>534 346 436</span>
+              </a>
+            </li>
+            <li class="footer-socials">
+              <a class="contact-icon" data-contact="instagram" href="https://www.instagram.com/clean_and_language/" data-keep-label data-track="footer_instagram" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                <svg aria-hidden="true"><use href="/icons.svg#i-instagram"></use></svg>
+              </a>
+              <a class="contact-icon" data-contact="facebook" href="https://www.facebook.com/people/Clean-and-Language/61592022129712/" data-keep-label data-track="footer_facebook" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                <svg aria-hidden="true"><use href="/icons.svg#i-facebook"></use></svg>
+              </a>
+            </li>
+            <li data-contact="email" hidden><a href="#" data-track="footer_email"></a></li>
+            <li data-contact="address" hidden><span data-contact-value></span></li>
+            <li data-contact="serviceArea" hidden><span data-contact-value></span></li>
+          </ul>
         </div>
         <div class="footer-col">
           <h2>Nawigacja</h2>
@@ -301,7 +353,11 @@
       <div class="wrap footer-bottom">
         <p>© Clean &amp; Speak</p>
         <a href="/polityka-prywatnosci/">Polityka prywatności</a>
+        <a href="/regulamin/">Regulamin</a>
         <a href="/cookies/">Cookies</a>
+      </div>
+      <div class="wrap footer-credit">
+        <p>Made with ❤️ by <a href="https://brkmb.com/" target="_blank" rel="noopener">Baher Magally</a></p>
       </div>
     </footer>
   </body>
