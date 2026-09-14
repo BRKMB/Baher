@@ -1,139 +1,230 @@
 <!doctype html>
-<html lang="en">
+<html lang="ar" dir="rtl">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
     <meta
       name="description"
-      content="PURKR — an extraordinary burger experience is landing soon."
+      content="Mawja — تنقّل اجتماعي لشاشة تسلا مع تحكم Spotify."
     />
-    <meta name="theme-color" content="#040506" />
-    <meta property="og:title" content="PURKR — Burgers From Another Planet" />
-    <meta
-      property="og:description"
-      content="Something extraordinary is landing. Join the launch list."
-    />
-    <title>PURKR — Coming Soon</title>
+    <meta name="theme-color" content="#0b1b2b" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <title>Mawja</title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="stylesheet" href="/vendor/leaflet.css" />
     <link rel="stylesheet" href="/styles.css" />
-    <script src="/app.js" defer></script>
   </head>
   <body>
-    <a class="skip-link" href="#main-content">Skip to content</a>
+    <div id="map" dir="ltr" aria-hidden="false"></div>
 
-    <div class="space" aria-hidden="true">
-      <div class="stars stars--near"></div>
-      <div class="planet planet--north"></div>
-      <div class="planet-glow"></div>
-      <svg class="lightning lightning--left" viewBox="0 0 280 620">
-        <path d="M264 12 166 174l39-6-83 135 43-13-113 206 36-157-40 15 75-155-39 8L184 27Z" />
-      </svg>
-      <svg class="lightning lightning--right" viewBox="0 0 280 620">
-        <path d="m31 45 96 143-37-4 74 128-38-9 99 191-29-146 35 12-64-146 34 6L108 58Z" />
-      </svg>
+    <section id="splash" class="splash" aria-labelledby="splash-title">
+      <div class="splash__mark" aria-hidden="true">
+        <svg viewBox="0 0 64 64">
+          <path d="M10 38c8-14 14-20 22-20 10 0 12 12 22 8" fill="none" stroke="#3ddcff" stroke-width="6" stroke-linecap="round"/>
+          <path d="M18 46c7-10 12-14 18-14 8 0 10 9 18 6" fill="none" stroke="#ff8a3d" stroke-width="5" stroke-linecap="round"/>
+          <circle cx="48" cy="22" r="5" fill="#2ee59d"/>
+        </svg>
+      </div>
+      <p class="splash__kicker" data-i18n="kicker">لتسلا · موجة الطريق</p>
+      <h1 id="splash-title">Mawja</h1>
+      <p class="splash__lead" data-i18n="lead">
+        تنقّل اجتماعي بروح Waze، مصمم لشاشة السيارة، مع جزيرة أغاني بستايل تسلا وربط Spotify.
+      </p>
+      <div class="splash__actions">
+        <button id="start-drive" class="btn btn--go" type="button" data-i18n="start">ابدأ القيادة</button>
+        <button id="start-demo" class="btn btn--ghost" type="button" data-i18n="demo">تجربة بدون GPS</button>
+      </div>
+      <p class="splash__note" data-i18n="note">
+        افتح الموقع من متصفح تسلا، اسمح بالموقع، واحفظه في الإشارات. التطبيق مستقل وغير تابع لـ Waze أو Tesla أو Spotify.
+      </p>
+    </section>
+
+    <div id="hud" class="hud" hidden>
+      <button id="search-open" class="search-pill" type="button">
+        <span data-i18n="search">إلى أين؟</span>
+      </button>
+
+      <div id="banner" class="banner" hidden>
+        <div class="banner__icon" id="banner-icon">↗</div>
+        <div>
+          <strong id="banner-distance">—</strong>
+          <p id="banner-text">—</p>
+        </div>
+        <small id="banner-then"></small>
+      </div>
+
+      <button id="report-open" class="fab fab--report fab--left" type="button" data-i18n-title="report" title="تبليغ">＋</button>
+
+      <div class="stack stack--right">
+        <button id="btn-compass" class="fab fab--lg" type="button" data-i18n-title="follow" title="اتجاه السير">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="1.4"/>
+            <path d="M12 4 L14.2 12 L12 20 L9.8 12 Z" fill="#3b82f6"/>
+            <text x="12" y="7.2" text-anchor="middle" font-size="5" fill="#f59e0b" font-weight="700">N</text>
+          </svg>
+        </button>
+        <div id="alert-counts" class="alert-stack" hidden></div>
+      </div>
+
+      <div class="speedo" aria-live="polite">
+        <strong id="speed-value">0</strong>
+        <span id="speed-unit">km/h</span>
+        <div class="limit" id="speed-limit" hidden>
+          <small data-i18n="limit">حد</small>
+          <b id="speed-limit-value">—</b>
+        </div>
+      </div>
+
+      <div id="eta" class="eta" hidden>
+        <button id="btn-stop" class="eta__stop" type="button" aria-label="Stop">✕</button>
+        <div>
+          <strong id="eta-time">—</strong>
+          <span id="eta-meta">—</span>
+        </div>
+        <em id="eta-arrival">—</em>
+      </div>
+
+      <div class="dock dock--left">
+        <button id="btn-settings" class="fab" type="button" data-i18n-title="settings" title="إعدادات">⚙</button>
+        <button id="btn-voice" class="fab" type="button" data-i18n-title="voice" title="الصوت">🔊</button>
+        <button id="btn-satellite" class="fab" type="button" data-i18n-title="satellite" title="قمر صناعي">🛰</button>
+      </div>
+
+      <div class="dock dock--right">
+        <button id="btn-recenter" class="fab fab--label" type="button" hidden data-i18n="recenter">موقعي</button>
+        <button id="btn-zoom-out" class="fab" type="button" aria-label="Zoom out">−</button>
+        <button id="btn-zoom-in" class="fab" type="button" aria-label="Zoom in">+</button>
+        <button id="btn-night" class="fab" type="button" data-i18n-title="night" title="ليلي">☾</button>
+      </div>
+
+      <section id="music" class="music">
+        <button id="music-toggle" class="music__mini" type="button">
+          <img id="music-art" alt="" />
+          <span>
+            <strong id="music-title">Spotify</strong>
+            <small id="music-artist">اربط الحساب للتحكم من الشاشة</small>
+          </span>
+          <b id="music-play-icon">▶</b>
+        </button>
+      </section>
     </div>
 
-    <header class="site-header">
-      <a class="brand-rail" href="#main-content" aria-label="PURKR home">
-        <span class="brand-rail__dot"></span>
-        <span>P</span><span>U</span><span>R</span><span>K</span><span>R</span>
-      </a>
-    </header>
+    <div id="police-alert" class="police-alert" hidden>
+      <div class="police-alert__glow police-alert__glow--blue"></div>
+      <div class="police-alert__glow police-alert__glow--red"></div>
+      <div class="police-alert__banner">
+        <strong data-i18n="policeAhead">شرطة أمامك</strong>
+      </div>
+    </div>
 
-    <main id="main-content">
-      <section class="hero" id="story" aria-labelledby="brand-name">
-        <div class="identity">
-          <div class="orbit-mark" aria-hidden="true">
-            <span class="orbit-mark__planet"></span>
-            <span class="orbit-mark__ring"></span>
-          </div>
+    <section id="search-sheet" class="sheet" hidden>
+      <form id="search-form" class="search-form">
+        <input
+          id="search-input"
+          type="search"
+          enterkeyhint="search"
+          autocomplete="off"
+          autocapitalize="off"
+          data-i18n-placeholder="searchPh"
+          placeholder="ابحث عن مكان"
+        />
+        <button type="submit" class="btn btn--go" data-i18n="go">اذهب</button>
+        <button id="search-close" type="button" class="btn btn--ghost" data-i18n="close">إغلاق</button>
+      </form>
+      <div class="quick-places">
+        <button type="button" data-place="home" data-i18n="home">المنزل</button>
+        <button type="button" data-place="work" data-i18n="work">العمل</button>
+      </div>
+      <div id="search-results" class="results"></div>
+    </section>
 
-          <div class="wordmark-wrap">
-            <h1 class="wordmark" id="brand-name">PURKR</h1>
-            <sup class="trademark" aria-label="trademark">™</sup>
-          </div>
-          <p class="tagline">Burgers from another planet</p>
+    <section id="route-sheet" class="sheet sheet--route" hidden>
+      <h2 data-i18n="pickRoute">اختر المسار</h2>
+      <div id="route-choices" class="route-choices"></div>
+      <button id="route-cancel" class="btn btn--ghost" type="button" data-i18n="cancel">إلغاء</button>
+    </section>
+
+    <section id="report-sheet" class="sheet" hidden>
+      <h2 data-i18n="reportTitle">تبليغ على الطريق</h2>
+      <div class="report-grid">
+        <button type="button" data-report="police" data-i18n="police">شرطة</button>
+        <button type="button" data-report="accident" data-i18n="accident">حادث</button>
+        <button type="button" data-report="hazard" data-i18n="hazard">خطر</button>
+        <button type="button" data-report="traffic" data-i18n="traffic">ازدحام</button>
+        <button type="button" data-report="camera" data-i18n="camera">كاميرا</button>
+        <button type="button" data-report="closure" data-i18n="closure">إغلاق</button>
+      </div>
+      <button id="report-close" class="btn btn--ghost" type="button" data-i18n="close">إغلاق</button>
+    </section>
+
+    <section id="music-sheet" class="sheet sheet--music" hidden>
+      <div class="now">
+        <img id="now-art" alt="" />
+        <div>
+          <h2 id="now-title">Spotify</h2>
+          <p id="now-artist">اربط الحساب للتحكم من الشاشة</p>
         </div>
+      </div>
+      <div class="progress">
+        <div id="progress-bar"></div>
+      </div>
+      <div class="transport">
+        <button id="prev-track" type="button">⏮</button>
+        <button id="toggle-track" class="transport__play" type="button">▶</button>
+        <button id="next-track" type="button">⏭</button>
+      </div>
+      <form id="music-search-form" class="search-form">
+        <input id="music-search" type="search" data-i18n-placeholder="songPh" placeholder="ابحث عن أغنية" />
+        <button class="btn btn--go" type="submit" data-i18n="play">تشغيل</button>
+      </form>
+      <div id="track-results" class="results"></div>
+      <div id="device-list" class="devices"></div>
+      <div class="music-actions">
+        <button id="spotify-connect" class="btn btn--spotify" type="button" data-i18n="connectSpotify">ربط Spotify</button>
+        <button id="music-close" class="btn btn--ghost" type="button" data-i18n="close">إغلاق</button>
+      </div>
+      <p class="legal" data-i18n="spotifyNote">
+        التشغيل داخل المتصفح يحتاج Spotify Premium ودعم DRM. في تسلا الأفضل التحكم في تطبيق Spotify الأصلي عبر Connect.
+      </p>
+    </section>
 
-        <div class="hero-scene" aria-hidden="true">
-          <div class="halo">
-            <span class="halo__flare"></span>
-          </div>
+    <section id="settings-sheet" class="sheet" hidden>
+      <h2 data-i18n="settings">إعدادات</h2>
+      <label class="field">
+        <span data-i18n="language">اللغة</span>
+        <select id="lang-select">
+          <option value="ar">العربية</option>
+          <option value="en">English</option>
+        </select>
+      </label>
+      <label class="field">
+        <span data-i18n="units">الوحدات</span>
+        <select id="unit-select">
+          <option value="km">km/h</option>
+          <option value="mi">mph</option>
+        </select>
+      </label>
+      <label class="field">
+        <span>Spotify Client ID</span>
+        <input id="spotify-client-id" type="text" spellcheck="false" autocomplete="off" />
+      </label>
+      <label class="field field--row">
+        <span data-i18n="policeSound">صوت تنبيه الشرطة</span>
+        <input id="police-sound" type="checkbox" />
+      </label>
+      <p class="legal" id="redirect-hint"></p>
+      <button id="settings-close" class="btn btn--ghost" type="button" data-i18n="close">إغلاق</button>
+    </section>
 
-          <div class="burger">
-            <div class="burger__bun burger__bun--top">
-              <i></i><i></i><i></i><i></i><i></i>
-            </div>
-            <div class="burger__sauce"></div>
-            <div class="burger__lettuce"></div>
-            <div class="burger__cheese"></div>
-            <div class="burger__patty"></div>
-            <div class="burger__cheese burger__cheese--lower"></div>
-            <div class="burger__patty burger__patty--lower"></div>
-            <div class="burger__bun burger__bun--bottom"></div>
-          </div>
-          <div class="burger-shadow"></div>
-        </div>
+    <div id="toast" class="toast" hidden role="status"></div>
 
-        <div class="launch-panel" id="countdown">
-          <p class="eyebrow">Something extraordinary is landing</p>
-          <h2>Coming soon</h2>
-
-          <div
-            class="countdown"
-            role="timer"
-            aria-label="Time remaining until launch"
-            data-launch-date="2028-08-06T10:00:00Z"
-          >
-            <div><strong data-unit="days">731</strong><span>Days</span></div>
-            <b aria-hidden="true">:</b>
-            <div><strong data-unit="hours">00</strong><span>Hours</span></div>
-            <b aria-hidden="true">:</b>
-            <div><strong data-unit="minutes">00</strong><span>Minutes</span></div>
-            <b aria-hidden="true">:</b>
-            <div><strong data-unit="seconds">00</strong><span>Seconds</span></div>
-          </div>
-
-          <div class="launch-date">
-            <span></span>
-            <time datetime="2028-08-06T10:00:00Z">06 Aug 2028 · 10:00 UTC</time>
-            <span></span>
-          </div>
-
-          <form class="notify-form" id="notify" novalidate>
-            <div class="field">
-              <label for="email">Get the first transmission</label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                inputmode="email"
-                autocomplete="email"
-                maxlength="254"
-                placeholder="Enter your email"
-                required
-              />
-            </div>
-            <div class="trap" aria-hidden="true">
-              <label for="company">Company</label>
-              <input id="company" name="company" type="text" tabindex="-1" autocomplete="off" />
-            </div>
-            <button type="submit">
-              <span>Notify me</span>
-              <svg viewBox="0 0 20 20" aria-hidden="true">
-                <path d="M3 10h13M11 5l5 5-5 5" />
-              </svg>
-            </button>
-          </form>
-          <p class="form-status" id="form-status" role="status" aria-live="polite">
-            Be the first to know. No spam, only launch signals.
-          </p>
-        </div>
-      </section>
-    </main>
-
-    <footer>
-      <p><span>PURKR</span><i></i>Born on planet K</p>
-    </footer>
+    <script src="/vendor/leaflet.js"></script>
+    <script src="/app.js" defer></script>
   </body>
 </html>
