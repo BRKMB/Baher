@@ -1,0 +1,3 @@
+SPOTIFY_CLIENT_ID=
+# Optional. Public PKCE apps work without a secret.
+# SPOTIFY_CLIENT_SECRET=

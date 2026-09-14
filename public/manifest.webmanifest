@@ -1,0 +1,19 @@
+{
+  "name": "Mawja — Tesla navigation",
+  "short_name": "Mawja",
+  "description": "Social navigation and Spotify controls for the Tesla browser.",
+  "start_url": "/",
+  "display": "fullscreen",
+  "background_color": "#071018",
+  "theme_color": "#0b1b2b",
+  "orientation": "landscape",
+  "lang": "ar",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
