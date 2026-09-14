@@ -5,7 +5,7 @@ const MAX_UPSTREAM_BYTES = 750_000;
 export const securityHeaders = {
   "Content-Security-Policy": [
     "default-src 'self'",
-    "img-src 'self' data: blob: https://*.basemaps.cartocdn.com https://*.cartocdn.com https://server.arcgisonline.com https://*.arcgisonline.com https://i.scdn.co https://*.scdn.co https://*.spotifycdn.com",
+    "img-src 'self' data: blob: https://server.arcgisonline.com https://services.arcgisonline.com https://*.arcgisonline.com https://i.scdn.co https://*.scdn.co https://*.spotifycdn.com",
     "style-src 'self' 'unsafe-inline'",
     "script-src 'self' https://sdk.scdn.co",
     "connect-src 'self' https://api.spotify.com https://accounts.spotify.com https://*.spotify.com wss://*.spotify.com https://sdk.scdn.co",
@@ -89,7 +89,7 @@ export async function rateLimit(env: Env, key: string, ttlSeconds: number): Prom
   if (limited) {
     return false;
   }
-  await env.ALERTS.put(key, "1", { expirationTtl: ttlSeconds });
+  await env.ALERTS.put(key, "1", { expirationTtl: Math.max(60, ttlSeconds) });
   return true;
 }
 

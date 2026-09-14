@@ -162,6 +162,7 @@ select {
   inset: 0;
   z-index: 5;
   pointer-events: none;
+  direction: ltr;
 }
 
 .hud > * {
@@ -185,7 +186,7 @@ select {
 .search-pill {
   position: absolute;
   top: max(18px, env(safe-area-inset-top));
-  inset-inline-start: max(18px, env(safe-area-inset-left));
+  left: max(18px, env(safe-area-inset-left));
   height: 64px;
   min-width: min(420px, 42vw);
   border-radius: 999px;
@@ -240,7 +241,7 @@ select {
 }
 
 .stack--right {
-  inset-inline-end: max(16px, env(safe-area-inset-right));
+  right: max(16px, env(safe-area-inset-right));
 }
 
 .dock {
@@ -252,11 +253,11 @@ select {
 }
 
 .dock--left {
-  inset-inline-start: calc(max(18px, env(safe-area-inset-left)) + 160px);
+  left: calc(max(18px, env(safe-area-inset-left)) + 160px);
 }
 
 .dock--right {
-  inset-inline-end: max(16px, env(safe-area-inset-right));
+  right: max(16px, env(safe-area-inset-right));
   bottom: max(122px, calc(env(safe-area-inset-bottom) + 118px));
 }
 
@@ -264,7 +265,7 @@ select {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  inset-inline-start: max(16px, env(safe-area-inset-left));
+  left: max(16px, env(safe-area-inset-left));
 }
 
 .fab {
@@ -379,7 +380,7 @@ select {
 .speedo {
   position: absolute;
   bottom: max(28px, env(safe-area-inset-bottom));
-  inset-inline-start: max(18px, env(safe-area-inset-left));
+  left: max(18px, env(safe-area-inset-left));
   width: 148px;
   min-height: 148px;
   border-radius: 36px;
@@ -453,7 +454,7 @@ select {
 .music {
   position: absolute;
   bottom: max(24px, env(safe-area-inset-bottom));
-  inset-inline-end: max(18px, env(safe-area-inset-right));
+  right: max(18px, env(safe-area-inset-right));
   width: min(340px, 30vw);
   border-radius: 20px;
   overflow: hidden;
@@ -484,6 +485,20 @@ select {
 .music__mini small,
 .now p {
   color: var(--muted);
+}
+
+html[lang="ar"] .banner,
+html[lang="ar"] .sheet,
+html[lang="ar"] .search-pill {
+  direction: rtl;
+}
+
+.music__mini strong,
+.music__mini small {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .sheet {

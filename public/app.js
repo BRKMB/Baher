@@ -288,8 +288,8 @@
       return "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}";
     }
     return state.night
-      ? "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-      : "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png";
+      ? "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}"
+      : "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}";
   }
 
   function initMap() {
@@ -304,8 +304,7 @@
 
     state.tiles = L.tileLayer(tileUrl(), {
       maxZoom: 19,
-      subdomains: "abcd",
-      attribution: "&copy; OpenStreetMap &copy; CARTO",
+      attribution: "&copy; Esri",
     }).addTo(state.map);
 
     const icon = L.divIcon({ className: "", html: carSvg(), iconSize: [34, 52], iconAnchor: [17, 26] });
@@ -475,6 +474,7 @@
     state.map.fitBounds(state.routeLine.getBounds(), { padding: [60, 60] });
     els.eta.hidden = false;
     els.banner.hidden = false;
+    document.getElementById("search-open").hidden = true;
     updateNavUi();
     speak(maneuverText(route.steps[0] || { type: "depart" }));
   }
@@ -527,6 +527,7 @@
     }
     els.eta.hidden = true;
     els.banner.hidden = true;
+    document.getElementById("search-open").hidden = false;
   }
 
   async function requestRoute(dest, silent) {

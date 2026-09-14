@@ -314,7 +314,13 @@ async function loadWazeAlerts(
     endpoint.searchParams.set("top", String(bbox.maxLat));
     endpoint.searchParams.set("env", region);
     endpoint.searchParams.set("types", "alerts");
-    const payload = await fetchJson(endpoint.toString());
+    const payload = await fetchJson(endpoint.toString(), {
+      headers: {
+        Accept: "application/json",
+        Referer: "https://www.waze.com/live-map",
+        "User-Agent": "Mawja/1.0 (compatible; Tesla navigation)",
+      },
+    });
     const raw = isRecord(payload) && Array.isArray(payload.alerts) ? payload.alerts : [];
     return raw
       .map((item): Alert | null => {
