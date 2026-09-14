@@ -27,7 +27,7 @@ Open [http://localhost:8787](http://localhost:8787). Use **تجربة بدون G
 npm run deploy
 ```
 
-The Worker is named `mawja` and publishes to `*.workers.dev`.
+The Worker is named `mawja` and publishes to its own `*.workers.dev` URL.
 
 ## Tesla
 
