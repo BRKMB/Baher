@@ -24,9 +24,20 @@ export class ListingsStore extends DurableObject<Env> {
           next.propertyType = seed.propertyType ?? "room";
           changed = true;
         }
-        if (!Array.isArray(next.photos) || next.photos.length === 0) {
-          next.photos = seed.photos;
-          changed = true;
+        // Replace empty photos, or stale CDN sets when seed got a full photo refresh
+        // (e.g. OLX rotated file IDs and old URLs 404).
+        if (Array.isArray(seed.photos) && seed.photos.length > 0) {
+          const storedPhotos = Array.isArray(next.photos) ? next.photos : [];
+          const fileId = (u: string) => {
+            const m = u.match(/\/files\/([^/]+)\//);
+            return m?.[1] ?? u;
+          };
+          const seedIds = new Set(seed.photos.map(fileId));
+          const overlap = storedPhotos.some((u) => seedIds.has(fileId(u)));
+          if (storedPhotos.length === 0 || !overlap) {
+            next.photos = seed.photos;
+            changed = true;
+          }
         }
         if (next.garageCost === undefined) {
           next.garageCost = seed.garageCost;

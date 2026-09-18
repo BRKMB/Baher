@@ -636,6 +636,7 @@ function renderGallery(l) {
     src: photos[0],
     alt: "",
     loading: "lazy",
+    referrerpolicy: "no-referrer",
     title: t("zoomTip"),
     onclick: () => openLightbox(photos, idx)
   });
@@ -669,6 +670,7 @@ function openLightbox(photos, startIdx) {
     class: "lb-img",
     src: photos[idx],
     alt: "",
+    referrerpolicy: "no-referrer",
     title: t("zoomTip"),
     onclick: (e) => {
       e.stopPropagation();
