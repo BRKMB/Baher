@@ -607,9 +607,14 @@ function renderFilterChips() {
 }
 
 function mapsUrl(l) {
+  // Prefer the full street address from the ad so Google doesn't
+  // geocode a wrong Warsaw street with a similar name.
+  let origin = (l.address || "").trim();
+  if (!origin) origin = [l.district, "Warszawa"].filter(Boolean).join(", ");
+  else if (!/warszawa/i.test(origin)) origin = `${origin}, Warszawa`;
   return (
     "https://www.google.com/maps/dir/?api=1" +
-    `&origin=${encodeURIComponent(l.address || l.district || "Warszawa")}` +
+    `&origin=${encodeURIComponent(origin)}` +
     `&destination=${encodeURIComponent(WORK_DEST)}&travelmode=transit`
   );
 }

@@ -229,7 +229,7 @@ export const SEED_LISTINGS: Listing[] = [
       en: "Single room in new 52m² flat — Wiślany Mokotów"
     },
     district: "Mokotów",
-    address: "ul. Dywizjonu AK Jeleń, Wiślany Mokotów, Warszawa",
+    address: "ul. Dywizjonu AK Jeleń (Wiślany Mokotów / Małe Siekierki), Mokotów, Warszawa",
     url: "https://www.olx.pl/d/oferta/pokoj-1-osobowy-w-nowym-3-pokojowym-mieszkaniu-52-m2-CID3-ID15jZvn.html",
     rent: 1600,
     bills: 500,
@@ -290,7 +290,7 @@ export const SEED_LISTINGS: Listing[] = [
       en: "Double room 18m² with park view — Szczęśliwice (2-room flat)"
     },
     district: "Ochota",
-    address: "ul. Przy Parku / Szczęśliwice, Ochota, Warszawa",
+    address: "Szczęśliwice / near park, Ochota, Warszawa",
     url: "https://www.otodom.pl/pl/oferta/duzy-pokoj-dwuosobowy-z-widokiem-na-park-bez-prowizji-ID4D6fz",
     rent: 1195,
     bills: 595,
@@ -349,7 +349,7 @@ export const SEED_LISTINGS: Listing[] = [
       en: "Furnished room in 2-room flat — Kasprowicza, Bielany"
     },
     district: "Bielany",
-    address: "ul. Kasprowicza, Bielany, Warszawa",
+    address: "ul. Jana Kasprowicza, Bielany, Warszawa",
     url: "https://www.olx.pl/d/oferta/pokoj-do-wynajecia-CID3-ID1cheOh.html",
     rent: 1500,
     bills: null,
@@ -404,7 +404,7 @@ export const SEED_LISTINGS: Listing[] = [
       en: "13m² room in 3-room 70m² flat — SGGW, Ursynów"
     },
     district: "Ursynów",
-    address: "ul. Przybyszewskiego, Ursynów, Warszawa",
+    address: "ul. Przybylskiego, Ursynów (metro Imielin / SGGW), Warszawa",
     url: "https://www.olx.pl/d/oferta/wynajme-pokoj-13m2-w-mieszk-70m2-sggw-warszawa-ursynow-od-01-10-2026-CID3-ID1cniUl.html",
     rent: 1700,
     bills: 0,
@@ -416,7 +416,7 @@ export const SEED_LISTINGS: Listing[] = [
     },
     areaSqm: 13,
     deposit: 1700,
-    commuteMin: 30,
+    commuteMin: 32,
     flatRooms: 3,
     availableFrom: "01/10/2026",
     contact: {
@@ -424,8 +424,8 @@ export const SEED_LISTINGS: Listing[] = [
       en: "Ewa — OLX"
     },
     notes: {
-      ar: "📅 فاضي من ١ أكتوبر ٢٠٢٦.\n✅ ديش واشر مذكور + غسالة + تلاجة. سرير ١٤٠×٢٠٠ + مكتب + كومودينو. شقة ٣ أوض / ٧٠.٤م²، دور ٢ من غير أسانسير.\nقريب مترو Imielin وSGGW.\n💰 ١٧٠٠ شامل. ديبوزيت ١٧٠٠. مباشر.",
-      en: "📅 Vacant from 1 Oct 2026.\n✅ Dishwasher listed + washer + fridge. Bed 140×200 + desk + dresser. 3-room / 70.4m², floor 2 no elevator.\nNear metro Imielin and SGGW.\n💰 1700 all-in. Deposit 1700. Direct."
+      ar: "📅 فاضي من ١ أكتوبر ٢٠٢٦.\n✅ ديش واشر مذكور + غسالة + تلاجة. سرير ١٤٠×٢٠٠ + مكتب + كومودينو. شقة ٣ أوض / ٧٠.٤م²، دور ٢ من غير أسانسير.\nالعنوان من الإعلان: ul. Przybylskiego، قريب مترو Imielin وSGGW (مش Przybyszewskiego في Bielany).\n💰 ١٧٠٠ شامل. ديبوزيت ١٧٠٠. مباشر.",
+      en: "📅 Vacant from 1 Oct 2026.\n✅ Dishwasher listed + washer + fridge. Bed 140×200 + desk + dresser. 3-room / 70.4m², floor 2 no elevator.\nAddress from ad: ul. Przybylskiego, near metro Imielin and SGGW (not Przybyszewskiego in Bielany).\n💰 1700 all-in. Deposit 1700. Direct."
     },
     photos: [
       "https://ireland.apollo.olxcdn.com/v1/files/m54sguvvfcad-PL/image;s=1200x900",
@@ -462,7 +462,7 @@ export const SEED_LISTINGS: Listing[] = [
       en: "Room with AC and balcony — Kabaty (2-room flat)"
     },
     district: "Ursynów",
-    address: "Kabaty, Ursynów, Warszawa",
+    address: "Kabaty (near metro Kabaty), Ursynów, Warszawa",
     url: "https://www.olx.pl/d/oferta/komfortowy-pokoj-blisko-metra-z-klimatyzacja-i-balkonem-CID3-ID1cf7T7.html",
     rent: 2300,
     bills: 200,
@@ -521,7 +521,7 @@ export const SEED_LISTINGS: Listing[] = [
       en: "21m² room with balcony — Stokłosy / SGGW (3-room flat)"
     },
     district: "Ursynów",
-    address: "Ursynów near metro Stokłosy, Warszawa",
+    address: "near metro Stokłosy / SGGW, Ursynów, Warszawa",
     url: "https://www.olx.pl/d/oferta/pokoj-na-ursynowie-21m2-balkon-wynajme-metro-stoklosy-sggw-CID3-ID1ceGmf.html",
     rent: 1870,
     bills: 300,
@@ -697,7 +697,7 @@ export const SEED_LISTINGS: Listing[] = [
       en: "Large rooms — Stokłosy / SGGW (5-room flat ⚠️)"
     },
     district: "Ursynów",
-    address: "ul. Dunikowskiego, Ursynów, Warszawa",
+    address: "ul. Xawerego Dunikowskiego (near metro Stokłosy), Ursynów, Warszawa",
     url: "https://www.olx.pl/d/oferta/duze-pokoje-na-ursynowie-metro-stoklosy-sggw-vistula-od-pazdziernika-CID3-ID19IFu5.html",
     rent: 1150,
     bills: 350,
@@ -871,7 +871,7 @@ export const SEED_LISTINGS: Listing[] = [
       en: "10m² room — 3 min to metro Imielin (4-room flat)"
     },
     district: "Ursynów",
-    address: "near metro Imielin, Ursynów, Warszawa",
+    address: "near metro Imielin (M1), Ursynów, Warszawa",
     url: "https://www.olx.pl/d/oferta/pokoj-10-m2-3-min-do-metra-m1-imielin-CID3-ID19hzQe.html",
     rent: 1400,
     bills: 430,
@@ -988,7 +988,7 @@ export const SEED_LISTINGS: Listing[] = [
       en: "Large room by Łazienki — Mokotów ℹ️ women preferred"
     },
     district: "Mokotów",
-    address: "Mokotów (near Łazienki Królewskie), Warszawa",
+    address: "near Łazienki Królewskie, Mokotów, Warszawa",
     url: "https://www.olx.pl/d/oferta/piekny-i-duzy-pokoj-w-spokojnej-zielonej-okolicy-przy-lazienkach-krolewskich-CID3-ID1aSmE7.html",
     rent: 1500,
     bills: 350,

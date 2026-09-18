@@ -750,6 +750,16 @@ function parseOlxMarkdown(markdown: string, url: string): Partial<Listing> | nul
   const descMatch = markdown.match(/### Opis\s*([\s\S]*?)(?:\nID:|\nZgłoś)/i);
   const description = descMatch?.[1] || markdown;
 
+  // Prefer an explicit street from the ad body so Maps doesn't pick a
+  // same-named street in another Warsaw district.
+  const streetMatch =
+    description.match(/\bul\.?\s+([A-ZĄĆĘŁŃÓŚŹŻ][\wąćęłńóśźż.-]*(?:\s+[A-ZĄĆĘŁŃÓŚŹŻ\d][\wąćęłńóśźż.-]*){0,4})(?:\s+(\d+[a-zA-Z]?))?/u) ||
+    description.match(/\bulicy\s+([A-ZĄĆĘŁŃÓŚŹŻ][\wąćęłńóśźż.-]*(?:\s+[A-ZĄĆĘŁŃÓŚŹŻ\d][\wąćęłńóśźż.-]*){0,4})(?:\s+(\d+[a-zA-Z]?))?/iu);
+  const street = streetMatch
+    ? `ul. ${streetMatch[1].trim()}${streetMatch[2] ? ` ${streetMatch[2]}` : ""}`
+    : "";
+  const address = [street, district, "Warszawa"].filter(Boolean).join(", ");
+
   const draft = draftFromParts({
     url,
     title,
@@ -757,7 +767,7 @@ function parseOlxMarkdown(markdown: string, url: string): Partial<Listing> | nul
     rent,
     photos,
     district,
-    address: `Warszawa, ${district}`,
+    address,
     contactName,
     isBusiness: /Firmowe/i.test(markdown) ? true : /Prywatne/i.test(markdown) ? false : undefined,
     bills: billsMatch ? Number(billsMatch[1].replace(/\s/g, "")) : null,
