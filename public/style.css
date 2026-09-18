@@ -249,6 +249,63 @@ input, select, textarea { font-family: inherit; }
 .btn-ghost { background: transparent; }
 .btn-danger-text { color: var(--red); border-color: rgba(248, 113, 113, 0.25); }
 
+/* ===== متوسط أسعار العروض ===== */
+.avg-price-banner {
+  margin: 0 0 16px;
+  padding: 18px 22px 16px;
+  border-radius: var(--radius);
+  border: 1px solid var(--card-border);
+  background:
+    linear-gradient(135deg, rgba(34, 211, 238, 0.1), rgba(109, 139, 255, 0.08)),
+    var(--card);
+  text-align: center;
+  animation: avg-price-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes avg-price-in {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.avg-price-label {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--muted);
+  letter-spacing: 0.02em;
+}
+
+.avg-price-value {
+  margin: 4px 0 2px;
+  font-size: clamp(2.4rem, 6vw, 3.6rem);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  background: linear-gradient(90deg, var(--accent2), var(--accent));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.avg-price-hint {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+
+.avg-price-legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 14px;
+  font-size: 12.5px;
+  font-weight: 700;
+}
+
+.avg-leg.good { color: var(--green); }
+.avg-leg.mid { color: var(--amber); }
+.avg-leg.high { color: var(--red); }
+
 /* ===== الإحصائيات ===== */
 .stats {
   display: grid;
@@ -660,6 +717,38 @@ a.chip:hover { color: var(--text); border-color: var(--accent); }
   border-color: var(--total-border);
 }
 .price-box.total .pb-value { color: var(--accent2); font-size: 18px; }
+
+/* إجمالي ملوّن مقارنة بمتوسط العروض */
+.price-box.total.price-good {
+  background: rgba(52, 211, 153, 0.1);
+  border-color: rgba(52, 211, 153, 0.4);
+}
+.price-box.total.price-good .pb-value { color: var(--green); }
+
+.price-box.total.price-mid {
+  background: rgba(251, 191, 36, 0.1);
+  border-color: rgba(251, 191, 36, 0.42);
+}
+.price-box.total.price-mid .pb-value { color: var(--amber); }
+
+.price-box.total.price-high {
+  background: rgba(248, 113, 113, 0.1);
+  border-color: rgba(248, 113, 113, 0.4);
+}
+.price-box.total.price-high .pb-value { color: var(--red); }
+
+:root[data-theme="light"] .price-box.total.price-good {
+  background: rgba(22, 133, 104, 0.08);
+  border-color: rgba(22, 133, 104, 0.32);
+}
+:root[data-theme="light"] .price-box.total.price-mid {
+  background: rgba(183, 121, 31, 0.08);
+  border-color: rgba(183, 121, 31, 0.32);
+}
+:root[data-theme="light"] .price-box.total.price-high {
+  background: rgba(195, 79, 90, 0.08);
+  border-color: rgba(195, 79, 90, 0.3);
+}
 
 .price-box.extras {
   background: rgba(245, 158, 11, 0.08);

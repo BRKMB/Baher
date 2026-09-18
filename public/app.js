@@ -86,6 +86,11 @@ const I18N = {
     statCheapest: "💰 Cheapest total",
     statClosest: "🚌 Closest to work",
     statBest: "🏆 Top score",
+    avgPriceLabel: "Average offer price",
+    avgPriceHint: "Monthly total estimate (rent + utilities + extras, excl. garage)",
+    avgPriceLegendGood: "≤ avg · green",
+    avgPriceLegendMid: "a bit above · yellow",
+    avgPriceLegendHigh: "much above · red",
     minutesShort: (m) => `~${m} min`,
     scoreLabel: "Score",
     scoreTooltip: "Score breakdown:",
@@ -207,6 +212,11 @@ const I18N = {
     statCheapest: "💰 أرخص إجمالي",
     statClosest: "🚌 أقرب للشغل",
     statBest: "🏆 الأعلى سكور",
+    avgPriceLabel: "متوسط أسعار العروض",
+    avgPriceHint: "تقدير الإجمالي الشهري (إيجار + مرافق + إضافي، من غير جراج)",
+    avgPriceLegendGood: "≤ المتوسط · أخضر",
+    avgPriceLegendMid: "أغلى شوية · أصفر",
+    avgPriceLegendHigh: "أغلى جدًا · أحمر",
     minutesShort: (m) => `~${m} دقيقة`,
     scoreLabel: "السكور",
     scoreTooltip: "تفاصيل السكور:",
@@ -318,6 +328,7 @@ const lockScreen = $("#lock-screen");
 const appEl = $("#app");
 const cardsEl = $("#cards");
 const statsEl = $("#stats");
+const avgPriceEl = $("#avg-price");
 const dialog = $("#edit-dialog");
 const editForm = $("#edit-form");
 
@@ -561,7 +572,44 @@ function render({ keepVisibleId = null } = {}) {
   }
 }
 
+function averageMonthlyCost(list = listings) {
+  if (!list.length) return null;
+  const sum = list.reduce((s, l) => s + totalCost(l), 0);
+  return Math.round(sum / list.length);
+}
+
+/** Compare a listing's monthly total to the portfolio average. */
+function priceTier(cost, avg) {
+  if (avg == null || avg <= 0 || cost == null) return "";
+  const ratio = cost / avg;
+  if (ratio <= 1.05) return "price-good";
+  if (ratio <= 1.18) return "price-mid";
+  return "price-high";
+}
+
+function renderAvgPriceBanner() {
+  if (!avgPriceEl) return;
+  const avg = averageMonthlyCost(listings);
+  if (avg == null) {
+    avgPriceEl.hidden = true;
+    avgPriceEl.replaceChildren();
+    return;
+  }
+  avgPriceEl.hidden = false;
+  avgPriceEl.replaceChildren(
+    el("div", { class: "avg-price-label", text: t("avgPriceLabel") }),
+    el("div", { class: "avg-price-value", text: `${fmt(avg)} zł` }),
+    el("div", { class: "avg-price-hint", text: t("avgPriceHint") }),
+    el("div", { class: "avg-price-legend" }, [
+      el("span", { class: "avg-leg good", text: t("avgPriceLegendGood") }),
+      el("span", { class: "avg-leg mid", text: t("avgPriceLegendMid") }),
+      el("span", { class: "avg-leg high", text: t("avgPriceLegendHigh") })
+    ])
+  );
+}
+
 function renderStats(scores) {
+  renderAvgPriceBanner();
   const cheapest = listings.reduce((a, b) => (totalCost(a) <= totalCost(b) ? a : b), listings[0]);
   const closest = listings.reduce(
     (a, b) => ((a?.commuteMin ?? 999) <= (b?.commuteMin ?? 999) ? a : b),
@@ -733,6 +781,9 @@ function renderPriceGrid(l) {
   const garage = l.garageCost ?? null;
   const extras = l.extrasEst ?? null;
   const knownTotal = knownMonthlyTotal(l);
+  const avg = averageMonthlyCost(listings);
+  const tier = priceTier(totalCost(l), avg);
+  const totalClass = `total${tier ? ` ${tier}` : ""}`;
   const boxes = [
     priceBox(t("priceRent"), `${fmt(l.rent)} zł`),
     priceBox(t("priceBills"), l.bills == null ? t("q") : `${fmt(l.bills)} zł`),
@@ -748,7 +799,7 @@ function renderPriceGrid(l) {
     priceBox(
       t("priceTotal"),
       knownTotal == null ? `${fmt(l.rent)} + ${t("q")}` : `~${fmt(knownTotal)} ${t("perMonth")}`,
-      "total"
+      totalClass
     )
   ];
   if (l.deposit != null) {

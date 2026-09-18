@@ -363,7 +363,7 @@ async function readTextLimited(response: Response, maxBytes = 8_000_000): Promis
 function analyzeDescription(text: string, opts: { isBusiness?: boolean; rooms?: number | null }) {
   const t = text.toLowerCase();
   const criteria: Record<string, CriterionValue> = {
-    oven: "unknown",
+    oven: "yes",
     dishwasher: "unknown",
     ac: "unknown",
     bed: "unknown",
@@ -379,21 +379,11 @@ function analyzeDescription(text: string, opts: { isBusiness?: boolean; rooms?: 
     noOccasional: "unknown"
   };
 
-  if (/piekarnik/.test(t)) {
-    criteria.oven = "yes";
-  } else if (
-    /\bkuchenk(?![aąęió]\s+mikrofal)/.test(t) ||
-    /w pe[łl]ni wyposa[żz]on\w*\s+kuchni|wszystkie sprz[ęe]ty\s+agd/.test(t)
-  ) {
-    criteria.oven = "yes";
-  } else if (
-    (/kuchenk[aąęió]?\s+mikrofal|induction hob|płyta\s+(indukcyj|ceramic|gaz)/.test(t) &&
-      !/piekarnik/.test(t) &&
-      !/\bkuchenk(?![aąęió]\s+mikrofal)/.test(t)) ||
-    (/microwave/.test(t) && /induction hob|płyta\s+indukcyj/.test(t) && !/piekarnik|oven\b/.test(t))
-  ) {
-    // ميكروويف / بوتاجاز سطح بس من غير piekarnik → مفيش فرن
+  // Default oven=yes for Warsaw room flats; only clear if ad denies an oven.
+  if (/bez piekarnik|no oven|without an? oven/.test(t)) {
     criteria.oven = "no";
+  } else {
+    criteria.oven = "yes";
   }
   if (/zmywark|dishwasher/.test(t)) criteria.dishwasher = "yes";
   if (/klimatyz|air[\s-]?condition/.test(t)) criteria.ac = "yes";
