@@ -222,67 +222,6 @@ export const SEED_LISTINGS: Listing[] = [
     createdAt: 3
   },
   {
-    id: "olx-15jzvn",
-    propertyType: "room",
-    title: {
-      ar: "أوضة فردية في شقة جديدة ٥٢م² — Wiślany Mokotów",
-      en: "Single room in new 52m² flat — Wiślany Mokotów"
-    },
-    district: "Mokotów",
-    address: "ul. Dywizjonu AK Jeleń (Wiślany Mokotów / Małe Siekierki), Mokotów, Warszawa",
-    url: "https://www.olx.pl/d/oferta/pokoj-1-osobowy-w-nowym-3-pokojowym-mieszkaniu-52-m2-CID3-ID15jZvn.html",
-    rent: 1600,
-    bills: 500,
-    garageCost: null,
-    extrasEst: 0,
-    extrasNote: {
-      ar: "حسب الإعلان: إدارة ٣٠٠ + مرافق ٢٠٠ (نت لاسلكي ضمن السعر).",
-      en: "Per ad: admin 300 + media 200 (Wi‑Fi included)."
-    },
-    areaSqm: null,
-    deposit: 2000,
-    commuteMin: 28,
-    flatRooms: 3,
-    availableFrom: {
-      ar: "مش مكتوب — اسأل",
-      en: "Not stated — ask"
-    },
-    contact: {
-      ar: "Marek — OLX",
-      en: "Marek — OLX"
-    },
-    notes: {
-      ar: "📅 تاريخ التوافر مش مذكور — اسأل.\n❓ ديش واشر مش مذكور بالاسم (مكتوب أجهزة AGD عامة). ✅ سرير ١٠٠×٢٠٠ + مكتب بارتفاع متغير + كرسي مكتب. شقة جديدة ٣ أوض / ٥٢م²، دور ٣، مطبخ منفصل.\nجراج اختياري. شرط: بولندي بطلاقة. من غير تدخين/حيوانات. عقد ٦ شهور أقل حاجة.\n💰 ١٦٠٠ + ٣٠٠ + ٢٠٠ = ٢١٠٠. ديبوزيت ٢٠٠٠.",
-      en: "📅 Availability date not stated — ask.\n❓ Dishwasher not named (only general AGD). ✅ Bed 100×200 + height-adjustable desk + office chair. New 3-room / 52m², floor 3, separate kitchen.\nOptional garage. Requires fluent Polish. No smoking/pets. Min 6-month lease.\n💰 1600 + 300 + 200 = 2100. Deposit 2000."
-    },
-    photos: [
-      "https://ireland.apollo.olxcdn.com/v1/files/qx10qdpati7i-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/s200vqdyyz941-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/o7bug0hbek9n3-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/ed0zxul00u431-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/gi9l3y242x2q3-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/tlo5ns7szgjd-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/31e1bq5ktzu6-PL/image;s=1200x900"
-    ],
-    criteria: {
-      oven: "yes",
-      dishwasher: "unknown",
-      ac: "unknown",
-      bed: "yes",
-      spacious: "yes",
-      garage: "no",
-      max3: "yes",
-      desk: "yes",
-      modern: "yes",
-      elevator: "unknown",
-      availableAug: "unknown",
-      noCommission: "yes",
-      noOccasional: "unknown",
-      noOwner: "unknown"
-    },
-    createdAt: 4
-  },
-  {
     id: "oto-4d6fz",
     propertyType: "room",
     title: {
