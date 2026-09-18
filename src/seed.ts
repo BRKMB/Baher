@@ -98,7 +98,8 @@ export const SEED_LISTINGS: Listing[] = [
       elevator: "unknown",
       availableAug: "unknown",
       noCommission: "yes",
-      noOccasional: "unknown"
+      noOccasional: "unknown",
+      noOwner: "unknown"
     },
     createdAt: 1
   },
@@ -134,13 +135,11 @@ export const SEED_LISTINGS: Listing[] = [
       en: "📅 Vacant from September 2026 (ad: od września).\n❓ Dishwasher not mentioned. Kitchen: fridge+microwave only (no oven/dishwasher listed). Balcony, lockable room, floor 5 in a 3-room flat.\n💰 1650 + 350 = 2000. Deposit 2000. Direct.\n❓ Elevator: unknown from platform field."
     },
     photos: [
-      "https://ireland.apollo.olxcdn.com/v1/files/vdej02xhkzal-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/6g3nup1srqaw1-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/hsriaje9lzzt-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/q99pa1y6g43y-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/hp7w12g41bvi1-PL/image;s=1200x900",
       "https://ireland.apollo.olxcdn.com/v1/files/icnbb6yn3ag81-PL/image;s=1200x900",
       "https://ireland.apollo.olxcdn.com/v1/files/jo93hq66uait1-PL/image;s=1200x900",
-      "https://ireland.apollo.olxcdn.com/v1/files/fbatijdv99511-PL/image;s=1200x900"
+      "https://ireland.apollo.olxcdn.com/v1/files/fbatijdv99511-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/zoylrewkrhqk3-PL/image;s=1200x900"
     ],
     criteria: {
       oven: "yes",
@@ -155,7 +154,8 @@ export const SEED_LISTINGS: Listing[] = [
       elevator: "unknown",
       availableAug: "no",
       noCommission: "yes",
-      noOccasional: "unknown"
+      noOccasional: "unknown",
+      noOwner: "unknown"
     },
     createdAt: 2
   },
@@ -216,7 +216,8 @@ export const SEED_LISTINGS: Listing[] = [
       elevator: "unknown",
       availableAug: "unknown",
       noCommission: "yes",
-      noOccasional: "unknown"
+      noOccasional: "unknown",
+      noOwner: "yes"
     },
     createdAt: 3
   },
@@ -276,7 +277,8 @@ export const SEED_LISTINGS: Listing[] = [
       elevator: "unknown",
       availableAug: "unknown",
       noCommission: "yes",
-      noOccasional: "unknown"
+      noOccasional: "unknown",
+      noOwner: "unknown"
     },
     createdAt: 4
   },
@@ -334,7 +336,8 @@ export const SEED_LISTINGS: Listing[] = [
       elevator: "unknown",
       availableAug: "no",
       noCommission: "yes",
-      noOccasional: "unknown"
+      noOccasional: "unknown",
+      noOwner: "unknown"
     },
     createdAt: 5
   },
@@ -388,7 +391,8 @@ export const SEED_LISTINGS: Listing[] = [
       elevator: "no",
       availableAug: "no",
       noCommission: "yes",
-      noOccasional: "unknown"
+      noOccasional: "unknown",
+      noOwner: "unknown"
     },
     createdAt: 6
   },
@@ -445,7 +449,8 @@ export const SEED_LISTINGS: Listing[] = [
       elevator: "no",
       availableAug: "no",
       noCommission: "yes",
-      noOccasional: "unknown"
+      noOccasional: "unknown",
+      noOwner: "unknown"
     },
     createdAt: 7
   },
@@ -503,7 +508,8 @@ export const SEED_LISTINGS: Listing[] = [
       elevator: "unknown",
       availableAug: "no",
       noCommission: "yes",
-      noOccasional: "unknown"
+      noOccasional: "unknown",
+      noOwner: "unknown"
     },
     createdAt: 8
   },
@@ -564,7 +570,8 @@ export const SEED_LISTINGS: Listing[] = [
       elevator: "unknown",
       availableAug: "unknown",
       noCommission: "yes",
-      noOccasional: "unknown"
+      noOccasional: "unknown",
+      noOwner: "unknown"
     },
     createdAt: 9
   },
@@ -619,7 +626,8 @@ export const SEED_LISTINGS: Listing[] = [
       elevator: "unknown",
       availableAug: "no",
       noCommission: "no",
-      noOccasional: "unknown"
+      noOccasional: "unknown",
+      noOwner: "unknown"
     },
     createdAt: 10
   },
@@ -676,7 +684,8 @@ export const SEED_LISTINGS: Listing[] = [
       elevator: "unknown",
       availableAug: "no",
       noCommission: "yes",
-      noOccasional: "unknown"
+      noOccasional: "unknown",
+      noOwner: "unknown"
     },
     createdAt: 11
   },
@@ -734,7 +743,8 @@ export const SEED_LISTINGS: Listing[] = [
       elevator: "unknown",
       availableAug: "no",
       noCommission: "yes",
-      noOccasional: "unknown"
+      noOccasional: "unknown",
+      noOwner: "unknown"
     },
     createdAt: 12
   },
@@ -788,7 +798,8 @@ export const SEED_LISTINGS: Listing[] = [
       elevator: "unknown",
       availableAug: "no",
       noCommission: "yes",
-      noOccasional: "unknown"
+      noOccasional: "unknown",
+      noOwner: "yes"
     },
     createdAt: 13
   },
@@ -847,7 +858,8 @@ export const SEED_LISTINGS: Listing[] = [
       elevator: "unknown",
       availableAug: "unknown",
       noCommission: "yes",
-      noOccasional: "unknown"
+      noOccasional: "unknown",
+      noOwner: "unknown"
     },
     createdAt: 14
   },
@@ -904,10 +916,71 @@ export const SEED_LISTINGS: Listing[] = [
       elevator: "unknown",
       availableAug: "no",
       noCommission: "yes",
-      noOccasional: "unknown"
+      noOccasional: "unknown",
+      noOwner: "unknown"
     },
     createdAt: 15
+  },
+  {
+    id: "olx-1boprm",
+    propertyType: "room",
+    title: {
+      ar: "أوضة فردية — Bonifacego 89، Sadyba / Mokotów (شقة ٥ أوض ⚠️)",
+      en: "Single room — Bonifacego 89, Sadyba / Mokotów (5-room flat ⚠️)"
+    },
+    district: "Mokotów",
+    address: "ul. Bonifacego 89, Sadyba, Mokotów, Warszawa",
+    url: "https://www.olx.pl/d/oferta/pokoj-jednoosobowy-ul-bonifacego-89-mokotow-sadyba-best-mall-CID3-ID1bOPRm.html",
+    rent: 1450,
+    bills: 490,
+    garageCost: null,
+    extrasEst: 0,
+    extrasNote: {
+      ar: "حسب الإعلان: ١٤٥٠ + ٤٩٠ مرافق (نت ٦٠٠Mb ضمن السعر). ديبوزيت ٢٣٠٠.",
+      en: "Per ad: 1450 + 490 media (600Mb internet included). Deposit 2300."
+    },
+    areaSqm: null,
+    deposit: 2300,
+    commuteMin: 28,
+    flatRooms: 5,
+    availableFrom: "01/10/2026",
+    contact: {
+      ar: "Basia — OLX",
+      en: "Basia — OLX"
+    },
+    notes: {
+      ar: "📅 فاضي من ١ أكتوبر ٢٠٢٦.\n✅ ديش واشر + فرن مذكورين. سرير بمرتبة + مكتب + دولاب كبير. شقة ٥ أوض دور ١٠ (أسانسيرين) + حمامين.\nمباشر من المالك (مش وكالة) — مش مكتوب إنه ساكن في الشقة.\nجنب Sadyba Best Mall.\n💰 ١٤٥٠ + ٤٩٠. ديبوزيت ٢٣٠٠.",
+      en: "📅 Vacant from 1 Oct 2026.\n✅ Dishwasher + oven listed. Bed with mattress + desk + big wardrobe. 5-room flat floor 10 (2 elevators) + 2 bathrooms.\nDirect from owner (not agency) — does not say the owner lives there.\nNext to Sadyba Best Mall.\n💰 1450 + 490. Deposit 2300."
+    },
+    photos: [
+      "https://ireland.apollo.olxcdn.com/v1/files/487adw4m9aox1-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/4reaozxzduef2-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/rdy8a46v9mg7-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/p5yncfa84whp-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/03299u664mr4-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/oscmvs1thnzq3-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/8n1x3u6hwc802-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/lul4rf7acxsb2-PL/image;s=1200x900"
+    ],
+    criteria: {
+      oven: "yes",
+      dishwasher: "yes",
+      ac: "unknown",
+      bed: "yes",
+      spacious: "unknown",
+      garage: "unknown",
+      max3: "no",
+      desk: "yes",
+      modern: "unknown",
+      elevator: "yes",
+      availableAug: "no",
+      noOwner: "unknown",
+      noCommission: "yes",
+      noOccasional: "unknown"
+    },
+    createdAt: 16
   }
 ];
+
 
 

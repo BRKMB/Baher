@@ -16,6 +16,7 @@ const CRITERIA = [
   { key: "desk", icon: "🖥️", weight: 3, ar: "مكتب كبير للشاشات", en: "Big desk for monitors" },
   { key: "modern", icon: "✨", weight: 2, ar: "شقة مودرن", en: "Modern flat" },
   { key: "elevator", icon: "🛗", weight: 1, ar: "أسانسير (لو دور عالي)", en: "Elevator (if high floor)" },
+  { key: "noOwner", icon: "👤", weight: 2, ar: "المالك مش ساكن في الشقة", en: "Owner does not live in the flat" },
   { key: "noCommission", icon: "🧾", weight: 2, ar: "من غير كوميشن", en: "No commission" },
   { key: "noOccasional", icon: "📜", weight: 3, ar: "من غير عقد occasional", en: "No occasional lease" }
 ];
@@ -100,6 +101,10 @@ const I18N = {
     unknownTitle: "Ask the landlord and update the marks",
     noElevatorChip: "⚠️ No elevator",
     noElevatorTitle: "Platform field says this building has no elevator",
+    ownerOnSiteChip: "⚠️ Owner lives here",
+    ownerOnSiteTitle: "Ad says the owner lives in the flat",
+    noOwnerChip: "👤 No owner on site",
+    noOwnerTitle: "Ad says the owner does not live in the flat",
     priceRent: "Rent",
     priceBills: "Admin / utilities",
     priceGarage: "Garage",
@@ -217,6 +222,10 @@ const I18N = {
     unknownTitle: "اسأل المعلن وحدّث العلامات",
     noElevatorChip: "⚠️ مفيش أسانسير",
     noElevatorTitle: "حقل المنصة بيقول العمارة من غير مصعد",
+    ownerOnSiteChip: "⚠️ هتعيش مع المالك",
+    ownerOnSiteTitle: "الإعلان بيقول المالك ساكن في الشقة",
+    noOwnerChip: "👤 المالك مش ساكن",
+    noOwnerTitle: "الإعلان بيقول المالك مش ساكن في الشقة",
     priceRent: "الإيجار",
     priceBills: "الإدارة / المرافق",
     priceGarage: "الجراج",
@@ -811,6 +820,23 @@ function renderCard(l, rank, score) {
         class: "chip warn",
         text: t("noElevatorChip"),
         title: t("noElevatorTitle")
+      })
+    );
+  }
+  if ((l.criteria?.noOwner || "unknown") === "no") {
+    chips.push(
+      el("span", {
+        class: "chip warn owner-chip",
+        text: t("ownerOnSiteChip"),
+        title: t("ownerOnSiteTitle")
+      })
+    );
+  } else if ((l.criteria?.noOwner || "unknown") === "yes") {
+    chips.push(
+      el("span", {
+        class: "chip owner-chip ok",
+        text: t("noOwnerChip"),
+        title: t("noOwnerTitle")
       })
     );
   }

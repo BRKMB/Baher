@@ -288,9 +288,30 @@ async function handleApi(request: Request, env: Env, pathname: string): Promise<
       if (!draft) return json({ error: "parse_failed" }, { status: 422 });
       return json(draft);
     }
-    if (!res.ok) return json({ error: "fetch_failed", status: res.status }, { status: 502 });
+    if (!res.ok) {
+      // OLX/Otodom often block datacenter IPs — fall back to Jina markdown.
+      const readerUrl = `https://r.jina.ai/http://${target.host}${target.pathname}${target.search}`;
+      res = await fetch(readerUrl, { headers: { "User-Agent": BROWSER_UA } });
+      if (!res.ok) return json({ error: "fetch_failed", status: res.status }, { status: 502 });
+      const markdown = await readTextLimited(res);
+      const draft = isOtodom
+        ? parseOtodomMarkdown(markdown, target.toString())
+        : parseOlxMarkdown(markdown, target.toString());
+      if (!draft) return json({ error: "parse_failed" }, { status: 422 });
+      return json(draft);
+    }
     const html = await readTextLimited(res);
-    const draft = isOtodom ? parseOtodom(html, target.toString()) : parseOlx(html, target.toString());
+    let draft = isOtodom ? parseOtodom(html, target.toString()) : parseOlx(html, target.toString());
+    if (!draft) {
+      const readerUrl = `https://r.jina.ai/http://${target.host}${target.pathname}${target.search}`;
+      const readerRes = await fetch(readerUrl, { headers: { "User-Agent": BROWSER_UA } });
+      if (readerRes.ok) {
+        const markdown = await readTextLimited(readerRes);
+        draft = isOtodom
+          ? parseOtodomMarkdown(markdown, target.toString())
+          : parseOlxMarkdown(markdown, target.toString());
+      }
+    }
     if (!draft) return json({ error: "parse_failed" }, { status: 422 });
     return json(draft);
   }
@@ -333,6 +354,7 @@ function analyzeDescription(text: string, opts: { isBusiness?: boolean; rooms?: 
     modern: "unknown",
     elevator: "unknown",
     availableAug: "unknown",
+    noOwner: "unknown",
     noCommission: "unknown",
     noOccasional: "unknown"
   };
@@ -440,6 +462,21 @@ function analyzeDescription(text: string, opts: { isBusiness?: boolean; rooms?: 
   if (/bez prowizji|0% prowizji/.test(t)) criteria.noCommission = "yes";
   else if (/prowizj/.test(t)) criteria.noCommission = "no";
   else if (opts.isBusiness === false) criteria.noCommission = "yes";
+
+  // المالك ساكن ولا لأ
+  if (
+    /bez w[łl]a[śs]ciciela|w[łl]a[śs]ciciel nie mieszka|w[łl]a[śs]ciciel nie zamieszk|owner does not live|bez właściciela/.test(
+      t
+    )
+  ) {
+    criteria.noOwner = "yes";
+  } else if (
+    /pok[óo]j u w[łl]a[śs]ciciel|w[łl]a[śs]ciciel mieszka|mieszkam w (tym )?mieszkaniu|razem z w[łl]a[śs]ciciel|live[- ]in (owner|landlord)|owner lives/.test(
+      t
+    )
+  ) {
+    criteria.noOwner = "no";
+  }
 
   // najem okazjonalny = عقد occasional (غالبًا تقيل على الأجانب)
   if (/najem\s+okazjonaln|umow\w*\s+.*okazjonaln|okazjonaln\w*/.test(t)) {
@@ -645,6 +682,57 @@ function otodomElevator(ad: {
   // If extras_types is present but lift is absent, treat as no elevator
   if (extrasRow?.values?.length && !/lift/.test(extras)) return "no";
   return undefined;
+}
+
+function parseOlxMarkdown(markdown: string, url: string): Partial<Listing> | null {
+  const titleMatch =
+    markdown.match(/^Title:\s*(.+?)(?:\s+[•·]|\s+Warszawa|\s*$)/m) ||
+    markdown.match(/^#+\s+(.+)$/m);
+  if (!titleMatch) return null;
+  let title = titleMatch[1].replace(/\s*[•·].*$/, "").trim();
+  title = title.replace(/\s+Warszawa.*$/i, "").trim() || titleMatch[1].trim();
+
+  const priceMatch =
+    markdown.match(/###\s*([\d\s]+)\s*z[łl]/i) ||
+    markdown.match(/Cena:\s*([\d\s]+)\s*z[łl]/i) ||
+    markdown.match(/\[CENA\]\s*([\d\s]+)\s*z[łl]/i);
+  const rent = priceMatch ? Number(priceMatch[1].replace(/\s/g, "")) : null;
+
+  const billsMatch =
+    markdown.match(/\+\s*([\d\s]+)\s*(?:z[łl]\s*)?(?:czynsz|media)/i) ||
+    markdown.match(/([\d\s]+)\s*z[łl]\s*media/i);
+  const depositMatch = markdown.match(/kaucj[ae]?\s*([\d\s]+)/i);
+
+  const photos = [
+    ...new Set(
+      [...markdown.matchAll(/!\[[^\]]*\]\((https:\/\/[^)\s]*apollo\.olxcdn\.com[^)\s]*)\)/g)].map((m) =>
+        m[1].replace(/;s=\d+x\d+[^)]*/, ";s=1200x900")
+      )
+    )
+  ];
+
+  const districtMatch = markdown.match(/Stancje i Pokoje - ([^\n\]]+)/);
+  const district = (districtMatch?.[1] || "").replace(/Warszawa.*/i, "").trim() || "Warszawa";
+  const contactMatch = markdown.match(/####\s*\[([^\]]+?)\s+Na OLX/i);
+  const contactName = contactMatch ? `${contactMatch[1].trim()} — OLX` : "OLX";
+
+  const descMatch = markdown.match(/### Opis\s*([\s\S]*?)(?:\nID:|\nZgłoś)/i);
+  const description = descMatch?.[1] || markdown;
+
+  const draft = draftFromParts({
+    url,
+    title,
+    description,
+    rent,
+    photos,
+    district,
+    address: `Warszawa, ${district}`,
+    contactName,
+    isBusiness: /Firmowe/i.test(markdown) ? true : /Prywatne/i.test(markdown) ? false : undefined,
+    bills: billsMatch ? Number(billsMatch[1].replace(/\s/g, "")) : null,
+    deposit: depositMatch ? Number(depositMatch[1].replace(/\s/g, "")) : null
+  });
+  return draft;
 }
 
 function parseOtodomMarkdown(markdown: string, url: string): Partial<Listing> | null {
