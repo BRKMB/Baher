@@ -31,6 +31,11 @@ export interface Listing {
    * null لو مش واضح من الإعلان.
    */
   flatRooms: number | null;
+  /**
+   * عدد الحمامات / الوحدات الصحية في الشقة (من الإعلان).
+   * لو مكتوب حمام + WC منفصل بنحسبهم ٢. null لو مش واضح.
+   */
+  bathrooms: number | null;
   availableFrom: LocalizedText;
   contact: LocalizedText;
   notes: LocalizedText;
@@ -65,6 +70,7 @@ export const SEED_LISTINGS: Listing[] = [
     deposit: 1400,
     commuteMin: 18,
     flatRooms: 4,
+    bathrooms: 2,
     availableFrom: {
       ar: "مش مكتوب — اسأل",
       en: "Not stated — ask"
@@ -125,6 +131,7 @@ export const SEED_LISTINGS: Listing[] = [
     deposit: 2000,
     commuteMin: 14,
     flatRooms: 3,
+    bathrooms: 2,
     availableFrom: "09/2026",
     contact: {
       ar: "Łukasz — OLX",
@@ -181,6 +188,7 @@ export const SEED_LISTINGS: Listing[] = [
     deposit: 2200,
     commuteMin: 32,
     flatRooms: 5,
+    bathrooms: 2,
     availableFrom: {
       ar: "مش مكتوب بوضوح — اسأل (أول مستأجر)",
       en: "Not clearly stated — ask (first tenant)"
@@ -243,6 +251,7 @@ export const SEED_LISTINGS: Listing[] = [
     deposit: 1790,
     commuteMin: 22,
     flatRooms: 2,
+    bathrooms: 1,
     availableFrom: "01/10/2026",
     contact: {
       ar: "Warsaw Villa Park — Otodom",
@@ -302,6 +311,7 @@ export const SEED_LISTINGS: Listing[] = [
     deposit: null,
     commuteMin: 45,
     flatRooms: 2,
+    bathrooms: null,
     availableFrom: "01/10/2026",
     contact: {
       ar: "wiolafranc — OLX",
@@ -357,6 +367,7 @@ export const SEED_LISTINGS: Listing[] = [
     deposit: 1700,
     commuteMin: 32,
     flatRooms: 3,
+    bathrooms: 2,
     availableFrom: "01/10/2026",
     contact: {
       ar: "Ewa — OLX",
@@ -415,6 +426,7 @@ export const SEED_LISTINGS: Listing[] = [
     deposit: 2300,
     commuteMin: 35,
     flatRooms: 2,
+    bathrooms: 1,
     availableFrom: "01/10/2026",
     contact: {
       ar: "Eryk — OLX",
@@ -474,6 +486,7 @@ export const SEED_LISTINGS: Listing[] = [
     deposit: 1870,
     commuteMin: 28,
     flatRooms: 3,
+    bathrooms: 1,
     availableFrom: {
       ar: "مش مكتوب — اسأل",
       en: "Not stated — ask"
@@ -536,6 +549,7 @@ export const SEED_LISTINGS: Listing[] = [
     deposit: null,
     commuteMin: 30,
     flatRooms: 5,
+    bathrooms: 2,
     availableFrom: "01/10/2026",
     contact: {
       ar: "Klaudia — OLX",
@@ -592,6 +606,7 @@ export const SEED_LISTINGS: Listing[] = [
     deposit: 1600,
     commuteMin: 25,
     flatRooms: 5,
+    bathrooms: 2,
     availableFrom: "10/10/2026",
     contact: {
       ar: "Mateusz — OLX",
@@ -650,6 +665,7 @@ export const SEED_LISTINGS: Listing[] = [
     deposit: 1150,
     commuteMin: 28,
     flatRooms: 5,
+    bathrooms: 1,
     availableFrom: "01/10/2026",
     contact: {
       ar: "Jarek — OLX",
@@ -709,6 +725,7 @@ export const SEED_LISTINGS: Listing[] = [
     deposit: 1650,
     commuteMin: 18,
     flatRooms: 4,
+    bathrooms: null,
     availableFrom: "01/10/2026",
     contact: {
       ar: "Henryk — OLX",
@@ -764,6 +781,7 @@ export const SEED_LISTINGS: Listing[] = [
     deposit: null,
     commuteMin: 25,
     flatRooms: 3,
+    bathrooms: null,
     availableFrom: {
       ar: "مش مكتوب — اسأل",
       en: "Not stated — ask"
@@ -824,6 +842,7 @@ export const SEED_LISTINGS: Listing[] = [
     deposit: 1400,
     commuteMin: 32,
     flatRooms: 4,
+    bathrooms: 2,
     availableFrom: "01/10/2026",
     contact: {
       ar: "Zuzanna — OLX",
@@ -882,6 +901,7 @@ export const SEED_LISTINGS: Listing[] = [
     deposit: 2300,
     commuteMin: 28,
     flatRooms: 5,
+    bathrooms: 2,
     availableFrom: "01/10/2026",
     contact: {
       ar: "Basia — OLX",
@@ -941,6 +961,7 @@ export const SEED_LISTINGS: Listing[] = [
     deposit: null,
     commuteMin: 30,
     flatRooms: 3,
+    bathrooms: null,
     availableFrom: {
       ar: "مش مكتوب — اسأل",
       en: "Not stated — ask"

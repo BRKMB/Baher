@@ -64,6 +64,7 @@ const I18N = {
     fExtrasNote: "Extras breakdown (estimate)",
     fArea: "Place area (m²)",
     fFlatRooms: "Rooms in the flat",
+    fBathrooms: "Bathrooms in the flat",
     fDeposit: "Deposit (zł)",
     fCommute: "Commute to work (minutes)",
     fAvailable: "Available from",
@@ -75,6 +76,14 @@ const I18N = {
       n == null
         ? "How many rooms the whole flat has (not room size)"
         : `Whole flat has ${n} rooms → about ${Math.max(0, n - 1)} other people if each room is occupied`,
+    bathroomsChip: (n) => (n === 1 ? "🚿 1 bathroom" : `🚿 ${n} bathrooms`),
+    bathroomsUnknown: "🚿 Bathrooms?",
+    bathroomsTitle: (n) =>
+      n == null
+        ? "Bathroom count from the ad (bath + separate WC counts as 2)"
+        : n === 1
+          ? "Flat has 1 bathroom (per ad)"
+          : `Flat has ${n} bathrooms/WCs (per ad)`,
     phUnknown: "unknown",
     phNone: "none",
     phEstimate: "estimate",
@@ -190,6 +199,7 @@ const I18N = {
     fExtrasNote: "تفصيل المصاريف الإضافية (تقديري)",
     fArea: "مساحة المكان (م²)",
     fFlatRooms: "عدد أوض الشقة",
+    fBathrooms: "عدد الحمامات في الشقة",
     fDeposit: "الديبوزيت (زلوتي)",
     fCommute: "وقت المواصلات للشغل (دقايق)",
     fAvailable: "متاحة من",
@@ -201,6 +211,14 @@ const I18N = {
       n == null
         ? "كام أوضة في الشقة كلها (مش مساحة أوضتك)"
         : `الشقة فيها ${n} أوض → حوالي ${Math.max(0, n - 1)} ناس تانيين لو كل أوضة مشغولة`,
+    bathroomsChip: (n) => (n === 1 ? "🚿 حمام واحد" : `🚿 ${n} حمامات`),
+    bathroomsUnknown: "🚿 الحمامات؟",
+    bathroomsTitle: (n) =>
+      n == null
+        ? "عدد الحمامات من الإعلان (حمام + WC منفصل = ٢)"
+        : n === 1
+          ? "الشقة فيها حمام واحد (حسب الإعلان)"
+          : `الشقة فيها ${n} حمامات/WC (حسب الإعلان)`,
     phUnknown: "مش معروفة",
     phNone: "مفيش",
     phEstimate: "تقدير",
@@ -869,6 +887,14 @@ function renderCard(l, rank, score) {
         title: t("flatRoomsTitle", n)
       });
     })(),
+    (() => {
+      const n = l.bathrooms == null ? null : Number(l.bathrooms);
+      return el("span", {
+        class: `chip bathrooms-chip${n == null ? " unknown-bathrooms" : ""}`,
+        text: n == null ? t("bathroomsUnknown") : t("bathroomsChip", n),
+        title: t("bathroomsTitle", n)
+      });
+    })(),
     el("span", { class: "chip", text: `📍 ${l.district}` }),
     el("a", {
       class: "chip",
@@ -1050,6 +1076,7 @@ function openEdit(l) {
   f.extrasNote.value = l ? loc(l.extrasNote) : "";
   f.areaSqm.value = l?.areaSqm ?? "";
   f.flatRooms.value = l?.flatRooms ?? "";
+  f.bathrooms.value = l?.bathrooms ?? "";
   f.deposit.value = l?.deposit ?? "";
   f.commuteMin.value = l?.commuteMin ?? "";
   f.availableFrom.value = l ? loc(l.availableFrom) : "";
@@ -1086,6 +1113,7 @@ $("#import-btn").addEventListener("click", async () => {
     f.extrasNote.value = loc(draft.extrasNote);
     f.areaSqm.value = draft.areaSqm ?? "";
     f.flatRooms.value = draft.flatRooms ?? "";
+    f.bathrooms.value = draft.bathrooms ?? "";
     f.deposit.value = draft.deposit ?? "";
     f.commuteMin.value = draft.commuteMin ?? "";
     f.availableFrom.value = loc(draft.availableFrom);
@@ -1124,6 +1152,7 @@ editForm.addEventListener("submit", async (e) => {
     extrasNote: setLoc(existing?.extrasNote, f.extrasNote.value.trim()),
     areaSqm: num(f.areaSqm),
     flatRooms: num(f.flatRooms),
+    bathrooms: num(f.bathrooms),
     deposit: num(f.deposit),
     commuteMin: num(f.commuteMin),
     availableFrom: setLoc(existing?.availableFrom, f.availableFrom.value.trim()),

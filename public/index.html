@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <!-- Manrope = Latin + Polish (latin-ext); Tajawal = Arabic. Stack order keeps PL glyphs consistent. -->
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/style.css?v=15" />
+  <link rel="stylesheet" href="/style.css?v=16" />
 </head>
 <body>
 
@@ -137,6 +137,9 @@
         <label><span data-i18n="fFlatRooms">Rooms in the flat</span>
           <input name="flatRooms" type="number" min="1" max="10" step="1" data-i18n-ph="phUnknown" />
         </label>
+        <label><span data-i18n="fBathrooms">Bathrooms in the flat</span>
+          <input name="bathrooms" type="number" min="1" max="5" step="1" data-i18n-ph="phUnknown" />
+        </label>
         <label><span data-i18n="fDeposit">Deposit (zł)</span>
           <input name="deposit" type="number" min="0" data-i18n-ph="phUnknown" />
         </label>
@@ -183,6 +186,6 @@
 
   <div id="toast" hidden></div>
 
-  <script src="/app.js?v=25"></script>
+  <script src="/app.js?v=26"></script>
 </body>
 </html>
