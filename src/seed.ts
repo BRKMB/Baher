@@ -1040,6 +1040,68 @@ export const SEED_LISTINGS: Listing[] = [
       noOwner: "unknown"
     },
     createdAt: 17
+  },
+  {
+    id: "olx-1ck1m9",
+    propertyType: "room",
+    title: {
+      ar: "أوض جديدة — Hirszfelda / Imielin / SGGW ⚠️ نساء + شقة ٦ أوض",
+      en: "New rooms — Hirszfelda / Imielin / SGGW ⚠️ women + 6-room flat"
+    },
+    district: "Ursynów",
+    address: "ul. Hirszfelda, Ursynów (Imielin / SGGW), Warszawa",
+    url: "https://www.olx.pl/d/oferta/your-new-room-in-warsaw-ursynow-sggw-imielin-metro-for-rent-pokoj-do-wynajecia-CID3-ID1ck1m9.html",
+    rent: 1250,
+    bills: 500,
+    garageCost: null,
+    extrasEst: 0,
+    extrasNote: {
+      ar: "حسب الإعلان: أوض من ١٢٥٠–١٤٠٠ + ٥٠٠ مرافق ثابتة لكل أوضة.",
+      en: "Per ad: rooms from 1250–1400 + 500 utilities each."
+    },
+    areaSqm: 8,
+    deposit: null,
+    commuteMin: 30,
+    flatRooms: 6,
+    availableFrom: {
+      ar: "جاهزة للسكن — اسأل أي أوضة فاضية (open house ١٩/٠٩/٢٠٢٦)",
+      en: "Ready to move in — ask which rooms are free (open house 19/09/2026)"
+    },
+    contact: {
+      ar: "Malgorzata — OLX",
+      en: "Malgorzata — OLX"
+    },
+    notes: {
+      ar: "⚠️ Preferred: Female students from abroad — نساء طالبات أجانب.\n📅 أوض جاهزة؛ open house ١٩ سبتمبر ٢٠٢٦. اسأل أي أوضة متاحة.\n❌ فرن: المطبخ فيه induction hob + ميكروويف + ديش واشر + تلاجة — مفيش piekarnik.\n✅ سرير بمرتبة مريحة + مكتب وكرسي. شقة ٦ أوض بعد ترميم (زحمة)، حمامين + تواليت منفصل، جنينة، نت سريع.\nأسعار الأوض: ٧٫٥–١١م² → ١٢٥٠ أو ١٣٠٠ أو ١٤٠٠ + ٥٠٠ مرافق.\n١٠ دقايق مشي لمترو Imielin / قريب SGGW.\n💰 من ١٢٥٠+٥٠٠. ديبوزيت مش مكتوب.",
+      en: "⚠️ Preferred: Female students from abroad.\n📅 Rooms ready; open house 19 Sep 2026. Ask which rooms are free.\n❌ Oven: kitchenette has induction hob + microwave + dishwasher + fridge — no piekarnik listed.\n✅ Comfy bed+mattress + desk+chair. Renovated 6-room flat (crowded), 2 baths + separate toilet, garden, fast Wi‑Fi.\nRoom prices: 7.5–11m² → 1250 / 1300 / 1400 + 500 utilities.\n~10 min walk to Imielin metro / near SGGW.\n💰 From 1250+500. Deposit not stated."
+    },
+    photos: [
+      "https://ireland.apollo.olxcdn.com/v1/files/ymd403q18piv2-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/cn5r8m1lhy7z2-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/eszwmjorqx1-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/3umu1jjsk4bw2-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/k2q960q8yx931-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/w0knftcb7n7c2-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/dchnbb0nfylv-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/vajzscaivjg4-PL/image;s=1200x900"
+    ],
+    criteria: {
+      oven: "no",
+      dishwasher: "yes",
+      ac: "unknown",
+      bed: "yes",
+      spacious: "no",
+      garage: "unknown",
+      max3: "no",
+      desk: "yes",
+      modern: "yes",
+      elevator: "unknown",
+      availableAug: "no",
+      noCommission: "yes",
+      noOccasional: "unknown",
+      noOwner: "unknown"
+    },
+    createdAt: 18
   }
 ];
 

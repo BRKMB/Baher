@@ -379,12 +379,16 @@ function analyzeDescription(text: string, opts: { isBusiness?: boolean; rooms?: 
     criteria.oven = "yes";
   } else if (
     /\bkuchenk(?![aąęió]\s+mikrofal)/.test(t) ||
-    /płyta\s+(indukcyj|ceramic|gaz)/.test(t) ||
     /w pe[łl]ni wyposa[żz]on\w*\s+kuchni|wszystkie sprz[ęe]ty\s+agd/.test(t)
   ) {
     criteria.oven = "yes";
-  } else if (/kuchenk[aąęió]?\s+mikrofal/.test(t) && !/piekarnik|płyta\s+(indukcyj|ceramic|gaz)/.test(t)) {
-    // إعلان بيسمّي الميكروويف بس كجهاز طبخ → مفيش فرن
+  } else if (
+    (/kuchenk[aąęió]?\s+mikrofal|induction hob|płyta\s+(indukcyj|ceramic|gaz)/.test(t) &&
+      !/piekarnik/.test(t) &&
+      !/\bkuchenk(?![aąęió]\s+mikrofal)/.test(t)) ||
+    (/microwave/.test(t) && /induction hob|płyta\s+indukcyj/.test(t) && !/piekarnik|oven\b/.test(t))
+  ) {
+    // ميكروويف / بوتاجاز سطح بس من غير piekarnik → مفيش فرن
     criteria.oven = "no";
   }
   if (/zmywark|dishwasher/.test(t)) criteria.dishwasher = "yes";
