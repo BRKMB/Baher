@@ -12,7 +12,7 @@ const CRITERIA = [
   { key: "bed", icon: "🛏️", weight: 3, ar: "سرير مريح بمرتبة كويسة", en: "Comfy bed, good mattress" },
   { key: "spacious", icon: "📐", weight: 2, ar: "مساحة واسعة", en: "Spacious place" },
   { key: "garage", icon: "🚗", weight: 1, ar: "جراج / ركنة مجانية", en: "Free garage / parking" },
-  { key: "max3", icon: "👥", weight: 2, ar: "٣ أوض أو أقل في الشقة", en: "≤ 3 rooms in the flat" },
+  { key: "max3", icon: "👥", weight: 3, ar: "٣ أوض أو أقل في الشقة", en: "≤ 3 rooms in the flat" },
   { key: "desk", icon: "🖥️", weight: 3, ar: "مكتب كبير للشاشات", en: "Big desk for monitors" },
   { key: "modern", icon: "✨", weight: 2, ar: "شقة مودرن", en: "Modern flat" },
   { key: "elevator", icon: "🛗", weight: 1, ar: "أسانسير (لو دور عالي)", en: "Elevator (if high floor)" },

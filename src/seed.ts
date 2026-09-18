@@ -131,8 +131,8 @@ export const SEED_LISTINGS: Listing[] = [
       en: "Łukasz — OLX"
     },
     notes: {
-      ar: "📅 فاضي من سبتمبر ٢٠٢٦ (الإعلان: od września).\n❓ ديش واشر مش مذكور. المطبخ: تلاجة+ميكروويف بس (مفيش ذكر فرن/ديش واشر). بلكونة، أوضة بتقفل، دور ٥ في شقة ٣ أوض.\n💰 ١٦٥٠ + ٣٥٠ = ٢٠٠٠. ديبوزيت ٢٠٠٠. مباشر.\n❓ الأسانسير: unknown من حقل المنصة.",
-      en: "📅 Vacant from September 2026 (ad: od września).\n❓ Dishwasher not mentioned. Kitchen: fridge+microwave only (no oven/dishwasher listed). Balcony, lockable room, floor 5 in a 3-room flat.\n💰 1650 + 350 = 2000. Deposit 2000. Direct.\n❓ Elevator: unknown from platform field."
+      ar: "📅 فاضي من سبتمبر ٢٠٢٦ (الإعلان: od września).\n❌ فرن: الإعلان بيقول المطبخ فيه تلاجة+ميكروويف بس (مفيش piekarnik).\n❓ ديش واشر مش مذكور. بلكونة، أوضة بتقفل، دور ٥ في شقة ٣ أوض.\n💰 ١٦٥٠ + ٣٥٠ = ٢٠٠٠. ديبوزيت ٢٠٠٠. مباشر.\n❓ الأسانسير: unknown من حقل المنصة.",
+      en: "📅 Vacant from September 2026 (ad: od września).\n❌ Oven: ad says kitchen has fridge+microwave only (no piekarnik).\n❓ Dishwasher not mentioned. Balcony, lockable room, floor 5 in a 3-room flat.\n💰 1650 + 350 = 2000. Deposit 2000. Direct.\n❓ Elevator: unknown from platform field."
     },
     photos: [
       "https://ireland.apollo.olxcdn.com/v1/files/hp7w12g41bvi1-PL/image;s=1200x900",
@@ -142,7 +142,7 @@ export const SEED_LISTINGS: Listing[] = [
       "https://ireland.apollo.olxcdn.com/v1/files/zoylrewkrhqk3-PL/image;s=1200x900"
     ],
     criteria: {
-      oven: "yes",
+      oven: "no",
       dishwasher: "unknown",
       ac: "unknown",
       bed: "unknown",
@@ -544,8 +544,8 @@ export const SEED_LISTINGS: Listing[] = [
       en: "Marcin — OLX"
     },
     notes: {
-      ar: "📅 تاريخ التوافر مش مذكور — اسأل.\n✅ ديش واشر مذكور. سرير واسع + مكتب في ركن شغل + بلكونة. شقة ٣ أوض — زميلين طالبين.\n٣ دقايق لمترو Stokłosy / SGGW.\nعقد ١٢ شهر. مباشر (مش وسطاء).\n💰 ١٨٧٠ + ٣٠٠.",
-      en: "📅 Availability date not stated — ask.\n✅ Dishwasher listed. Wide bed + desk in a work corner + balcony. 3-room flat — two student flatmates.\n3 min to metro Stokłosy / SGGW.\n12-month lease. Direct (no agents).\n💰 1870 + 300."
+      ar: "📅 تاريخ التوافر مش مذكور — اسأل.\n✅ فرن (kuchenka) + ديش واشر مذكورين. سرير واسع + مكتب في ركن شغل + بلكونة. شقة ٣ أوض — زميلين طالبين.\n٣ دقايق لمترو Stokłosy / SGGW.\nعقد ١٢ شهر. مباشر (مش وسطاء).\n💰 ١٨٧٠ + ٣٠٠.",
+      en: "📅 Availability date not stated — ask.\n✅ Oven/cooker (kuchenka) + dishwasher listed. Wide bed + desk in a work corner + balcony. 3-room flat — two student flatmates.\n3 min to metro Stokłosy / SGGW.\n12-month lease. Direct (no agents).\n💰 1870 + 300."
     },
     photos: [
       "https://ireland.apollo.olxcdn.com/v1/files/b3ggul2emvgi3-PL/image;s=1200x900",
@@ -558,7 +558,7 @@ export const SEED_LISTINGS: Listing[] = [
       "https://ireland.apollo.olxcdn.com/v1/files/1dh6chkxmjl12-PL/image;s=1200x900"
     ],
     criteria: {
-      oven: "unknown",
+      oven: "yes",
       dishwasher: "yes",
       ac: "unknown",
       bed: "yes",

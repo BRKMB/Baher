@@ -66,6 +66,11 @@ export class ListingsStore extends DurableObject<Env> {
             changed = true;
           }
         }
+        // Seed corrected a false oven=yes from ad text (e.g. microwave-only kitchen).
+        if (seed.criteria.oven === "no" && criteria.oven === "yes") {
+          criteria.oven = "no";
+          changed = true;
+        }
         next.criteria = criteria;
         return next;
       });
@@ -370,7 +375,18 @@ function analyzeDescription(text: string, opts: { isBusiness?: boolean; rooms?: 
     noOccasional: "unknown"
   };
 
-  if (/piekarnik/.test(t)) criteria.oven = "yes";
+  if (/piekarnik/.test(t)) {
+    criteria.oven = "yes";
+  } else if (
+    /\bkuchenk(?![aąęió]\s+mikrofal)/.test(t) ||
+    /płyta\s+(indukcyj|ceramic|gaz)/.test(t) ||
+    /w pe[łl]ni wyposa[żz]on\w*\s+kuchni|wszystkie sprz[ęe]ty\s+agd/.test(t)
+  ) {
+    criteria.oven = "yes";
+  } else if (/kuchenk[aąęió]?\s+mikrofal/.test(t) && !/piekarnik|płyta\s+(indukcyj|ceramic|gaz)/.test(t)) {
+    // إعلان بيسمّي الميكروويف بس كجهاز طبخ → مفيش فرن
+    criteria.oven = "no";
+  }
   if (/zmywark|dishwasher/.test(t)) criteria.dishwasher = "yes";
   if (/klimatyz|air[\s-]?condition/.test(t)) criteria.ac = "yes";
   if (/winda|wind[ąa]/.test(t)) criteria.elevator = "yes";
