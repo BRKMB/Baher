@@ -59,6 +59,10 @@ export class ListingsStore extends DurableObject<Env> {
           next.flatRooms = seed.flatRooms ?? null;
           changed = true;
         }
+        if (next.bathrooms === undefined) {
+          next.bathrooms = seed.bathrooms ?? null;
+          changed = true;
+        }
         const criteria = { ...next.criteria };
         for (const [key, seedValue] of Object.entries(seed.criteria)) {
           if ((criteria[key] ?? "unknown") === "unknown" && seedValue !== "unknown") {
@@ -451,6 +455,32 @@ function analyzeDescription(text: string, opts: { isBusiness?: boolean; rooms?: 
   if (rooms != null) criteria.max3 = rooms <= 3 ? "yes" : "no";
   else if (/tylko\s*3\s*osob|3\s*osoby\s*w mieszkaniu/.test(t)) criteria.max3 = "yes";
 
+  // عدد الحمامات — من الإعلان بس (مش تخمين)
+  // "łazienka i toaleta" / "łazienka + osobne WC" = ٢ وحدة صحية
+  let bathrooms: number | null = null;
+  const bathText = t
+    .replace(/[łl]azienki\s+kr[oó]lew\w*/g, " ")
+    .replace(/royal\s+baths?/g, " ");
+  const bathN = bathText.match(
+    /(\d)\s*(?:[- ]?\s*)?(?:[łl]azienk|[łl]azienek|bathrooms?\b)/
+  );
+  if (bathN) {
+    bathrooms = Number(bathN[1]);
+  } else if (/(?:dwie|2)\s+[łl]azienk/.test(bathText) || /two\s+bathrooms?/.test(bathText)) {
+    bathrooms = 2;
+  } else if (
+    /[łl]azienk\w*.{0,40}(?:oraz|i|,)\s*(?:osobn\w*\s+)?(?:dodatkow\w*\s+)?(?:toalet|\bwc\b)/.test(
+      bathText
+    ) ||
+    /(?:toalet|\bwc\b).{0,40}(?:oraz|i|,).{0,20}[łl]azienk/.test(bathText) ||
+    /[łl]azienka\s*,\s*wc\b/.test(bathText) ||
+    /kuchnia\s*,\s*[łl]azienka\s*,\s*wc\b/.test(bathText)
+  ) {
+    bathrooms = 2;
+  } else if (/[łl]azienk|\bbathroom\b/.test(bathText)) {
+    bathrooms = 1;
+  }
+
   // متاحة إمتى
   let availableFrom = "";
   const availMatch = t.match(/(?:woln[ye]|dost[ęe]pn\w*)\s*(?:od|:)?\s*(?:od)?\s*:?\s*(\d{1,2}[./]\d{1,2}(?:[./]\d{2,4})?)/);
@@ -523,7 +553,7 @@ function analyzeDescription(text: string, opts: { isBusiness?: boolean; rooms?: 
   const depositMatch = t.match(/kaucj\w*\s*(?:zwrotn\w*)?\s*(?:w wysoko[śs]ci)?\s*:?\s*(\d{3,5})/);
   if (depositMatch) deposit = Number(depositMatch[1]);
 
-  return { criteria, bills, deposit, availableFrom, areaSqm, flatRooms: rooms };
+  return { criteria, bills, deposit, availableFrom, areaSqm, flatRooms: rooms, bathrooms };
 }
 
 function draftFromParts(parts: {
@@ -589,6 +619,7 @@ function draftFromParts(parts: {
     deposit: parts.deposit ?? analyzed.deposit,
     commuteMin: null,
     flatRooms: analyzed.flatRooms ?? parts.rooms ?? null,
+    bathrooms: analyzed.bathrooms ?? null,
     availableFrom: analyzed.availableFrom,
     contact: parts.contactName,
     notes: {
