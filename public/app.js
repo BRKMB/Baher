@@ -101,8 +101,8 @@ const I18N = {
     unknownTitle: "Ask the landlord and update the marks",
     noElevatorChip: "⚠️ No elevator",
     noElevatorTitle: "Platform field says this building has no elevator",
-    ownerOnSiteChip: "⚠️ Owner lives here",
-    ownerOnSiteTitle: "Ad says the owner lives in the flat",
+    ownerOnSiteChip: "⚠️ You'll live with the owner",
+    ownerOnSiteTitle: "Ad says the owner lives in the flat — you would share the place with them",
     noOwnerChip: "👤 No owner on site",
     noOwnerTitle: "Ad says the owner does not live in the flat",
     priceRent: "Rent",
@@ -222,8 +222,8 @@ const I18N = {
     unknownTitle: "اسأل المعلن وحدّث العلامات",
     noElevatorChip: "⚠️ مفيش أسانسير",
     noElevatorTitle: "حقل المنصة بيقول العمارة من غير مصعد",
-    ownerOnSiteChip: "⚠️ هتعيش مع المالك",
-    ownerOnSiteTitle: "الإعلان بيقول المالك ساكن في الشقة",
+    ownerOnSiteChip: "⚠️ هتعيش مع الأونر",
+    ownerOnSiteTitle: "الإعلان بيقول المالك ساكن في الشقة — هتشاركه المكان",
     noOwnerChip: "👤 المالك مش ساكن",
     noOwnerTitle: "الإعلان بيقول المالك مش ساكن في الشقة",
     priceRent: "الإيجار",
@@ -779,7 +779,26 @@ function renderCard(l, rank, score) {
     text: `${score.pct}%`
   });
 
-  const chips = [
+  const chips = [];
+  // Owner-on-site warning first — easiest to miss otherwise
+  if ((l.criteria?.noOwner || "unknown") === "no") {
+    chips.push(
+      el("span", {
+        class: "chip warn owner-chip owner-on-site",
+        text: t("ownerOnSiteChip"),
+        title: t("ownerOnSiteTitle")
+      })
+    );
+  } else if ((l.criteria?.noOwner || "unknown") === "yes") {
+    chips.push(
+      el("span", {
+        class: "chip owner-chip ok",
+        text: t("noOwnerChip"),
+        title: t("noOwnerTitle")
+      })
+    );
+  }
+  chips.push(
     el("span", { class: "chip type-chip", text: `🏡 ${typeLabel(l.propertyType)}` }),
     el("span", {
       class: `chip area-chip${l.areaSqm == null ? " unknown-area" : ""}`,
@@ -806,7 +825,7 @@ function renderCard(l, rank, score) {
     }),
     el("span", { class: "chip", text: `📅 ${loc(l.availableFrom) || t("q")}` }),
     el("span", { class: "chip", text: `📞 ${loc(l.contact) || t("q")}` })
-  ];
+  );
   if (score.unknownCount > 0) {
     chips.push(
       el("span", {
@@ -822,23 +841,6 @@ function renderCard(l, rank, score) {
         class: "chip warn",
         text: t("noElevatorChip"),
         title: t("noElevatorTitle")
-      })
-    );
-  }
-  if ((l.criteria?.noOwner || "unknown") === "no") {
-    chips.push(
-      el("span", {
-        class: "chip warn owner-chip",
-        text: t("ownerOnSiteChip"),
-        title: t("ownerOnSiteTitle")
-      })
-    );
-  } else if ((l.criteria?.noOwner || "unknown") === "yes") {
-    chips.push(
-      el("span", {
-        class: "chip owner-chip ok",
-        text: t("noOwnerChip"),
-        title: t("noOwnerTitle")
       })
     );
   }

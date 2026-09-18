@@ -474,15 +474,15 @@ function analyzeDescription(text: string, opts: { isBusiness?: boolean; rooms?: 
   else if (/prowizj/.test(t)) criteria.noCommission = "no";
   else if (opts.isBusiness === false) criteria.noCommission = "yes";
 
-  // المالك ساكن ولا لأ
+  // المالك ساكن ولا لأ — من نص الإعلان فقط
   if (
-    /bez w[łl]a[śs]ciciela|w[łl]a[śs]ciciel nie mieszka|w[łl]a[śs]ciciel nie zamieszk|owner does not live|bez właściciela/.test(
+    /bez w[łl]a[śs]ciciela|w[łl]a[śs]ciciel(?:[^\n.]{0,40})?\s+nie\s+mieszka|w[łl]a[śs]ciciel(?:[^\n.]{0,40})?\s+nie\s+zamieszk|nie\s+mieszka\s+w\s+mieszkaniu|owner does not live|bez właściciela/.test(
       t
     )
   ) {
     criteria.noOwner = "yes";
   } else if (
-    /pok[óo]j u w[łl]a[śs]ciciel|w[łl]a[śs]ciciel mieszka|mieszkam w (tym )?mieszkaniu|razem z w[łl]a[śs]ciciel|live[- ]in (owner|landlord)|owner lives/.test(
+    /pok[óo]j u w[łl]a[śs]ciciel|w[łl]a[śs]ciciel mieszka|mieszkam w (tym )?mieszkaniu|pok[óo]j w moim mieszkani|wynajm\w* pok[óo]j w moim|razem z(?:e mną|e mna| w[łl]a[śs]ciciel)|live[- ]in (owner|landlord)|owner lives|share[sd]? with (the )?owner/.test(
       t
     )
   ) {

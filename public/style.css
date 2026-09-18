@@ -593,6 +593,12 @@ a.chip:hover { color: var(--text); border-color: var(--accent); }
   color: #34d399;
   border-color: rgba(52, 211, 153, 0.4);
 }
+.chip.owner-chip.owner-on-site {
+  color: #fb7185;
+  border-color: rgba(251, 113, 133, 0.55);
+  background: rgba(251, 113, 133, 0.12);
+  font-weight: 700;
+}
 
 /* دايرة السكور */
 .score-wrap {
