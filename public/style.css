@@ -60,10 +60,15 @@ html, body {
 }
 
 body {
-  font-family: "Tajawal", system-ui, sans-serif;
+  /* Manrope first so Polish diacritics (ą ć ę ł ń ó ś ź ż) never fall back mid-word from Tajawal. */
+  font-family: "Manrope", "Tajawal", system-ui, -apple-system, "Segoe UI", sans-serif;
   background: var(--bg);
   color: var(--text);
   line-height: 1.55;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "kern" 1, "liga" 1;
 }
 
 /* الخلفية على عنصر ثابت عشان تشتغل صح على الموبايل وفي السكرول الطويل */
