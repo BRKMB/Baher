@@ -79,6 +79,12 @@ export class ListingsStore extends DurableObject<Env> {
           criteria.oven = "no";
           changed = true;
         }
+        // Clear false-positive dishwasher marks when curated seed says unknown
+        // (ad was re-checked and has no zmywarka/dishwasher mention).
+        if (seed.criteria.dishwasher === "unknown" && criteria.dishwasher === "yes") {
+          criteria.dishwasher = "unknown";
+          changed = true;
+        }
         next.criteria = criteria;
         return next;
       });

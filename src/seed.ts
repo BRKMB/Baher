@@ -433,8 +433,8 @@ export const SEED_LISTINGS: Listing[] = [
       en: "Eryk — OLX"
     },
     notes: {
-      ar: "📅 متاح من أكتوبر ٢٠٢٦.\n✅ تكييف في الشقة + بلكونة + روليت تعتيم. المكتب هيتضاف قبل الدخول.\nالشقة ٢ أوض — الزميل Ashton (شاب، شيفتات ليل، إنجليزي).\n٥ دقايق لمترو Kabaty.\n💰 ٢٣٠٠ + ٢٠٠. ديبوزيت ٢٣٠٠.",
-      en: "📅 Available from October 2026.\n✅ AC in the flat + balcony + blackout blinds. Desk will be added before move-in.\n2-room flat — flatmate Ashton (guy, night shifts, English).\n5 min to Kabaty metro.\n💰 2300 + 200. Deposit 2300."
+      ar: "📅 متاح من أكتوبر ٢٠٢٦.\n❓ ديش واشر مش مذكور في الإعلان.\n✅ تكييف في الشقة + بلكونة + روليت تعتيم. المكتب هيتضاف قبل الدخول.\nالشقة ٢ أوض — الزميل Ashton (شاب، شيفتات ليل، إنجليزي).\n٥ دقايق لمترو Kabaty.\n💰 ٢٣٠٠ + ٢٠٠. ديبوزيت ٢٣٠٠.",
+      en: "📅 Available from October 2026.\n❓ Dishwasher not mentioned in the ad.\n✅ AC in the flat + balcony + blackout blinds. Desk will be added before move-in.\n2-room flat — flatmate Ashton (guy, night shifts, English).\n5 min to Kabaty metro.\n💰 2300 + 200. Deposit 2300."
     },
     photos: [
       "https://ireland.apollo.olxcdn.com/v1/files/lvp062gwkpj81-PL/image;s=1200x900",
