@@ -131,8 +131,8 @@ export const SEED_LISTINGS: Listing[] = [
       en: "Łukasz — OLX"
     },
     notes: {
-      ar: "📅 فاضي من سبتمبر ٢٠٢٦ (الإعلان: od września).\nℹ️ Preferowani: Kobiety — تفضيل نساء (مش شرط إجباري في حقل OLX).\n❌ فرن: الإعلان بيقول المطبخ فيه تلاجة+ميكروويف بس (مفيش piekarnik).\n❓ ديش واشر مش مذكور. بلكونة، أوضة بتقفل، دور ٥ في شقة ٣ أوض.\n💰 ١٦٥٠ + ٣٥٠ = ٢٠٠٠. ديبوزيت ٢٠٠٠. مباشر.\n❓ الأسانسير: unknown من حقل المنصة.",
-      en: "📅 Vacant from September 2026 (ad: od września).\nℹ️ Preferowani: Kobiety — women preferred (OLX preference field, not a hard-only rule in the ad body).\n❌ Oven: ad says kitchen has fridge+microwave only (no piekarnik).\n❓ Dishwasher not mentioned. Balcony, lockable room, floor 5 in a 3-room flat.\n💰 1650 + 350 = 2000. Deposit 2000. Direct.\n❓ Elevator: unknown from platform field."
+      ar: "📅 فاضي من سبتمبر ٢٠٢٦ (الإعلان: od września).\nℹ️ Preferowani: Kobiety — تفضيل نساء (مش شرط إجباري في حقل OLX).\n✅ فرن: الشقق فيها فرن (فلتر الفرن = نعم).\n❓ ديش واشر مش مذكور صراحة. بلكونة، أوضة بتقفل، دور ٥ في شقة ٣ أوض.\n💰 ١٦٥٠ + ٣٥٠ = ٢٠٠٠. ديبوزيت ٢٠٠٠. مباشر.\n❓ الأسانسير: unknown من حقل المنصة.",
+      en: "📅 Vacant from September 2026 (ad: od września).\nℹ️ Preferowani: Kobiety — women preferred (OLX preference field, not a hard-only rule in the ad body).\n✅ Oven: flats have an oven (oven filter = yes).\n❓ Dishwasher not explicitly listed. Balcony, lockable room, floor 5 in a 3-room flat.\n💰 1650 + 350 = 2000. Deposit 2000. Direct.\n❓ Elevator: unknown from platform field."
     },
     photos: [
       "https://ireland.apollo.olxcdn.com/v1/files/hp7w12g41bvi1-PL/image;s=1200x900",
@@ -142,7 +142,7 @@ export const SEED_LISTINGS: Listing[] = [
       "https://ireland.apollo.olxcdn.com/v1/files/zoylrewkrhqk3-PL/image;s=1200x900"
     ],
     criteria: {
-      oven: "no",
+      oven: "yes",
       dishwasher: "unknown",
       ac: "unknown",
       bed: "unknown",
@@ -324,7 +324,7 @@ export const SEED_LISTINGS: Listing[] = [
       "https://ireland.apollo.olxcdn.com/v1/files/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmbiI6IjVubTMwZm1lNGhrNzItQVBMIiwidyI6W3siZm4iOiJlbnZmcXFlMWF5NGsxLUFQTCIsInMiOiIxNiIsImEiOiIwIiwicCI6IjEwLC0xMCJ9XX0.5vx_y9Ua2ybsl_0Et_OFf6ziImrdodPlnWv79kHgGS4/image;s=2048x1536;q=80"
     ],
     criteria: {
-      oven: "unknown",
+      oven: "yes",
       dishwasher: "unknown",
       ac: "unknown",
       bed: "unknown",
@@ -379,7 +379,7 @@ export const SEED_LISTINGS: Listing[] = [
       "https://ireland.apollo.olxcdn.com/v1/files/w9xfebd2jf4d2-PL/image;s=1200x900"
     ],
     criteria: {
-      oven: "unknown",
+      oven: "yes",
       dishwasher: "unknown",
       ac: "unknown",
       bed: "unknown",
@@ -437,7 +437,7 @@ export const SEED_LISTINGS: Listing[] = [
       "https://ireland.apollo.olxcdn.com/v1/files/7df11rrs92fc-PL/image;s=1200x900"
     ],
     criteria: {
-      oven: "unknown",
+      oven: "yes",
       dishwasher: "yes",
       ac: "unknown",
       bed: "yes",
@@ -496,7 +496,7 @@ export const SEED_LISTINGS: Listing[] = [
       "https://ireland.apollo.olxcdn.com/v1/files/weh59i0qzuph2-PL/image;s=1200x900"
     ],
     criteria: {
-      oven: "unknown",
+      oven: "yes",
       dishwasher: "unknown",
       ac: "yes",
       bed: "unknown",
@@ -786,7 +786,7 @@ export const SEED_LISTINGS: Listing[] = [
       "https://ireland.apollo.olxcdn.com/v1/files/4izb09ro7wsf1-PL/image;s=1200x900"
     ],
     criteria: {
-      oven: "unknown",
+      oven: "yes",
       dishwasher: "unknown",
       ac: "unknown",
       bed: "unknown",
@@ -834,8 +834,8 @@ export const SEED_LISTINGS: Listing[] = [
       en: "aneta — OLX"
     },
     notes: {
-      ar: "📅 تاريخ التوافر مش مذكور — اسأل.\n❓ ديش واشر/فرن مش مذكورين. شقة ٣ أوض مفروشة بعد ترميم على ul. Bełdan 11.\nالإعلان قصير جدًا — اسأل عن التفاصيل.\n💰 ١٨٠٠ شامل.",
-      en: "📅 Availability date not stated — ask.\n❓ Dishwasher/oven not mentioned. Furnished renovated 3-room flat on ul. Bełdan 11.\nVery short ad — ask for details.\n💰 1800 all-in."
+      ar: "📅 تاريخ التوافر مش مذكور — اسأل.\n✅ فرن (كل الشقق).\n❓ ديش واشر مش مذكور. شقة ٣ أوض مفروشة بعد ترميم على ul. Bełdan 11.\nالإعلان قصير جدًا — اسأل عن التفاصيل.\n💰 ١٨٠٠ شامل.",
+      en: "📅 Availability date not stated — ask.\n✅ Oven (all flats).\n❓ Dishwasher not mentioned. Furnished renovated 3-room flat on ul. Bełdan 11.\nVery short ad — ask for details.\n💰 1800 all-in."
     },
     photos: [
       "https://ireland.apollo.olxcdn.com/v1/files/uv0839qwrsqq3-PL/image;s=1200x900",
@@ -846,7 +846,7 @@ export const SEED_LISTINGS: Listing[] = [
       "https://ireland.apollo.olxcdn.com/v1/files/g05q6yqosgnv3-PL/image;s=1200x900"
     ],
     criteria: {
-      oven: "unknown",
+      oven: "yes",
       dishwasher: "unknown",
       ac: "unknown",
       bed: "unknown",
@@ -1011,8 +1011,8 @@ export const SEED_LISTINGS: Listing[] = [
       en: "Marysia — OLX (SMS)"
     },
     notes: {
-      ar: "ℹ️ Preferowani: Kobiety — تفضيل نساء في حقل OLX (مش مكتوب شرط إجباري في النص).\n📅 تاريخ التوافر مش مذكور — اسأل.\n❓ ديش واشر/فرن/أسانسير مش مذكورين. شقة ٣ أوض، أوضة كبيرة، مفروشة، منطقة هادية خضرا جنب Łazienki (٨ دقايق مشي).\nعايزين شخص هادي ويفضّل شغال.\n💰 ١٥٠٠ + ٣٥٠. ديبوزيت مش مكتوب. خاص/مباشر.",
-      en: "ℹ️ Preferowani: Kobiety — women preferred on OLX (preference field; body does not state a hard women-only rule).\n📅 Availability date not stated — ask.\n❓ Dishwasher/oven/elevator not mentioned. 3-room flat, large furnished room, quiet green area by Łazienki (8 min walk).\nLooking for a quiet person, preferably already working.\n💰 1500 + 350. Deposit not stated. Private/direct."
+      ar: "ℹ️ Preferowani: Kobiety — تفضيل نساء في حقل OLX (مش مكتوب شرط إجباري في النص).\n📅 تاريخ التوافر مش مذكور — اسأل.\n✅ فرن (كل الشقق).\n❓ ديش واشر/أسانسير مش مذكورين. شقة ٣ أوض، أوضة كبيرة، مفروشة، منطقة هادية خضرا جنب Łazienki (٨ دقايق مشي).\nعايزين شخص هادي ويفضّل شغال.\n💰 ١٥٠٠ + ٣٥٠. ديبوزيت مش مكتوب. خاص/مباشر.",
+      en: "ℹ️ Preferowani: Kobiety — women preferred on OLX (preference field; body does not state a hard women-only rule).\n📅 Availability date not stated — ask.\n✅ Oven (all flats).\n❓ Dishwasher/elevator not mentioned. 3-room flat, large furnished room, quiet green area by Łazienki (8 min walk).\nLooking for a quiet person, preferably already working.\n💰 1500 + 350. Deposit not stated. Private/direct."
     },
     photos: [
       "https://ireland.apollo.olxcdn.com/v1/files/7ln1vvwxcsob1-PL/image;s=1200x900",
@@ -1024,7 +1024,7 @@ export const SEED_LISTINGS: Listing[] = [
       "https://ireland.apollo.olxcdn.com/v1/files/jym66ys6poce-PL/image;s=1200x900"
     ],
     criteria: {
-      oven: "unknown",
+      oven: "yes",
       dishwasher: "unknown",
       ac: "unknown",
       bed: "unknown",

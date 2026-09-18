@@ -66,8 +66,12 @@ export class ListingsStore extends DurableObject<Env> {
             changed = true;
           }
         }
-        // Seed corrected a false oven=yes from ad text (e.g. microwave-only kitchen).
-        if (seed.criteria.oven === "no" && criteria.oven === "yes") {
+        // Keep oven in sync with seed when the curated seed says yes
+        // (user confirmed all current flats have an oven).
+        if (seed.criteria.oven === "yes" && criteria.oven !== "yes") {
+          criteria.oven = "yes";
+          changed = true;
+        } else if (seed.criteria.oven === "no" && criteria.oven === "yes") {
           criteria.oven = "no";
           changed = true;
         }
