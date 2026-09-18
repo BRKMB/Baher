@@ -44,6 +44,10 @@ export class ListingsStore extends DurableObject<Env> {
           next.extrasNote = seed.extrasNote ?? "";
           changed = true;
         }
+        if (next.flatRooms === undefined) {
+          next.flatRooms = seed.flatRooms ?? null;
+          changed = true;
+        }
         const criteria = { ...next.criteria };
         for (const [key, seedValue] of Object.entries(seed.criteria)) {
           if ((criteria[key] ?? "unknown") === "unknown" && seedValue !== "unknown") {
@@ -354,14 +358,47 @@ function analyzeDescription(text: string, opts: { isBusiness?: boolean; rooms?: 
   const areaSqm = areaMatch ? Number(areaMatch[1].replace(",", ".")) : null;
   if (areaSqm != null) criteria.spacious = areaSqm >= 14 ? "yes" : "no";
 
-  // عدد الأوض في الشقة
+  // عدد الأوض في الشقة (flatRooms) — مش مساحة الأوضة
   let rooms = opts.rooms ?? null;
   if (rooms == null) {
-    const m = t.match(/(\d)\s*[- ]?\s*pokojow/);
-    if (m) rooms = Number(m[1]);
-    else {
-      const m2 = t.match(/mieszkanie ma .{0,10}(pi[ęe][ćc]|cztery|trzy|dwa) pokoi/);
-      if (m2) rooms = { "pięć": 5, "piec": 5, cztery: 4, trzy: 3, dwa: 2 }[m2[1]] ?? null;
+    const wordMap: Record<string, number> = {
+      "pięć": 5,
+      piec: 5,
+      pieciu: 5,
+      cztery: 4,
+      trzech: 3,
+      trzy: 3,
+      dwóch: 2,
+      dwu: 2,
+      dwa: 2
+    };
+    const patterns: RegExp[] = [
+      /(\d)\s*[- ]?\s*pokojow/,
+      /(\d)\s*[- ]?\s*pokoi\b/,
+      /mieszkani\w*\s+(\d)[- ]?pokoj/,
+      /(\d)[- ]?pokojow\w*\s+mieszkan/,
+      /mieszkani\w*\s+(?:ma|składa się z|posiada)?\s*(pi[ęe][ćc]|cztery|trzy|dwa)\s+pokoi/,
+      /(pi[ęe][ćc]|cztery|trzy|dwa|dwu)\s*pokojow/,
+      /dwupokojow/,
+      /trzypokojow/,
+      /czteropokojow/,
+      /pi[ęe]ciopokojow/
+    ];
+    for (const re of patterns) {
+      const m = t.match(re);
+      if (!m) continue;
+      if (re.source.includes("dwupokojow")) rooms = 2;
+      else if (re.source.includes("trzypokojow")) rooms = 3;
+      else if (re.source.includes("czteropokojow")) rooms = 4;
+      else if (re.source.includes("ciopokojow")) rooms = 5;
+      else if (m[1] && /^\d$/.test(m[1])) rooms = Number(m[1]);
+      else if (m[1]) rooms = wordMap[m[1]] ?? null;
+      if (rooms != null) break;
+    }
+    // "mieszkanie 4-osobowe" / "4-osobowym" ≈ 4 people sharing ≈ that many rooms usually
+    if (rooms == null) {
+      const people = t.match(/mieszkani\w*\s+(\d)[- ]?osobow/);
+      if (people) rooms = Number(people[1]);
     }
   }
   if (rooms != null) criteria.max3 = rooms <= 3 ? "yes" : "no";
@@ -424,7 +461,7 @@ function analyzeDescription(text: string, opts: { isBusiness?: boolean; rooms?: 
   const depositMatch = t.match(/kaucj\w*\s*(?:zwrotn\w*)?\s*(?:w wysoko[śs]ci)?\s*:?\s*(\d{3,5})/);
   if (depositMatch) deposit = Number(depositMatch[1]);
 
-  return { criteria, bills, deposit, availableFrom, areaSqm };
+  return { criteria, bills, deposit, availableFrom, areaSqm, flatRooms: rooms };
 }
 
 function draftFromParts(parts: {
@@ -484,9 +521,12 @@ function draftFromParts(parts: {
     rent: parts.rent ?? 0,
     bills: parts.bills ?? analyzed.bills,
     garageCost: null,
+    extrasEst: null,
+    extrasNote: "",
     areaSqm: area,
     deposit: parts.deposit ?? analyzed.deposit,
     commuteMin: null,
+    flatRooms: analyzed.flatRooms ?? parts.rooms ?? null,
     availableFrom: analyzed.availableFrom,
     contact: parts.contactName,
     notes: {

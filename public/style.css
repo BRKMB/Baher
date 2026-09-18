@@ -575,6 +575,20 @@ a.chip:hover { color: var(--text); border-color: var(--accent); }
   background: var(--total-bg);
 }
 .chip.area-chip.unknown-area { color: var(--amber); border-style: dashed; }
+.chip.flat-rooms-chip {
+  color: #38bdf8;
+  border-color: rgba(56, 189, 248, 0.4);
+  font-weight: 600;
+}
+.chip.flat-rooms-chip.unknown-flat-rooms {
+  color: var(--amber);
+  border-style: dashed;
+  font-weight: 500;
+}
+.chip.flat-rooms-chip.crowded {
+  color: #fb7185;
+  border-color: rgba(251, 113, 133, 0.45);
+}
 
 /* دايرة السكور */
 .score-wrap {

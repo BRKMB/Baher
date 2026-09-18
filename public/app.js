@@ -63,10 +63,18 @@ const I18N = {
     fExtras: "Est. extras beyond admin (zł/month)",
     fExtrasNote: "Extras breakdown (estimate)",
     fArea: "Place area (m²)",
+    fFlatRooms: "Rooms in the flat",
     fDeposit: "Deposit (zł)",
     fCommute: "Commute to work (minutes)",
     fAvailable: "Available from",
     fContact: "Contact",
+    flatRoomsChip: (n) => `🚪 ${n}-room flat`,
+    flatRoomsCrowded: (n) => `🚪 ${n}-room flat · crowded`,
+    flatRoomsUnknown: "🚪 Rooms in flat?",
+    flatRoomsTitle: (n) =>
+      n == null
+        ? "How many rooms the whole flat has (not room size)"
+        : `Whole flat has ${n} rooms → about ${Math.max(0, n - 1)} other people if each room is occupied`,
     phUnknown: "unknown",
     phNone: "none",
     phEstimate: "estimate",
@@ -172,10 +180,18 @@ const I18N = {
     fExtras: "تقدير الإضافي فوق الإدارة (زلوتي/شهر)",
     fExtrasNote: "تفصيل المصاريف الإضافية (تقديري)",
     fArea: "مساحة المكان (م²)",
+    fFlatRooms: "عدد أوض الشقة",
     fDeposit: "الديبوزيت (زلوتي)",
     fCommute: "وقت المواصلات للشغل (دقايق)",
     fAvailable: "متاحة من",
     fContact: "التواصل",
+    flatRoomsChip: (n) => `🚪 شقة ${n} أوض`,
+    flatRoomsCrowded: (n) => `🚪 شقة ${n} أوض · زحمة`,
+    flatRoomsUnknown: "🚪 أوض الشقة؟",
+    flatRoomsTitle: (n) =>
+      n == null
+        ? "كام أوضة في الشقة كلها (مش مساحة أوضتك)"
+        : `الشقة فيها ${n} أوض → حوالي ${Math.max(0, n - 1)} ناس تانيين لو كل أوضة مشغولة`,
     phUnknown: "مش معروفة",
     phNone: "مفيش",
     phEstimate: "تقدير",
@@ -758,6 +774,16 @@ function renderCard(l, rank, score) {
       class: `chip area-chip${l.areaSqm == null ? " unknown-area" : ""}`,
       text: `📐 ${l.areaSqm == null ? t("q") : fmt(l.areaSqm)} m²`
     }),
+    (() => {
+      const n = l.flatRooms == null ? null : Number(l.flatRooms);
+      const crowded = n != null && n > 3;
+      return el("span", {
+        class: `chip flat-rooms-chip${n == null ? " unknown-flat-rooms" : ""}${crowded ? " crowded" : ""}`,
+        text:
+          n == null ? t("flatRoomsUnknown") : crowded ? t("flatRoomsCrowded", n) : t("flatRoomsChip", n),
+        title: t("flatRoomsTitle", n)
+      });
+    })(),
     el("span", { class: "chip", text: `📍 ${l.district}` }),
     el("a", {
       class: "chip",
@@ -938,6 +964,7 @@ function openEdit(l) {
   f.extrasEst.value = l?.extrasEst ?? "";
   f.extrasNote.value = l ? loc(l.extrasNote) : "";
   f.areaSqm.value = l?.areaSqm ?? "";
+  f.flatRooms.value = l?.flatRooms ?? "";
   f.deposit.value = l?.deposit ?? "";
   f.commuteMin.value = l?.commuteMin ?? "";
   f.availableFrom.value = l ? loc(l.availableFrom) : "";
@@ -973,6 +1000,7 @@ $("#import-btn").addEventListener("click", async () => {
     f.extrasEst.value = draft.extrasEst ?? "";
     f.extrasNote.value = loc(draft.extrasNote);
     f.areaSqm.value = draft.areaSqm ?? "";
+    f.flatRooms.value = draft.flatRooms ?? "";
     f.deposit.value = draft.deposit ?? "";
     f.commuteMin.value = draft.commuteMin ?? "";
     f.availableFrom.value = loc(draft.availableFrom);
@@ -1010,6 +1038,7 @@ editForm.addEventListener("submit", async (e) => {
     extrasEst: num(f.extrasEst),
     extrasNote: setLoc(existing?.extrasNote, f.extrasNote.value.trim()),
     areaSqm: num(f.areaSqm),
+    flatRooms: num(f.flatRooms),
     deposit: num(f.deposit),
     commuteMin: num(f.commuteMin),
     availableFrom: setLoc(existing?.availableFrom, f.availableFrom.value.trim()),
@@ -1022,6 +1051,14 @@ editForm.addEventListener("submit", async (e) => {
       Object.fromEntries(CRITERIA.map((c) => [c.key, "unknown"])),
     createdAt: existing?.createdAt || Date.now()
   };
+
+  // لو عدد أوض الشقة معروف، حدّث max3 تلقائيًا لو لسه unknown
+  if (listing.flatRooms != null && (listing.criteria.max3 || "unknown") === "unknown") {
+    listing.criteria = {
+      ...listing.criteria,
+      max3: listing.flatRooms <= 3 ? "yes" : "no"
+    };
+  }
 
   if (editingId) {
     listings = await api(`/api/listings/${encodeURIComponent(listing.id)}`, {
