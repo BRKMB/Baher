@@ -979,6 +979,67 @@ export const SEED_LISTINGS: Listing[] = [
       noOccasional: "unknown"
     },
     createdAt: 16
+  },
+  {
+    id: "olx-1asme7",
+    propertyType: "room",
+    title: {
+      ar: "أوضة كبيرة جنب Łazienki — Mokotów ⚠️ نساء فقط",
+      en: "Large room by Łazienki — Mokotów ⚠️ women preferred"
+    },
+    district: "Mokotów",
+    address: "Mokotów (near Łazienki Królewskie), Warszawa",
+    url: "https://www.olx.pl/d/oferta/piekny-i-duzy-pokoj-w-spokojnej-zielonej-okolicy-przy-lazienkach-krolewskich-CID3-ID1aSmE7.html",
+    rent: 1500,
+    bills: 350,
+    garageCost: null,
+    extrasEst: 0,
+    extrasNote: {
+      ar: "حسب الإعلان: ١٥٠٠ + ٣٥٠ إدارة/مرافق (czynsz).",
+      en: "Per ad: 1500 + 350 rent/admin (czynsz)."
+    },
+    areaSqm: null,
+    deposit: null,
+    commuteMin: 30,
+    flatRooms: 3,
+    availableFrom: {
+      ar: "مش مكتوب — اسأل",
+      en: "Not stated — ask"
+    },
+    contact: {
+      ar: "Marysia — OLX (SMS)",
+      en: "Marysia — OLX (SMS)"
+    },
+    notes: {
+      ar: "⚠️ Preferowani: Kobiety — الإعلان للنساء / يفضّل نساء.\n📅 تاريخ التوافر مش مذكور — اسأل.\n❓ ديش واشر/فرن/أسانسير مش مذكورين. شقة ٣ أوض، أوضة كبيرة، مفروشة، منطقة هادية خضرا جنب Łazienki (٨ دقايق مشي).\nعايزين شخص هادي ويفضّل شغال.\n💰 ١٥٠٠ + ٣٥٠. ديبوزيت مش مكتوب. خاص/مباشر.",
+      en: "⚠️ Preferowani: Kobiety — women preferred / women-only filter on OLX.\n📅 Availability date not stated — ask.\n❓ Dishwasher/oven/elevator not mentioned. 3-room flat, large furnished room, quiet green area by Łazienki (8 min walk).\nLooking for a quiet person, preferably already working.\n💰 1500 + 350. Deposit not stated. Private/direct."
+    },
+    photos: [
+      "https://ireland.apollo.olxcdn.com/v1/files/7ln1vvwxcsob1-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/mn4dwfg86u5n-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/ezcx7q3fahiu-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/8qpy2j0xepra1-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/w35bpo0m3tsp1-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/3cfcc3g91l463-PL/image;s=1200x900",
+      "https://ireland.apollo.olxcdn.com/v1/files/jym66ys6poce-PL/image;s=1200x900"
+    ],
+    criteria: {
+      oven: "unknown",
+      dishwasher: "unknown",
+      ac: "unknown",
+      bed: "unknown",
+      spacious: "yes",
+      garage: "unknown",
+      max3: "yes",
+      desk: "unknown",
+      modern: "unknown",
+      elevator: "unknown",
+      availableAug: "unknown",
+      noCommission: "yes",
+      noOccasional: "unknown",
+      noOwner: "unknown"
+    },
+    createdAt: 17
   }
 ];
 
