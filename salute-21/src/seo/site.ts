@@ -18,7 +18,7 @@ export type SeoPageConfig = {
 export const SEO_PAGES: Record<SeoPageId, SeoPageConfig> = {
   home: {
     path: '/',
-    title: 'Salute 21 — Restaurant in Warsaw Wola | Egyptian Soul Fine Dining',
+    title: 'Salute 21 — Restaurant in Warsaw Wola | Egyptian Soul',
     description:
       'Salute 21 restaurant in Warszawa Wola (ul. Marcina Kasprzaka 24A). Egyptian-soul dining room, pizza, burgers, Turkish specials, brunch & table booking online.',
     keywords:
@@ -81,7 +81,7 @@ export function buildRestaurantJsonLd() {
     image: [ogImageUrl(), absoluteUrl('/images/hero.jpg'), absoluteUrl('/images/interior.jpg')],
     logo: absoluteUrl('/favicon.svg'),
     description:
-      'Fine restaurant in Warsaw Wola with Egyptian soul — wood-fired pizza, burgers, Turkish specials, coffee, brunch and online table booking.',
+      'Stylish restaurant in Warsaw Wola with Egyptian soul — pizza, burgers, Turkish specials, coffee, brunch and online table booking.',
     servesCuisine: ['Mediterranean', 'Italian', 'Turkish', 'Egyptian-inspired', 'European'],
     priceRange: 'złzł',
     email: brand.email,

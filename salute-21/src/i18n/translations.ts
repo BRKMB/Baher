@@ -11,13 +11,13 @@ export const translations = {
     navContact: 'Contact',
     reserveCta: 'Book a table',
     menuCta: 'View menu',
-    heroTitle: 'Fine dining with Egyptian soul',
+    heroTitle: 'A chic restaurant with Egyptian soul',
     heroSubtitle:
       'A restaurant in Wola — gold light, hieroglyph walls, quiet statues, and dinners meant to linger.',
     aboutEyebrow: 'About Salute 21',
     aboutTitle: 'A table between two worlds',
     aboutP1:
-      'Salute 21 is a fine restaurant first — generous cooking in Warsaw, served in an interior with Egyptian soul: carved walls, warm gold, and decorative statues that set a different kind of evening.',
+      'Salute 21 is a stylish Warsaw restaurant first — generous cooking served in an interior with Egyptian soul: carved walls, warm gold, and decorative statues that set a different kind of evening.',
     aboutP2:
       'Come for dinner, stay for the atmosphere. We cook with care, and the space does the rest — intimate, a little theatrical, always welcoming.',
     aboutP3: 'Salute 21 — where flavour meets story.',
@@ -70,7 +70,7 @@ export const translations = {
     contactEyebrow: 'Contact',
     contactTitle: 'Visit us',
     contactText:
-      'Salute 21 · Wola, Warsaw. A fine restaurant with Egyptian soul — write to us or drop by.',
+      'Salute 21 · Wola, Warsaw. A chic restaurant with Egyptian soul — write to us or drop by.',
     contactReserveViaIg: 'Reservations: book online or message us on Instagram',
     hoursTitle: 'Opening hours',
     hoursNoteLunch: 'Kitchen until one hour before close',
@@ -82,6 +82,7 @@ export const translations = {
     daySun: 'Sunday',
     footerTagline: 'Restaurant · Egyptian soul · Warsaw',
     footerRights: 'All rights reserved.',
+    halloweenBanner: 'Halloween at Salute 21 — spooky season, same warm table',
     menuPageEyebrow: 'Menu',
     menuPageTitle: 'The Salute 21 menu',
     menuPageIntro:
@@ -94,7 +95,7 @@ export const translations = {
     menuNavClose: 'Closing',
     menuCoverWelcome: 'Welcome',
     menuCoverAbout:
-      'A fine restaurant in Wola — Egyptian soul in the dining room, and evenings that stretch.',
+      'A chic restaurant in Wola — Egyptian soul in the dining room, and evenings that stretch.',
     menuCoverHours: 'Hours',
     menuCoverVisit: 'Visit',
     menuCoverContents: 'Inside',
@@ -208,11 +209,11 @@ export const translations = {
     menuCta: 'Zobacz menu',
     heroTitle: 'Restauracja o egipskiej duszy',
     heroSubtitle:
-      'Fine dining na Woli — złote światło, hieroglify na ścianach, ciche posągi i kolacje bez pośpiechu.',
+      'Stylowa restauracja na Woli — złote światło, hieroglify na ścianach, ciche posągi i kolacje bez pośpiechu.',
     aboutEyebrow: 'O Salute 21',
     aboutTitle: 'Stół między dwoma światami',
     aboutP1:
-      'Salute 21 to przede wszystkim elegancka restauracja — hojna kuchnia w Warszawie, w wnętrzu o egipskiej duszy: rzeźbione ściany, ciepłe złoto i dekoracyjne posągi, które budują inny wieczór.',
+      'Salute 21 to przede wszystkim stylowa restauracja — hojna kuchnia w Warszawie, w wnętrzu o egipskiej duszy: rzeźbione ściany, ciepłe złoto i dekoracyjne posągi, które budują inny wieczór.',
     aboutP2:
       'Przyjdź na kolację, zostań dla atmosfery. Gotujemy z dbałością, a przestrzeń robi resztę — kameralnie, odrobinę teatralnie, zawsze gościnnie.',
     aboutP3: 'Salute 21 — gdzie smak spotyka opowieść.',
@@ -265,7 +266,7 @@ export const translations = {
     contactEyebrow: 'Kontakt',
     contactTitle: 'Odwiedź nas',
     contactText:
-      'Salute 21 · Wola, Warszawa. Elegancka restauracja o egipskiej duszy — napisz albo wpadnij.',
+      'Salute 21 · Wola, Warszawa. Stylowa restauracja o egipskiej duszy — napisz albo wpadnij.',
     contactReserveViaIg: 'Rezerwacje: online albo napisz na Instagramie',
     hoursTitle: 'Godziny otwarcia',
     hoursNoteLunch: 'Kuchnia do godziny przed zamknięciem',
@@ -277,6 +278,7 @@ export const translations = {
     daySun: 'Niedziela',
     footerTagline: 'Restauracja · egipska dusza · Warszawa',
     footerRights: 'Wszelkie prawa zastrzeżone.',
+    halloweenBanner: 'Halloween w Salute 21 — magiczny sezon przy tym samym stole',
     menuPageEyebrow: 'Menu',
     menuPageTitle: 'Menu Salute 21',
     menuPageIntro:
@@ -289,7 +291,7 @@ export const translations = {
     menuNavClose: 'Zakończenie',
     menuCoverWelcome: 'Witamy',
     menuCoverAbout:
-      'Elegancka restauracja na Woli — egipska dusza w sali i wieczory bez pośpiechu.',
+      'Stylowa restauracja na Woli — egipska dusza w sali i wieczory bez pośpiechu.',
     menuCoverHours: 'Godziny',
     menuCoverVisit: 'Odwiedź',
     menuCoverContents: 'W karcie',

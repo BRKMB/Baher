@@ -20,7 +20,7 @@ const IG_GRAPH = 'https://graph.facebook.com/v21.0'
 /** Path → SEO (kept in Worker so bots get correct tags without waiting for JS) */
 const SEO_BY_PATH = {
   '/': {
-    title: 'Salute 21 — Restaurant in Warsaw Wola | Egyptian Soul Fine Dining',
+    title: 'Salute 21 — Restaurant in Warsaw Wola | Egyptian Soul',
     description:
       'Salute 21 restaurant in Warszawa Wola (ul. Marcina Kasprzaka 24A). Egyptian-soul dining room, pizza, burgers, Turkish specials, brunch & table booking online.',
     ogType: 'website',
