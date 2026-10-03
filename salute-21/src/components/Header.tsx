@@ -45,7 +45,7 @@ export function Header({ variant = 'landing' }: { variant?: 'landing' | 'page' }
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
+      className={`fixed inset-x-0 top-[var(--site-banner-offset,0px)] z-50 transition-all duration-500 ${
         solid
           ? 'bg-ink/95 shadow-[0_1px_0_rgba(212,181,106,0.18)] backdrop-blur-md'
           : 'bg-transparent'

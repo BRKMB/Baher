@@ -11,7 +11,7 @@ import { HalloweenDecor } from '../components/HalloweenDecor'
 
 export function HomePage() {
   return (
-    <div className="relative min-h-screen">
+    <div className="salute-halloween relative min-h-screen">
       <Seo
         page="home"
         breadcrumbs={[

@@ -1,13 +1,26 @@
 import { useEffect, useId, useRef, useState } from 'react'
 import { ChevronDown, ShoppingBag } from 'lucide-react'
+import { SiGlovo, SiUbereats } from 'react-icons/si'
 import { brand } from '../data/content'
 import { useI18n } from '../i18n/LanguageContext'
 
 type Variant = 'header' | 'menu' | 'footer' | 'contact' | 'mobile'
 
 const partners = [
-  { key: 'uberEats' as const, labelKey: 'orderUberEats' as const, href: () => brand.orderOnline.uberEats },
-  { key: 'glovo' as const, labelKey: 'orderGlovo' as const, href: () => brand.orderOnline.glovo },
+  {
+    key: 'uberEats' as const,
+    labelKey: 'orderUberEats' as const,
+    href: () => brand.orderOnline.uberEats,
+    Icon: SiUbereats,
+    iconClass: 'text-[#06C167]',
+  },
+  {
+    key: 'glovo' as const,
+    labelKey: 'orderGlovo' as const,
+    href: () => brand.orderOnline.glovo,
+    Icon: SiGlovo,
+    iconClass: 'text-[#FFC244]',
+  },
 ]
 
 export function OrderOnlineMenu({
@@ -53,13 +66,13 @@ export function OrderOnlineMenu({
 
   const panelClass =
     variant === 'footer' || variant === 'contact'
-      ? 'absolute bottom-full left-0 z-50 mb-2 min-w-[11.5rem] overflow-hidden rounded-xl border border-white/15 bg-[#1a1612] py-1 shadow-[0_12px_40px_rgba(0,0,0,0.45)]'
+      ? 'absolute bottom-full left-0 z-50 mb-2 min-w-[12.5rem] overflow-hidden rounded-xl border border-white/15 bg-[#1a1612] py-1 shadow-[0_12px_40px_rgba(0,0,0,0.45)]'
       : variant === 'mobile'
         ? 'mt-2 w-full overflow-hidden rounded-xl border border-white/15 bg-white/5 py-1'
-        : 'absolute right-0 top-full z-50 mt-2 min-w-[11.5rem] overflow-hidden rounded-xl border border-white/15 bg-[#1a1612] py-1 shadow-[0_12px_40px_rgba(0,0,0,0.45)]'
+        : 'absolute right-0 top-full z-50 mt-2 min-w-[12.5rem] overflow-hidden rounded-xl border border-white/15 bg-[#1a1612] py-1 shadow-[0_12px_40px_rgba(0,0,0,0.45)]'
 
   const linkClass =
-    'flex w-full items-center gap-2 px-3.5 py-2.5 text-left text-sm font-medium text-white/90 transition hover:bg-white/10 hover:text-white'
+    'flex w-full items-center gap-3 px-3.5 py-2.5 text-left text-sm font-medium text-white/90 transition hover:bg-white/10 hover:text-white'
 
   return (
     <div ref={rootRef} className={`relative ${variant === 'mobile' ? 'w-full' : ''}`}>
@@ -99,6 +112,9 @@ export function OrderOnlineMenu({
                 onNavigate?.()
               }}
             >
+              <span className="inline-flex size-7 shrink-0 items-center justify-center rounded-md bg-white/95">
+                <p.Icon className={`size-4 ${p.iconClass}`} aria-hidden />
+              </span>
               {t(p.labelKey)}
             </a>
           ))}

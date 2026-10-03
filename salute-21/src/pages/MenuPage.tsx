@@ -12,6 +12,7 @@ import { Link } from 'react-router-dom'
 import HTMLFlipBook from 'react-pageflip'
 import { QRCodeSVG } from 'qrcode.react'
 import { ChevronLeft, ChevronRight, Download, X } from 'lucide-react'
+import { SiGlovo, SiUbereats } from 'react-icons/si'
 import { BrandLogo } from '../components/BrandLogo'
 import { InstagramIcon } from '../components/icons'
 import { LanguageFlagToggle } from '../components/LanguageFlagToggle'
@@ -263,16 +264,18 @@ const CoverRight = forwardRef<HTMLDivElement>(function CoverRight(_props, ref) {
                   href={brand.orderOnline.glovo}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex rounded-full border border-ink/25 px-3 py-1.5 text-[10px] font-semibold tracking-wide text-ink transition hover:border-ink sm:px-4 sm:py-2 sm:text-xs"
+                  className="inline-flex items-center gap-1.5 rounded-full border border-ink/25 px-3 py-1.5 text-[10px] font-semibold tracking-wide text-ink transition hover:border-ink sm:px-4 sm:py-2 sm:text-xs"
                 >
+                  <SiGlovo className="size-3.5 text-[#FFC244]" aria-hidden />
                   Glovo
                 </a>
                 <a
                   href={brand.orderOnline.uberEats}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex rounded-full border border-ink/25 px-3 py-1.5 text-[10px] font-semibold tracking-wide text-ink transition hover:border-ink sm:px-4 sm:py-2 sm:text-xs"
+                  className="inline-flex items-center gap-1.5 rounded-full border border-ink/25 px-3 py-1.5 text-[10px] font-semibold tracking-wide text-ink transition hover:border-ink sm:px-4 sm:py-2 sm:text-xs"
                 >
+                  <SiUbereats className="size-3.5 text-[#06C167]" aria-hidden />
                   Uber Eats
                 </a>
               </div>

@@ -1644,15 +1644,25 @@ html.splash-lock body {
 }
 
 /* ——— Halloween season (chic accents) ——— */
+/* Keep nav controls below the seasonal strip (no button overlap). */
+.salute-halloween {
+  --site-banner-offset: 2.4rem;
+  padding-top: var(--site-banner-offset);
+}
+
 .halloween-banner {
-  position: relative;
-  z-index: 45;
+  position: fixed;
+  inset-inline: 0;
+  top: 0;
+  z-index: 60;
+  box-sizing: border-box;
   display: flex;
+  min-height: var(--site-banner-offset, 2.4rem);
   align-items: center;
   justify-content: center;
   gap: 0.65rem;
   overflow: hidden;
-  padding: 0.55rem 1rem;
+  padding: 0.45rem 1rem;
   background: linear-gradient(90deg, #1a1008 0%, #2a1608 45%, #1a1008 100%);
   border-bottom: 1px solid rgba(232, 140, 48, 0.35);
   color: #f3e6d0;
@@ -1697,12 +1707,12 @@ html.splash-lock body {
 }
 
 .halloween-web--tl {
-  top: 2.8rem;
+  top: calc(var(--site-banner-offset, 0px) + 3.4rem);
   left: 0;
 }
 
 .halloween-web--tr {
-  top: 2.8rem;
+  top: calc(var(--site-banner-offset, 0px) + 3.4rem);
   right: 0;
 }
 
@@ -1750,6 +1760,10 @@ html.splash-lock body {
 }
 
 @media (min-width: 768px) {
+  .salute-halloween {
+    --site-banner-offset: 2.55rem;
+  }
+
   .halloween-banner p {
     font-size: 0.78rem;
     letter-spacing: 0.18em;
