@@ -23,7 +23,7 @@ export const googleReviews: GoogleReview[] = [
     rating: 5,
     quote: {
       en: "I think I wouldn't be exaggerating if I said it was the best exp ever, will definitely come back again.",
-      pl: 'Myślę, że nie przesadzę, jeśli powiem, że to było najlepsze doświadczenie ever — na pewno wrócę jeszcze raz.',
+      pl: 'Myślę, że nie przesadzę, jeśli powiem, że to było najlepsze doświadczenie w życiu — na pewno wrócę.',
     },
     photos: [
       '/images/reviews/baher-1.jpg',
