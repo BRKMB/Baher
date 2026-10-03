@@ -4,6 +4,7 @@ import { Clock3, Mail, MapPin, Phone } from 'lucide-react'
 import { brand } from '../data/content'
 import { useI18n } from '../i18n/LanguageContext'
 import { InstagramIcon } from './icons'
+import { OrderOnlineMenu } from './OrderOnlineMenu'
 
 export function Contact() {
   const { t } = useI18n()
@@ -67,6 +68,7 @@ export function Contact() {
                 <InstagramIcon className="size-5 shrink-0 text-gold" />
                 {brand.instagramHandle}
               </a>
+              <OrderOnlineMenu variant="contact" />
             </div>
           </motion.div>
 

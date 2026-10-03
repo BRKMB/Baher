@@ -10,6 +10,9 @@ export const translations = {
     navGallery: 'Gallery',
     navContact: 'Contact',
     reserveCta: 'Book a table',
+    orderOnline: 'Order online',
+    orderUberEats: 'Uber Eats',
+    orderGlovo: 'Glovo',
     menuCta: 'View menu',
     heroTitle: 'A chic restaurant with Egyptian soul',
     heroSubtitle:
@@ -206,6 +209,9 @@ export const translations = {
     navGallery: 'Galeria',
     navContact: 'Kontakt',
     reserveCta: 'Zarezerwuj stolik',
+    orderOnline: 'Zamów online',
+    orderUberEats: 'Uber Eats',
+    orderGlovo: 'Glovo',
     menuCta: 'Zobacz menu',
     heroTitle: 'Restauracja o egipskiej duszy',
     heroSubtitle:

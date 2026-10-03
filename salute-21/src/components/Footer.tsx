@@ -4,6 +4,7 @@ import { brand } from '../data/content'
 import { useI18n } from '../i18n/LanguageContext'
 import { BrandLogo } from './BrandLogo'
 import { InstagramIcon } from './icons'
+import { OrderOnlineMenu } from './OrderOnlineMenu'
 
 export function Footer() {
   const { t } = useI18n()
@@ -16,13 +17,14 @@ export function Footer() {
           <p className="mt-4 max-w-sm text-sm leading-relaxed text-white/65">{t('footerTagline')}</p>
         </div>
 
-        <div className="flex flex-wrap gap-4 text-sm font-medium text-white/75">
+        <div className="flex flex-wrap items-center gap-x-5 gap-y-3 text-sm font-medium text-white/75">
           <Link to="/menu" className="transition hover:text-gold">
             {t('navMenu')}
           </Link>
           <Link to="/reserve" className="transition hover:text-gold">
             {t('navReserve')}
           </Link>
+          <OrderOnlineMenu variant="footer" />
           <a
             href={brand.instagram}
             target="_blank"
@@ -30,7 +32,7 @@ export function Footer() {
             className="inline-flex items-center gap-2 transition hover:text-gold"
           >
             <InstagramIcon className="size-4" />
-            Instagram
+            {brand.instagramHandle}
           </a>
           <a
             href={`mailto:${brand.email}`}

@@ -12,6 +12,12 @@ export const brand = {
     directionsUrl:
       'https://www.google.com/maps/dir/?api=1&destination=Marcina+Kasprzaka+24A%2C+01-211+Warszawa',
   },
+  /** Delivery partners — Order Online opens these */
+  orderOnline: {
+    uberEats:
+      'https://www.ubereats.com/pl-en/store/salute-21/c4UQa1U5Q5iQiD5Z4KhuYQ?diningMode=DELIVERY&pl=JTdCJTIyYWRkcmVzcyUyMiUzQSUyMlNBTFVURSUyMDIxJTIyJTJDJTIycmVmZXJlbmNlJTIyJTNBJTIyQ2hJSmQ2Y3ZBbmZMSGtjUmZwemlJaFd6dUZBJTIyJTJDJTIycmVmZXJlbmNlVHlwZSUyMiUzQSUyMmdvb2dsZV9wbGFjZXMlMjIlMkMlMjJsYXRpdHVkZSUyMiUzQTUyLjIyOTAyNjclMkMlMjJsb25naXR1ZGUlMjIlM0EyMC45NjgwMTQ2OTk5OTk5OTglN0Q%3D&sc=SEARCH_SUGGESTION',
+    glovo: 'https://glovoapp.com/pl/pl/warszawa/stores/salute-21-waw',
+  },
 }
 
 /** Capacity per time slot — used by the booking engine */

@@ -99,7 +99,7 @@ export function buildRestaurantJsonLd() {
       longitude: 20.9724,
     },
     hasMap: brand.address.mapsUrl,
-    sameAs: [brand.instagram],
+    sameAs: [brand.instagram, brand.orderOnline.glovo, brand.orderOnline.uberEats],
     openingHoursSpecification: [
       {
         '@type': 'OpeningHoursSpecification',

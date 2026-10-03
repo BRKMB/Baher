@@ -13,8 +13,10 @@ import HTMLFlipBook from 'react-pageflip'
 import { QRCodeSVG } from 'qrcode.react'
 import { ChevronLeft, ChevronRight, Download, X } from 'lucide-react'
 import { BrandLogo } from '../components/BrandLogo'
+import { InstagramIcon } from '../components/icons'
 import { LanguageFlagToggle } from '../components/LanguageFlagToggle'
 import { MenuDietBadge, MenuDietLegend, type MenuDietTag } from '../components/MenuDietIcons'
+import { OrderOnlineMenu } from '../components/OrderOnlineMenu'
 import { Seo } from '../components/Seo'
 import { brand, menu, type MenuCategory, type MenuItem } from '../data/content'
 import { buildMenuJsonLd } from '../seo/site'
@@ -240,16 +242,40 @@ const CoverRight = forwardRef<HTMLDivElement>(function CoverRight(_props, ref) {
                 <br />
                 {brand.address.district}, {brand.address.city}
               </p>
-              <p className="mt-1 text-[10px] text-muted sm:mt-2 sm:text-[12px]">
-                {brand.instagramHandle}
-              </p>
-              <p className="text-[10px] text-muted sm:text-[12px]">{brand.email}</p>
-              <Link
-                to="/reserve"
-                className="mt-2 inline-flex rounded-full bg-ink px-3 py-1.5 text-[10px] font-semibold tracking-wide text-white sm:mt-4 sm:px-4 sm:py-2 sm:text-xs"
+              <a
+                href={brand.instagram}
+                target="_blank"
+                rel="noreferrer"
+                className="mt-1 inline-flex items-center gap-1 text-[10px] text-muted transition hover:text-ink sm:mt-2 sm:text-[12px]"
               >
-                {t('reserveCta')}
-              </Link>
+                <InstagramIcon className="size-3" />
+                {brand.instagramHandle}
+              </a>
+              <p className="text-[10px] text-muted sm:text-[12px]">{brand.email}</p>
+              <div className="mt-2 flex flex-wrap items-center gap-2 sm:mt-4">
+                <Link
+                  to="/reserve"
+                  className="inline-flex rounded-full bg-ink px-3 py-1.5 text-[10px] font-semibold tracking-wide text-white sm:px-4 sm:py-2 sm:text-xs"
+                >
+                  {t('reserveCta')}
+                </Link>
+                <a
+                  href={brand.orderOnline.glovo}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex rounded-full border border-ink/25 px-3 py-1.5 text-[10px] font-semibold tracking-wide text-ink transition hover:border-ink sm:px-4 sm:py-2 sm:text-xs"
+                >
+                  Glovo
+                </a>
+                <a
+                  href={brand.orderOnline.uberEats}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex rounded-full border border-ink/25 px-3 py-1.5 text-[10px] font-semibold tracking-wide text-ink transition hover:border-ink sm:px-4 sm:py-2 sm:text-xs"
+                >
+                  Uber Eats
+                </a>
+              </div>
             </div>
 
             <div className="min-w-0">
@@ -751,8 +777,18 @@ export function MenuPage() {
           />
         </div>
 
-        <div className="flex shrink-0 items-center gap-2 sm:gap-3 md:gap-4">
+        <div className="flex shrink-0 items-center gap-1.5 sm:gap-2.5 md:gap-3">
           <LanguageFlagToggle solid={false} bare />
+          <a
+            href={brand.instagram}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex size-8 items-center justify-center text-white/80 transition hover:text-white"
+            aria-label={`Instagram ${brand.instagramHandle}`}
+          >
+            <InstagramIcon className="size-4" />
+          </a>
+          <OrderOnlineMenu variant="menu" />
           <button
             type="button"
             onClick={() => setShowQr(true)}

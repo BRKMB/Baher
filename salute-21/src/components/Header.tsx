@@ -6,6 +6,7 @@ import { useI18n } from '../i18n/LanguageContext'
 import { BrandLogo } from './BrandLogo'
 import { InstagramIcon } from './icons'
 import { LanguageFlagToggle } from './LanguageFlagToggle'
+import { OrderOnlineMenu } from './OrderOnlineMenu'
 
 export function Header({ variant = 'landing' }: { variant?: 'landing' | 'page' }) {
   const { t } = useI18n()
@@ -92,18 +93,22 @@ export function Header({ variant = 'landing' }: { variant?: 'landing' | 'page' }
           )}
         </nav>
 
-        <div className="flex shrink-0 items-center gap-2.5 sm:gap-3 md:gap-4">
+        <div className="flex shrink-0 items-center gap-2 sm:gap-2.5 md:gap-3">
           <LanguageFlagToggle solid={false} />
 
           <a
             href={brand.instagram}
             target="_blank"
             rel="noreferrer"
-            className="hidden items-center justify-center text-white/85 transition hover:text-white sm:inline-flex"
-            aria-label="Instagram"
+            className="inline-flex items-center justify-center text-white/85 transition hover:text-white"
+            aria-label={`Instagram ${brand.instagramHandle}`}
           >
             <InstagramIcon className="size-5" />
           </a>
+
+          <div className="hidden sm:block">
+            <OrderOnlineMenu variant="header" />
+          </div>
 
           <Link
             to="/reserve"
@@ -156,6 +161,7 @@ export function Header({ variant = 'landing' }: { variant?: 'landing' | 'page' }
               <UtensilsCrossed className="size-4" strokeWidth={1.75} />
               {t('reserveCta')}
             </Link>
+            <OrderOnlineMenu variant="mobile" onNavigate={() => setOpen(false)} />
             <a
               href={brand.instagram}
               target="_blank"
