@@ -568,18 +568,36 @@ async function refreshReviewsCache(env, { force = false } = {}) {
   const cached = await readReviewsCache(env)
   const age = cached?.fetchedAt ? Date.now() - Number(cached.fetchedAt) : Infinity
   if (!force && cached?.items?.length && age < REVIEWS_CACHE_TTL_MS) {
-    return { ...cached, fresh: false, source: cached.source || 'cache' }
+    return {
+      ...cached,
+      ok: true,
+      configured: true,
+      fresh: false,
+      source: cached.source || 'cache',
+      mapsUrl: cached.mapsUrl || GOOGLE_MAPS_URL,
+    }
   }
 
+  // Serve last good Google Maps cache even without SerpAPI — never invent reviews.
   if (!reviewsConfigured(env)) {
+    if (cached?.items?.length) {
+      return {
+        ...cached,
+        ok: true,
+        configured: true,
+        fresh: false,
+        source: 'cache',
+        mapsUrl: cached.mapsUrl || GOOGLE_MAPS_URL,
+      }
+    }
     return {
       ok: false,
       configured: false,
       reason: 'missing_credentials',
       items: [],
-      rating: cached?.rating ?? null,
-      reviewCount: cached?.reviewCount ?? null,
-      fetchedAt: cached?.fetchedAt || null,
+      rating: null,
+      reviewCount: null,
+      fetchedAt: null,
       fresh: false,
       source: 'unconfigured',
       mapsUrl: GOOGLE_MAPS_URL,
