@@ -92,7 +92,6 @@ export function Testimonials() {
     name: item.name,
     quote: item.quote[lang],
     rating: item.rating,
-    photos: item.photos ?? [],
   }))
   const current = items[active] ?? items[0]
 
@@ -158,28 +157,6 @@ export function Testimonials() {
               <blockquote className="font-display text-[1.65rem] leading-[1.35] text-balance text-white italic md:text-[2.15rem] md:leading-[1.3]">
                 {current.quote}
               </blockquote>
-              {current.photos.length > 0 && (
-                <div className="mx-auto mt-8 flex max-w-xl flex-wrap items-center justify-center gap-2.5 sm:gap-3">
-                  {current.photos.map((src) => (
-                    <a
-                      key={src}
-                      href={GOOGLE_MAPS_URL}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="group relative block overflow-hidden rounded-xl border border-white/15 shadow-[0_10px_30px_rgba(0,0,0,0.35)] transition hover:border-gold/50"
-                    >
-                      <img
-                        src={src}
-                        alt=""
-                        width={160}
-                        height={120}
-                        loading="lazy"
-                        className="h-24 w-32 object-cover transition duration-500 group-hover:scale-[1.04] sm:h-28 sm:w-40"
-                      />
-                    </a>
-                  ))}
-                </div>
-              )}
               <figcaption className="mt-10">
                 <div className="mx-auto mb-5 h-px w-10 bg-gold/50" />
                 <p className="text-sm font-semibold tracking-wide text-white">{current.name}</p>
