@@ -1,5 +1,5 @@
 import { Link, NavLink } from 'react-router-dom'
-import { BookOpen, CalendarHeart, Menu, Star, UtensilsCrossed, X } from 'lucide-react'
+import { BookOpen, CalendarHeart, Mail, Menu, Star, UtensilsCrossed, X } from 'lucide-react'
 import { useEffect, useState, type ReactNode } from 'react'
 import { brand } from '../data/content'
 import { useI18n } from '../i18n/LanguageContext'
@@ -52,6 +52,11 @@ export function Header({ variant = 'landing' }: { variant?: 'landing' | 'page' }
             label: t('navReviews'),
             icon: <Star className="size-3.5" strokeWidth={1.85} aria-hidden />,
           },
+          {
+            to: '/#kontakt',
+            label: t('navContact'),
+            icon: <Mail className="size-3.5" strokeWidth={1.85} aria-hidden />,
+          },
         ]
       : [
           { to: '/', label: t('navHome') },
@@ -69,6 +74,11 @@ export function Header({ variant = 'landing' }: { variant?: 'landing' | 'page' }
             to: '/#opinie',
             label: t('navReviews'),
             icon: <Star className="size-3.5" strokeWidth={1.85} aria-hidden />,
+          },
+          {
+            to: '/#kontakt',
+            label: t('navContact'),
+            icon: <Mail className="size-3.5" strokeWidth={1.85} aria-hidden />,
           },
         ]
 
