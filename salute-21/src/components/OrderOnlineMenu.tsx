@@ -10,13 +10,13 @@ const partners = [
     key: 'uberEats' as const,
     labelKey: 'orderUberEats' as const,
     href: () => brand.orderOnline.uberEats,
-    logo: '/images/delivery/uber-eats.svg',
+    logo: '/images/delivery/uber-eats.png',
   },
   {
     key: 'glovo' as const,
     labelKey: 'orderGlovo' as const,
     href: () => brand.orderOnline.glovo,
-    logo: '/images/delivery/glovo.svg',
+    logo: '/images/delivery/glovo.jpg',
   },
 ]
 
@@ -114,7 +114,7 @@ export function OrderOnlineMenu({
                 alt=""
                 width={28}
                 height={28}
-                className="size-7 shrink-0 rounded-[7px] shadow-[0_1px_2px_rgba(0,0,0,0.25)]"
+                className="size-7 shrink-0 rounded-[7px] object-cover shadow-[0_1px_2px_rgba(0,0,0,0.25)]"
                 aria-hidden
               />
               {t(p.labelKey)}

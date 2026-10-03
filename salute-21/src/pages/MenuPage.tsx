@@ -266,11 +266,11 @@ const CoverRight = forwardRef<HTMLDivElement>(function CoverRight(_props, ref) {
                   className="inline-flex items-center gap-1.5 rounded-full border border-ink/25 px-3 py-1.5 text-[10px] font-semibold tracking-wide text-ink transition hover:border-ink sm:px-4 sm:py-2 sm:text-xs"
                 >
                   <img
-                    src="/images/delivery/glovo.svg"
+                    src="/images/delivery/glovo.jpg"
                     alt=""
                     width={16}
                     height={16}
-                    className="size-4 rounded-[4px]"
+                    className="size-4 rounded-[4px] object-cover"
                     aria-hidden
                   />
                   Glovo
@@ -282,11 +282,11 @@ const CoverRight = forwardRef<HTMLDivElement>(function CoverRight(_props, ref) {
                   className="inline-flex items-center gap-1.5 rounded-full border border-ink/25 px-3 py-1.5 text-[10px] font-semibold tracking-wide text-ink transition hover:border-ink sm:px-4 sm:py-2 sm:text-xs"
                 >
                   <img
-                    src="/images/delivery/uber-eats.svg"
+                    src="/images/delivery/uber-eats.png"
                     alt=""
                     width={16}
                     height={16}
-                    className="size-4 rounded-[4px]"
+                    className="size-4 rounded-[4px] object-cover"
                     aria-hidden
                   />
                   Uber Eats
