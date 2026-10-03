@@ -52,20 +52,24 @@ export function Header({ variant = 'landing' }: { variant?: 'landing' | 'page' }
       }`}
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3.5 sm:gap-4 sm:px-5 md:px-8 md:py-4">
-        {/* On landing, hide nav logo over the hero (brand already lives there); show after scroll */}
-        <Link
-          to="/"
-          className={`group min-w-0 shrink overflow-visible transition-opacity duration-500 ${
-            variant === 'landing' && !solid
-              ? 'pointer-events-none opacity-0'
-              : 'opacity-100'
-          }`}
-          aria-label="Salute 21"
-          aria-hidden={variant === 'landing' && !solid}
-          tabIndex={variant === 'landing' && !solid ? -1 : undefined}
-        >
-          <BrandLogo tone="light" className="text-[2.05rem] sm:text-[2.25rem] md:text-[2.55rem]" />
-        </Link>
+        <div className="flex min-w-0 items-center gap-2.5 sm:gap-3">
+          <LanguageFlagToggle solid={false} />
+
+          {/* On landing, hide nav logo over the hero (brand already lives there); show after scroll */}
+          <Link
+            to="/"
+            className={`group min-w-0 shrink overflow-visible transition-opacity duration-500 ${
+              variant === 'landing' && !solid
+                ? 'pointer-events-none opacity-0'
+                : 'opacity-100'
+            }`}
+            aria-label="Salute 21"
+            aria-hidden={variant === 'landing' && !solid}
+            tabIndex={variant === 'landing' && !solid ? -1 : undefined}
+          >
+            <BrandLogo tone="light" className="text-[2.05rem] sm:text-[2.25rem] md:text-[2.55rem]" />
+          </Link>
+        </div>
 
         <nav className="hidden min-w-0 items-center gap-5 xl:gap-7 lg:flex" aria-label="Main">
           {links.map((link) =>
@@ -94,8 +98,6 @@ export function Header({ variant = 'landing' }: { variant?: 'landing' | 'page' }
         </nav>
 
         <div className="flex shrink-0 items-center gap-2 sm:gap-2.5 md:gap-3">
-          <LanguageFlagToggle solid={false} />
-
           <a
             href={brand.instagram}
             target="_blank"
