@@ -8,13 +8,29 @@ export type GoogleReview = {
   name: string
   rating: 5
   quote: { en: string; pl: string }
+  /** Real guest photos from the Google Maps review, when available */
+  photos?: string[]
 }
 
 /**
- * Curated 5-star reviews with comments scraped from Google Maps.
- * Only real guest text — no fabricated quotes, no stock photos.
+ * Curated 5-star reviews with comments from Google Maps.
+ * Only real guest text. Photos only when taken from the actual Maps review.
  */
 export const googleReviews: GoogleReview[] = [
+  {
+    id: 'baher-magally',
+    name: 'Baher Magally',
+    rating: 5,
+    quote: {
+      en: "I think I wouldn't be exaggerating if I said it was the best exp ever, will definitely come back again.",
+      pl: 'Myślę, że nie przesadzę, jeśli powiem, że to było najlepsze doświadczenie ever — na pewno wrócę jeszcze raz.',
+    },
+    photos: [
+      '/images/reviews/baher-1.jpg',
+      '/images/reviews/baher-2.jpg',
+      '/images/reviews/baher-3.jpg',
+    ],
+  },
   {
     id: 'aleksandra-kalwat',
     name: 'Aleksandra Kalwat',
