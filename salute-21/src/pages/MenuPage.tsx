@@ -116,15 +116,14 @@ function FitLeaf({ children }: { children: ReactNode }) {
       raf = requestAnimationFrame(() => {
         const avail = frame.clientHeight
         if (avail <= 0) return
-        const visualH = content.getBoundingClientRect().height
-        const current = scaleRef.current || 1
-        const need = visualH / current
+        // scrollHeight ignores CSS transforms — avoids scale feedback oscillation.
+        const need = content.scrollHeight
         if (need <= 0) return
         const raw = avail / need
         const next = raw >= 0.995 ? 1 : Math.max(0.8, Math.min(1, raw))
         const canScroll = raw < 0.8
         if (
-          Math.abs(next - scaleRef.current) < 0.008 &&
+          Math.abs(next - scaleRef.current) < 0.012 &&
           canScroll === scrollableRef.current
         ) {
           return
@@ -140,9 +139,16 @@ function FitLeaf({ children }: { children: ReactNode }) {
     const ro = new ResizeObserver(measure)
     ro.observe(frame)
     ro.observe(content)
+    const onAsset = () => measure()
+    content.querySelectorAll('img').forEach((img) => {
+      if (!img.complete) img.addEventListener('load', onAsset, { once: true })
+    })
     return () => {
       cancelAnimationFrame(raf)
       ro.disconnect()
+      content.querySelectorAll('img').forEach((img) => {
+        img.removeEventListener('load', onAsset)
+      })
     }
   }, [])
 
@@ -544,18 +550,23 @@ export function MenuPage() {
     const slot = slotRef.current
     if (!slot) return
 
-    const update = () => {
+    let debounceId = 0
+    const apply = () => {
       const mobile = window.innerWidth < 768
       const pad = mobile ? 6 : 16
       const availW = Math.max(220, Math.floor(slot.clientWidth - pad))
+      // Prefer layout viewport height — visualViewport chrome show/hide causes 1px jitter remounts.
       const availH = Math.max(280, Math.floor(slot.clientHeight - pad))
       // Slightly taller mobile leaves — more room for dense price lists / cover.
       const ratio = mobile ? 1.48 : 1.42
 
+      let pageW: number
+      let pageH: number
+
       if (mobile) {
         // Prefer using the full slot height on phones so content is not cropped.
-        let pageH = availH
-        let pageW = Math.max(220, Math.floor(pageH / ratio))
+        pageH = availH
+        pageW = Math.max(220, Math.floor(pageH / ratio))
         if (pageW > availW) {
           pageW = availW
           pageH = Math.round(pageW * ratio)
@@ -564,28 +575,43 @@ export function MenuPage() {
             pageW = Math.max(220, Math.floor(pageH / ratio))
           }
         }
-        setDims({ w: pageW, h: pageH, mobile: true })
-        return
+      } else {
+        pageW = Math.floor(availW / 2)
+        pageH = Math.round(pageW * ratio)
+        if (pageH > availH) {
+          pageH = availH
+          pageW = Math.max(240, Math.floor(pageH / ratio))
+        }
       }
 
-      let pageW = Math.floor(availW / 2)
-      let pageH = Math.round(pageW * ratio)
-      if (pageH > availH) {
-        pageH = availH
-        pageW = Math.max(240, Math.floor(pageH / ratio))
-      }
-      setDims({ w: pageW, h: pageH, mobile: false })
+      setDims((prev) => {
+        // Ignore tiny mobile-chrome / scrollbar fluctuations — remounting the book looks like a shake.
+        if (
+          prev.mobile === mobile &&
+          Math.abs(prev.w - pageW) < 8 &&
+          Math.abs(prev.h - pageH) < 8
+        ) {
+          return prev
+        }
+        return { w: pageW, h: pageH, mobile }
+      })
     }
 
-    update()
-    const ro = new ResizeObserver(() => update())
+    const schedule = () => {
+      window.clearTimeout(debounceId)
+      debounceId = window.setTimeout(apply, 120)
+    }
+
+    apply()
+    const ro = new ResizeObserver(schedule)
     ro.observe(slot)
-    window.addEventListener('resize', update)
-    window.visualViewport?.addEventListener('resize', update)
+    window.addEventListener('resize', schedule)
+    window.addEventListener('orientationchange', schedule)
     return () => {
+      window.clearTimeout(debounceId)
       ro.disconnect()
-      window.removeEventListener('resize', update)
-      window.visualViewport?.removeEventListener('resize', update)
+      window.removeEventListener('resize', schedule)
+      window.removeEventListener('orientationchange', schedule)
     }
   }, [])
 
@@ -593,7 +619,8 @@ export function MenuPage() {
     const root = navRef.current
     if (!root) return
     const active = root.querySelector<HTMLElement>('[data-active="true"]')
-    active?.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' })
+    // Instant scroll — smooth scrollIntoView can fight layout and jitter the first spread.
+    active?.scrollIntoView({ behavior: 'auto', inline: 'center', block: 'nearest' })
   }, [activeNavId])
 
   // Drag / swipe to scroll the category strip on every device, without breaking taps

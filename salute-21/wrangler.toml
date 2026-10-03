@@ -30,4 +30,7 @@ preview_id = "520a1fd9af474718a44b4d97b726ddb7"
 # Set with:
 #   npx wrangler secret put INSTAGRAM_ACCESS_TOKEN
 #   npx wrangler secret put INSTAGRAM_USER_ID
+#   npx wrangler secret put SERPAPI_KEY
+#   npx wrangler secret put GOOGLE_PLACE_ID
 # Account must be Instagram Business/Creator linked to a Facebook Page.
+# SERPAPI_KEY powers live Google Maps reviews (5★ + photos only).

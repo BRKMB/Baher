@@ -17,6 +17,15 @@ const IG_FETCH_LIMIT = 24
 const IG_GRID_MAX = 12
 const IG_GRAPH = 'https://graph.facebook.com/v21.0'
 
+/** Live Google Maps reviews (5★ with guest photos only) */
+const REVIEWS_CACHE_KEY = 'google:reviews:v2'
+const REVIEWS_CACHE_TTL_MS = 60 * 60 * 1000
+const GOOGLE_MAPS_URL = 'https://maps.app.goo.gl/7eyKAU1XQgMeXhKSA'
+/** Feature id from the Salute 21 Google Maps listing */
+const GOOGLE_MAPS_DATA_ID = '0x471ecb77022fa777:0x50b8b31522e29c7e'
+const REVIEWS_MAX = 24
+const SERPAPI_ENDPOINT = 'https://serpapi.com/search.json'
+
 /** Path → SEO (kept in Worker so bots get correct tags without waiting for JS) */
 const SEO_BY_PATH = {
   '/': {
@@ -408,6 +417,218 @@ async function refreshInstagramCache(env, { force = false } = {}) {
   return { ...payload, fresh: true, source: 'graph' }
 }
 
+function reviewsConfigured(env) {
+  return Boolean(env.SERPAPI_KEY)
+}
+
+async function readReviewsCache(env) {
+  try {
+    const raw = await env.BOOKINGS.get(REVIEWS_CACHE_KEY)
+    if (!raw) return null
+    const parsed = JSON.parse(raw)
+    if (!parsed || !Array.isArray(parsed.items)) return null
+    return parsed
+  } catch {
+    return null
+  }
+}
+
+async function writeReviewsCache(env, payload) {
+  await env.BOOKINGS.put(REVIEWS_CACHE_KEY, JSON.stringify(payload))
+}
+
+function extractReviewPhotos(raw) {
+  const photos = []
+  const push = (url) => {
+    const value = String(url || '').trim()
+    if (!value) return
+    if (!/^https?:\/\//i.test(value)) return
+    if (photos.includes(value)) return
+    photos.push(value)
+  }
+
+  if (Array.isArray(raw?.images)) {
+    for (const image of raw.images) {
+      if (typeof image === 'string') push(image)
+      else if (image && typeof image === 'object') {
+        push(image.image || image.thumbnail || image.large || image.url || image.link)
+      }
+    }
+  }
+  if (Array.isArray(raw?.photos)) {
+    for (const photo of raw.photos) {
+      if (typeof photo === 'string') push(photo)
+      else if (photo && typeof photo === 'object') {
+        push(photo.url || photo.image || photo.thumbnail || photo.large)
+      }
+    }
+  }
+  return photos
+}
+
+function normalizeSerpReview(raw, index) {
+  const rating = Number(raw?.rating)
+  const text = String(raw?.snippet || raw?.extracted_snippet?.original || raw?.text || '').trim()
+  const name = String(raw?.user?.name || raw?.author || '').trim()
+  const photos = extractReviewPhotos(raw)
+
+  // Hard rules: only real 5★ Google reviews that include guest photos + text.
+  if (!(rating >= 5) || !text || !name || photos.length === 0) return null
+
+  const idSeed = String(raw?.review_id || raw?.link || `${name}-${raw?.iso_date || raw?.date || index}`)
+  return {
+    id: idSeed.slice(0, 120),
+    name,
+    rating: 5,
+    text,
+    relativeTime: String(raw?.date || raw?.relative_time || '').trim() || undefined,
+    photos,
+    authorPhoto: String(raw?.user?.thumbnail || raw?.user?.link || '').trim() || undefined,
+    mapsUrl: String(raw?.link || GOOGLE_MAPS_URL),
+    photoCount: photos.length,
+    isoDate: String(raw?.iso_date || raw?.published_at || '').trim() || undefined,
+  }
+}
+
+async function fetchReviewsFromSerpApi(env) {
+  const apiKey = env.SERPAPI_KEY
+  if (!apiKey) {
+    return { ok: false, reason: 'missing_credentials', items: [], rating: null, reviewCount: null }
+  }
+
+  const placeId = String(env.GOOGLE_PLACE_ID || '').trim()
+  const collected = []
+  let rating = null
+  let reviewCount = null
+  let nextPageToken = ''
+  let pages = 0
+
+  while (pages < 4 && collected.length < REVIEWS_MAX) {
+    const params = new URLSearchParams({
+      engine: 'google_maps_reviews',
+      hl: 'en',
+      sort_by: 'newest',
+      api_key: apiKey,
+    })
+    if (placeId) params.set('place_id', placeId)
+    else params.set('data_id', GOOGLE_MAPS_DATA_ID)
+    if (nextPageToken) params.set('next_page_token', nextPageToken)
+
+    const res = await fetch(`${SERPAPI_ENDPOINT}?${params.toString()}`, {
+      headers: { accept: 'application/json' },
+    })
+    const data = await res.json().catch(() => ({}))
+    if (!res.ok || data?.error) {
+      return {
+        ok: false,
+        reason: 'serpapi_error',
+        error: data?.error || `HTTP ${res.status}`,
+        items: collected,
+        rating,
+        reviewCount,
+      }
+    }
+
+    if (rating == null && data?.place_info?.rating != null) {
+      rating = Number(data.place_info.rating)
+    }
+    if (reviewCount == null && data?.place_info?.reviews != null) {
+      reviewCount = Number(data.place_info.reviews)
+    }
+
+    const batch = Array.isArray(data.reviews) ? data.reviews : []
+    for (let i = 0; i < batch.length; i++) {
+      const item = normalizeSerpReview(batch[i], collected.length + i)
+      if (item) collected.push(item)
+    }
+
+    nextPageToken = String(data?.serpapi_pagination?.next_page_token || '').trim()
+    pages += 1
+    if (!nextPageToken || batch.length === 0) break
+  }
+
+  // Priority: more guest photos first, then newest.
+  collected.sort((a, b) => {
+    const photoDiff = (b.photoCount || 0) - (a.photoCount || 0)
+    if (photoDiff !== 0) return photoDiff
+    return String(b.isoDate || '').localeCompare(String(a.isoDate || ''))
+  })
+
+  const items = collected.slice(0, REVIEWS_MAX).map(({ photoCount, isoDate, ...rest }) => rest)
+
+  return {
+    ok: true,
+    items,
+    rating,
+    reviewCount,
+  }
+}
+
+async function refreshReviewsCache(env, { force = false } = {}) {
+  const cached = await readReviewsCache(env)
+  const age = cached?.fetchedAt ? Date.now() - Number(cached.fetchedAt) : Infinity
+  if (!force && cached?.items?.length && age < REVIEWS_CACHE_TTL_MS) {
+    return { ...cached, fresh: false, source: cached.source || 'cache' }
+  }
+
+  if (!reviewsConfigured(env)) {
+    return {
+      ok: false,
+      configured: false,
+      reason: 'missing_credentials',
+      items: [],
+      rating: cached?.rating ?? null,
+      reviewCount: cached?.reviewCount ?? null,
+      fetchedAt: cached?.fetchedAt || null,
+      fresh: false,
+      source: 'unconfigured',
+      mapsUrl: GOOGLE_MAPS_URL,
+    }
+  }
+
+  const result = await fetchReviewsFromSerpApi(env)
+  if (!result.ok) {
+    if (cached?.items?.length) {
+      return {
+        ...cached,
+        ok: true,
+        configured: true,
+        fresh: false,
+        source: 'cache_stale',
+        lastError: result.error || result.reason,
+        mapsUrl: GOOGLE_MAPS_URL,
+      }
+    }
+    return {
+      ok: false,
+      configured: true,
+      reason: result.reason,
+      error: result.error,
+      items: [],
+      rating: result.rating ?? null,
+      reviewCount: result.reviewCount ?? null,
+      fetchedAt: null,
+      fresh: false,
+      source: 'error',
+      mapsUrl: GOOGLE_MAPS_URL,
+    }
+  }
+
+  const payload = {
+    ok: true,
+    configured: true,
+    items: result.items,
+    rating: result.rating,
+    reviewCount: result.reviewCount,
+    fetchedAt: Date.now(),
+    count: result.items.length,
+    mapsUrl: GOOGLE_MAPS_URL,
+    source: 'serpapi',
+  }
+  await writeReviewsCache(env, payload)
+  return { ...payload, fresh: true }
+}
+
 async function handleApi(request, env) {
   const url = new URL(request.url)
   const path = url.pathname
@@ -418,7 +639,32 @@ async function handleApi(request, env) {
       service: 'salute-21-booking',
       idFormat: 'S21-DLDLDL-MMYY',
       instagramConfigured: igConfigured(env),
+      reviewsConfigured: reviewsConfigured(env),
     })
+  }
+
+  if (path === '/api/reviews' && request.method === 'GET') {
+    const force = url.searchParams.get('refresh') === '1' && isAdmin(request, env)
+    const feed = await refreshReviewsCache(env, { force })
+    return json({
+      ok: Boolean(feed.ok ?? feed.items?.length),
+      configured: Boolean(feed.configured ?? reviewsConfigured(env)),
+      source: feed.source || 'unknown',
+      fetchedAt: feed.fetchedAt || null,
+      rating: feed.rating ?? null,
+      reviewCount: feed.reviewCount ?? null,
+      count: Array.isArray(feed.items) ? feed.items.length : 0,
+      items: feed.items || [],
+      mapsUrl: feed.mapsUrl || GOOGLE_MAPS_URL,
+      error: feed.error || undefined,
+      reason: feed.reason || undefined,
+    })
+  }
+
+  if (path === '/api/reviews/refresh' && request.method === 'POST') {
+    if (!isAdmin(request, env)) return json({ error: 'Unauthorized' }, 401)
+    const feed = await refreshReviewsCache(env, { force: true })
+    return json(feed)
   }
 
   if (path === '/api/instagram' && request.method === 'GET') {
@@ -635,9 +881,14 @@ Host: salute21.com
 `
 
 export default {
-  /** Hourly cron — refresh Instagram gallery cache */
+  /** Hourly cron — refresh Instagram gallery + Google reviews caches */
   async scheduled(_event, env, ctx) {
-    ctx.waitUntil(refreshInstagramCache(env, { force: true }))
+    ctx.waitUntil(
+      Promise.all([
+        refreshInstagramCache(env, { force: true }),
+        refreshReviewsCache(env, { force: true }),
+      ]),
+    )
   },
 
   async fetch(request, env) {

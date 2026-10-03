@@ -52,7 +52,11 @@ export const translations = {
     testimonialsEyebrow: 'Google reviews',
     testimonialsTitle: 'Words from the table',
     testimonialsIntro:
-      'Real 5-star guest comments from Google Maps — smash burgers, warm service, and evenings that linger.',
+      'Live 5★ Google Maps reviews with guest photos — synced automatically, never rewritten.',
+    testimonialsLoading: 'Loading live Google reviews…',
+    testimonialsEmpty:
+      'Only real 5★ Google reviews with photos appear here. Open Google Maps to read every guest comment.',
+    testimonialsOpenMaps: 'Open Google Maps reviews',
     googleReviewLabel: 'Google review',
     reviewsCountLabel: 'reviews',
     contactEyebrow: 'Contact',
@@ -236,7 +240,11 @@ export const translations = {
     testimonialsEyebrow: 'Opinie Google',
     testimonialsTitle: 'Słowa od stołu',
     testimonialsIntro:
-      'Prawdziwe 5-gwiazdkowe komentarze z Google Maps — smash burgery, miła obsługa i wieczory, które zostają.',
+      'Na żywo z Google Maps: tylko opinie 5★ ze zdjęciami gości — synchronizowane automatycznie, bez przepisywania.',
+    testimonialsLoading: 'Ładowanie opinii Google…',
+    testimonialsEmpty:
+      'Pokazujemy tylko prawdziwe opinie 5★ ze zdjęciami. Otwórz Google Maps, aby zobaczyć wszystkie komentarze.',
+    testimonialsOpenMaps: 'Otwórz opinie w Google Maps',
     googleReviewLabel: 'Opinia Google',
     reviewsCountLabel: 'opinii',
     contactEyebrow: 'Kontakt',
