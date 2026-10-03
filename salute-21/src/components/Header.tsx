@@ -1,5 +1,5 @@
 import { Link, NavLink } from 'react-router-dom'
-import { BookOpen, CalendarHeart, Mail, Menu, Star, UtensilsCrossed, X } from 'lucide-react'
+import { BookOpen, CalendarHeart, Mail, Menu, Star, X } from 'lucide-react'
 import { useEffect, useState, type ReactNode } from 'react'
 import { brand } from '../data/content'
 import { useI18n } from '../i18n/LanguageContext'
@@ -126,14 +126,6 @@ export function Header({ variant = 'landing' }: { variant?: 'landing' | 'page' }
             <OrderOnlineMenu variant="header" />
           </div>
 
-          <Link
-            to="/reserve"
-            className="hidden items-center gap-2 rounded-full bg-white px-3.5 py-2 text-sm font-semibold text-ink transition hover:bg-champagne md:inline-flex md:px-4 md:py-2.5"
-          >
-            <UtensilsCrossed className="size-4" strokeWidth={1.75} />
-            {t('reserveCta')}
-          </Link>
-
           <button
             type="button"
             className="inline-flex size-10 items-center justify-center text-white lg:hidden"
@@ -171,14 +163,6 @@ export function Header({ variant = 'landing' }: { variant?: 'landing' | 'page' }
                 </Link>
               ),
             )}
-            <Link
-              to="/reserve"
-              onClick={() => setOpen(false)}
-              className="mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-white px-5 py-3.5 text-sm font-semibold text-ink"
-            >
-              <UtensilsCrossed className="size-4" strokeWidth={1.75} />
-              {t('reserveCta')}
-            </Link>
             <OrderOnlineMenu variant="mobile" onNavigate={() => setOpen(false)} />
             <a
               href={brand.instagram}

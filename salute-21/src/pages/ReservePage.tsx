@@ -138,7 +138,7 @@ export function ReservePage() {
       <section className="reserve-hero">
         <div className="reserve-hero__media" aria-hidden>
           <motion.img
-            src="/images/reserve-dish.jpg"
+            src="/images/menu-pizza.jpg"
             alt=""
             initial={{ scale: 1.08 }}
             animate={{ scale: 1 }}
