@@ -52,24 +52,20 @@ export function Header({ variant = 'landing' }: { variant?: 'landing' | 'page' }
       }`}
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3.5 sm:gap-4 sm:px-5 md:px-8 md:py-4">
-        <div className="flex min-w-0 items-center gap-2.5 sm:gap-3">
-          <LanguageFlagToggle solid={false} />
-
-          {/* On landing, hide nav logo over the hero (brand already lives there); show after scroll */}
-          <Link
-            to="/"
-            className={`group min-w-0 shrink overflow-visible transition-opacity duration-500 ${
-              variant === 'landing' && !solid
-                ? 'pointer-events-none opacity-0'
-                : 'opacity-100'
-            }`}
-            aria-label="Salute 21"
-            aria-hidden={variant === 'landing' && !solid}
-            tabIndex={variant === 'landing' && !solid ? -1 : undefined}
-          >
-            <BrandLogo tone="light" className="text-[2.05rem] sm:text-[2.25rem] md:text-[2.55rem]" />
-          </Link>
-        </div>
+        {/* On landing, hide nav logo over the hero (brand already lives there); show after scroll */}
+        <Link
+          to="/"
+          className={`group min-w-0 shrink overflow-visible transition-opacity duration-500 ${
+            variant === 'landing' && !solid
+              ? 'pointer-events-none opacity-0'
+              : 'opacity-100'
+          }`}
+          aria-label="Salute 21"
+          aria-hidden={variant === 'landing' && !solid}
+          tabIndex={variant === 'landing' && !solid ? -1 : undefined}
+        >
+          <BrandLogo tone="light" className="text-[2.05rem] sm:text-[2.25rem] md:text-[2.55rem]" />
+        </Link>
 
         <nav className="hidden min-w-0 items-center gap-5 xl:gap-7 lg:flex" aria-label="Main">
           {links.map((link) =>
@@ -98,6 +94,8 @@ export function Header({ variant = 'landing' }: { variant?: 'landing' | 'page' }
         </nav>
 
         <div className="flex shrink-0 items-center gap-2 sm:gap-2.5 md:gap-3">
+          <LanguageFlagToggle solid={false} />
+
           <a
             href={brand.instagram}
             target="_blank"
@@ -105,7 +103,7 @@ export function Header({ variant = 'landing' }: { variant?: 'landing' | 'page' }
             className="inline-flex items-center justify-center text-white/85 transition hover:text-white"
             aria-label={`Instagram ${brand.instagramHandle}`}
           >
-            <InstagramIcon className="size-5" />
+            <InstagramIcon className="size-6" />
           </a>
 
           <div className="hidden sm:block">
@@ -171,7 +169,7 @@ export function Header({ variant = 'landing' }: { variant?: 'landing' | 'page' }
               className="inline-flex items-center gap-2 text-sm font-medium text-white/70"
               onClick={() => setOpen(false)}
             >
-              <InstagramIcon className="size-4" />
+              <InstagramIcon className="size-5" />
               {brand.instagramHandle}
             </a>
           </nav>

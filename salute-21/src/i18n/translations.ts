@@ -39,37 +39,21 @@ export const translations = {
     highlightSpuntiniTitle: 'Restaurant',
     highlightSpuntiniText:
       'Seasonal cooking from the Salute 21 kitchen — generous flavours, made to share.',
-    highlightBarTitle: 'Wine & drinks',
+    highlightBarTitle: 'Coffee & drinks',
     highlightBarText:
-      'Wines by the glass, house cocktails, and zero-proof options to match the meal.',
+      'Espresso, iced coffee, soft drinks and house lemonade to match the meal.',
     highlightBreakfastTitle: 'Weekend brunch',
     highlightBreakfastText: 'Saturdays & Sundays from 11:00 — unhurried brunch and coffee.',
     galleryEyebrow: 'Gallery',
     galleryTitle: 'Taste, light, table',
     galleryText: 'Moments from the kitchen — and the Egyptian glow of our restaurant in Wola.',
     galleryTextLive: 'Live from @salute__21 — posts and Reels, refreshed every hour.',
-    testimonialsEyebrow: 'Guest book',
+    testimonialsEyebrow: 'Google reviews',
     testimonialsTitle: 'Words from the table',
     testimonialsIntro:
-      'Quiet evenings, a shared table, a restaurant with its own myth — notes from guests who return.',
-    testi1Quote:
-      'Elegant without being stiff. The food was perfect, and the Egyptian atmosphere felt like a secret we wanted to keep.',
-    testi1Role: 'Warsaw · designer',
-    testi2Quote:
-      'Beautiful wine list and a kitchen that knows restraint. We booked again before dessert arrived.',
-    testi2Role: 'Regular guest',
-    testi3Quote:
-      'Warm service, polished cooking. Salute 21 has that rare balance of comfort, craft, and atmosphere.',
-    testi3Role: 'Food writer',
-    testi4Quote:
-      'Ideal for clients — confident cooking, a calm dining room with character, and a true restaurant feel in Wola.',
-    testi4Role: 'Entrepreneur',
-    testi5Quote:
-      'From the first course to the last, everything felt intentional. The décor makes the evening memorable.',
-    testi5Role: 'Architect',
-    testi6Quote:
-      'We celebrated here and it felt intimate without trying. Outstanding hospitality.',
-    testi6Role: 'Frequent host',
+      'Real 5-star guest comments from Google Maps — smash burgers, warm service, and evenings that linger.',
+    googleReviewLabel: 'Google review',
+    reviewsCountLabel: 'reviews',
     contactEyebrow: 'Contact',
     contactTitle: 'Visit us',
     contactText:
@@ -238,37 +222,21 @@ export const translations = {
     highlightSpuntiniTitle: 'Restauracja',
     highlightSpuntiniText:
       'Sezonowa kuchnia Salute 21 — hojne smaki, stworzone do dzielenia.',
-    highlightBarTitle: 'Wino i napoje',
+    highlightBarTitle: 'Kawa i napoje',
     highlightBarText:
-      'Wina na kieliszki, koktajle domu i wersje zero-proof dopasowane do posiłku.',
+      'Espresso, kawa mrożona, napoje i lemoniada domu dopasowane do posiłku.',
     highlightBreakfastTitle: 'Weekendowy brunch',
     highlightBreakfastText: 'Soboty i niedziele od 11:00 — brunch bez pośpiechu, z kawą.',
     galleryEyebrow: 'Galeria',
     galleryTitle: 'Smak, światło, stół',
     galleryText: 'Chwile z kuchni — i egipskie światło naszej restauracji na Woli.',
     galleryTextLive: 'Na żywo z @salute__21 — posty i Rolki, odświeżane co godzinę.',
-    testimonialsEyebrow: 'Księga gości',
+    testimonialsEyebrow: 'Opinie Google',
     testimonialsTitle: 'Słowa od stołu',
     testimonialsIntro:
-      'Spokojne wieczory, wspólny stół, restauracja z własnym mitem — notatki gości, którzy wracają.',
-    testi1Quote:
-      'Elegancko, ale bez sztywności. Jedzenie było idealne, a egipska atmosfera jak sekret, który chciało się zatrzymać.',
-    testi1Role: 'Warszawa · projektantka',
-    testi2Quote:
-      'Piękna karta win i kuchnia, która zna umiar. Zarezerwowaliśmy kolejny stolik przed deserem.',
-    testi2Role: 'Stały gość',
-    testi3Quote:
-      'Ciepła obsługa, dopracowana kuchnia. Salute 21 ma rzadką równowagę komfortu, rzemiosła i atmosfery.',
-    testi3Role: 'Dziennikarka kulinarna',
-    testi4Quote:
-      'Idealne na spotkania biznesowe — pewna kuchnia, sala restauracyjna z charakterem i prawdziwy klimat na Woli.',
-    testi4Role: 'Przedsiębiorca',
-    testi5Quote:
-      'Od pierwszego dania do ostatniego wszystko było przemyślane. Wystrój sprawia, że wieczór zostaje w pamięci.',
-    testi5Role: 'Architekt',
-    testi6Quote:
-      'Świętowaliśmy tu i było kameralnie, bez udawania. Wyjątkowa gościnność.',
-    testi6Role: 'Częsty gospodarz',
+      'Prawdziwe 5-gwiazdkowe komentarze z Google Maps — smash burgery, miła obsługa i wieczory, które zostają.',
+    googleReviewLabel: 'Opinia Google',
+    reviewsCountLabel: 'opinii',
     contactEyebrow: 'Kontakt',
     contactTitle: 'Odwiedź nas',
     contactText:

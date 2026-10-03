@@ -430,7 +430,7 @@ export const menu: MenuCategory[] = [
 
 /** Gallery-only images — never reused on menu category spreads */
 export const gallery = [
-  { src: '/images/gallery-food-3.jpg', alt: 'Dessert and wine at the table' },
+  { src: '/images/gallery-food-1.jpg', alt: 'Fresh pasta at Salute 21' },
   { src: '/images/gallery-extra-1.jpg', alt: 'Pasta at Salute 21' },
   { src: '/images/gallery-extra-2.jpg', alt: 'Shared dishes at the table' },
   { src: '/images/gallery-extra-3.jpg', alt: 'Evening dining' },
@@ -440,7 +440,7 @@ export const gallery = [
   { src: '/images/interior.jpg', alt: 'Dining room' },
   { src: '/images/unsplash-food.jpg', alt: 'Shared plates' },
   { src: '/images/unsplash-tapas.jpg', alt: 'Small plates' },
-  { src: '/images/unsplash-cocktail.jpg', alt: 'Drinks at Salute 21' },
+  { src: '/images/menu-cold-coffee.jpg', alt: 'Iced coffee at Salute 21' },
 ]
 
 export const highlights = [

@@ -780,7 +780,6 @@ export function MenuPage() {
 
       <header className="menu-magazine__header relative z-30 flex shrink-0 items-center justify-between gap-2 bg-[#14110e] px-3 sm:gap-3 sm:px-4 md:px-6">
         <div className="flex min-w-0 items-center gap-2 sm:gap-2.5">
-          <LanguageFlagToggle solid={false} bare />
           <Link
             to="/"
             className="inline-flex size-9 shrink-0 items-center justify-center text-white/75 transition hover:text-white"
@@ -795,14 +794,15 @@ export function MenuPage() {
         </div>
 
         <div className="flex shrink-0 items-center gap-1.5 sm:gap-2.5 md:gap-3">
+          <LanguageFlagToggle solid={false} bare />
           <a
             href={brand.instagram}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex size-8 items-center justify-center text-white/80 transition hover:text-white"
+            className="inline-flex size-9 items-center justify-center text-white/80 transition hover:text-white"
             aria-label={`Instagram ${brand.instagramHandle}`}
           >
-            <InstagramIcon className="size-4" />
+            <InstagramIcon className="size-5" />
           </a>
           <OrderOnlineMenu variant="menu" />
           <button

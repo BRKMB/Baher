@@ -31,7 +31,7 @@ export function Footer() {
             rel="noreferrer"
             className="inline-flex items-center gap-2 transition hover:text-gold"
           >
-            <InstagramIcon className="size-4" />
+            <InstagramIcon className="size-5" />
             {brand.instagramHandle}
           </a>
           <a
