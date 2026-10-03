@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Uber Eats">
+  <rect width="64" height="64" rx="14" fill="#06C167"/>
+  <text
+    x="32"
+    y="28"
+    text-anchor="middle"
+    font-family="UberMove, Uber Move Text, Arial Black, Helvetica, Arial, sans-serif"
+    font-size="13"
+    font-weight="800"
+    fill="#FFFFFF"
+    letter-spacing="-0.02em"
+  >Uber</text>
+  <text
+    x="32"
+    y="44"
+    text-anchor="middle"
+    font-family="UberMove, Uber Move Text, Arial Black, Helvetica, Arial, sans-serif"
+    font-size="13"
+    font-weight="800"
+    fill="#FFFFFF"
+    letter-spacing="-0.02em"
+  >Eats</text>
+</svg>

@@ -1,6 +1,5 @@
 import { useEffect, useId, useRef, useState } from 'react'
 import { ChevronDown, ShoppingBag } from 'lucide-react'
-import { SiGlovo, SiUbereats } from 'react-icons/si'
 import { brand } from '../data/content'
 import { useI18n } from '../i18n/LanguageContext'
 
@@ -11,15 +10,13 @@ const partners = [
     key: 'uberEats' as const,
     labelKey: 'orderUberEats' as const,
     href: () => brand.orderOnline.uberEats,
-    Icon: SiUbereats,
-    iconClass: 'text-[#06C167]',
+    logo: '/images/delivery/uber-eats.svg',
   },
   {
     key: 'glovo' as const,
     labelKey: 'orderGlovo' as const,
     href: () => brand.orderOnline.glovo,
-    Icon: SiGlovo,
-    iconClass: 'text-[#FFC244]',
+    logo: '/images/delivery/glovo.svg',
   },
 ]
 
@@ -112,9 +109,14 @@ export function OrderOnlineMenu({
                 onNavigate?.()
               }}
             >
-              <span className="inline-flex size-7 shrink-0 items-center justify-center rounded-md bg-white/95">
-                <p.Icon className={`size-4 ${p.iconClass}`} aria-hidden />
-              </span>
+              <img
+                src={p.logo}
+                alt=""
+                width={28}
+                height={28}
+                className="size-7 shrink-0 rounded-[7px] shadow-[0_1px_2px_rgba(0,0,0,0.25)]"
+                aria-hidden
+              />
               {t(p.labelKey)}
             </a>
           ))}
