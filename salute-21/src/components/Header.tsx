@@ -1,12 +1,18 @@
 import { Link, NavLink } from 'react-router-dom'
-import { Menu, UtensilsCrossed, X } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { BookOpen, CalendarHeart, Menu, Star, UtensilsCrossed, X } from 'lucide-react'
+import { useEffect, useState, type ReactNode } from 'react'
 import { brand } from '../data/content'
 import { useI18n } from '../i18n/LanguageContext'
 import { BrandLogo } from './BrandLogo'
 import { InstagramIcon } from './icons'
 import { LanguageFlagToggle } from './LanguageFlagToggle'
 import { OrderOnlineMenu } from './OrderOnlineMenu'
+
+type NavItem = {
+  to: string
+  label: string
+  icon?: ReactNode
+}
 
 export function Header({ variant = 'landing' }: { variant?: 'landing' | 'page' }) {
   const { t } = useI18n()
@@ -27,21 +33,51 @@ export function Header({ variant = 'landing' }: { variant?: 'landing' | 'page' }
     }
   }, [open])
 
-  const links =
+  const links: NavItem[] =
     variant === 'landing'
       ? [
           { to: '/#o-nas', label: t('navAbout') },
-          { to: '/menu', label: t('navMenu') },
-          { to: '/reserve', label: t('navReserve') },
-          { to: '/#kontakt', label: t('navContact') },
+          {
+            to: '/menu',
+            label: t('navMenu'),
+            icon: <BookOpen className="size-3.5" strokeWidth={1.85} aria-hidden />,
+          },
+          {
+            to: '/reserve',
+            label: t('navReserve'),
+            icon: <CalendarHeart className="size-3.5" strokeWidth={1.85} aria-hidden />,
+          },
+          {
+            to: '/#opinie',
+            label: t('navReviews'),
+            icon: <Star className="size-3.5" strokeWidth={1.85} aria-hidden />,
+          },
         ]
       : [
           { to: '/', label: t('navHome') },
-          { to: '/menu', label: t('navMenu') },
-          { to: '/reserve', label: t('navReserve') },
+          {
+            to: '/menu',
+            label: t('navMenu'),
+            icon: <BookOpen className="size-3.5" strokeWidth={1.85} aria-hidden />,
+          },
+          {
+            to: '/reserve',
+            label: t('navReserve'),
+            icon: <CalendarHeart className="size-3.5" strokeWidth={1.85} aria-hidden />,
+          },
+          {
+            to: '/#opinie',
+            label: t('navReviews'),
+            icon: <Star className="size-3.5" strokeWidth={1.85} aria-hidden />,
+          },
         ]
 
   const solid = scrolled || open || variant === 'page'
+
+  const linkClass = (active = false) =>
+    `inline-flex items-center gap-1.5 text-[13px] font-semibold tracking-[0.08em] uppercase transition ${
+      active ? 'text-white' : 'text-white/90 hover:text-white'
+    }`
 
   return (
     <header
@@ -70,23 +106,17 @@ export function Header({ variant = 'landing' }: { variant?: 'landing' | 'page' }
         <nav className="hidden min-w-0 items-center gap-5 xl:gap-7 lg:flex" aria-label="Main">
           {links.map((link) =>
             link.to.startsWith('/#') ? (
-              <a
-                key={link.to}
-                href={link.to}
-                className="text-[13px] font-semibold tracking-[0.08em] text-white/90 uppercase transition hover:text-white"
-              >
+              <a key={link.to} href={link.to} className={linkClass()}>
+                {link.icon}
                 {link.label}
               </a>
             ) : (
               <NavLink
                 key={link.to}
                 to={link.to}
-                className={({ isActive }) =>
-                  `text-[13px] font-semibold tracking-[0.08em] uppercase transition ${
-                    isActive ? 'text-white' : 'text-white/90 hover:text-white'
-                  }`
-                }
+                className={({ isActive }) => linkClass(isActive)}
               >
+                {link.icon}
                 {link.label}
               </NavLink>
             ),
@@ -137,18 +167,20 @@ export function Header({ variant = 'landing' }: { variant?: 'landing' | 'page' }
                 <a
                   key={link.to}
                   href={link.to}
-                  className="font-display text-3xl text-white"
+                  className="inline-flex items-center gap-3 font-display text-3xl text-white"
                   onClick={() => setOpen(false)}
                 >
+                  {link.icon}
                   {link.label}
                 </a>
               ) : (
                 <Link
                   key={link.to}
                   to={link.to}
-                  className="font-display text-3xl text-white"
+                  className="inline-flex items-center gap-3 font-display text-3xl text-white"
                   onClick={() => setOpen(false)}
                 >
+                  {link.icon}
                   {link.label}
                 </Link>
               ),
