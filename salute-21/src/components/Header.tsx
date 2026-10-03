@@ -33,54 +33,30 @@ export function Header({ variant = 'landing' }: { variant?: 'landing' | 'page' }
     }
   }, [open])
 
-  const links: NavItem[] =
-    variant === 'landing'
-      ? [
-          { to: '/#o-nas', label: t('navAbout') },
-          {
-            to: '/menu',
-            label: t('navMenu'),
-            icon: <BookOpen className="size-3.5" strokeWidth={1.85} aria-hidden />,
-          },
-          {
-            to: '/reserve',
-            label: t('navReserve'),
-            icon: <CalendarHeart className="size-3.5" strokeWidth={1.85} aria-hidden />,
-          },
-          {
-            to: '/#opinie',
-            label: t('navReviews'),
-            icon: <Star className="size-3.5" strokeWidth={1.85} aria-hidden />,
-          },
-          {
-            to: '/#kontakt',
-            label: t('navContact'),
-            icon: <Mail className="size-3.5" strokeWidth={1.85} aria-hidden />,
-          },
-        ]
-      : [
-          { to: '/', label: t('navHome') },
-          {
-            to: '/menu',
-            label: t('navMenu'),
-            icon: <BookOpen className="size-3.5" strokeWidth={1.85} aria-hidden />,
-          },
-          {
-            to: '/reserve',
-            label: t('navReserve'),
-            icon: <CalendarHeart className="size-3.5" strokeWidth={1.85} aria-hidden />,
-          },
-          {
-            to: '/#opinie',
-            label: t('navReviews'),
-            icon: <Star className="size-3.5" strokeWidth={1.85} aria-hidden />,
-          },
-          {
-            to: '/#kontakt',
-            label: t('navContact'),
-            icon: <Mail className="size-3.5" strokeWidth={1.85} aria-hidden />,
-          },
-        ]
+  // Same order on every page: About → Reviews → Contact → Reserve → Menu
+  const links: NavItem[] = [
+    { to: '/#o-nas', label: t('navAbout') },
+    {
+      to: '/#opinie',
+      label: t('navReviews'),
+      icon: <Star className="size-3.5" strokeWidth={1.85} aria-hidden />,
+    },
+    {
+      to: '/#kontakt',
+      label: t('navContact'),
+      icon: <Mail className="size-3.5" strokeWidth={1.85} aria-hidden />,
+    },
+    {
+      to: '/reserve',
+      label: t('navReserve'),
+      icon: <CalendarHeart className="size-3.5" strokeWidth={1.85} aria-hidden />,
+    },
+    {
+      to: '/menu',
+      label: t('navMenu'),
+      icon: <BookOpen className="size-3.5" strokeWidth={1.85} aria-hidden />,
+    },
+  ]
 
   const solid = scrolled || open || variant === 'page'
 
