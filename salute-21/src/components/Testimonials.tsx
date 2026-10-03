@@ -142,9 +142,6 @@ export function Testimonials() {
             {t('testimonialsTitle')}
           </h2>
           <div className="mx-auto my-7 h-px w-20 bg-gradient-to-r from-transparent via-gold to-transparent" />
-          <p className="mx-auto max-w-xl text-sm leading-relaxed text-white/65 md:text-base">
-            {t('testimonialsIntro')}
-          </p>
           <a
             href={mapsUrl}
             target="_blank"

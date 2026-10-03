@@ -51,11 +51,8 @@ export const translations = {
     galleryTextLive: 'Live from @salute__21 — posts and Reels, refreshed every hour.',
     testimonialsEyebrow: 'Google reviews',
     testimonialsTitle: 'Words from the table',
-    testimonialsIntro:
-      'Live 5★ Google Maps reviews with guest photos — synced automatically, never rewritten.',
-    testimonialsLoading: 'Loading live Google reviews…',
-    testimonialsEmpty:
-      'Only real 5★ Google reviews with photos appear here. Open Google Maps to read every guest comment.',
+    testimonialsLoading: 'Loading Google reviews…',
+    testimonialsEmpty: 'See what guests are saying on Google Maps.',
     testimonialsOpenMaps: 'Open Google Maps reviews',
     googleReviewLabel: 'Google review',
     reviewsCountLabel: 'reviews',
@@ -239,11 +236,8 @@ export const translations = {
     galleryTextLive: 'Na żywo z @salute__21 — posty i Rolki, odświeżane co godzinę.',
     testimonialsEyebrow: 'Opinie Google',
     testimonialsTitle: 'Słowa od stołu',
-    testimonialsIntro:
-      'Na żywo z Google Maps: tylko opinie 5★ ze zdjęciami gości — synchronizowane automatycznie, bez przepisywania.',
     testimonialsLoading: 'Ładowanie opinii Google…',
-    testimonialsEmpty:
-      'Pokazujemy tylko prawdziwe opinie 5★ ze zdjęciami. Otwórz Google Maps, aby zobaczyć wszystkie komentarze.',
+    testimonialsEmpty: 'Zobacz, co piszą goście w Google Maps.',
     testimonialsOpenMaps: 'Otwórz opinie w Google Maps',
     googleReviewLabel: 'Opinia Google',
     reviewsCountLabel: 'opinii',
