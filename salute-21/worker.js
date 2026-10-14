@@ -687,24 +687,11 @@ async function hydrateIgShortcode(code, { trusted = false } = {}) {
   }
   if (!owned && !trusted) return null
 
-  // Stable thumbnail endpoint (redirects to CDN jpeg)
-  const mediaUrl = `https://www.instagram.com/p/${code}/media/?size=l`
-  let imageOk = false
-  try {
-    const mediaRes = await fetch(mediaUrl, { headers, method: 'GET', redirect: 'follow' })
-    const ctype = mediaRes.headers.get('content-type') || ''
-    imageOk = mediaRes.ok && ctype.includes('image')
-  } catch {
-    imageOk = false
-  }
-  if (!imageOk) {
-    const og = embedHtml.match(/property="og:image"\s+content="([^"]+)"/i)
-    if (!og && !trusted) return null
-    if (!og && trusted) {
-      // Still publish the stable media URL — browsers resolve it with no-referrer
-      imageOk = true
-    }
-  }
+  // Prefer site-hosted thumbs (Instagram CDN/media URLs are blocked in browsers).
+  // Seeded posts ship under /images/instagram/{code}.jpg; others use our proxy.
+  const localThumb = `/images/instagram/${code}.jpg`
+  const proxyThumb = `/api/instagram/thumb/${code}`
+  const imageUrl = trusted ? localThumb : proxyThumb
 
   let caption = ''
   const captionBlock = embedHtml.match(/class="Caption"[^>]*>([\s\S]*?)<\/div>/i)
@@ -729,7 +716,7 @@ async function hydrateIgShortcode(code, { trusted = false } = {}) {
   return {
     id: code,
     type: isReel ? 'REEL' : isCarousel ? 'CAROUSEL' : 'IMAGE',
-    imageUrl: mediaUrl,
+    imageUrl,
     permalink: `https://www.instagram.com/${isReel ? 'reel' : 'p'}/${code}/`,
     caption,
     timestamp: null,
@@ -1102,24 +1089,74 @@ async function handleApi(request, env) {
     return json(feed)
   }
 
+  // Proxy IG thumbnails — browsers cannot hotlink Instagram media URLs.
+  if (path.startsWith('/api/instagram/thumb/') && request.method === 'GET') {
+    const code = path.slice('/api/instagram/thumb/'.length).replace(/[^A-Za-z0-9_-]/g, '')
+    if (!code) return json({ error: 'Bad request' }, 400)
+
+    // Prefer site-hosted seed files when present (Assets binding).
+    if (IG_SEED_SHORTCODES.includes(code) && env.ASSETS) {
+      const local = await env.ASSETS.fetch(new URL(`/images/instagram/${code}.jpg`, url.origin))
+      if (local.ok) {
+        const headers = new Headers(local.headers)
+        headers.set('cache-control', 'public, max-age=86400')
+        return new Response(local.body, { status: 200, headers })
+      }
+    }
+
+    try {
+      const upstream = await fetch(`https://www.instagram.com/p/${code}/media/?size=l`, {
+        headers: {
+          accept: 'image/avif,image/webp,image/*,*/*',
+          'user-agent': IG_UA,
+          referer: IG_PROFILE_URL,
+        },
+        redirect: 'follow',
+      })
+      const ctype = upstream.headers.get('content-type') || ''
+      if (!upstream.ok || !ctype.includes('image')) {
+        return json({ error: 'Thumbnail unavailable' }, 502)
+      }
+      return new Response(upstream.body, {
+        status: 200,
+        headers: {
+          'content-type': ctype,
+          'cache-control': 'public, max-age=86400',
+        },
+      })
+    } catch {
+      return json({ error: 'Thumbnail fetch failed' }, 502)
+    }
+  }
+
   if (path === '/api/instagram' && request.method === 'GET') {
     const force = url.searchParams.get('refresh') === '1' && isAdmin(request, env)
     const feed = await refreshInstagramCache(env, { force })
+    const items = (Array.isArray(feed.items) ? feed.items : []).map((item) => {
+      const id = String(item?.id || '')
+      if (IG_SEED_SHORTCODES.includes(id)) {
+        return { ...item, imageUrl: `/images/instagram/${id}.jpg` }
+      }
+      if (item?.imageUrl && String(item.imageUrl).includes('instagram.com')) {
+        return { ...item, imageUrl: `/api/instagram/thumb/${id}` }
+      }
+      return item
+    })
     return json(
       {
-        ok: Boolean(feed.ok ?? feed.items?.length),
-        configured: Boolean(feed.configured ?? igSourceAvailable(env)),
+        ok: Boolean(feed.ok ?? items.length),
+        configured: Boolean((feed.configured ?? igSourceAvailable(env)) || items.length),
         source: feed.source || 'unknown',
         fetchedAt: feed.fetchedAt || null,
-        count: Array.isArray(feed.items) ? feed.items.length : 0,
-        items: feed.items || [],
+        count: items.length,
+        items,
         handle: `@${IG_HANDLE}`,
         profileUrl: IG_PROFILE_URL,
         grid: 4,
         error: feed.error || undefined,
         reason: feed.reason || undefined,
       },
-      feed.items?.length || feed.configured === false ? 200 : 502,
+      items.length || feed.configured === false ? 200 : 502,
     )
   }
 

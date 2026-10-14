@@ -75,8 +75,9 @@ function IgTile({ item, index }: { item: IgFeedItem; index: number }) {
     >
       <img
         src={item.imageUrl}
-        alt={item.caption || `Salute 21 on Instagram`}
+        alt="Salute 21 on Instagram"
         loading="lazy"
+        decoding="async"
         referrerPolicy="no-referrer"
         className="ig-feed__media"
       />
