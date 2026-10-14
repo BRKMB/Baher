@@ -1836,24 +1836,6 @@ html.splash-lock body {
   pointer-events: none;
 }
 
-/* Soft blot that hides any residual baked-in IG glyph under the CSS badge */
-.ig-feed__badge::before {
-  content: '';
-  position: absolute;
-  top: -0.85rem;
-  right: -0.85rem;
-  width: 3.4rem;
-  height: 2.9rem;
-  background: linear-gradient(
-    215deg,
-    rgba(12, 11, 10, 0.42) 0%,
-    rgba(12, 11, 10, 0.12) 45%,
-    transparent 72%
-  );
-  pointer-events: none;
-  z-index: -1;
-}
-
 .ig-feed__overlay {
   position: absolute;
   inset: 0;
