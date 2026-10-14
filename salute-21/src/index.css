@@ -1757,8 +1757,8 @@ html.splash-lock body {
 .ig-feed__grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  /* Light paper gutters — no black bars or borders */
-  gap: 3px;
+  /* Seamless tiles — no dark gutters/borders */
+  gap: 0;
   background: transparent;
 }
 
@@ -1776,7 +1776,6 @@ html.splash-lock body {
   .ig-feed__grid {
     /* Shopify / IG profile style: 5 across */
     grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: 4px;
   }
 }
 
