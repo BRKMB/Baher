@@ -96,12 +96,15 @@ const BookPage = forwardRef<HTMLDivElement, PageProps>(function BookPage(
 /**
  * Scale leaf content to the visible page height so nothing is clipped on short phones.
  * Falls back to scroll only if scaling would go below the readability floor.
+ * Scale is measured once (plus image load) — continuous ResizeObserver on the
+ * scaled node caused a grow/shrink feedback loop on the menu cover.
  */
 function FitLeaf({ children }: { children: ReactNode }) {
   const frameRef = useRef<HTMLDivElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
   const scaleRef = useRef(1)
   const scrollableRef = useRef(false)
+  const lockedRef = useRef(false)
   const [scale, setScale] = useState(1)
   const [scrollable, setScrollable] = useState(false)
 
@@ -111,9 +114,10 @@ function FitLeaf({ children }: { children: ReactNode }) {
     if (!frame || !content) return
 
     let raf = 0
-    const measure = () => {
+    const measure = (force = false) => {
       cancelAnimationFrame(raf)
       raf = requestAnimationFrame(() => {
+        if (lockedRef.current && !force) return
         const avail = frame.clientHeight
         if (avail <= 0) return
         // scrollHeight ignores CSS transforms — avoids scale feedback oscillation.
@@ -126,29 +130,41 @@ function FitLeaf({ children }: { children: ReactNode }) {
           Math.abs(next - scaleRef.current) < 0.012 &&
           canScroll === scrollableRef.current
         ) {
+          lockedRef.current = true
           return
         }
         scaleRef.current = next
         scrollableRef.current = canScroll
         setScale(next)
         setScrollable(canScroll)
+        // Lock after the first committed scale so the leaf stops pulsing.
+        lockedRef.current = true
       })
     }
 
-    measure()
-    const ro = new ResizeObserver(measure)
-    ro.observe(frame)
-    ro.observe(content)
-    const onAsset = () => measure()
+    measure(true)
+    const onAsset = () => {
+      lockedRef.current = false
+      measure(true)
+    }
     content.querySelectorAll('img').forEach((img) => {
       if (!img.complete) img.addEventListener('load', onAsset, { once: true })
     })
+    // Re-measure once after fonts settle — then stay locked.
+    const fontsReady =
+      'fonts' in document
+        ? document.fonts.ready.then(() => {
+            lockedRef.current = false
+            measure(true)
+          })
+        : null
+
     return () => {
       cancelAnimationFrame(raf)
-      ro.disconnect()
       content.querySelectorAll('img').forEach((img) => {
         img.removeEventListener('load', onAsset)
       })
+      void fontsReady
     }
   }, [])
 
@@ -502,9 +518,11 @@ export function MenuPage() {
   const bookRef = useRef<FlipApi | null>(null)
   const navRef = useRef<HTMLDivElement | null>(null)
   const slotRef = useRef<HTMLDivElement | null>(null)
+  const dimsLockedRef = useRef(false)
   const [page, setPage] = useState(0)
   const [pageCount, setPageCount] = useState(0)
-  const [dims, setDims] = useState({ w: 320, h: 460, mobile: true })
+  const [dims, setDims] = useState<{ w: number; h: number; mobile: boolean } | null>(null)
+  const [bookEpoch, setBookEpoch] = useState(0)
   const [showQr, setShowQr] = useState(false)
 
   const COVER_PAGES = 2
@@ -545,26 +563,23 @@ export function MenuPage() {
     return active
   }, [page, categoryPageStarts])
 
-  // Size the flip-book from the real slot between header/nav and footer (no guessing chrome height)
+  // Size the flip-book once from the slot, then lock.
+  // Continuous ResizeObserver → dims → remount was the grow/shrink glitch on page 1.
   useEffect(() => {
     const slot = slotRef.current
     if (!slot) return
 
-    let debounceId = 0
-    const apply = () => {
+    const compute = () => {
       const mobile = window.innerWidth < 768
       const pad = mobile ? 6 : 16
       const availW = Math.max(220, Math.floor(slot.clientWidth - pad))
-      // Prefer layout viewport height — visualViewport chrome show/hide causes 1px jitter remounts.
       const availH = Math.max(280, Math.floor(slot.clientHeight - pad))
-      // Slightly taller mobile leaves — more room for dense price lists / cover.
       const ratio = mobile ? 1.48 : 1.42
 
       let pageW: number
       let pageH: number
 
       if (mobile) {
-        // Prefer using the full slot height on phones so content is not cropped.
         pageH = availH
         pageW = Math.max(220, Math.floor(pageH / ratio))
         if (pageW > availW) {
@@ -584,34 +599,41 @@ export function MenuPage() {
         }
       }
 
+      return { w: pageW, h: pageH, mobile }
+    }
+
+    const commit = (forceRemount: boolean) => {
+      const next = compute()
       setDims((prev) => {
-        // Ignore tiny mobile-chrome / scrollbar fluctuations — remounting the book looks like a shake.
         if (
-          prev.mobile === mobile &&
-          Math.abs(prev.w - pageW) < 8 &&
-          Math.abs(prev.h - pageH) < 8
+          prev &&
+          prev.mobile === next.mobile &&
+          Math.abs(prev.w - next.w) < 2 &&
+          Math.abs(prev.h - next.h) < 2
         ) {
           return prev
         }
-        return { w: pageW, h: pageH, mobile }
+        return next
       })
+      if (forceRemount) setBookEpoch((n) => n + 1)
+      dimsLockedRef.current = true
     }
 
-    const schedule = () => {
-      window.clearTimeout(debounceId)
-      debounceId = window.setTimeout(apply, 120)
-    }
+    // Initial measure after layout — then stay locked unless orientation / breakpoint changes.
+    const boot = window.setTimeout(() => commit(false), 0)
 
-    apply()
-    const ro = new ResizeObserver(schedule)
-    ro.observe(slot)
-    window.addEventListener('resize', schedule)
-    window.addEventListener('orientationchange', schedule)
+    const mq = window.matchMedia('(max-width: 767px)')
+    const onBreakpointOrOrientation = () => {
+      dimsLockedRef.current = false
+      commit(true)
+    }
+    mq.addEventListener('change', onBreakpointOrOrientation)
+    window.addEventListener('orientationchange', onBreakpointOrOrientation)
+
     return () => {
-      window.clearTimeout(debounceId)
-      ro.disconnect()
-      window.removeEventListener('resize', schedule)
-      window.removeEventListener('orientationchange', schedule)
+      window.clearTimeout(boot)
+      mq.removeEventListener('change', onBreakpointOrOrientation)
+      window.removeEventListener('orientationchange', onBreakpointOrOrientation)
     }
   }, [])
 
@@ -762,9 +784,11 @@ export function MenuPage() {
   }
 
   const totalPages = Math.max(pageCount || pageNodes.length, 1)
-  const pageLabel = dims.mobile
-    ? `${Math.min(page + 1, totalPages)} / ${totalPages}`
-    : `${Math.floor(page / 2) + 1} / ${Math.max(1, Math.ceil(totalPages / 2))}`
+  const pageLabel = !dims
+    ? ''
+    : dims.mobile
+      ? `${Math.min(page + 1, totalPages)} / ${totalPages}`
+      : `${Math.floor(page / 2) + 1} / ${Math.max(1, Math.ceil(totalPages / 2))}`
 
   const menuUrl =
     typeof window !== 'undefined' ? `${window.location.origin}/menu` : 'https://salute21.com/menu'
@@ -892,10 +916,19 @@ export function MenuPage() {
 
         <div
           className="menu-book-stage select-none"
-          style={{ width: dims.mobile ? dims.w : dims.w * 2, height: dims.h, maxWidth: '100%' }}
+          style={
+            dims
+              ? {
+                  width: dims.mobile ? dims.w : dims.w * 2,
+                  height: dims.h,
+                  maxWidth: '100%',
+                }
+              : { width: '100%', height: '100%', maxWidth: '100%', opacity: 0 }
+          }
         >
+          {dims && (
           <HTMLFlipBook
-            key={`${lang}-${dims.w}-${dims.h}-${dims.mobile ? 'm' : 'd'}`}
+            key={`${lang}-${bookEpoch}-${dims.mobile ? 'm' : 'd'}`}
             width={dims.w}
             height={dims.h}
             size="fixed"
@@ -926,6 +959,7 @@ export function MenuPage() {
           >
             {pageNodes.map((p) => p.node)}
           </HTMLFlipBook>
+          )}
         </div>
 
         <button
