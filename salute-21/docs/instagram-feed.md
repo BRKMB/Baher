@@ -1,15 +1,19 @@
-# Instagram gallery feed (Salute 21)
+# Instagram feed (Salute 21)
 
-The home Gallery can show live posts + Reels from [@salute__21](https://www.instagram.com/salute__21/).
+The home page includes a Shopify-style mini Instagram grid for [@salute__21](https://www.instagram.com/salute__21/) — square tiles, hover overlay, video/carousel badges, and a Follow CTA.
 
 ## How it works
 
-1. Cloudflare Worker `GET /api/instagram` reads a KV cache.
-2. Cron (`0 * * * *`) force-refreshes the cache every hour from the Instagram Graph API.
-3. The UI keeps a **3-column grid** and only renders a **multiple of 3** posts (max 12).
-4. Until Instagram credentials are configured, the site falls back to the static gallery images.
+1. Cloudflare Worker `GET /api/instagram` reads a KV cache (`instagram:feed:v1`).
+2. Cron (`0 * * * *`) force-refreshes the cache every hour.
+3. Refresh priority:
+   1. **Instagram Graph API** (`INSTAGRAM_ACCESS_TOKEN` + `INSTAGRAM_USER_ID`) — best quality (images, Reels, carousel children, video URLs)
+   2. **SerpAPI** `instagram_profile` (`SERPAPI_KEY`) — public profile posts
+   3. Best-effort public scrape (often blocked by Instagram)
+4. The UI renders a **4-column** Shopify-style grid (multiples of 4, max 12). Photos, videos/Reels, and carousels are supported.
+5. Until a live source returns posts, the site falls back to static gallery images styled the same way (each tile still links to the Instagram profile).
 
-## Requirements (Meta)
+## Requirements (Meta — recommended)
 
 - Instagram account converted to **Business** or **Creator**
 - Linked **Facebook Page**
@@ -24,6 +28,8 @@ The home Gallery can show live posts + Reels from [@salute__21](https://www.inst
 cd salute-21
 npx wrangler secret put INSTAGRAM_ACCESS_TOKEN
 npx wrangler secret put INSTAGRAM_USER_ID
+# Optional fallback if Graph is not ready:
+npx wrangler secret put SERPAPI_KEY
 ```
 
 `INSTAGRAM_USER_ID` is the Instagram Business Account ID (numeric), not the @handle.

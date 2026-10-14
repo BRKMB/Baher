@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
-import { Play } from 'lucide-react'
+import { Images, Play } from 'lucide-react'
 import { brand, gallery as fallbackGallery } from '../data/content'
 import { fetchInstagramFeed, type IgFeedItem } from '../lib/instagram'
 import { useI18n } from '../i18n/LanguageContext'
@@ -8,17 +8,96 @@ import { InstagramIcon } from './icons'
 
 type Tile =
   | { kind: 'ig'; item: IgFeedItem }
-  | { kind: 'fallback'; src: string; alt: string; href: string }
+  | { kind: 'fallback'; id: string; src: string; alt: string; href: string }
 
 function toFallbackTiles(): Tile[] {
-  const items = fallbackGallery.slice(0, 6)
-  const n = Math.floor(items.length / 3) * 3
-  return items.slice(0, n).map((item) => ({
+  const items = fallbackGallery.slice(0, 8)
+  const n = Math.floor(items.length / 4) * 4 || Math.floor(items.length / 2) * 2
+  return items.slice(0, n).map((item, i) => ({
     kind: 'fallback' as const,
+    id: `fallback-${i}`,
     src: item.src,
     alt: item.alt,
     href: brand.instagram,
   }))
+}
+
+function MediaBadge({ item }: { item: IgFeedItem }) {
+  if (item.type === 'CAROUSEL' || (item.childrenCount && item.childrenCount > 1)) {
+    return (
+      <span className="ig-feed__badge" aria-hidden>
+        <Images className="size-3.5" strokeWidth={2.25} />
+      </span>
+    )
+  }
+  if (item.type === 'VIDEO' || item.type === 'REEL') {
+    return (
+      <span className="ig-feed__badge" aria-hidden>
+        <Play className="size-3.5 fill-white" strokeWidth={2} />
+      </span>
+    )
+  }
+  return null
+}
+
+function IgTile({ item, index }: { item: IgFeedItem; index: number }) {
+  const videoRef = useRef<HTMLVideoElement>(null)
+  const canPreview = Boolean(item.videoUrl) && (item.type === 'VIDEO' || item.type === 'REEL')
+
+  const onEnter = () => {
+    const el = videoRef.current
+    if (!el) return
+    el.currentTime = 0
+    void el.play().catch(() => {})
+  }
+
+  const onLeave = () => {
+    const el = videoRef.current
+    if (!el) return
+    el.pause()
+    el.currentTime = 0
+  }
+
+  return (
+    <motion.a
+      href={item.permalink}
+      target="_blank"
+      rel="noreferrer"
+      initial={{ opacity: 0, y: 12 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.15 }}
+      transition={{ duration: 0.45, delay: (index % 8) * 0.04 }}
+      className="ig-feed__tile group"
+      onMouseEnter={canPreview ? onEnter : undefined}
+      onMouseLeave={canPreview ? onLeave : undefined}
+      onFocus={canPreview ? onEnter : undefined}
+      onBlur={canPreview ? onLeave : undefined}
+    >
+      <img
+        src={item.imageUrl}
+        alt={item.caption || `Salute 21 on Instagram`}
+        loading="lazy"
+        className="ig-feed__media"
+      />
+      {canPreview && (
+        <video
+          ref={videoRef}
+          className="ig-feed__video"
+          src={item.videoUrl}
+          muted
+          playsInline
+          loop
+          preload="none"
+          aria-hidden
+        />
+      )}
+      <MediaBadge item={item} />
+      <span className="ig-feed__overlay" aria-hidden>
+        <InstagramIcon className="ig-feed__overlay-icon" />
+        {item.caption ? <span className="ig-feed__caption">{item.caption}</span> : null}
+      </span>
+    </motion.a>
+  )
 }
 
 export function Gallery() {
@@ -33,7 +112,7 @@ export function Gallery() {
       try {
         const feed = await fetchInstagramFeed()
         if (cancelled) return
-        if (feed.items.length >= 3) {
+        if (feed.items.length >= 2) {
           setTiles(feed.items.map((item) => ({ kind: 'ig', item })))
           setLive(true)
         } else {
@@ -55,79 +134,75 @@ export function Gallery() {
   }, [])
 
   return (
-    <section id="galeria" className="rounded-b-[1.8rem] bg-ink px-5 py-20 text-white md:rounded-b-[2.2rem] md:px-8 md:py-28">
-      <div className="mx-auto max-w-7xl">
-        <div className="mb-10 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
-          <div>
-            <p className="mb-3 text-[11px] font-semibold tracking-[0.28em] text-gold uppercase">
-              {t('galleryEyebrow')}
-            </p>
-            <h2 className="font-display text-4xl tracking-[-0.02em] text-white md:text-5xl">
+    <section id="galeria" className="ig-feed" aria-labelledby="ig-feed-title">
+      <div className="ig-feed__inner">
+        <header className="ig-feed__header">
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="ig-feed__brand"
+          >
+            <span className="ig-feed__mark" aria-hidden>
+              <InstagramIcon className="size-5" />
+            </span>
+            <p className="ig-feed__eyebrow">{t('galleryEyebrow')}</p>
+            <h2 id="ig-feed-title" className="ig-feed__title">
               {t('galleryTitle')}
             </h2>
-            <p className="mt-4 max-w-xl text-sm leading-relaxed text-white/75 md:text-base">
-              {live ? t('galleryTextLive') : t('galleryText')}
-            </p>
-          </div>
+            <p className="ig-feed__text">{live ? t('galleryTextLive') : t('galleryText')}</p>
+            <a
+              href={brand.instagram}
+              target="_blank"
+              rel="noreferrer"
+              className="ig-feed__handle"
+            >
+              {brand.instagramHandle}
+            </a>
+          </motion.div>
+        </header>
+
+        <div
+          className={`ig-feed__grid ${loading ? 'is-loading' : ''}`}
+          aria-busy={loading}
+        >
+          {tiles.map((tile, index) => {
+            if (tile.kind === 'ig') {
+              return <IgTile key={tile.item.id} item={tile.item} index={index} />
+            }
+
+            return (
+              <motion.a
+                key={tile.id}
+                href={tile.href}
+                target="_blank"
+                rel="noreferrer"
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.15 }}
+                transition={{ duration: 0.45, delay: (index % 8) * 0.04 }}
+                className="ig-feed__tile group"
+              >
+                <img src={tile.src} alt={tile.alt} loading="lazy" className="ig-feed__media" />
+                <span className="ig-feed__overlay" aria-hidden>
+                  <InstagramIcon className="ig-feed__overlay-icon" />
+                </span>
+              </motion.a>
+            )
+          })}
+        </div>
+
+        <div className="ig-feed__cta-wrap">
           <a
             href={brand.instagram}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-2 rounded-full border border-white/35 px-5 py-3 text-sm font-semibold text-white transition hover:border-gold hover:text-gold"
+            className="ig-feed__cta"
           >
             <InstagramIcon className="size-4" />
-            {brand.instagramHandle}
+            {t('galleryFollow')}
           </a>
-        </div>
-
-        <div
-          className={`grid gap-4 sm:grid-cols-2 lg:grid-cols-3 ${loading ? 'opacity-80' : ''}`}
-          aria-busy={loading}
-        >
-          {tiles.map((tile, index) => {
-            const key = tile.kind === 'ig' ? tile.item.id : tile.src
-            const href = tile.kind === 'ig' ? tile.item.permalink : tile.href
-            const src = tile.kind === 'ig' ? tile.item.imageUrl : tile.src
-            const alt =
-              tile.kind === 'ig'
-                ? tile.item.caption || `Salute 21 on Instagram`
-                : tile.alt
-            const isVideo =
-              tile.kind === 'ig' && (tile.item.type === 'REEL' || tile.item.type === 'VIDEO')
-
-            return (
-              <motion.a
-                key={key}
-                href={href}
-                target="_blank"
-                rel="noreferrer"
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: 0.5, delay: (index % 6) * 0.05 }}
-                className="group relative block overflow-hidden rounded-2xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold"
-              >
-                <img
-                  src={src}
-                  alt={alt}
-                  loading="lazy"
-                  className="aspect-[4/5] w-full object-cover transition duration-700 group-hover:scale-[1.03]"
-                />
-                {isVideo && (
-                  <span className="pointer-events-none absolute inset-0 flex items-center justify-center bg-ink/20">
-                    <span className="inline-flex size-12 items-center justify-center rounded-full border border-white/40 bg-ink/55 text-white backdrop-blur-sm">
-                      <Play className="size-5 fill-white" />
-                    </span>
-                  </span>
-                )}
-                {tile.kind === 'ig' && tile.item.type === 'REEL' && (
-                  <span className="absolute top-3 right-3 rounded-full bg-ink/70 px-2.5 py-1 text-[10px] font-semibold tracking-[0.14em] text-white uppercase backdrop-blur-sm">
-                    Reel
-                  </span>
-                )}
-              </motion.a>
-            )
-          })}
         </div>
       </div>
     </section>

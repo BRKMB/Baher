@@ -12,10 +12,12 @@ const MAX_PARTY = 12
 const IG_CACHE_KEY = 'instagram:feed:v1'
 /** Refresh Instagram feed at most once per hour (cron + lazy refresh) */
 const IG_CACHE_TTL_MS = 60 * 60 * 1000
-/** Fetch enough posts, then trim to a multiple of 3 for a tidy grid */
+/** Fetch enough posts, then trim to a multiple of 4 for a Shopify-style grid */
 const IG_FETCH_LIMIT = 24
 const IG_GRID_MAX = 12
 const IG_GRAPH = 'https://graph.facebook.com/v21.0'
+const IG_HANDLE = 'salute__21'
+const IG_PROFILE_URL = 'https://www.instagram.com/salute__21/'
 
 /** Live Google Maps reviews (5★ with guest photos only) */
 const REVIEWS_CACHE_KEY = 'google:reviews:v2'
@@ -259,8 +261,11 @@ function isAdmin(request, env) {
 
 function trimToGrid(items, max = IG_GRID_MAX) {
   const capped = items.slice(0, max)
-  const count = Math.floor(capped.length / 3) * 3
-  return capped.slice(0, count)
+  // Shopify-style grids read best as 2×N / 4×N
+  const count = Math.floor(capped.length / 4) * 4
+  if (count >= 4) return capped.slice(0, count)
+  const byTwo = Math.floor(capped.length / 2) * 2
+  return capped.slice(0, byTwo)
 }
 
 function normalizeIgMedia(raw) {
@@ -269,18 +274,31 @@ function normalizeIgMedia(raw) {
   const isReel = product === 'REELS' || (mediaType === 'VIDEO' && product === 'REELS')
   const isVideo = mediaType === 'VIDEO' || isReel
   const isCarousel = mediaType === 'CAROUSEL_ALBUM'
+  const childrenRaw = Array.isArray(raw.children?.data) ? raw.children.data : []
 
   let imageUrl = raw.thumbnail_url || raw.media_url || ''
   let videoUrl = isVideo ? raw.media_url || '' : ''
+  const children = []
 
-  if (isCarousel && Array.isArray(raw.children?.data) && raw.children.data.length) {
-    const first = raw.children.data[0]
-    const childType = String(first.media_type || '').toUpperCase()
-    if (childType === 'VIDEO') {
-      imageUrl = first.thumbnail_url || first.media_url || imageUrl
-      videoUrl = first.media_url || videoUrl
+  for (const child of childrenRaw) {
+    const childType = String(child.media_type || '').toUpperCase()
+    const childImage = child.thumbnail_url || child.media_url || ''
+    const childVideo = childType === 'VIDEO' ? child.media_url || '' : ''
+    if (!childImage && !childVideo) continue
+    children.push({
+      type: childType === 'VIDEO' ? 'VIDEO' : 'IMAGE',
+      imageUrl: childImage || undefined,
+      videoUrl: childVideo || undefined,
+    })
+  }
+
+  if (isCarousel && children.length) {
+    const first = children[0]
+    if (first.type === 'VIDEO') {
+      imageUrl = first.imageUrl || imageUrl
+      videoUrl = first.videoUrl || videoUrl
     } else {
-      imageUrl = first.media_url || imageUrl
+      imageUrl = first.imageUrl || imageUrl
     }
   }
 
@@ -291,9 +309,51 @@ function normalizeIgMedia(raw) {
     type: isReel ? 'REEL' : isCarousel ? 'CAROUSEL' : isVideo ? 'VIDEO' : 'IMAGE',
     imageUrl,
     videoUrl: videoUrl || undefined,
-    permalink: raw.permalink || 'https://www.instagram.com/salute__21/',
+    permalink: raw.permalink || IG_PROFILE_URL,
     caption: String(raw.caption || '').slice(0, 280),
     timestamp: raw.timestamp || null,
+    childrenCount: isCarousel ? Math.max(children.length, 2) : children.length || undefined,
+    children: children.length ? children.slice(0, 10) : undefined,
+  }
+}
+
+/** Map SerpAPI instagram_profile posts → our feed shape */
+function normalizeSerpIgPost(raw) {
+  if (!raw || typeof raw !== 'object') return null
+  const shortcode = String(raw.shortcode || raw.code || '').trim()
+  const imageUrl =
+    String(raw.display_url || raw.thumbnail_src || raw.thumbnail_tall_src || '').trim()
+  if (!imageUrl) return null
+
+  const product = String(raw.product_type || '').toLowerCase()
+  const isVideo = Boolean(raw.is_video) || product === 'clips' || product === 'igtv'
+  const isCarousel =
+    product === 'carousel_container' ||
+    product === 'carousel' ||
+    Number(raw.sidecar_children_count || raw.carousel_media_count || 0) > 1
+  const isReel = product === 'clips' || product === 'reels'
+
+  const captions = Array.isArray(raw.media_captions)
+    ? raw.media_captions
+    : raw.caption
+      ? [raw.caption]
+      : []
+  const caption = String(captions[0] || raw.accessibility_caption || '').slice(0, 280)
+  const childrenCount = Number(raw.sidecar_children_count || raw.carousel_media_count || 0) || undefined
+
+  return {
+    id: String(raw.id || shortcode || imageUrl),
+    type: isReel ? 'REEL' : isCarousel ? 'CAROUSEL' : isVideo ? 'VIDEO' : 'IMAGE',
+    imageUrl,
+    videoUrl: undefined,
+    permalink: shortcode
+      ? `https://www.instagram.com/${isReel ? 'reel' : 'p'}/${shortcode}/`
+      : IG_PROFILE_URL,
+    caption,
+    timestamp: raw.taken_at_timestamp
+      ? new Date(Number(raw.taken_at_timestamp) * 1000).toISOString()
+      : null,
+    childrenCount: isCarousel ? childrenCount || 2 : undefined,
   }
 }
 
@@ -315,6 +375,10 @@ async function writeIgCache(env, payload) {
 
 function igConfigured(env) {
   return Boolean(env.INSTAGRAM_ACCESS_TOKEN && env.INSTAGRAM_USER_ID)
+}
+
+function igSourceAvailable(env) {
+  return igConfigured(env) || Boolean(env.SERPAPI_KEY)
 }
 
 async function fetchInstagramFromGraph(env) {
@@ -359,36 +423,240 @@ async function fetchInstagramFromGraph(env) {
     .map(normalizeIgMedia)
     .filter(Boolean)
 
-  return { ok: true, items: trimToGrid(items, IG_GRID_MAX) }
+  return { ok: true, source: 'graph', items: trimToGrid(items, IG_GRID_MAX) }
+}
+
+async function fetchInstagramFromSerpApi(env) {
+  const apiKey = env.SERPAPI_KEY
+  if (!apiKey) {
+    return { ok: false, reason: 'missing_credentials', items: [] }
+  }
+
+  const params = new URLSearchParams({
+    engine: 'instagram_profile',
+    profile_id: IG_HANDLE,
+    api_key: apiKey,
+  })
+  const res = await fetch(`${SERPAPI_ENDPOINT}?${params.toString()}`, {
+    headers: { accept: 'application/json' },
+  })
+  const data = await res.json().catch(() => ({}))
+  if (!res.ok || data?.error) {
+    return {
+      ok: false,
+      reason: 'serpapi_error',
+      error: data?.error || `HTTP ${res.status}`,
+      items: [],
+    }
+  }
+
+  const posts =
+    data?.profile_results?.posts ||
+    data?.posts ||
+    data?.media ||
+    []
+  const items = (Array.isArray(posts) ? posts : [])
+    .map(normalizeSerpIgPost)
+    .filter(Boolean)
+
+  if (!items.length) {
+    return { ok: false, reason: 'serpapi_empty', items: [] }
+  }
+
+  return { ok: true, source: 'serpapi', items: trimToGrid(items, IG_GRID_MAX) }
+}
+
+function mapPublicTimelineEdges(edges) {
+  if (!Array.isArray(edges) || !edges.length) return []
+  return edges
+    .map((edge) => {
+      const node = edge?.node || edge
+      if (!node) return null
+      const isVideo = Boolean(node.is_video)
+      const sidecar = node.edge_sidecar_to_children
+      const isCarousel =
+        node.__typename === 'GraphSidecar' ||
+        Number(sidecar?.count || sidecar?.edges?.length || 0) > 1
+      const isReel = String(node.product_type || '') === 'clips'
+      const imageUrl = node.display_url || node.thumbnail_src || node.thumbnail_resources?.[0]?.src || ''
+      if (!imageUrl) return null
+      const shortcode = node.shortcode || ''
+      const caption =
+        node.edge_media_to_caption?.edges?.[0]?.node?.text ||
+        node.accessibility_caption ||
+        ''
+      return {
+        id: String(node.id || shortcode),
+        type: isReel ? 'REEL' : isCarousel ? 'CAROUSEL' : isVideo ? 'VIDEO' : 'IMAGE',
+        imageUrl,
+        videoUrl: isVideo ? node.video_url || undefined : undefined,
+        permalink: shortcode
+          ? `https://www.instagram.com/${isReel ? 'reel' : 'p'}/${shortcode}/`
+          : IG_PROFILE_URL,
+        caption: String(caption).slice(0, 280),
+        timestamp: node.taken_at_timestamp
+          ? new Date(Number(node.taken_at_timestamp) * 1000).toISOString()
+          : null,
+        childrenCount: isCarousel
+          ? Number(sidecar?.count || sidecar?.edges?.length || 2)
+          : undefined,
+      }
+    })
+    .filter(Boolean)
+}
+
+function extractEdgesFromHtml(html) {
+  if (!html || typeof html !== 'string') return []
+  // Common Relay / shared-data payloads Instagram still embeds for some clients
+  const patterns = [
+    /"edge_owner_to_timeline_media"\s*:\s*\{"count":\s*\d+\s*,\s*"edges"\s*:\s*(\[[\s\S]*?\])\s*,\s*"page_info"/,
+    /"xdt_api__v1__feed__user_timeline_graphql_connection"\s*:\s*\{[\s\S]*?"edges"\s*:\s*(\[[\s\S]*?\])\s*,\s*"page_info"/,
+  ]
+  for (const re of patterns) {
+    const m = html.match(re)
+    if (!m) continue
+    try {
+      const edges = JSON.parse(m[1])
+      const mapped = mapPublicTimelineEdges(edges)
+      if (mapped.length) return mapped
+    } catch {
+      /* keep trying */
+    }
+  }
+
+  // Fallback: collect shortcodes + nearby display URLs from the HTML
+  const shortcodes = [...html.matchAll(/\/(?:p|reel)\/([A-Za-z0-9_-]{5,})\//g)].map((m) => m[1])
+  const unique = [...new Set(shortcodes)].slice(0, IG_GRID_MAX)
+  if (!unique.length) return []
+
+  const items = []
+  for (const code of unique) {
+    const around = html.indexOf(code)
+    const slice = around >= 0 ? html.slice(Math.max(0, around - 800), around + 1200) : ''
+    const img =
+      (slice.match(/https:\\\/\\\/[^"\\]+(?:cdninstagram|scontent)[^"\\]+\.jpg[^"\\]*/)?.[0] || '')
+        .replace(/\\\//g, '/')
+        .replace(/\\u0026/g, '&') ||
+      (slice.match(/https:\/\/[^"\\]+(?:cdninstagram|scontent)[^"\\]+\.jpg[^"\\]*/)?.[0] || '')
+    if (!img) continue
+    const isReel = html.includes(`/reel/${code}/`)
+    items.push({
+      id: code,
+      type: isReel ? 'REEL' : 'IMAGE',
+      imageUrl: img,
+      permalink: `https://www.instagram.com/${isReel ? 'reel' : 'p'}/${code}/`,
+      caption: '',
+      timestamp: null,
+    })
+  }
+  return items
+}
+
+/**
+ * Best-effort public profile scrape (Workers egress). Used only when Graph + SerpAPI
+ * are unavailable — Instagram often blocks this; failures are non-fatal.
+ */
+async function fetchInstagramFromPublicWeb() {
+  const headers = {
+    accept: 'text/html,application/json,*/*',
+    'accept-language': 'en-US,en;q=0.9',
+    'user-agent':
+      'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+    'x-ig-app-id': '936619743392459',
+    'x-requested-with': 'XMLHttpRequest',
+    referer: IG_PROFILE_URL,
+  }
+  const errors = []
+
+  try {
+    const apiRes = await fetch(
+      `https://www.instagram.com/api/v1/users/web_profile_info/?username=${IG_HANDLE}`,
+      { headers },
+    )
+    const apiData = await apiRes.json().catch(() => ({}))
+    if (apiRes.ok) {
+      const edges = apiData?.data?.user?.edge_owner_to_timeline_media?.edges
+      const items = mapPublicTimelineEdges(edges)
+      if (items.length) {
+        return { ok: true, source: 'public', items: trimToGrid(items, IG_GRID_MAX) }
+      }
+      errors.push('web_profile_info:empty')
+    } else {
+      errors.push(`web_profile_info:HTTP ${apiRes.status}`)
+    }
+  } catch (err) {
+    errors.push(`web_profile_info:${String(err?.message || err)}`)
+  }
+
+  for (const url of [IG_PROFILE_URL, `${IG_PROFILE_URL}embed/`, `${IG_PROFILE_URL}?__a=1&__d=dis`]) {
+    try {
+      const res = await fetch(url, { headers: { ...headers, accept: 'text/html,*/*' } })
+      const html = await res.text()
+      if (!res.ok) {
+        errors.push(`${url}:HTTP ${res.status}`)
+        continue
+      }
+      const items = extractEdgesFromHtml(html)
+      if (items.length) {
+        return { ok: true, source: 'public_html', items: trimToGrid(items, IG_GRID_MAX) }
+      }
+      errors.push(`${url}:no_media`)
+    } catch (err) {
+      errors.push(`${url}:${String(err?.message || err)}`)
+    }
+  }
+
+  return {
+    ok: false,
+    reason: 'public_blocked',
+    error: errors.slice(0, 6).join(' | '),
+    items: [],
+  }
+}
+
+async function fetchInstagramLive(env) {
+  const errors = []
+  if (igConfigured(env)) {
+    const graph = await fetchInstagramFromGraph(env)
+    if (graph.ok && graph.items.length) return graph
+    errors.push(`graph:${graph.error || graph.reason || 'failed'}`)
+  }
+  if (env.SERPAPI_KEY) {
+    const serp = await fetchInstagramFromSerpApi(env)
+    if (serp.ok && serp.items.length) return serp
+    errors.push(`serpapi:${serp.error || serp.reason || 'failed'}`)
+  }
+  const pub = await fetchInstagramFromPublicWeb()
+  if (pub.ok && pub.items.length) return pub
+  errors.push(`public:${pub.error || pub.reason || 'failed'}`)
+  return {
+    ok: false,
+    reason: 'all_sources_failed',
+    error: errors.slice(0, 4).join(' · '),
+    items: [],
+  }
 }
 
 async function refreshInstagramCache(env, { force = false } = {}) {
   const cached = await readIgCache(env)
   const age = cached?.fetchedAt ? Date.now() - Number(cached.fetchedAt) : Infinity
   if (!force && cached?.items?.length && age < IG_CACHE_TTL_MS) {
-    return { ...cached, fresh: false, source: 'cache' }
-  }
-
-  if (!igConfigured(env)) {
     return {
-      ok: false,
-      configured: false,
-      reason: 'missing_credentials',
-      items: cached?.items || [],
-      fetchedAt: cached?.fetchedAt || null,
+      ...cached,
+      ok: true,
+      configured: igSourceAvailable(env) || Boolean(cached.items?.length),
       fresh: false,
-      source: 'unconfigured',
+      source: cached.source || 'cache',
     }
   }
 
-  const result = await fetchInstagramFromGraph(env)
-  if (!result.ok) {
-    // Keep last good cache if Graph fails
+  const result = await fetchInstagramLive(env)
+  if (!result.ok || !result.items?.length) {
     if (cached?.items?.length) {
       return {
         ...cached,
         ok: true,
-        configured: true,
+        configured: igSourceAvailable(env) || true,
         fresh: false,
         source: 'cache_stale',
         lastError: result.error || result.reason,
@@ -396,13 +664,13 @@ async function refreshInstagramCache(env, { force = false } = {}) {
     }
     return {
       ok: false,
-      configured: true,
-      reason: result.reason,
+      configured: igSourceAvailable(env),
+      reason: result.reason || 'missing_credentials',
       error: result.error,
       items: [],
       fetchedAt: null,
       fresh: false,
-      source: 'error',
+      source: igSourceAvailable(env) ? 'error' : 'unconfigured',
     }
   }
 
@@ -412,9 +680,10 @@ async function refreshInstagramCache(env, { force = false } = {}) {
     items: result.items,
     fetchedAt: Date.now(),
     count: result.items.length,
+    source: result.source || 'live',
   }
   await writeIgCache(env, payload)
-  return { ...payload, fresh: true, source: 'graph' }
+  return { ...payload, fresh: true }
 }
 
 function reviewsConfigured(env) {
@@ -656,7 +925,7 @@ async function handleApi(request, env) {
       ok: true,
       service: 'salute-21-booking',
       idFormat: 'S21-DLDLDL-MMYY',
-      instagramConfigured: igConfigured(env),
+      instagramConfigured: igSourceAvailable(env),
       reviewsConfigured: reviewsConfigured(env),
     })
   }
@@ -691,14 +960,14 @@ async function handleApi(request, env) {
     return json(
       {
         ok: Boolean(feed.ok ?? feed.items?.length),
-        configured: Boolean(feed.configured ?? igConfigured(env)),
+        configured: Boolean(feed.configured ?? igSourceAvailable(env)),
         source: feed.source || 'unknown',
         fetchedAt: feed.fetchedAt || null,
         count: Array.isArray(feed.items) ? feed.items.length : 0,
         items: feed.items || [],
-        handle: '@salute__21',
-        profileUrl: 'https://www.instagram.com/salute__21/',
-        grid: 3,
+        handle: `@${IG_HANDLE}`,
+        profileUrl: IG_PROFILE_URL,
+        grid: 4,
         error: feed.error || undefined,
         reason: feed.reason || undefined,
       },

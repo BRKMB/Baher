@@ -1643,6 +1643,257 @@ html.splash-lock body {
   }
 }
 
+/* ——— Instagram feed (Shopify-style mini grid) ——— */
+.ig-feed {
+  position: relative;
+  padding: 4.5rem 0 5rem;
+  background:
+    radial-gradient(ellipse 55% 40% at 50% 0%, rgba(212, 181, 106, 0.14), transparent 60%),
+    linear-gradient(180deg, #f7f3ea 0%, var(--color-paper) 55%, #ebe4d6 100%);
+  border-block: 1px solid color-mix(in srgb, var(--color-line) 70%, transparent);
+}
+
+.ig-feed__inner {
+  width: min(100%, 72rem);
+  margin-inline: auto;
+  padding-inline: 1rem;
+}
+
+@media (min-width: 768px) {
+  .ig-feed {
+    padding: 5.5rem 0 6rem;
+  }
+
+  .ig-feed__inner {
+    padding-inline: 1.5rem;
+  }
+}
+
+.ig-feed__header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.ig-feed__brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.ig-feed__mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--color-line) 80%, transparent);
+  background: color-mix(in srgb, white 55%, transparent);
+  color: var(--color-ink);
+  margin-bottom: 0.35rem;
+}
+
+.ig-feed__eyebrow {
+  margin: 0;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--color-amber);
+}
+
+.ig-feed__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3.1rem);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--color-ink);
+  line-height: 1.1;
+}
+
+.ig-feed__text {
+  margin: 0.25rem 0 0;
+  max-width: 28rem;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--color-muted);
+}
+
+.ig-feed__handle {
+  margin-top: 0.35rem;
+  font-size: 0.92rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--color-ink);
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-amber) 55%, transparent);
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.ig-feed__handle:hover {
+  color: var(--color-amber-deep);
+  border-color: var(--color-amber);
+}
+
+.ig-feed__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.35rem;
+}
+
+.ig-feed__grid.is-loading {
+  opacity: 0.82;
+}
+
+@media (min-width: 640px) {
+  .ig-feed__grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.45rem;
+  }
+}
+
+.ig-feed__tile {
+  position: relative;
+  display: block;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: var(--color-ink-soft);
+  color: inherit;
+  text-decoration: none;
+  isolation: isolate;
+}
+
+.ig-feed__media,
+.ig-feed__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.ig-feed__video {
+  opacity: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.ig-feed__tile:hover .ig-feed__media,
+.ig-feed__tile:focus-visible .ig-feed__media,
+.ig-feed__tile:hover .ig-feed__video,
+.ig-feed__tile:focus-visible .ig-feed__video {
+  transform: scale(1.06);
+}
+
+.ig-feed__tile:hover .ig-feed__video,
+.ig-feed__tile:focus-visible .ig-feed__video {
+  opacity: 1;
+}
+
+.ig-feed__badge {
+  position: absolute;
+  top: 0.55rem;
+  right: 0.55rem;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.55rem;
+  height: 1.55rem;
+  border-radius: 999px;
+  background: rgba(12, 11, 10, 0.55);
+  color: #fff;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+.ig-feed__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  padding: 1rem;
+  background: rgba(12, 11, 10, 0.52);
+  color: #fff;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.ig-feed__tile:hover .ig-feed__overlay,
+.ig-feed__tile:focus-visible .ig-feed__overlay {
+  opacity: 1;
+}
+
+.ig-feed__overlay-icon {
+  width: 1.65rem;
+  height: 1.65rem;
+  flex-shrink: 0;
+}
+
+.ig-feed__caption {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  max-width: 16rem;
+  font-size: 0.72rem;
+  line-height: 1.45;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.ig-feed__cta-wrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.75rem;
+}
+
+.ig-feed__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.8rem 1.35rem;
+  border: 1px solid var(--color-ink);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--color-ink);
+  font-size: 0.86rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.ig-feed__cta:hover {
+  background: var(--color-ink);
+  color: #fff;
+  border-color: var(--color-ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ig-feed__media,
+  .ig-feed__video,
+  .ig-feed__overlay {
+    transition: none;
+  }
+
+  .ig-feed__tile:hover .ig-feed__media,
+  .ig-feed__tile:focus-visible .ig-feed__media {
+    transform: none;
+  }
+}
+
 /* ——— Halloween season (chic accents, opt-in) ——— */
 /* Keep nav controls below the seasonal strip (no button overlap). */
 .salute-halloween {

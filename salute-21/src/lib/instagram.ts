@@ -1,3 +1,9 @@
+export type IgChildMedia = {
+  type: 'IMAGE' | 'VIDEO'
+  imageUrl?: string
+  videoUrl?: string
+}
+
 export type IgFeedItem = {
   id: string
   type: 'IMAGE' | 'VIDEO' | 'CAROUSEL' | 'REEL'
@@ -6,6 +12,8 @@ export type IgFeedItem = {
   permalink: string
   caption: string
   timestamp: string | null
+  childrenCount?: number
+  children?: IgChildMedia[]
 }
 
 export type IgFeedResponse = {
@@ -22,11 +30,18 @@ export type IgFeedResponse = {
   reason?: string
 }
 
-/** Keep the gallery a perfect 3-column grid */
-export function trimToTriple(items: IgFeedItem[], max = 12): IgFeedItem[] {
+/** Keep the gallery a tidy Shopify-style grid (multiples of 4, else 2). */
+export function trimToGrid(items: IgFeedItem[], max = 12): IgFeedItem[] {
   const capped = items.slice(0, max)
-  const n = Math.floor(capped.length / 3) * 3
-  return capped.slice(0, n)
+  const byFour = Math.floor(capped.length / 4) * 4
+  if (byFour >= 4) return capped.slice(0, byFour)
+  const byTwo = Math.floor(capped.length / 2) * 2
+  return capped.slice(0, byTwo)
+}
+
+/** @deprecated use trimToGrid */
+export function trimToTriple(items: IgFeedItem[], max = 12): IgFeedItem[] {
+  return trimToGrid(items, max)
 }
 
 export async function fetchInstagramFeed(): Promise<IgFeedResponse> {
@@ -36,6 +51,6 @@ export async function fetchInstagramFeed(): Promise<IgFeedResponse> {
   const data = (await res.json()) as IgFeedResponse
   return {
     ...data,
-    items: trimToTriple(Array.isArray(data.items) ? data.items : []),
+    items: trimToGrid(Array.isArray(data.items) ? data.items : []),
   }
 }
