@@ -7,18 +7,17 @@ import { Gallery } from '../components/Gallery'
 import { Contact } from '../components/Contact'
 import { Footer } from '../components/Footer'
 import { Seo } from '../components/Seo'
-import { HalloweenDecor } from '../components/HalloweenDecor'
+import { HalloweenSeason } from '../components/HalloweenDecor'
 
 export function HomePage() {
   return (
-    <div className="salute-halloween relative min-h-screen">
+    <HalloweenSeason>
       <Seo
         page="home"
         breadcrumbs={[
           { name: 'Home', path: '/' },
         ]}
       />
-      <HalloweenDecor />
       <Header variant="landing" />
       <main>
         <Hero />
@@ -29,6 +28,6 @@ export function HomePage() {
         <Contact />
       </main>
       <Footer />
-    </div>
+    </HalloweenSeason>
   )
 }
