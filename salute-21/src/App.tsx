@@ -1,5 +1,6 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { LanguageProvider } from './i18n/LanguageContext'
+import { HashScroll } from './components/HashScroll'
 import { ScrollToTop } from './components/ScrollToTop'
 import { SplashScreen } from './components/SplashScreen'
 import { HomePage } from './pages/HomePage'
@@ -14,6 +15,7 @@ export default function App() {
       <SplashScreen />
       <BrowserRouter>
         <ScrollToTop />
+        <HashScroll />
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/menu" element={<MenuPage />} />

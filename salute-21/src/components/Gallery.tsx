@@ -134,7 +134,11 @@ export function Gallery() {
   }, [])
 
   return (
-    <section id="galeria" className="ig-feed" aria-labelledby="ig-feed-title">
+    <section
+      id="galeria"
+      className="ig-feed scroll-mt-[calc(var(--site-banner-offset,0px)+5.25rem)]"
+      aria-labelledby="ig-feed-title"
+    >
       <div className="ig-feed__inner">
         <header className="ig-feed__header">
           <motion.div

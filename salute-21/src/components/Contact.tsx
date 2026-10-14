@@ -16,7 +16,10 @@ export function Contact() {
   ]
 
   return (
-    <section id="kontakt" className="relative z-10 bg-champagne px-4 pb-16 pt-12 sm:px-5 md:px-8 md:pb-28 md:pt-20">
+    <section
+      id="kontakt"
+      className="relative z-10 scroll-mt-[calc(var(--site-banner-offset,0px)+5.25rem)] bg-champagne px-4 pb-16 pt-12 sm:px-5 md:px-8 md:pb-28 md:pt-20"
+    >
       <div className="mx-auto max-w-7xl overflow-hidden rounded-[1.4rem] bg-ink text-white shadow-[0_24px_60px_rgba(12,11,10,0.18)] md:rounded-[1.8rem]">
         <div className="grid lg:grid-cols-2">
           <motion.div

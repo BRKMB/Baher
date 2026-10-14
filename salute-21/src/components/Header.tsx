@@ -92,10 +92,10 @@ export function Header({ variant = 'landing' }: { variant?: 'landing' | 'page' }
         <nav className="hidden min-w-0 items-center gap-5 xl:gap-7 lg:flex" aria-label="Main">
           {links.map((link) =>
             link.to.startsWith('/#') ? (
-              <a key={link.to} href={link.to} className={linkClass()}>
+              <Link key={link.to} to={link.to} className={linkClass()}>
                 {link.icon}
                 {link.label}
-              </a>
+              </Link>
             ) : (
               <NavLink
                 key={link.to}
@@ -140,29 +140,17 @@ export function Header({ variant = 'landing' }: { variant?: 'landing' | 'page' }
       {open && (
         <div className="border-t border-white/10 bg-ink px-5 py-6 lg:hidden">
           <nav className="flex flex-col gap-4">
-            {links.map((link) =>
-              link.to.startsWith('/#') ? (
-                <a
-                  key={link.to}
-                  href={link.to}
-                  className="inline-flex items-center gap-3 font-display text-3xl text-white"
-                  onClick={() => setOpen(false)}
-                >
-                  {link.icon}
-                  {link.label}
-                </a>
-              ) : (
-                <Link
-                  key={link.to}
-                  to={link.to}
-                  className="inline-flex items-center gap-3 font-display text-3xl text-white"
-                  onClick={() => setOpen(false)}
-                >
-                  {link.icon}
-                  {link.label}
-                </Link>
-              ),
-            )}
+            {links.map((link) => (
+              <Link
+                key={link.to}
+                to={link.to}
+                className="inline-flex items-center gap-3 font-display text-3xl text-white"
+                onClick={() => setOpen(false)}
+              >
+                {link.icon}
+                {link.label}
+              </Link>
+            ))}
             <OrderOnlineMenu variant="mobile" onNavigate={() => setOpen(false)} />
             <a
               href={brand.instagram}

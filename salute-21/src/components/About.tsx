@@ -13,7 +13,10 @@ export function About() {
   const { t, lang } = useI18n()
 
   return (
-    <section id="o-nas" className="relative px-5 py-20 md:px-8 md:py-28">
+    <section
+      id="o-nas"
+      className="relative scroll-mt-[calc(var(--site-banner-offset,0px)+5.25rem)] px-5 py-20 md:px-8 md:py-28"
+    >
       <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-16">
         <motion.div
           key={lang + '-about'}
