@@ -136,7 +136,7 @@ export function Gallery() {
   return (
     <section
       id="galeria"
-      className="ig-feed scroll-mt-[calc(var(--site-banner-offset,0px)+5.25rem)]"
+      className="ig-feed scroll-mt-[calc(var(--site-banner-offset,0px)+4.75rem)]"
       aria-labelledby="ig-feed-title"
     >
       <div className="ig-feed__inner">
@@ -170,6 +170,8 @@ export function Gallery() {
         <div
           className={`ig-feed__grid ${loading ? 'is-loading' : ''}`}
           aria-busy={loading}
+          /* Reserve grid height early so #kontakt scroll isn’t left sitting on this section */
+          style={{ minHeight: 'min(72vw, 22rem)' }}
         >
           {tiles.map((tile, index) => {
             if (tile.kind === 'ig') {
