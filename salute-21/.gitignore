@@ -26,3 +26,6 @@ dist-ssr
 # Booking store (server JSON)
 /data/
 !/data/.gitkeep
+
+salute-21-template.zip
+
