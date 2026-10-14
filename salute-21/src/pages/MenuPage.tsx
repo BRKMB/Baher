@@ -249,12 +249,12 @@ const CoverRight = forwardRef<HTMLDivElement>(function CoverRight(_props, ref) {
           {brand.name}
         </h2>
         <div className="my-2 h-px w-12 bg-amber/55 sm:my-4" />
-        <p className="text-[11px] leading-snug text-muted sm:text-sm sm:leading-relaxed">
+        <p className="line-clamp-3 text-[11px] leading-snug text-muted sm:line-clamp-none sm:text-sm sm:leading-relaxed">
           {t('menuCoverAbout')}
         </p>
 
-        <div className="mt-3 grid gap-3 sm:mt-6 sm:gap-6">
-          <div className="grid grid-cols-2 gap-3 sm:gap-6">
+        <div className="mt-2.5 grid gap-2.5 sm:mt-5 sm:gap-5">
+          <div className="grid grid-cols-2 gap-2.5 sm:gap-6">
             <div className="min-w-0">
               <p className="text-[10px] font-semibold tracking-[0.28em] text-amber uppercase">
                 {t('menuCoverVisit')}
@@ -274,46 +274,6 @@ const CoverRight = forwardRef<HTMLDivElement>(function CoverRight(_props, ref) {
                 {brand.instagramHandle}
               </a>
               <p className="text-[10px] text-muted sm:text-[12px]">{brand.email}</p>
-              <div className="mt-2 flex flex-wrap items-center gap-2 sm:mt-4">
-                <Link
-                  to="/reserve"
-                  className="inline-flex rounded-full bg-ink px-3 py-1.5 text-[10px] font-semibold tracking-wide text-white sm:px-4 sm:py-2 sm:text-xs"
-                >
-                  {t('reserveCta')}
-                </Link>
-                <a
-                  href={brand.orderOnline.glovo}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-1.5 rounded-full border border-ink/25 px-3 py-1.5 text-[10px] font-semibold tracking-wide text-ink transition hover:border-ink sm:px-4 sm:py-2 sm:text-xs"
-                >
-                  <img
-                    src="/images/delivery/glovo.jpg"
-                    alt=""
-                    width={16}
-                    height={16}
-                    className="size-4 rounded-[4px] object-cover"
-                    aria-hidden
-                  />
-                  Glovo
-                </a>
-                <a
-                  href={brand.orderOnline.uberEats}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-1.5 rounded-full border border-ink/25 px-3 py-1.5 text-[10px] font-semibold tracking-wide text-ink transition hover:border-ink sm:px-4 sm:py-2 sm:text-xs"
-                >
-                  <img
-                    src="/images/delivery/uber-eats.png"
-                    alt=""
-                    width={16}
-                    height={16}
-                    className="size-4 rounded-[4px] object-cover"
-                    aria-hidden
-                  />
-                  Uber Eats
-                </a>
-              </div>
             </div>
 
             <div className="min-w-0">
@@ -336,7 +296,49 @@ const CoverRight = forwardRef<HTMLDivElement>(function CoverRight(_props, ref) {
             </div>
           </div>
 
-          <div className="border-t border-line/70 pt-2.5 sm:pt-4">
+          {/* Full-width single row so CTAs don't wrap and push the QR off-page */}
+          <div className="flex flex-nowrap items-center gap-1.5 sm:gap-2">
+            <Link
+              to="/reserve"
+              className="inline-flex shrink-0 rounded-full bg-ink px-2.5 py-1.5 text-[9px] font-semibold tracking-wide whitespace-nowrap text-white sm:px-4 sm:py-2 sm:text-xs"
+            >
+              {t('reserveCta')}
+            </Link>
+            <a
+              href={brand.orderOnline.glovo}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex min-w-0 shrink items-center gap-1 rounded-full border border-ink/25 px-2 py-1.5 text-[9px] font-semibold tracking-wide whitespace-nowrap text-ink transition hover:border-ink sm:gap-1.5 sm:px-4 sm:py-2 sm:text-xs"
+            >
+              <img
+                src="/images/delivery/glovo.jpg"
+                alt=""
+                width={14}
+                height={14}
+                className="size-3.5 shrink-0 rounded-[3px] object-cover sm:size-4 sm:rounded-[4px]"
+                aria-hidden
+              />
+              Glovo
+            </a>
+            <a
+              href={brand.orderOnline.uberEats}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex min-w-0 shrink items-center gap-1 rounded-full border border-ink/25 px-2 py-1.5 text-[9px] font-semibold tracking-wide whitespace-nowrap text-ink transition hover:border-ink sm:gap-1.5 sm:px-4 sm:py-2 sm:text-xs"
+            >
+              <img
+                src="/images/delivery/uber-eats.png"
+                alt=""
+                width={14}
+                height={14}
+                className="size-3.5 shrink-0 rounded-[3px] object-cover sm:size-4 sm:rounded-[4px]"
+                aria-hidden
+              />
+              Uber Eats
+            </a>
+          </div>
+
+          <div className="border-t border-line/70 pt-2 sm:pt-4">
             <p className="text-[10px] font-semibold tracking-[0.28em] text-amber uppercase">
               {t('menuCoverSymbols')}
             </p>
@@ -360,8 +362,8 @@ const CoverRight = forwardRef<HTMLDivElement>(function CoverRight(_props, ref) {
             />
           </div>
 
-          <div className="border-t border-line/70 pt-2.5 sm:pt-4">
-            <div className="flex items-end gap-2.5 sm:gap-4">
+          <div className="border-t border-line/70 pt-2 sm:pt-4">
+            <div className="flex items-end gap-2 sm:gap-4">
               <div className="min-w-0 flex-1">
                 <p className="text-[10px] font-semibold tracking-[0.28em] text-amber uppercase">
                   {t('menuQrTitle')}
