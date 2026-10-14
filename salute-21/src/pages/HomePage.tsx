@@ -8,6 +8,7 @@ import { Contact } from '../components/Contact'
 import { Footer } from '../components/Footer'
 import { Seo } from '../components/Seo'
 import { HalloweenSeason } from '../components/HalloweenDecor'
+import { BackToTop } from '../components/BackToTop'
 
 export function HomePage() {
   return (
@@ -28,6 +29,7 @@ export function HomePage() {
         <Contact />
       </main>
       <Footer />
+      <BackToTop />
     </HalloweenSeason>
   )
 }

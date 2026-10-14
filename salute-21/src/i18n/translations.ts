@@ -75,6 +75,7 @@ export const translations = {
     halloweenBanner: 'Halloween at Salute 21 — spooky season, same warm table',
     halloweenToggleOn: 'Turn on Halloween mode',
     halloweenToggleOff: 'Turn off Halloween mode',
+    backToTop: 'Back to top',
     menuPageEyebrow: 'Menu',
     menuPageTitle: 'The Salute 21 menu',
     menuPageIntro:
@@ -263,6 +264,7 @@ export const translations = {
     halloweenBanner: 'Halloween w Salute 21 — magiczny sezon przy tym samym stole',
     halloweenToggleOn: 'Włącz tryb Halloween',
     halloweenToggleOff: 'Wyłącz tryb Halloween',
+    backToTop: 'Do góry',
     menuPageEyebrow: 'Menu',
     menuPageTitle: 'Menu Salute 21',
     menuPageIntro:
