@@ -207,7 +207,6 @@ export function Gallery() {
           className={`ig-feed__grid ${loading ? 'is-loading' : ''}`}
           data-count={tiles.length}
           aria-busy={loading}
-          style={{ minHeight: 'min(72vw, 22rem)' }}
         >
           {tiles.map((tile, index) => {
             if (tile.kind === 'ig') {
