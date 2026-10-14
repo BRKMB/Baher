@@ -21,17 +21,18 @@ const IG_PROFILE_URL = 'https://www.instagram.com/salute__21/'
 /** Hosted feed tiles (5×2 grid). Shortcodes kept for Graph/API upgrades. */
 const IG_SEED_SHORTCODES = ['Dc6pV8qMDIo', 'DcO5r6MDKfA', 'DbYIEMJMekz']
 const IG_HOSTED_GRID = [
-  'grid_01',
-  'grid_02',
-  'grid_03',
-  'grid_04',
-  'grid_05',
-  'grid_06',
-  'grid_07',
-  'grid_08',
-  'grid_09',
-  'grid_10',
+  { id: 'grid_01', type: 'REEL' },
+  { id: 'grid_02', type: 'REEL' },
+  { id: 'grid_03', type: 'CAROUSEL' },
+  { id: 'grid_04', type: 'IMAGE' },
+  { id: 'grid_05', type: 'IMAGE' },
+  { id: 'grid_06', type: 'REEL' },
+  { id: 'grid_07', type: 'IMAGE' },
+  { id: 'grid_08', type: 'REEL' },
+  { id: 'grid_09', type: 'IMAGE' },
+  { id: 'grid_10', type: 'IMAGE' },
 ]
+const IG_ASSET_VER = '20261014b'
 const IG_UA =
   'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36'
 
@@ -285,15 +286,19 @@ function trimToGrid(items, max = IG_GRID_MAX) {
 
 /** Static hosted Instagram grid (matches the live @salute__21 look). */
 function hostedInstagramGrid() {
-  return IG_HOSTED_GRID.map((id, index) => ({
-    id,
-    type: 'IMAGE',
-    imageUrl: `/images/instagram/${id}.jpg`,
+  return IG_HOSTED_GRID.map((entry, index) => ({
+    id: entry.id,
+    type: entry.type || 'IMAGE',
+    imageUrl: `/images/instagram/${entry.id}.jpg?v=${IG_ASSET_VER}`,
     permalink: IG_PROFILE_URL,
     caption: '',
     timestamp: null,
     sort: index,
   }))
+}
+
+function isHostedGridId(id) {
+  return IG_HOSTED_GRID.some((entry) => entry.id === id)
 }
 
 function normalizeIgMedia(raw) {
@@ -1162,11 +1167,11 @@ async function handleApi(request, env) {
     const feed = await refreshInstagramCache(env, { force })
     const items = (Array.isArray(feed.items) ? feed.items : []).map((item) => {
       const id = String(item?.id || '')
-      if (IG_HOSTED_GRID.includes(id) || String(item?.imageUrl || '').startsWith('/images/instagram/')) {
-        return { ...item, imageUrl: `/images/instagram/${id}.jpg` }
+      if (isHostedGridId(id) || String(item?.imageUrl || '').startsWith('/images/instagram/')) {
+        return { ...item, imageUrl: `/images/instagram/${id}.jpg?v=${IG_ASSET_VER}` }
       }
       if (IG_SEED_SHORTCODES.includes(id)) {
-        return { ...item, imageUrl: `/images/instagram/${id}.jpg` }
+        return { ...item, imageUrl: `/images/instagram/${id}.jpg?v=${IG_ASSET_VER}` }
       }
       if (item?.imageUrl && String(item.imageUrl).includes('instagram.com')) {
         return { ...item, imageUrl: `/api/instagram/thumb/${id}` }

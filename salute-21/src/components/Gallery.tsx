@@ -4,22 +4,36 @@ import { Images, Play } from 'lucide-react'
 import { brand, gallery as fallbackGallery } from '../data/content'
 import { fetchInstagramFeed, type IgFeedItem } from '../lib/instagram'
 import { useI18n } from '../i18n/LanguageContext'
+import { BrandLogo } from './BrandLogo'
+import { EgyptMotif } from './EgyptMotif'
 import { InstagramIcon } from './icons'
+
+/** Hosted @salute__21 profile tiles — media type for CSS badges (baked IG glyphs removed). */
+const HOSTED_META: Record<string, IgFeedItem['type']> = {
+  grid_01: 'REEL',
+  grid_02: 'REEL',
+  grid_03: 'CAROUSEL',
+  grid_06: 'REEL',
+  grid_08: 'REEL',
+}
+
+/** Bust CDN cache after re-cropping hosted tiles */
+const IG_ASSET_VER = '20261014b'
 
 type Tile =
   | { kind: 'ig'; item: IgFeedItem }
-  | { kind: 'fallback'; id: string; src: string; alt: string; href: string }
+  | { kind: 'fallback'; id: string; src: string; alt: string; href: string; type?: IgFeedItem['type'] }
 
 function toFallbackTiles(): Tile[] {
-  // Prefer the hosted 5×2 Instagram grid assets when present
   const hosted = Array.from({ length: 10 }, (_, i) => {
     const id = `grid_${String(i + 1).padStart(2, '0')}`
     return {
       kind: 'fallback' as const,
       id,
-      src: `/images/instagram/${id}.jpg`,
+      src: `/images/instagram/${id}.jpg?v=${IG_ASSET_VER}`,
       alt: 'Salute 21 on Instagram',
       href: brand.instagram,
+      type: HOSTED_META[id],
     }
   })
   if (hosted.length) return hosted
@@ -33,15 +47,15 @@ function toFallbackTiles(): Tile[] {
   }))
 }
 
-function MediaBadge({ item }: { item: IgFeedItem }) {
-  if (item.type === 'CAROUSEL' || (item.childrenCount && item.childrenCount > 1)) {
+function MediaBadge({ type, childrenCount }: { type?: IgFeedItem['type']; childrenCount?: number }) {
+  if (type === 'CAROUSEL' || (childrenCount && childrenCount > 1)) {
     return (
       <span className="ig-feed__badge" aria-hidden>
         <Images className="size-3.5" strokeWidth={2.25} />
       </span>
     )
   }
-  if (item.type === 'VIDEO' || item.type === 'REEL') {
+  if (type === 'VIDEO' || type === 'REEL') {
     return (
       <span className="ig-feed__badge" aria-hidden>
         <Play className="size-3.5 fill-white" strokeWidth={2} />
@@ -104,7 +118,7 @@ function IgTile({ item, index }: { item: IgFeedItem; index: number }) {
           aria-hidden
         />
       )}
-      <MediaBadge item={item} />
+      <MediaBadge type={item.type} childrenCount={item.childrenCount} />
       <span className="ig-feed__overlay" aria-hidden>
         <InstagramIcon className="ig-feed__overlay-icon" />
         {item.caption ? <span className="ig-feed__caption">{item.caption}</span> : null}
@@ -125,7 +139,24 @@ export function Gallery() {
         const feed = await fetchInstagramFeed()
         if (cancelled) return
         if (feed.items.length >= 1) {
-          setTiles(feed.items.map((item) => ({ kind: 'ig', item })))
+          setTiles(
+            feed.items.map((item) => {
+              const hostedType = HOSTED_META[item.id]
+              const imageUrl = item.imageUrl.startsWith('/images/instagram/')
+                ? item.imageUrl.includes('?')
+                  ? item.imageUrl
+                  : `${item.imageUrl}?v=${IG_ASSET_VER}`
+                : item.imageUrl
+              return {
+                kind: 'ig' as const,
+                item: {
+                  ...item,
+                  imageUrl,
+                  type: hostedType || item.type,
+                },
+              }
+            }),
+          )
         } else {
           setTiles(toFallbackTiles())
         }
@@ -149,18 +180,19 @@ export function Gallery() {
       <div className="ig-feed__inner">
         <header className="ig-feed__header">
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: 18 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             className="ig-feed__brand"
           >
-            <span className="ig-feed__mark" aria-hidden>
-              <InstagramIcon className="size-5" />
-            </span>
+            <p className="ig-feed__kicker">{t('galleryKicker')}</p>
             <h2 id="ig-feed-title" className="ig-feed__title">
-              {t('galleryTitle')}
+              <BrandLogo tone="dark" className="ig-feed__logo" />
+              <span className="sr-only">{t('galleryTitle')}</span>
             </h2>
+            <EgyptMotif className="ig-feed__motif" />
+            <p className="ig-feed__lede">{t('galleryText')}</p>
             <a
               href={brand.instagram}
               target="_blank"
@@ -202,6 +234,7 @@ export function Gallery() {
                   referrerPolicy="no-referrer"
                   className="ig-feed__media"
                 />
+                <MediaBadge type={tile.type} />
                 <span className="ig-feed__overlay" aria-hidden>
                   <InstagramIcon className="ig-feed__overlay-icon" />
                 </span>
