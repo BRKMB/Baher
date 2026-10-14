@@ -11,9 +11,20 @@ type Tile =
   | { kind: 'fallback'; id: string; src: string; alt: string; href: string }
 
 function toFallbackTiles(): Tile[] {
-  const items = fallbackGallery.slice(0, 8)
-  const n = Math.floor(items.length / 4) * 4 || Math.floor(items.length / 2) * 2
-  return items.slice(0, n).map((item, i) => ({
+  // Prefer the hosted 5×2 Instagram grid assets when present
+  const hosted = Array.from({ length: 10 }, (_, i) => {
+    const id = `grid_${String(i + 1).padStart(2, '0')}`
+    return {
+      kind: 'fallback' as const,
+      id,
+      src: `/images/instagram/${id}.jpg`,
+      alt: 'Salute 21 on Instagram',
+      href: brand.instagram,
+    }
+  })
+  if (hosted.length) return hosted
+  const items = fallbackGallery.slice(0, 10)
+  return items.map((item, i) => ({
     kind: 'fallback' as const,
     id: `fallback-${i}`,
     src: item.src,

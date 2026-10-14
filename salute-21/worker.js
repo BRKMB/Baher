@@ -14,12 +14,24 @@ const IG_CACHE_KEY = 'instagram:feed:v1'
 const IG_CACHE_TTL_MS = 60 * 60 * 1000
 /** Fetch enough posts, then trim to a multiple of 4 for a Shopify-style grid */
 const IG_FETCH_LIMIT = 24
-const IG_GRID_MAX = 12
+const IG_GRID_MAX = 10
 const IG_GRAPH = 'https://graph.facebook.com/v21.0'
 const IG_HANDLE = 'salute__21'
 const IG_PROFILE_URL = 'https://www.instagram.com/salute__21/'
-/** Known public posts — topped up at refresh via search discovery */
+/** Hosted feed tiles (5×2 grid). Shortcodes kept for Graph/API upgrades. */
 const IG_SEED_SHORTCODES = ['Dc6pV8qMDIo', 'DcO5r6MDKfA', 'DbYIEMJMekz']
+const IG_HOSTED_GRID = [
+  'grid_01',
+  'grid_02',
+  'grid_03',
+  'grid_04',
+  'grid_05',
+  'grid_06',
+  'grid_07',
+  'grid_08',
+  'grid_09',
+  'grid_10',
+]
 const IG_UA =
   'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36'
 
@@ -265,10 +277,23 @@ function isAdmin(request, env) {
 
 function trimToGrid(items, max = IG_GRID_MAX) {
   const capped = items.slice(0, max)
-  // Prefer 4-column rows; still show 1–3 real posts rather than dropping them.
-  if (capped.length < 4) return capped
-  const count = Math.floor(capped.length / 4) * 4
-  return capped.slice(0, count)
+  // Prefer full 5×2 (10) rows; otherwise keep whatever real posts we have.
+  if (capped.length >= 10) return capped.slice(0, 10)
+  if (capped.length >= 5) return capped.slice(0, Math.floor(capped.length / 5) * 5 || capped.length)
+  return capped
+}
+
+/** Static hosted Instagram grid (matches the live @salute__21 look). */
+function hostedInstagramGrid() {
+  return IG_HOSTED_GRID.map((id, index) => ({
+    id,
+    type: 'IMAGE',
+    imageUrl: `/images/instagram/${id}.jpg`,
+    permalink: IG_PROFILE_URL,
+    caption: '',
+    timestamp: null,
+    sort: index,
+  }))
 }
 
 function normalizeIgMedia(raw) {
@@ -749,27 +774,30 @@ async function fetchInstagramLive(env) {
   const errors = []
   if (igConfigured(env)) {
     const graph = await fetchInstagramFromGraph(env)
-    if (graph.ok && graph.items.length) return graph
-    errors.push(`graph:${graph.error || graph.reason || 'failed'}`)
+    if (graph.ok && graph.items.length >= 8) return graph
+    if (graph.ok && graph.items.length) {
+      // Prefer a full 5×2 grid when Graph returns a thin slice
+      errors.push(`graph:only_${graph.items.length}`)
+    } else {
+      errors.push(`graph:${graph.error || graph.reason || 'failed'}`)
+    }
   }
   if (env.SERPAPI_KEY) {
     const serp = await fetchInstagramFromSerpApi(env)
-    if (serp.ok && serp.items.length) return serp
-    errors.push(`serpapi:${serp.error || serp.reason || 'failed'}`)
+    if (serp.ok && serp.items.length >= 8) return serp
+    errors.push(`serpapi:${serp.error || serp.reason || serp.items?.length || 'failed'}`)
   }
   const shortcodes = await fetchInstagramFromShortcodes()
-  if (shortcodes.ok && shortcodes.items.length) return shortcodes
-  errors.push(`shortcodes:${shortcodes.error || shortcodes.reason || 'failed'}`)
+  if (shortcodes.ok && shortcodes.items.length >= 8) return shortcodes
+  errors.push(`shortcodes:${shortcodes.error || shortcodes.reason || shortcodes.items?.length || 'failed'}`)
 
   const pub = await fetchInstagramFromPublicWeb()
-  if (pub.ok && pub.items.length) return pub
+  if (pub.ok && pub.items.length >= 8) return pub
   errors.push(`public:${pub.error || pub.reason || 'failed'}`)
-  return {
-    ok: false,
-    reason: 'all_sources_failed',
-    error: errors.slice(0, 4).join(' · '),
-    items: [],
-  }
+
+  // Always-available full grid from hosted @salute__21 tiles
+  const hosted = hostedInstagramGrid()
+  return { ok: true, source: 'hosted_grid', items: hosted, note: errors.slice(0, 3).join(' · ') }
 }
 
 async function refreshInstagramCache(env, { force = false } = {}) {
@@ -1134,6 +1162,9 @@ async function handleApi(request, env) {
     const feed = await refreshInstagramCache(env, { force })
     const items = (Array.isArray(feed.items) ? feed.items : []).map((item) => {
       const id = String(item?.id || '')
+      if (IG_HOSTED_GRID.includes(id) || String(item?.imageUrl || '').startsWith('/images/instagram/')) {
+        return { ...item, imageUrl: `/images/instagram/${id}.jpg` }
+      }
       if (IG_SEED_SHORTCODES.includes(id)) {
         return { ...item, imageUrl: `/images/instagram/${id}.jpg` }
       }
