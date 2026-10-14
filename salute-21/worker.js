@@ -32,7 +32,7 @@ const IG_HOSTED_GRID = [
   { id: 'grid_09', type: 'IMAGE' },
   { id: 'grid_10', type: 'IMAGE' },
 ]
-const IG_ASSET_VER = '20261014b'
+const IG_ASSET_VER = '20261014c'
 const IG_UA =
   'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36'
 

@@ -18,7 +18,7 @@ const HOSTED_META: Record<string, IgFeedItem['type']> = {
 }
 
 /** Bust CDN cache after re-cropping hosted tiles */
-const IG_ASSET_VER = '20261014b'
+const IG_ASSET_VER = '20261014c'
 
 type Tile =
   | { kind: 'ig'; item: IgFeedItem }
@@ -189,7 +189,6 @@ export function Gallery() {
             <p className="ig-feed__kicker">{t('galleryKicker')}</p>
             <h2 id="ig-feed-title" className="ig-feed__title">
               <BrandLogo tone="dark" className="ig-feed__logo" />
-              <span className="sr-only">{t('galleryTitle')}</span>
             </h2>
             <EgyptMotif className="ig-feed__motif" />
             <p className="ig-feed__lede">{t('galleryText')}</p>
