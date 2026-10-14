@@ -80,9 +80,9 @@ export function HalloweenDecor({ enabled, onToggle }: Props) {
                 </motion.span>
               ))}
 
-              <div className="halloween-pumpkins">
+              {/* Left décor only — right corner is reserved for the toggle FAB */}
+              <div className="halloween-pumpkins" aria-hidden>
                 <Pumpkin className="halloween-pumpkin halloween-pumpkin--l" />
-                <Pumpkin className="halloween-pumpkin halloween-pumpkin--r" />
               </div>
             </div>
           </motion.div>

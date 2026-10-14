@@ -1814,18 +1814,22 @@ html.splash-lock body {
 
 .halloween-pumpkins {
   position: absolute;
-  inset: auto 0 0.5rem;
-  display: flex;
-  justify-content: space-between;
-  padding: 0 0.75rem;
+  inset: 0;
   pointer-events: none;
 }
 
 .halloween-pumpkin {
+  position: absolute;
   width: 2.6rem;
   height: auto;
   opacity: 0.88;
   filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.35));
+}
+
+/* Sit mid-low on the left — never share the FAB corner */
+.halloween-pumpkin--l {
+  left: max(0.75rem, env(safe-area-inset-left));
+  bottom: max(5.5rem, calc(env(safe-area-inset-bottom) + 5.5rem));
 }
 
 @media (min-width: 768px) {
