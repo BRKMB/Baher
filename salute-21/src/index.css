@@ -1757,8 +1757,9 @@ html.splash-lock body {
 .ig-feed__grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 2px;
-  background: #0c0b0a;
+  /* Light paper gutters — no black bars or borders */
+  gap: 3px;
+  background: transparent;
 }
 
 .ig-feed__grid.is-loading {
@@ -1775,6 +1776,7 @@ html.splash-lock body {
   .ig-feed__grid {
     /* Shopify / IG profile style: 5 across */
     grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 4px;
   }
 }
 
@@ -1783,7 +1785,7 @@ html.splash-lock body {
   display: block;
   aspect-ratio: 3 / 4;
   overflow: hidden;
-  background: #14110e;
+  background: color-mix(in srgb, var(--color-paper-deep) 70%, white);
   color: inherit;
   text-decoration: none;
   isolation: isolate;
