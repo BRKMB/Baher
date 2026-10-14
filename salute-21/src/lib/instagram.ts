@@ -30,13 +30,12 @@ export type IgFeedResponse = {
   reason?: string
 }
 
-/** Keep the gallery a tidy Shopify-style grid (multiples of 4, else 2). */
+/** Keep the gallery a tidy Shopify-style grid (multiples of 4 when possible). */
 export function trimToGrid(items: IgFeedItem[], max = 12): IgFeedItem[] {
   const capped = items.slice(0, max)
+  if (capped.length < 4) return capped
   const byFour = Math.floor(capped.length / 4) * 4
-  if (byFour >= 4) return capped.slice(0, byFour)
-  const byTwo = Math.floor(capped.length / 2) * 2
-  return capped.slice(0, byTwo)
+  return capped.slice(0, byFour)
 }
 
 /** @deprecated use trimToGrid */

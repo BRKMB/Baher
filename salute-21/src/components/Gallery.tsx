@@ -77,6 +77,7 @@ function IgTile({ item, index }: { item: IgFeedItem; index: number }) {
         src={item.imageUrl}
         alt={item.caption || `Salute 21 on Instagram`}
         loading="lazy"
+        referrerPolicy="no-referrer"
         className="ig-feed__media"
       />
       {canPreview && (
@@ -103,7 +104,6 @@ function IgTile({ item, index }: { item: IgFeedItem; index: number }) {
 export function Gallery() {
   const { t } = useI18n()
   const [tiles, setTiles] = useState<Tile[]>(() => toFallbackTiles())
-  const [live, setLive] = useState(false)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -112,18 +112,13 @@ export function Gallery() {
       try {
         const feed = await fetchInstagramFeed()
         if (cancelled) return
-        if (feed.items.length >= 2) {
+        if (feed.items.length >= 1) {
           setTiles(feed.items.map((item) => ({ kind: 'ig', item })))
-          setLive(true)
         } else {
           setTiles(toFallbackTiles())
-          setLive(false)
         }
       } catch {
-        if (!cancelled) {
-          setTiles(toFallbackTiles())
-          setLive(false)
-        }
+        if (!cancelled) setTiles(toFallbackTiles())
       } finally {
         if (!cancelled) setLoading(false)
       }
@@ -151,11 +146,9 @@ export function Gallery() {
             <span className="ig-feed__mark" aria-hidden>
               <InstagramIcon className="size-5" />
             </span>
-            <p className="ig-feed__eyebrow">{t('galleryEyebrow')}</p>
             <h2 id="ig-feed-title" className="ig-feed__title">
               {t('galleryTitle')}
             </h2>
-            <p className="ig-feed__text">{live ? t('galleryTextLive') : t('galleryText')}</p>
             <a
               href={brand.instagram}
               target="_blank"
@@ -169,8 +162,8 @@ export function Gallery() {
 
         <div
           className={`ig-feed__grid ${loading ? 'is-loading' : ''}`}
+          data-count={tiles.length}
           aria-busy={loading}
-          /* Reserve grid height early so #kontakt scroll isn’t left sitting on this section */
           style={{ minHeight: 'min(72vw, 22rem)' }}
         >
           {tiles.map((tile, index) => {
@@ -190,7 +183,13 @@ export function Gallery() {
                 transition={{ duration: 0.45, delay: (index % 8) * 0.04 }}
                 className="ig-feed__tile group"
               >
-                <img src={tile.src} alt={tile.alt} loading="lazy" className="ig-feed__media" />
+                <img
+                  src={tile.src}
+                  alt={tile.alt}
+                  loading="lazy"
+                  referrerPolicy="no-referrer"
+                  className="ig-feed__media"
+                />
                 <span className="ig-feed__overlay" aria-hidden>
                   <InstagramIcon className="ig-feed__overlay-icon" />
                 </span>

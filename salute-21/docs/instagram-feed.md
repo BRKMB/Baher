@@ -9,8 +9,9 @@ The home page includes a Shopify-style mini Instagram grid for [@salute__21](htt
 3. Refresh priority:
    1. **Instagram Graph API** (`INSTAGRAM_ACCESS_TOKEN` + `INSTAGRAM_USER_ID`) — best quality (images, Reels, carousel children, video URLs)
    2. **SerpAPI** `instagram_profile` (`SERPAPI_KEY`) — public profile posts
-   3. Best-effort public scrape (often blocked by Instagram)
-4. The UI renders a **4-column** Shopify-style grid (multiples of 4, max 12). Photos, videos/Reels, and carousels are supported.
+   3. **Public shortcodes** — discovers `@salute__21` posts and hydrates thumbnails via Instagram’s `/media/?size=l` + embed caption
+   4. Best-effort profile scrape (often blocked by Instagram)
+4. The UI renders a Shopify-style square grid (max 12). Photos, videos/Reels, and carousels are supported.
 5. Until a live source returns posts, the site falls back to static gallery images styled the same way (each tile still links to the Instagram profile).
 
 ## Requirements (Meta — recommended)

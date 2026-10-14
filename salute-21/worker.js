@@ -18,6 +18,10 @@ const IG_GRID_MAX = 12
 const IG_GRAPH = 'https://graph.facebook.com/v21.0'
 const IG_HANDLE = 'salute__21'
 const IG_PROFILE_URL = 'https://www.instagram.com/salute__21/'
+/** Known public posts — topped up at refresh via search discovery */
+const IG_SEED_SHORTCODES = ['Dc6pV8qMDIo', 'DcO5r6MDKfA', 'DbYIEMJMekz']
+const IG_UA =
+  'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36'
 
 /** Live Google Maps reviews (5★ with guest photos only) */
 const REVIEWS_CACHE_KEY = 'google:reviews:v2'
@@ -261,11 +265,10 @@ function isAdmin(request, env) {
 
 function trimToGrid(items, max = IG_GRID_MAX) {
   const capped = items.slice(0, max)
-  // Shopify-style grids read best as 2×N / 4×N
+  // Prefer 4-column rows; still show 1–3 real posts rather than dropping them.
+  if (capped.length < 4) return capped
   const count = Math.floor(capped.length / 4) * 4
-  if (count >= 4) return capped.slice(0, count)
-  const byTwo = Math.floor(capped.length / 2) * 2
-  return capped.slice(0, byTwo)
+  return capped.slice(0, count)
 }
 
 function normalizeIgMedia(raw) {
@@ -614,6 +617,147 @@ async function fetchInstagramFromPublicWeb() {
   }
 }
 
+/** Discover public shortcodes (seed + DuckDuckGo) then hydrate via /media + embed. */
+async function discoverIgShortcodes() {
+  const codes = new Set(IG_SEED_SHORTCODES)
+  const queries = [
+    `${IG_HANDLE} site:instagram.com/p`,
+    `${IG_HANDLE} site:instagram.com/reel`,
+    `@${IG_HANDLE} Instagram`,
+    `${IG_HANDLE} Warszawa Instagram`,
+  ]
+  for (const q of queries) {
+    try {
+      const res = await fetch(`https://html.duckduckgo.com/html/?q=${encodeURIComponent(q)}`, {
+        headers: {
+          accept: 'text/html',
+          'user-agent': IG_UA,
+          'accept-language': 'en-US,en;q=0.9',
+        },
+      })
+      const html = await res.text()
+      for (const m of html.matchAll(/instagram\.com\/(?:p|reel)\/([A-Za-z0-9_-]+)/g)) {
+        codes.add(m[1])
+      }
+      for (const m of html.matchAll(/uddg=([^&"]+)/g)) {
+        try {
+          const u = decodeURIComponent(m[1])
+          for (const n of u.matchAll(/instagram\.com\/(?:p|reel)\/([A-Za-z0-9_-]+)/g)) {
+            codes.add(n[1])
+          }
+        } catch {
+          /* ignore bad encoding */
+        }
+      }
+    } catch {
+      /* non-fatal */
+    }
+  }
+  return [...codes]
+}
+
+async function hydrateIgShortcode(code, { trusted = false } = {}) {
+  const headers = {
+    accept: 'text/html,image/avif,image/webp,image/*,*/*',
+    'user-agent': IG_UA,
+    'accept-language': 'en-US,en;q=0.9',
+    referer: IG_PROFILE_URL,
+  }
+
+  // Caption / type via embed (CF IPs often get a shell — seed codes stay trusted)
+  let embedHtml = ''
+  let isReel = false
+  let owned = trusted
+  for (const kind of ['p', 'reel']) {
+    try {
+      const res = await fetch(`https://www.instagram.com/${kind}/${code}/embed/captioned/`, {
+        headers,
+      })
+      if (!res.ok) continue
+      const html = await res.text()
+      if (html.includes(IG_HANDLE) || trusted) {
+        embedHtml = html
+        owned = html.includes(IG_HANDLE) || trusted
+        isReel = kind === 'reel' || html.includes('/reel/')
+        if (html.includes(IG_HANDLE)) break
+      }
+    } catch {
+      /* try next */
+    }
+  }
+  if (!owned && !trusted) return null
+
+  // Stable thumbnail endpoint (redirects to CDN jpeg)
+  const mediaUrl = `https://www.instagram.com/p/${code}/media/?size=l`
+  let imageOk = false
+  try {
+    const mediaRes = await fetch(mediaUrl, { headers, method: 'GET', redirect: 'follow' })
+    const ctype = mediaRes.headers.get('content-type') || ''
+    imageOk = mediaRes.ok && ctype.includes('image')
+  } catch {
+    imageOk = false
+  }
+  if (!imageOk) {
+    const og = embedHtml.match(/property="og:image"\s+content="([^"]+)"/i)
+    if (!og && !trusted) return null
+    if (!og && trusted) {
+      // Still publish the stable media URL — browsers resolve it with no-referrer
+      imageOk = true
+    }
+  }
+
+  let caption = ''
+  const captionBlock = embedHtml.match(/class="Caption"[^>]*>([\s\S]*?)<\/div>/i)
+  if (captionBlock) {
+    caption = captionBlock[1]
+      .replace(/<[^>]+>/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim()
+  }
+  if (!caption) {
+    const ogTitle = embedHtml.match(/property="og:title"\s+content="([^"]+)"/i)
+    if (ogTitle) caption = ogTitle[1]
+  }
+  caption = String(caption || '')
+    .replace(new RegExp(`^@?${IG_HANDLE}\\s*`, 'i'), '')
+    .slice(0, 280)
+
+  const isCarousel =
+    /CoreCarousel|Sidecar|media-slideshow|Carousel/i.test(embedHtml) ||
+    (embedHtml.match(/media-image/gi) || []).length > 1
+
+  return {
+    id: code,
+    type: isReel ? 'REEL' : isCarousel ? 'CAROUSEL' : 'IMAGE',
+    imageUrl: mediaUrl,
+    permalink: `https://www.instagram.com/${isReel ? 'reel' : 'p'}/${code}/`,
+    caption,
+    timestamp: null,
+    childrenCount: isCarousel ? 2 : undefined,
+  }
+}
+
+async function fetchInstagramFromShortcodes() {
+  const discovered = await discoverIgShortcodes()
+  const seed = new Set(IG_SEED_SHORTCODES)
+  const codes = [...new Set([...IG_SEED_SHORTCODES, ...discovered])]
+  const items = []
+  for (const code of codes.slice(0, IG_FETCH_LIMIT)) {
+    try {
+      const item = await hydrateIgShortcode(code, { trusted: seed.has(code) })
+      if (item) items.push(item)
+    } catch {
+      /* skip bad code */
+    }
+  }
+  if (!items.length) {
+    return { ok: false, reason: 'shortcodes_empty', items: [] }
+  }
+  // Newest-looking shortcodes first (Instagram codes trend upward)
+  items.sort((a, b) => String(b.id).localeCompare(String(a.id)))
+  return { ok: true, source: 'shortcodes', items: trimToGrid(items, IG_GRID_MAX) }
+}
+
 async function fetchInstagramLive(env) {
   const errors = []
   if (igConfigured(env)) {
@@ -626,6 +770,10 @@ async function fetchInstagramLive(env) {
     if (serp.ok && serp.items.length) return serp
     errors.push(`serpapi:${serp.error || serp.reason || 'failed'}`)
   }
+  const shortcodes = await fetchInstagramFromShortcodes()
+  if (shortcodes.ok && shortcodes.items.length) return shortcodes
+  errors.push(`shortcodes:${shortcodes.error || shortcodes.reason || 'failed'}`)
+
   const pub = await fetchInstagramFromPublicWeb()
   if (pub.ok && pub.items.length) return pub
   errors.push(`public:${pub.error || pub.reason || 'failed'}`)
