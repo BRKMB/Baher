@@ -95,8 +95,8 @@ export function buildRestaurantJsonLd() {
     },
     geo: {
       '@type': 'GeoCoordinates',
-      latitude: 52.2278,
-      longitude: 20.9724,
+      latitude: 52.2290315,
+      longitude: 20.9679973,
     },
     hasMap: brand.address.mapsUrl,
     sameAs: [brand.instagram, brand.orderOnline.glovo, brand.orderOnline.uberEats],

@@ -79,8 +79,8 @@ export function Seo({ page, path, title, description, breadcrumbs, extraJsonLd }
     upsertMeta('name', 'author', 'Salute 21')
     upsertMeta('name', 'geo.region', 'PL-MZ')
     upsertMeta('name', 'geo.placename', 'Warszawa Wola')
-    upsertMeta('name', 'geo.position', '52.2278;20.9724')
-    upsertMeta('name', 'ICBM', '52.2278, 20.9724')
+    upsertMeta('name', 'geo.position', '52.2290315;20.9679973')
+    upsertMeta('name', 'ICBM', '52.2290315, 20.9679973')
 
     upsertMeta('property', 'og:type', config.ogType ?? 'website')
     upsertMeta('property', 'og:site_name', 'Salute 21')

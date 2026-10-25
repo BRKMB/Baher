@@ -108,7 +108,7 @@ export function Contact() {
         <div className="border-t border-paper/10">
           <iframe
             title="Salute 21 map"
-            src="https://maps.google.com/maps?q=Marcina%20Kasprzaka%2024A%2C%20Warszawa&t=&z=15&ie=UTF8&iwloc=&output=embed"
+            src="https://maps.google.com/maps?q=52.2290315,20.9679973+(SALUTE+21)&z=16&output=embed"
             className="h-64 w-full grayscale invert-[0.92] contrast-125 md:h-80"
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"

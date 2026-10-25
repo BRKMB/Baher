@@ -39,7 +39,7 @@ const IG_UA =
 /** Live Google Maps reviews (5★ with guest photos only) */
 const REVIEWS_CACHE_KEY = 'google:reviews:v2'
 const REVIEWS_CACHE_TTL_MS = 60 * 60 * 1000
-const GOOGLE_MAPS_URL = 'https://maps.app.goo.gl/7eyKAU1XQgMeXhKSA'
+const GOOGLE_MAPS_URL = 'https://maps.app.goo.gl/e7kjDSwNoU1ZXhUC8'
 /** Feature id from the Salute 21 Google Maps listing */
 const GOOGLE_MAPS_DATA_ID = '0x471ecb77022fa777:0x50b8b31522e29c7e'
 const REVIEWS_MAX = 24
@@ -921,7 +921,7 @@ function normalizeSerpReview(raw, index) {
     relativeTime: String(raw?.date || raw?.relative_time || '').trim() || undefined,
     photos,
     authorPhoto: String(raw?.user?.thumbnail || raw?.user?.link || '').trim() || undefined,
-    mapsUrl: String(raw?.link || GOOGLE_MAPS_URL),
+    mapsUrl: GOOGLE_MAPS_URL,
     photoCount: photos.length,
     isoDate: String(raw?.iso_date || raw?.published_at || '').trim() || undefined,
   }
@@ -1011,7 +1011,7 @@ async function refreshReviewsCache(env, { force = false } = {}) {
       configured: true,
       fresh: false,
       source: cached.source || 'cache',
-      mapsUrl: cached.mapsUrl || GOOGLE_MAPS_URL,
+      mapsUrl: GOOGLE_MAPS_URL,
     }
   }
 
@@ -1024,7 +1024,7 @@ async function refreshReviewsCache(env, { force = false } = {}) {
         configured: true,
         fresh: false,
         source: 'cache',
-        mapsUrl: cached.mapsUrl || GOOGLE_MAPS_URL,
+        mapsUrl: GOOGLE_MAPS_URL,
       }
     }
     return {
@@ -1109,8 +1109,8 @@ async function handleApi(request, env) {
       rating: feed.rating ?? null,
       reviewCount: feed.reviewCount ?? null,
       count: Array.isArray(feed.items) ? feed.items.length : 0,
-      items: feed.items || [],
-      mapsUrl: feed.mapsUrl || GOOGLE_MAPS_URL,
+      items: (feed.items || []).map((item) => ({ ...item, mapsUrl: GOOGLE_MAPS_URL })),
+      mapsUrl: GOOGLE_MAPS_URL,
       error: feed.error || undefined,
       reason: feed.reason || undefined,
     })

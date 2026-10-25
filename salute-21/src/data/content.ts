@@ -7,10 +7,8 @@ export const brand = {
     street: 'ul. Marcina Kasprzaka 24A',
     district: 'Wola',
     city: '01-211 Warszawa',
-    mapsUrl:
-      'https://www.google.com/maps/search/?api=1&query=Marcina+Kasprzaka+24A+Warszawa',
-    directionsUrl:
-      'https://www.google.com/maps/dir/?api=1&destination=Marcina+Kasprzaka+24A%2C+01-211+Warszawa',
+    mapsUrl: 'https://maps.app.goo.gl/e7kjDSwNoU1ZXhUC8',
+    directionsUrl: 'https://maps.app.goo.gl/e7kjDSwNoU1ZXhUC8',
   },
   /** Delivery partners — Order Online opens these */
   orderOnline: {
