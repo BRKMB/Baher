@@ -9,9 +9,10 @@ import { OrderOnlineMenu } from './OrderOnlineMenu'
 export function Contact() {
   const { t } = useI18n()
 
-  // Synced with Google Maps (Salute 21 · Kasprzaka 24A)
+  // Google Maps (Salute 21 · Kasprzaka 24A)
   const hours = [
-    { day: t('dayMonSat'), time: '10:00 – 23:00', note: t('hoursNoteLunch') },
+    { day: t('dayMonThu'), time: '10:00 – 23:00', note: t('hoursNoteLunch') },
+    { day: t('dayFriSat'), time: '10:00 – 23:30', note: t('hoursNoteLunch') },
     { day: t('daySun'), time: '10:00 – 21:00', note: t('hoursNoteLunch') },
   ]
 
