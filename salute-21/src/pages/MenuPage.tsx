@@ -236,8 +236,7 @@ const CoverRight = forwardRef<HTMLDivElement>(function CoverRight(_props, ref) {
   const menuUrl =
     typeof window !== 'undefined' ? `${window.location.origin}/menu` : 'https://salute21.com/menu'
   const hours = [
-    { day: t('dayMonThu'), time: '9–23' },
-    { day: t('dayFriSat'), time: '9–23:30' },
+    { day: t('dayMonSat'), time: '10–23' },
     { day: t('daySun'), time: '10–21' },
   ]
 
