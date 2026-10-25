@@ -108,7 +108,7 @@ export function Contact() {
         <div className="border-t border-paper/10">
           <iframe
             title="Salute 21 map"
-            src="https://maps.google.com/maps?q=52.2290315,20.9679973+(SALUTE+21)&z=16&output=embed"
+            src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d480!2d20.9679973!3d52.2290315!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x471ecb77022fa777%3A0x50b8b31522e29c7e!2sSALUTE%2021!5e0!3m2!1spl!2spl!4v1700000000000"
             className="h-64 w-full grayscale invert-[0.92] contrast-125 md:h-80"
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
